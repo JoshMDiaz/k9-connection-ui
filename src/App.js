@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import './App.scss'
 import '@ionic/core/css/core.css'
 import '@ionic/core/css/ionic.bundle.css'
 import './scss/main.scss'
@@ -13,7 +12,7 @@ class App extends Component {
       <BrowserRouter>
         <Main />
       </BrowserRouter>
-    );
+    )
   }
 }
 

@@ -1,0 +1,25 @@
+// Iterate
+@mixin iterate(
+  $iterateNum: 20,
+  $step: 0.05,
+  $className: 'delay',
+  $property: animation-delay,
+  $childElement: ''
+) {
+  @for $i from 0 through $iterateNum {
+    $num: $i * $step;
+    .#{$className}-#{$i} #{$childElement} {
+      @include prefix(#{$property}, #{$num}s !important);
+    }
+  }
+}
+
+// Prefixes
+@mixin prefix($property, $value, $prefixes: ('moz', 'ms', 'o', 'webkit')) {
+  @each $prefix in $prefixes {
+    #{'-' + $prefix + '-' + $property}: $value;
+  }
+
+  // Output standard non-prefixed declaration
+  #{$property}: $value;
+}
