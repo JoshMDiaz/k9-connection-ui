@@ -1,27 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import List from '../Dogs/List'
-import DogService from '../../services/DogService'
+import React from 'react'
 
 const Home = () => {
-  const [dogs, setDogs] = useState([])
-
-  useEffect(() => {
-    getDogs()
-  }, [])
-
-  const getDogs = () => {
-    DogService.getAll().then(response => {
-      if (response) {
-        setDogs(response.data)
-      }
-    })
-  }
-
-  return (
-    <div className='home-page'>
-      <List dogs={dogs} />
-    </div>
-  )
+  return <div className='home-page'>Home page</div>
 }
 
 export default Home

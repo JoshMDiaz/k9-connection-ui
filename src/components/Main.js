@@ -1,10 +1,11 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Home from './Pages/Home'
+import DogSearch from './Pages/DogSearch/DogSearch'
 
 const Main = () => {
   return (
-    <div className="App">
+    <div className='App'>
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -20,16 +21,11 @@ const Main = () => {
         </a>
       </header> */}
       <Switch>
-        <Route
-          exact
-          path="/"
-          render={() => (
-            <Home />
-          )}
-        />
+        <Route path='/search' render={() => <DogSearch />} />
+        <Route exact path='/' render={() => <Home />} />
       </Switch>
     </div>
-  );
+  )
 }
 
-export default Main;
+export default Main
