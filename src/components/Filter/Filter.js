@@ -6,13 +6,33 @@ import {
   IonLabel,
   IonSelectOption,
   IonListHeader,
-  IonButton
+  IonButton,
+  IonInput,
+  IonRange
 } from '@ionic/react'
 import FormService from '../../services/FormService'
+import moment from 'moment'
+// name - input
+// gender - picker (IonSelect) √
+// papered - picker (IonSelect)√
+// registered - picker (IonSelect)√
+// birthdate - date picker - created ageRange instead √
+// breed - dropdown (IonSelect multiple)√
+// eyes - dropdown (IonSelect multiple)√
+const defaultForm = {
+  name: '',
+  gender: null,
+  papered: null,
+  registered: null,
+  ageRange: null,
+  breed: null,
+  eyes: null
+}
 
 const Filter = ({ callout }) => {
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
+  const [form, setForm] = useState(defaultForm)
 
   useEffect(() => {
     getBreeds()
@@ -35,8 +55,35 @@ const Filter = ({ callout }) => {
     })
   }
 
+  const getBirthdateRange = ageRange => {
+    let obj = {}
+    obj.startDate = moment()
+      .subtract(parseInt(ageRange.upper), 'years')
+      .format('YYYY-MM-DD')
+    obj.endDate = moment()
+      .subtract(parseInt(ageRange.lower), 'years')
+      .format('YYYY-MM-DD')
+    return obj
+  }
+
   const updateFilter = () => {
-    console.log('update')
+    let filterParams = {}
+    Object.assign(filterParams, form)
+    if (form.ageRange) {
+      filterParams.birthdate = getBirthdateRange(filterParams.ageRange)
+    }
+    callout(filterParams)
+  }
+
+  const resetForm = () => {
+    setForm(defaultForm)
+  }
+
+  const handler = (formName, event) => {
+    setForm({
+      ...form,
+      [formName]: event.detail.value
+    })
   }
 
   return (
@@ -44,45 +91,63 @@ const Filter = ({ callout }) => {
       <IonList>
         <IonListHeader>Filter</IonListHeader>
         <IonItem>
+          <IonInput
+            placeholder='Dog Name'
+            onIonChange={e => handler('name', e)}
+            clearInput
+          />
+        </IonItem>
+        <IonItem>
           <IonLabel>Gender</IonLabel>
           <IonSelect
             placeholder='Pick One'
+            selectedText={form.gender}
             okText='Got It'
             cancelText='Just Kidding'
+            value={form.gender}
+            onIonChange={e => handler('gender', e)}
           >
-            <IonSelectOption value='female'>Female</IonSelectOption>
-            <IonSelectOption value='male'>Male</IonSelectOption>
+            <IonSelectOption value='Female'>Female</IonSelectOption>
+            <IonSelectOption value='Male'>Male</IonSelectOption>
           </IonSelect>
         </IonItem>
         <IonItem>
           <IonLabel>Registered</IonLabel>
           <IonSelect
             placeholder='Pick One'
+            selectedText={form.registered}
             okText='Got It'
             cancelText='Just Kidding'
+            onIonChange={e => handler('registered', e)}
           >
-            <IonSelectOption value='registered'>Yes</IonSelectOption>
-            <IonSelectOption value='not_registered'>No</IonSelectOption>
+            <IonSelectOption value={true}>Yes</IonSelectOption>
+            <IonSelectOption value={false}>No</IonSelectOption>
           </IonSelect>
         </IonItem>
-        <IonItem>
-          <IonLabel>Papered</IonLabel>
-          <IonSelect
-            placeholder='Pick One'
-            okText='Got It'
-            cancelText='Just Kidding'
-          >
-            <IonSelectOption value='papered'>Yes</IonSelectOption>
-            <IonSelectOption value='not_papered'>No</IonSelectOption>
-          </IonSelect>
-        </IonItem>
+        {form.registered && (
+          <IonItem>
+            <IonLabel>Papered</IonLabel>
+            <IonSelect
+              placeholder='Pick One'
+              selectedText={form.papered}
+              okText='Got It'
+              cancelText='Just Kidding'
+              onIonChange={e => handler('papered', e)}
+            >
+              <IonSelectOption value={true}>Yes</IonSelectOption>
+              <IonSelectOption value={false}>No</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+        )}
         <IonItem>
           <IonLabel>Eye Color</IonLabel>
           <IonSelect
             placeholder='Pick Any'
+            selectedText={form.eyes}
             okText='Got It'
             cancelText='Just Kidding'
             multiple
+            onIonChange={e => handler('eyes', e)}
           >
             {eyeColors.map((e, i) => (
               <IonSelectOption key={i} value={e.name}>
@@ -95,9 +160,11 @@ const Filter = ({ callout }) => {
           <IonLabel>Breed</IonLabel>
           <IonSelect
             placeholder='Pick Any'
+            selectedText={form.breed}
             okText='Got It'
             cancelText='Just Kidding'
             multiple
+            onIonChange={e => handler('breed', e)}
           >
             {breeds.map((e, i) => (
               <IonSelectOption key={i} value={e.name}>
@@ -107,12 +174,14 @@ const Filter = ({ callout }) => {
           </IonSelect>
         </IonItem>
         <IonItem>
-          <IonLabel>Age</IonLabel>
-          <IonSelect
+          <IonLabel>Age Range</IonLabel>
+          {/* <IonSelect
             placeholder='Pick Any'
+            selectedText={form.ageRange}
             okText='Got It'
             cancelText='Just Kidding'
             multiple
+            onIonChange={e => handler('ageRange', e)}
           >
             {Array.apply(null, { length: 20 })
               .map(Number.call, Number)
@@ -121,20 +190,25 @@ const Filter = ({ callout }) => {
                   {e + 1}
                 </IonSelectOption>
               ))}
-          </IonSelect>
+          </IonSelect> */}
+          <IonRange
+            min={1}
+            max={20}
+            step={1}
+            snaps={true}
+            ticks={false}
+            color='secondary'
+            dual-knobs
+            onIonChange={e => handler('ageRange', e)}
+          />
         </IonItem>
-        <IonButton onClick={updateFilter}>Update</IonButton>
+        <IonButton onClick={updateFilter}>Search</IonButton>
+        <IonButton onClick={resetForm} color='secondary'>
+          Reset
+        </IonButton>
       </IonList>
     </div>
   )
 }
-
-// name - input
-// gender - picker (IonSelect) √
-// papered - picker (IonSelect)√
-// registered - picker (IonSelect)√
-// birthdate - date picker - created age instead √
-// breed - dropdown (IonSelect multiple)√
-// eyes - dropdown (IonSelect multiple)√
 
 export default Filter

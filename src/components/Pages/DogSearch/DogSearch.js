@@ -10,10 +10,18 @@ const DogSearch = () => {
     getDogs()
   }, [])
 
-  const getDogs = () => {
-    let params = {
-      // name: 'Cory',
-      // eyes: 'brown'
+  const getDogs = filter => {
+    let params = {}
+    if (filter) {
+      params = {
+        name: filter.name || null,
+        gender: filter.gender || null,
+        papered: filter.papered || null,
+        registered: filter.registered || null,
+        birthdate: filter.birthdate || null,
+        breed: filter.breed || null,
+        eyes: filter.eyes || null
+      }
     }
     DogService.getAll(params).then(response => {
       if (response) {
@@ -24,7 +32,7 @@ const DogSearch = () => {
 
   return (
     <div className='dog-search-page'>
-      <Filter />
+      <Filter callout={getDogs} />
       <List dogs={dogs} />
     </div>
   )
