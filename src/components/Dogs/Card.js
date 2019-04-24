@@ -6,8 +6,6 @@ import {
   IonRow,
   IonCardTitle,
   IonCardContent,
-  IonSlides,
-  IonSlide,
   IonButton,
   IonCard
 } from '@ionic/react'
@@ -28,7 +26,6 @@ const getYearsOld = date => {
 
 const Card = ({ dog, count }) => {
   const [showExtraInfo, setShowExtraInfo] = useState(false)
-  const [owner, setOwner] = useState({})
 
   const toggle = () => {
     setShowExtraInfo(!showExtraInfo)
@@ -78,7 +75,7 @@ const Card = ({ dog, count }) => {
               <IonItem>
                 <IonIcon name='person' item-left />
                 <h4>Owner</h4>
-                <p>{owner.name || 'test'}</p>
+                <p>{dog.owner.name || 'test'}</p>
                 <IonButton className='primary-outline' outline>
                   see profile
                 </IonButton>

@@ -24,7 +24,10 @@ const defaultForm = {
   gender: null,
   papered: null,
   registered: null,
-  ageRange: null,
+  ageRange: {
+    lower: 2,
+    upper: 7
+  },
   breed: null,
   eyes: null
 }
@@ -72,6 +75,8 @@ const Filter = ({ callout }) => {
     if (form.ageRange) {
       filterParams.birthdate = getBirthdateRange(filterParams.ageRange)
     }
+    console.log(filterParams)
+
     callout(filterParams)
   }
 
@@ -193,14 +198,19 @@ const Filter = ({ callout }) => {
           </IonSelect> */}
           <IonRange
             min={1}
-            max={20}
+            max={15}
             step={1}
             snaps={true}
             ticks={false}
             color='secondary'
             dual-knobs
             onIonChange={e => handler('ageRange', e)}
-          />
+            // value={{ lower: form.ageRange.lower, upper: form.ageRange.upper }}
+            pin
+          >
+            <IonLabel slot='start'>1</IonLabel>
+            <IonLabel slot='end'>15</IonLabel>
+          </IonRange>
         </IonItem>
         <IonButton onClick={updateFilter}>Search</IonButton>
         <IonButton onClick={resetForm} color='secondary'>
