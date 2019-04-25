@@ -5,10 +5,7 @@
     .card-list {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-gap: 20px;
-    }
-    .sc-ion-card-md-h {
-      // height: 100%;
+      grid-gap: 10px;
     }
   }
 }

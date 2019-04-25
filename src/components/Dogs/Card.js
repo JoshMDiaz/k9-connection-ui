@@ -31,6 +31,12 @@ const Card = ({ dog, count }) => {
     setShowExtraInfo(!showExtraInfo)
   }
 
+  const trimText = (text, characterLength) => {
+    return text.length > characterLength
+      ? `${text.substring(0, characterLength).trim()}...`
+      : text
+  }
+
   return (
     <div className={`animated fadeInRight delay-${count}`}>
       <IonCard className='card'>
@@ -49,7 +55,7 @@ const Card = ({ dog, count }) => {
             <p className='age'>{getYearsOld(dog.birthdate)}</p>
           </IonRow>
           {dog.description ? (
-            <p>{dog.description}</p>
+            <p>{trimText(dog.description, 20)}</p>
           ) : (
             <p>No description available</p>
           )}
