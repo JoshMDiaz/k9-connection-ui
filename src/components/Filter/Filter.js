@@ -12,13 +12,7 @@ import {
 } from '@ionic/react'
 import FormService from '../../services/FormService'
 import moment from 'moment'
-// name - input
-// gender - picker (IonSelect) √
-// papered - picker (IonSelect)√
-// registered - picker (IonSelect)√
-// birthdate - date picker - created ageRange instead √
-// breed - dropdown (IonSelect multiple)√
-// eyes - dropdown (IonSelect multiple)√
+
 const defaultForm = {
   name: '',
   gender: null,
@@ -114,20 +108,6 @@ const Filter = ({ callout }) => {
           </IonSelect>
         </IonItem>
         <IonItem>
-          <IonLabel>Registered</IonLabel>
-          <IonSelect
-            placeholder='Pick One'
-            selectedText={form.registered}
-            okText='Got It'
-            cancelText='Just Kidding'
-            value={form.registered}
-            onIonChange={e => handler('registered', e)}
-          >
-            <IonSelectOption value={true}>Yes</IonSelectOption>
-            <IonSelectOption value={false}>No</IonSelectOption>
-          </IonSelect>
-        </IonItem>
-        <IonItem>
           <IonLabel>Papered</IonLabel>
           <IonSelect
             placeholder='Pick One'
@@ -136,7 +116,21 @@ const Filter = ({ callout }) => {
             cancelText='Just Kidding'
             value={form.papered}
             onIonChange={e => handler('papered', e)}
-            disabled={!form.registered}
+          >
+            <IonSelectOption value={true}>Yes</IonSelectOption>
+            <IonSelectOption value={false}>No</IonSelectOption>
+          </IonSelect>
+        </IonItem>
+        <IonItem>
+          <IonLabel>Registered</IonLabel>
+          <IonSelect
+            placeholder='Pick One'
+            selectedText={form.registered}
+            okText='Got It'
+            cancelText='Just Kidding'
+            value={form.registered}
+            onIonChange={e => handler('registered', e)}
+            disabled={!form.papered}
           >
             <IonSelectOption value={true}>Yes</IonSelectOption>
             <IonSelectOption value={false}>No</IonSelectOption>
