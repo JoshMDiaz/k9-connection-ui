@@ -33,20 +33,20 @@ const Card = ({ dog, count }) => {
 
   return (
     <div className={`animated fadeInRight delay-${count}`}>
-      <IonCard>
-        {/* <IonSlides pager>
-          {dog.photos.map((e, i) => (
-            <IonSlide style={{ background: 'url(' + photo.url + ')' }} />
-          ))}
-        </IonSlides> */}
+      <IonCard className='card'>
+        <img src='http://placehold.it/500x500' alt='profile' />
         <IonCardContent>
-          <IonCardTitle>{dog.name}</IonCardTitle>
-          <IonRow justify-content-between>
-            <p className='age'>{getYearsOld(dog.birthdate)}</p>
+          <IonCardTitle>
+            {dog.name}
             <IonIcon
-              className={`gender-icon`}
+              className={`gender-icon ${
+                dog.gender === 'Male' ? 'male' : 'female'
+              }`}
               name={`${dog.gender === 'Male' ? 'male' : 'female'}`}
             />
+          </IonCardTitle>
+          <IonRow>
+            <p className='age'>{getYearsOld(dog.birthdate)}</p>
           </IonRow>
           {dog.description ? (
             <p>{dog.description}</p>
@@ -69,7 +69,7 @@ const Card = ({ dog, count }) => {
           </IonRow>
         )}
 
-        {showExtraInfo && (
+        {/* {showExtraInfo && (
           <IonRow>
             <IonList no-lines padding>
               <IonItem>
@@ -107,7 +107,7 @@ const Card = ({ dog, count }) => {
               )}
             </IonList>
           </IonRow>
-        )}
+        )} */}
       </IonCard>
     </div>
   )

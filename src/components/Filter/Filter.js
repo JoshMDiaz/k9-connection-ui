@@ -24,10 +24,7 @@ const defaultForm = {
   gender: null,
   papered: null,
   registered: null,
-  ageRange: {
-    lower: 2,
-    upper: 7
-  },
+  ageRange: null,
   breed: null,
   eyes: null
 }
@@ -75,13 +72,12 @@ const Filter = ({ callout }) => {
     if (form.ageRange) {
       filterParams.birthdate = getBirthdateRange(filterParams.ageRange)
     }
-    console.log(filterParams)
-
     callout(filterParams)
   }
 
   const resetForm = () => {
     setForm(defaultForm)
+    callout(defaultForm)
   }
 
   const handler = (formName, event) => {
@@ -100,6 +96,7 @@ const Filter = ({ callout }) => {
             placeholder='Dog Name'
             onIonChange={e => handler('name', e)}
             clearInput
+            value={form.name}
           />
         </IonItem>
         <IonItem>
@@ -123,27 +120,28 @@ const Filter = ({ callout }) => {
             selectedText={form.registered}
             okText='Got It'
             cancelText='Just Kidding'
+            value={form.registered}
             onIonChange={e => handler('registered', e)}
           >
             <IonSelectOption value={true}>Yes</IonSelectOption>
             <IonSelectOption value={false}>No</IonSelectOption>
           </IonSelect>
         </IonItem>
-        {form.registered && (
-          <IonItem>
-            <IonLabel>Papered</IonLabel>
-            <IonSelect
-              placeholder='Pick One'
-              selectedText={form.papered}
-              okText='Got It'
-              cancelText='Just Kidding'
-              onIonChange={e => handler('papered', e)}
-            >
-              <IonSelectOption value={true}>Yes</IonSelectOption>
-              <IonSelectOption value={false}>No</IonSelectOption>
-            </IonSelect>
-          </IonItem>
-        )}
+        <IonItem>
+          <IonLabel>Papered</IonLabel>
+          <IonSelect
+            placeholder='Pick One'
+            selectedText={form.papered}
+            okText='Got It'
+            cancelText='Just Kidding'
+            value={form.papered}
+            onIonChange={e => handler('papered', e)}
+            disabled={!form.registered}
+          >
+            <IonSelectOption value={true}>Yes</IonSelectOption>
+            <IonSelectOption value={false}>No</IonSelectOption>
+          </IonSelect>
+        </IonItem>
         <IonItem>
           <IonLabel>Eye Color</IonLabel>
           <IonSelect
@@ -152,6 +150,7 @@ const Filter = ({ callout }) => {
             okText='Got It'
             cancelText='Just Kidding'
             multiple
+            value={form.eyes}
             onIonChange={e => handler('eyes', e)}
           >
             {eyeColors.map((e, i) => (
@@ -169,6 +168,7 @@ const Filter = ({ callout }) => {
             okText='Got It'
             cancelText='Just Kidding'
             multiple
+            value={form.breed}
             onIonChange={e => handler('breed', e)}
           >
             {breeds.map((e, i) => (
@@ -180,22 +180,6 @@ const Filter = ({ callout }) => {
         </IonItem>
         <IonItem>
           <IonLabel>Age Range</IonLabel>
-          {/* <IonSelect
-            placeholder='Pick Any'
-            selectedText={form.ageRange}
-            okText='Got It'
-            cancelText='Just Kidding'
-            multiple
-            onIonChange={e => handler('ageRange', e)}
-          >
-            {Array.apply(null, { length: 20 })
-              .map(Number.call, Number)
-              .map((e, i) => (
-                <IonSelectOption key={i} value={e + 1}>
-                  {e + 1}
-                </IonSelectOption>
-              ))}
-          </IonSelect> */}
           <IonRange
             min={1}
             max={15}
@@ -205,7 +189,7 @@ const Filter = ({ callout }) => {
             color='secondary'
             dual-knobs
             onIonChange={e => handler('ageRange', e)}
-            // value={{ lower: form.ageRange.lower, upper: form.ageRange.upper }}
+            // value={form.ageRange}
             pin
           >
             <IonLabel slot='start'>1</IonLabel>

@@ -1,4 +1,14 @@
 .dog-search-page {
   display: grid;
-  grid-template-columns: 20% 1fr;
+  grid-template-columns: 400px 1fr;
+  @media only screen and (min-width: 1024px) {
+    .card-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+    }
+    .sc-ion-card-md-h {
+      // height: 100%;
+    }
+  }
 }

@@ -1,0 +1,10 @@
+.card {
+  .gender-icon {
+    &.male {
+      color: blue;
+    }
+    &.female {
+      color: pink;
+    }
+  }
+}

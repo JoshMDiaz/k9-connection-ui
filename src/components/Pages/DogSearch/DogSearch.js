@@ -18,7 +18,8 @@ const DogSearch = () => {
         gender: filter.gender || null,
         papered: filter.papered || null,
         registered: filter.registered || null,
-        birthdate: filter.birthdate || null,
+        start_date: filter.birthdate ? filter.birthdate.startDate : null,
+        end_date: filter.birthdate ? filter.birthdate.endDate : null,
         breed: filter.breed || null,
         eyes: filter.eyes || null
       }

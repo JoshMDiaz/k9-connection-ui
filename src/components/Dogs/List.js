@@ -5,7 +5,7 @@ import Card from './Card'
 const List = ({ dogs }) => {
   let count = 0
   return (
-    <div className='list'>
+    <div className='card-list'>
       {dogs.map((e, i) => {
         count++
         return <Card dog={e} key={i} count={count} />
