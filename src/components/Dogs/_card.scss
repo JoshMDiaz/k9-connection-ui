@@ -1,11 +1,9 @@
-.card {
-  height: calc(100% - 20px);
-  .gender-icon {
-    &.male {
-      color: blue;
-    }
-    &.female {
-      color: pink;
-    }
+.dog-card {
+  .dog-picture {
+    height: 150px;
+    background-size: cover;
+  }
+  .card-actions {
+    justify-content: space-between;
   }
 }

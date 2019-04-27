@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
-  IonItem,
-  IonList,
-  IonIcon,
-  IonRow,
-  IonCardTitle,
-  IonCardContent,
-  IonButton,
-  IonCard
-} from '@ionic/react'
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  CardActions,
+  IconButton
+} from '@material-ui/core'
+import { Favorite, Share } from '@material-ui/icons'
 import moment from 'moment'
 import Plural from '../common/Plural'
 
@@ -24,13 +23,7 @@ const getYearsOld = date => {
   )
 }
 
-const Card = ({ dog, count }) => {
-  const [showExtraInfo, setShowExtraInfo] = useState(false)
-
-  const toggle = () => {
-    setShowExtraInfo(!showExtraInfo)
-  }
-
+const DogCard = ({ dog, count }) => {
   const trimText = (text, characterLength) => {
     return text.length > characterLength
       ? `${text.substring(0, characterLength).trim()}...`
@@ -39,84 +32,38 @@ const Card = ({ dog, count }) => {
 
   return (
     <div className={`animated fadeInRight delay-${count}`}>
-      <IonCard className='card'>
-        <img src='http://placehold.it/500x500' alt='profile' />
-        <IonCardContent>
-          <IonCardTitle>
+      <Card className='dog-card'>
+        <CardMedia
+          image='http://placehold.it/500x500'
+          title='dog'
+          className={`dog-picture ${dog.gender === 'Male' ? 'male' : 'female'}`}
+        />
+        <CardContent>
+          <Typography gutterBottom variant='h5' component='h2'>
             {dog.name}
-            <IonIcon
-              className={`gender-icon ${
-                dog.gender === 'Male' ? 'male' : 'female'
-              }`}
-              name={`${dog.gender === 'Male' ? 'male' : 'female'}`}
-            />
-          </IonCardTitle>
-          <IonRow>
-            <p className='age'>{getYearsOld(dog.birthdate)}</p>
-          </IonRow>
-          {dog.description ? (
-            <p>{trimText(dog.description, 20)}</p>
-          ) : (
-            <p>No description available</p>
-          )}
-        </IonCardContent>
-        {true && (
-          <IonRow justify-content-between>
-            <IonButton fill='clear'>
-              <IonIcon slot='icon-only' name='heart' />
-            </IonButton>
-            <IonButton fill='clear'>Message</IonButton>
-            <IonButton onClick={toggle} fill='clear'>
-              <IonIcon
-                slot='icon-only'
-                name={showExtraInfo ? 'arrow-up' : 'arrow-down'}
-              />
-            </IonButton>
-          </IonRow>
-        )}
-
-        {/* {showExtraInfo && (
-          <IonRow>
-            <IonList no-lines padding>
-              <IonItem>
-                <IonIcon name='person' item-left />
-                <h4>Owner</h4>
-                <p>{dog.owner.name || 'test'}</p>
-                <IonButton className='primary-outline' outline>
-                  see profile
-                </IonButton>
-              </IonItem>
-              <IonItem>
-                <IonIcon
-                  name={dog.gender === 'male' ? 'male' : 'female'}
-                  item-left
-                />
-                <h4>Gender</h4>
-                <p>{dog.gender}</p>
-              </IonItem>
-              <IonItem>
-                <IonIcon name='eye' item-left />
-                <h4>Eye Color</h4>
-                <p>{dog.eyes}</p>
-              </IonItem>
-              <IonItem>
-                <IonIcon name='paper' item-left />
-                <h4>Papered</h4>
-                <p>{dog.papered ? 'Yes' : 'No'}</p>
-              </IonItem>
-              {dog.papered && (
-                <IonItem>
-                  <IonIcon name='clipboard' item-left />
-                  <h4>AKC Registered</h4>
-                  <p>{dog.registered ? 'Yes' : 'No'}</p>
-                </IonItem>
-              )}
-            </IonList>
-          </IonRow>
-        )} */}
-      </IonCard>
+          </Typography>
+          <Typography gutterBottom component='p' className='age'>
+            {getYearsOld(dog.birthdate)}
+          </Typography>
+          <Typography gutterBottom component='p'>
+            {dog.description ? (
+              <>{trimText(dog.description, 120)}</>
+            ) : (
+              <>No description available</>
+            )}
+          </Typography>
+        </CardContent>
+        <CardActions className='card-actions' disableActionSpacing>
+          <IconButton aria-label='Add to favorites'>
+            <Favorite />
+          </IconButton>
+          <IconButton aria-label='Share'>
+            <Share />
+          </IconButton>
+        </CardActions>
+      </Card>
     </div>
   )
 }
 
-export default Card
+export default DogCard

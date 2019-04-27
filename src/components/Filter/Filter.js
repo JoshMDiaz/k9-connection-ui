@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import {
-  IonSelect,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonSelectOption,
-  IonListHeader,
-  IonButton,
-  IonInput,
-  IonRange
-} from '@ionic/react'
 import FormService from '../../services/FormService'
 import moment from 'moment'
+import {
+  TextField,
+  Typography,
+  Grid,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
+} from '@material-ui/core'
+import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
 
 const defaultForm = {
   name: '',
-  gender: null,
-  papered: null,
-  registered: null,
+  gender: 'both',
+  papered: false,
+  registered: false,
   ageRange: null,
-  breed: null,
-  eyes: null
+  breed: [],
+  eyes: ''
 }
 
 const Filter = ({ callout }) => {
@@ -61,12 +61,14 @@ const Filter = ({ callout }) => {
   }
 
   const updateFilter = () => {
-    let filterParams = {}
-    Object.assign(filterParams, form)
-    if (form.ageRange) {
-      filterParams.birthdate = getBirthdateRange(filterParams.ageRange)
-    }
-    callout(filterParams)
+    // let filterParams = {}
+    // Object.assign(filterParams, form)
+    console.log(form)
+
+    // if (form.ageRange) {
+    //   form.birthdate = getBirthdateRange(form.ageRange)
+    // }
+    // callout(form)
   }
 
   const resetForm = () => {
@@ -74,127 +76,144 @@ const Filter = ({ callout }) => {
     callout(defaultForm)
   }
 
-  const handler = (formName, event) => {
+  const handler = formName => event => {
+    console.log(formName, event)
+
     setForm({
       ...form,
-      [formName]: event.detail.value
+      [formName]: event.target.value
+    })
+  }
+
+  const handleGender = (event, value) => {
+    setForm({
+      ...form,
+      gender: value
+    })
+  }
+
+  const handlePapered = (event, value) => {
+    setForm({
+      ...form,
+      papered: value
+    })
+  }
+
+  const handleRegistered = (event, value) => {
+    setForm({
+      ...form,
+      registered: value
+    })
+  }
+
+  const handleSelect = event => {
+    setForm({
+      ...form,
+      [event.target.name]: event.target.value
     })
   }
 
   return (
     <div className='filter-container'>
-      <IonList>
-        <IonListHeader>Filter</IonListHeader>
-        <IonItem>
-          <IonInput
-            placeholder='Dog Name'
-            onIonChange={e => handler('name', e)}
-            clearInput
-            value={form.name}
-          />
-        </IonItem>
-        <IonItem>
-          <IonLabel>Gender</IonLabel>
-          <IonSelect
-            placeholder='Pick One'
-            selectedText={form.gender}
-            okText='Got It'
-            cancelText='Just Kidding'
+      <Typography gutterBottom variant='h6' component='p'>
+        Filter
+      </Typography>
+      <TextField
+        id='standard-with-placeholder'
+        label='With placeholder'
+        placeholder='Placeholder'
+        className={'dog-name'}
+        margin='normal'
+        onChange={handler('name')}
+      />
+      <Grid item xs={12} sm={6}>
+        <div className={'form-toggle'}>
+          <ToggleButtonGroup
             value={form.gender}
-            onIonChange={e => handler('gender', e)}
+            exclusive
+            onChange={handleGender}
           >
-            <IonSelectOption value='Female'>Female</IonSelectOption>
-            <IonSelectOption value='Male'>Male</IonSelectOption>
-          </IonSelect>
-        </IonItem>
-        <IonItem>
-          <IonLabel>Papered</IonLabel>
-          <IonSelect
-            placeholder='Pick One'
-            selectedText={form.papered}
-            okText='Got It'
-            cancelText='Just Kidding'
+            <ToggleButton value='Male'>Male</ToggleButton>
+            <ToggleButton value='Female'>Female</ToggleButton>
+            <ToggleButton value='both'>Both</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <div className={'form-toggle'}>
+          <ToggleButtonGroup
             value={form.papered}
-            onIonChange={e => handler('papered', e)}
+            exclusive
+            onChange={handlePapered}
           >
-            <IonSelectOption value={true}>Yes</IonSelectOption>
-            <IonSelectOption value={false}>No</IonSelectOption>
-          </IonSelect>
-        </IonItem>
-        <IonItem>
-          <IonLabel>Registered</IonLabel>
-          <IonSelect
-            placeholder='Pick One'
-            selectedText={form.registered}
-            okText='Got It'
-            cancelText='Just Kidding'
+            <ToggleButton value={true}>Papered</ToggleButton>
+            <ToggleButton value={false}>Not Papered</ToggleButton>
+            <ToggleButton value={''}>Both</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <div className={'form-toggle'}>
+          <ToggleButtonGroup
             value={form.registered}
-            onIonChange={e => handler('registered', e)}
-            disabled={!form.papered}
+            exclusive
+            onChange={handleRegistered}
           >
-            <IonSelectOption value={true}>Yes</IonSelectOption>
-            <IonSelectOption value={false}>No</IonSelectOption>
-          </IonSelect>
-        </IonItem>
-        <IonItem>
-          <IonLabel>Eye Color</IonLabel>
-          <IonSelect
-            placeholder='Pick Any'
-            selectedText={form.eyes}
-            okText='Got It'
-            cancelText='Just Kidding'
-            multiple
-            value={form.eyes}
-            onIonChange={e => handler('eyes', e)}
-          >
-            {eyeColors.map((e, i) => (
-              <IonSelectOption key={i} value={e.name}>
-                {e.name}
-              </IonSelectOption>
-            ))}
-          </IonSelect>
-        </IonItem>
-        <IonItem>
-          <IonLabel>Breed</IonLabel>
-          <IonSelect
-            placeholder='Pick Any'
-            selectedText={form.breed}
-            okText='Got It'
-            cancelText='Just Kidding'
-            multiple
-            value={form.breed}
-            onIonChange={e => handler('breed', e)}
-          >
-            {breeds.map((e, i) => (
-              <IonSelectOption key={i} value={e.name}>
-                {e.name}
-              </IonSelectOption>
-            ))}
-          </IonSelect>
-        </IonItem>
-        <IonItem>
-          <IonLabel>Age Range</IonLabel>
-          <IonRange
-            min={1}
-            max={15}
-            step={1}
-            snaps={true}
-            ticks={false}
-            color='secondary'
-            dual-knobs
-            onIonChange={e => handler('ageRange', e)}
-            // value={form.ageRange}
-            pin
-          >
-            <IonLabel slot='start'>1</IonLabel>
-            <IonLabel slot='end'>15</IonLabel>
-          </IonRange>
-        </IonItem>
-        <IonButton onClick={updateFilter}>Search</IonButton>
-        <IonButton onClick={resetForm} color='secondary'>
-          Reset
-        </IonButton>
-      </IonList>
+            <ToggleButton disabled={form.papered === false} value={true}>
+              Registered
+            </ToggleButton>
+            <ToggleButton disabled={form.papered === false} value={false}>
+              Not Registered
+            </ToggleButton>
+            <ToggleButton disabled={form.papered === false} value={''}>
+              Both
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+      </Grid>
+      <FormControl className={'form-select'}>
+        <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
+        <Select
+          value={form.eyes}
+          onChange={handleSelect}
+          inputProps={{
+            name: 'eyes',
+            id: 'eyes-select'
+          }}
+        >
+          {eyeColors.map((e, i) => (
+            <MenuItem key={i} value={e.name}>
+              {e.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl className={'form-select'}>
+        <InputLabel htmlFor='breed-select'>Breed</InputLabel>
+        <Select
+          multiple
+          value={form.breed}
+          onChange={handleSelect}
+          inputProps={{
+            name: 'breed',
+            id: 'breed-select'
+          }}
+        >
+          {breeds.map((e, i) => (
+            <MenuItem key={i} value={e.name}>
+              {e.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <Button
+        variant='contained'
+        color='primary'
+        className={'search-button'}
+        onClick={updateFilter}
+      >
+        Search
+      </Button>
     </div>
   )
 }
