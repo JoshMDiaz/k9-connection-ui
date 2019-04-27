@@ -12,15 +12,19 @@ import {
   MenuItem
 } from '@material-ui/core'
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
+import InputRange from 'react-input-range'
 
 const defaultForm = {
   name: '',
   gender: 'both',
   papered: false,
   registered: false,
-  ageRange: null,
+  ageRange: {
+    min: 2,
+    max: 7
+  },
   breed: [],
-  eyes: ''
+  eyes: []
 }
 
 const Filter = ({ callout }) => {
@@ -52,10 +56,10 @@ const Filter = ({ callout }) => {
   const getBirthdateRange = ageRange => {
     let obj = {}
     obj.startDate = moment()
-      .subtract(parseInt(ageRange.upper), 'years')
+      .subtract(parseInt(ageRange.max), 'years')
       .format('YYYY-MM-DD')
     obj.endDate = moment()
-      .subtract(parseInt(ageRange.lower), 'years')
+      .subtract(parseInt(ageRange.min), 'years')
       .format('YYYY-MM-DD')
     return obj
   }
@@ -63,11 +67,11 @@ const Filter = ({ callout }) => {
   const updateFilter = () => {
     // let filterParams = {}
     // Object.assign(filterParams, form)
-    console.log(form)
 
-    // if (form.ageRange) {
-    //   form.birthdate = getBirthdateRange(form.ageRange)
-    // }
+    if (form.ageRange) {
+      form.birthdate = getBirthdateRange(form.ageRange)
+    }
+    console.log(form)
     // callout(form)
   }
 
@@ -77,8 +81,6 @@ const Filter = ({ callout }) => {
   }
 
   const handler = formName => event => {
-    console.log(formName, event)
-
     setForm({
       ...form,
       [formName]: event.target.value
@@ -110,6 +112,13 @@ const Filter = ({ callout }) => {
     setForm({
       ...form,
       [event.target.name]: event.target.value
+    })
+  }
+
+  const handleRange = obj => {
+    setForm({
+      ...form,
+      ageRange: obj.value
     })
   }
 
@@ -174,6 +183,7 @@ const Filter = ({ callout }) => {
       <FormControl className={'form-select'}>
         <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
         <Select
+          multiple
           value={form.eyes}
           onChange={handleSelect}
           inputProps={{
@@ -206,6 +216,13 @@ const Filter = ({ callout }) => {
           ))}
         </Select>
       </FormControl>
+      <InputRange
+        draggableTrack
+        maxValue={15}
+        minValue={1}
+        value={form.ageRange}
+        onChange={value => handleRange({ value })}
+      />
       <Button
         variant='contained'
         color='primary'
