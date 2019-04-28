@@ -1,12 +1,15 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import theme from '../theme'
 import Home from './Pages/Home'
 import DogSearch from './Pages/DogSearch/DogSearch'
 
 const Main = () => {
   return (
-    <div className='App'>
-      {/* <header className="App-header">
+    <MuiThemeProvider theme={theme}>
+      <div className='App'>
+        {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -20,11 +23,12 @@ const Main = () => {
           Learn React
         </a>
       </header> */}
-      <Switch>
-        <Route path='/search' render={() => <DogSearch />} />
-        <Route exact path='/' render={() => <Home />} />
-      </Switch>
-    </div>
+        <Switch>
+          <Route path='/search' render={() => <DogSearch />} />
+          <Route exact path='/' render={() => <Home />} />
+        </Switch>
+      </div>
+    </MuiThemeProvider>
   )
 }
 

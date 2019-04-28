@@ -9,10 +9,6 @@
     margin-bottom: 24px;
     color: $white-color;
   }
-  .filter-input,
-  .form-select {
-    width: 100%;
-  }
   .form-toggle {
     & > div {
       display: grid;
@@ -33,5 +29,34 @@
       height: 1px;
       background: $white-color;
     }
+  }
+  .filter-input {
+    margin-top: 0;
+  }
+  .age-label {
+    margin: 24px 0;
+    color: $white-color;
+  }
+  .input-range {
+    margin-bottom: 50px;
+    .input-range__slider {
+      background: $white-color;
+      border: 2px solid $secondary-color;
+      top: -2px;
+      &:active {
+        box-shadow: 0px 0px 1px 6px rgba(0, 0, 0, 0.1);
+      }
+    }
+    .input-range__track--active {
+      background: $secondary-color;
+    }
+    .input-range__label--min,
+    .input-range__label--max {
+      display: none;
+    }
+  }
+  .MuiToggleButton-root-231.MuiToggleButton-selected-233 {
+    background: $secondary-color;
+    color: $white-color;
   }
 }

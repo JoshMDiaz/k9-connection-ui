@@ -2,9 +2,5 @@ $primary-text-color: #333;
 $white-color: #fff;
 
 $primary-color: #773e72;
-$secondary-color: #9a4576;
-$gradient-color: linear-gradient(
-  to bottom,
-  $primary-color 50%,
-  $secondary-color
-);
+$secondary-color: #cc368d;
+$gradient-color: linear-gradient(to bottom, $primary-color 50%, #9a4576);

@@ -139,6 +139,8 @@ const Filter = ({ callout }) => {
       >
         Filters
       </Typography>
+
+      {/* Name */}
       <Typography
         gutterBottom
         variant='subheading'
@@ -149,12 +151,14 @@ const Filter = ({ callout }) => {
         <span className='name-header'>Name</span>
       </Typography>
       <TextField
-        id='standard-with-placeholder'
         label={`Dog's Name`}
         className={'filter-input'}
         margin='normal'
         onChange={handler('name')}
+        fullWidth
       />
+
+      {/* Atrributes */}
       <Typography
         gutterBottom
         variant='subheading'
@@ -177,6 +181,68 @@ const Filter = ({ callout }) => {
           </ToggleButtonGroup>
         </div>
       </Grid>
+      <FormControl className={'form-select'} fullWidth>
+        <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
+        <Select
+          multiple
+          value={form.eyes}
+          onChange={handleSelect}
+          inputProps={{
+            name: 'eyes',
+            id: 'eyes-select'
+          }}
+        >
+          {eyeColors.map((e, i) => (
+            <MenuItem key={i} value={e.name}>
+              {e.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <Typography
+        gutterBottom
+        variant='subheading'
+        component='p'
+        className='age-label'
+      >
+        Age Range
+      </Typography>
+      <InputRange
+        draggableTrack
+        maxValue={15}
+        minValue={1}
+        value={form.ageRange}
+        onChange={value => handleRange({ value })}
+      />
+
+      {/* Breed */}
+      <Typography
+        gutterBottom
+        variant='subheading'
+        component='p'
+        className='filter-label'
+        style={{ '--line-pos': getLabelWidth('breed-header') }}
+      >
+        <span className='breed-header'>Breed</span>
+      </Typography>
+      <FormControl className={'form-select'} fullWidth>
+        <InputLabel htmlFor='breed-select'>Breed</InputLabel>
+        <Select
+          multiple
+          value={form.breed}
+          onChange={handleSelect}
+          inputProps={{
+            name: 'breed',
+            id: 'breed-select'
+          }}
+        >
+          {breeds.map((e, i) => (
+            <MenuItem key={i} value={e.name}>
+              {e.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <Grid item xs={12}>
         <div className={'form-toggle'}>
           <ToggleButtonGroup
@@ -209,49 +275,6 @@ const Filter = ({ callout }) => {
           </ToggleButtonGroup>
         </div>
       </Grid>
-      <FormControl className={'form-select'}>
-        <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
-        <Select
-          multiple
-          value={form.eyes}
-          onChange={handleSelect}
-          inputProps={{
-            name: 'eyes',
-            id: 'eyes-select'
-          }}
-        >
-          {eyeColors.map((e, i) => (
-            <MenuItem key={i} value={e.name}>
-              {e.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl className={'form-select'}>
-        <InputLabel htmlFor='breed-select'>Breed</InputLabel>
-        <Select
-          multiple
-          value={form.breed}
-          onChange={handleSelect}
-          inputProps={{
-            name: 'breed',
-            id: 'breed-select'
-          }}
-        >
-          {breeds.map((e, i) => (
-            <MenuItem key={i} value={e.name}>
-              {e.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <InputRange
-        draggableTrack
-        maxValue={15}
-        minValue={1}
-        value={form.ageRange}
-        onChange={value => handleRange({ value })}
-      />
       <Button
         variant='contained'
         color='primary'
