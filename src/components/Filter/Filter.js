@@ -16,9 +16,9 @@ import InputRange from 'react-input-range'
 
 const defaultForm = {
   name: '',
-  gender: 'both',
-  papered: false,
-  registered: false,
+  gender: '',
+  papered: '',
+  registered: '',
   ageRange: {
     min: 2,
     max: 7
@@ -72,7 +72,7 @@ const Filter = ({ callout }) => {
       form.birthdate = getBirthdateRange(form.ageRange)
     }
     console.log(form)
-    // callout(form)
+    callout(form)
   }
 
   const resetForm = () => {
@@ -122,20 +122,49 @@ const Filter = ({ callout }) => {
     })
   }
 
+  const getLabelWidth = label => {
+    let el = document.querySelector(`.filter-label span.${label}`)
+    if (el) {
+      return `${el.getBoundingClientRect().width + 16}px`
+    }
+  }
+
   return (
     <div className='filter-container'>
-      <Typography gutterBottom variant='h6' component='p'>
-        Filter
+      <Typography
+        gutterBottom
+        variant='h5'
+        component='h5'
+        className='filter-title'
+      >
+        Filters
+      </Typography>
+      <Typography
+        gutterBottom
+        variant='subheading'
+        component='p'
+        className='filter-label'
+        style={{ '--line-pos': getLabelWidth('name-header') }}
+      >
+        <span className='name-header'>Name</span>
       </Typography>
       <TextField
         id='standard-with-placeholder'
-        label='With placeholder'
-        placeholder='Placeholder'
-        className={'dog-name'}
+        label={`Dog's Name`}
+        className={'filter-input'}
         margin='normal'
         onChange={handler('name')}
       />
-      <Grid item xs={12} sm={6}>
+      <Typography
+        gutterBottom
+        variant='subheading'
+        component='p'
+        className='filter-label'
+        style={{ '--line-pos': getLabelWidth('atrributes-header') }}
+      >
+        <span className='atrributes-header'>Attributes</span>
+      </Typography>
+      <Grid item xs={12}>
         <div className={'form-toggle'}>
           <ToggleButtonGroup
             value={form.gender}
@@ -144,11 +173,11 @@ const Filter = ({ callout }) => {
           >
             <ToggleButton value='Male'>Male</ToggleButton>
             <ToggleButton value='Female'>Female</ToggleButton>
-            <ToggleButton value='both'>Both</ToggleButton>
+            <ToggleButton value=''>Any</ToggleButton>
           </ToggleButtonGroup>
         </div>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12}>
         <div className={'form-toggle'}>
           <ToggleButtonGroup
             value={form.papered}
@@ -157,11 +186,11 @@ const Filter = ({ callout }) => {
           >
             <ToggleButton value={true}>Papered</ToggleButton>
             <ToggleButton value={false}>Not Papered</ToggleButton>
-            <ToggleButton value={''}>Both</ToggleButton>
+            <ToggleButton value={''}>Any</ToggleButton>
           </ToggleButtonGroup>
         </div>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12}>
         <div className={'form-toggle'}>
           <ToggleButtonGroup
             value={form.registered}
@@ -175,7 +204,7 @@ const Filter = ({ callout }) => {
               Not Registered
             </ToggleButton>
             <ToggleButton disabled={form.papered === false} value={''}>
-              Both
+              Any
             </ToggleButton>
           </ToggleButtonGroup>
         </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import List from '../../Dogs/List'
 import DogService from '../../../services/DogService'
 import Filter from '../../Filter/Filter'
+import { Drawer } from '@material-ui/core'
 
 const DogSearch = () => {
   const [dogs, setDogs] = useState([])
@@ -31,9 +32,20 @@ const DogSearch = () => {
     })
   }
 
+  const toggleDrawer = () => {}
+
   return (
     <div className='dog-search-page'>
-      <Filter callout={getDogs} />
+      <Drawer open={true} onClose={toggleDrawer('left', false)}>
+        <div
+          tabIndex={0}
+          role='button'
+          onClick={toggleDrawer('left', false)}
+          onKeyDown={toggleDrawer('left', false)}
+        >
+          <Filter callout={getDogs} />
+        </div>
+      </Drawer>
       <List dogs={dogs} />
     </div>
   )
