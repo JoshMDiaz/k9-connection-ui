@@ -1,7 +1,7 @@
 @import './range';
 .filter-container {
-  background: $gradient-color;
-  color: $white-color;
+  // background: $gradient-color;
+  // color: $white-color;
   padding: 24px;
   height: calc(100vh - 48px);
   .filter-title {
@@ -18,7 +18,7 @@
   .filter-label {
     position: relative;
     overflow: hidden;
-    color: $white-color;
+    // color: $white-color;
     &::after {
       content: '';
       position: absolute;
@@ -27,7 +27,7 @@
       top: 50%;
       width: 100%;
       height: 1px;
-      background: $white-color;
+      // background: $white-color;
     }
   }
   .filter-input {
@@ -35,7 +35,7 @@
   }
   .age-label {
     margin: 24px 0;
-    color: $white-color;
+    // color: $white-color;
   }
   .input-range {
     margin-bottom: 50px;
@@ -57,6 +57,6 @@
   }
   .MuiToggleButton-root-231.MuiToggleButton-selected-233 {
     background: $secondary-color;
-    color: $white-color;
+    // color: $white-color;
   }
 }

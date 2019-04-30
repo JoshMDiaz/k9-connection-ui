@@ -20,8 +20,8 @@ const defaultForm = {
   papered: '',
   registered: '',
   ageRange: {
-    min: 2,
-    max: 7
+    min: 1,
+    max: 15
   },
   breed: [],
   eyes: []

@@ -6,6 +6,7 @@ import { Drawer } from '@material-ui/core'
 
 const DogSearch = () => {
   const [dogs, setDogs] = useState([])
+  const [filterOpen, setFilterOpen] = useState(false)
 
   useEffect(() => {
     getDogs()
@@ -32,20 +33,21 @@ const DogSearch = () => {
     })
   }
 
-  const toggleDrawer = () => {}
+  const toggleDrawer = isOpen => {
+    setFilterOpen(isOpen)
+  }
+
+  const filterUpdated = form => {
+    getDogs(form)
+    toggleDrawer(false)
+  }
 
   return (
     <div className='dog-search-page'>
-      <Drawer open={true} onClose={toggleDrawer('left', false)}>
-        <div
-          tabIndex={0}
-          role='button'
-          onClick={toggleDrawer('left', false)}
-          onKeyDown={toggleDrawer('left', false)}
-        >
-          <Filter callout={getDogs} />
-        </div>
+      <Drawer open={filterOpen} onClose={() => toggleDrawer(false)}>
+        <Filter callout={filterUpdated} />
       </Drawer>
+      <button onClick={() => toggleDrawer(true)}>Filter</button>
       <List dogs={dogs} />
     </div>
   )
