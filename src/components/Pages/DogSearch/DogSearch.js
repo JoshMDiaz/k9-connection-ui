@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useReducer } from 'react'
 import List from '../../Dogs/List'
 import DogService from '../../../services/DogService'
 import Filter from '../../Filter/Filter'
@@ -37,15 +37,43 @@ const DogSearch = () => {
     setFilterOpen(isOpen)
   }
 
-  const filterUpdated = form => {
-    getDogs(form)
-    toggleDrawer(false)
+  const initialState = () => ({
+    name: '',
+    gender: '',
+    papered: '',
+    registered: '',
+    ageRange: {
+      min: 1,
+      max: 15
+    },
+    breed: [],
+    eyes: []
+  })
+
+  const reducer = (form, action) => {
+    switch (action.type) {
+      case 'RESET':
+        return initialState()
+      case 'UPDATE':
+        return {
+          ...form,
+          ...action.payload
+        }
+      case 'SEARCH':
+        getDogs(form)
+        toggleDrawer(false)
+        return
+      default:
+        break
+    }
   }
+
+  const [form, dispatch] = useReducer(reducer, initialState())
 
   return (
     <div className='dog-search-page'>
       <Drawer open={filterOpen} onClose={() => toggleDrawer(false)}>
-        <Filter callout={filterUpdated} />
+        <Filter form={form} dispatch={dispatch} />
       </Drawer>
       <button onClick={() => toggleDrawer(true)}>Filter</button>
       <List dogs={dogs} />

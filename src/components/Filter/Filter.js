@@ -14,23 +14,9 @@ import {
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
 import InputRange from 'react-input-range'
 
-const defaultForm = {
-  name: '',
-  gender: '',
-  papered: '',
-  registered: '',
-  ageRange: {
-    min: 1,
-    max: 15
-  },
-  breed: [],
-  eyes: []
-}
-
-const Filter = ({ callout }) => {
+const Filter = ({ form, dispatch }) => {
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
-  const [form, setForm] = useState(defaultForm)
 
   useEffect(() => {
     getBreeds()
@@ -64,61 +50,83 @@ const Filter = ({ callout }) => {
     return obj
   }
 
-  const updateFilter = () => {
-    // let filterParams = {}
-    // Object.assign(filterParams, form)
-
-    if (form.ageRange) {
-      form.birthdate = getBirthdateRange(form.ageRange)
-    }
+  const updateFilter = form => {
     console.log(form)
-    callout(form)
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        ...form,
+        birthdate: form.ageRange ? getBirthdateRange(form.ageRange) : null
+      }
+    })
+    dispatch({
+      type: 'SEARCH'
+    })
   }
 
   const resetForm = () => {
-    setForm(defaultForm)
-    callout(defaultForm)
+    dispatch({
+      type: 'RESET'
+    })
   }
 
   const handler = formName => event => {
-    setForm({
-      ...form,
-      [formName]: event.target.value
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        ...form,
+        [formName]: event.target.value
+      }
     })
   }
 
   const handleGender = (event, value) => {
-    setForm({
-      ...form,
-      gender: value
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        ...form,
+        gender: value
+      }
     })
   }
 
   const handlePapered = (event, value) => {
-    setForm({
-      ...form,
-      papered: value
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        ...form,
+        papered: value
+      }
     })
   }
 
   const handleRegistered = (event, value) => {
-    setForm({
-      ...form,
-      registered: value
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        ...form,
+        registered: value
+      }
     })
   }
 
   const handleSelect = event => {
-    setForm({
-      ...form,
-      [event.target.name]: event.target.value
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        ...form,
+        [event.target.name]: event.target.value
+      }
     })
   }
 
   const handleRange = obj => {
-    setForm({
-      ...form,
-      ageRange: obj.value
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        ...form,
+        ageRange: obj.value
+      }
     })
   }
 
@@ -143,7 +151,7 @@ const Filter = ({ callout }) => {
       {/* Name */}
       <Typography
         gutterBottom
-        variant='subheading'
+        variant='p'
         component='p'
         className='filter-label'
         style={{ '--line-pos': getLabelWidth('name-header') }}
@@ -156,12 +164,13 @@ const Filter = ({ callout }) => {
         margin='normal'
         onChange={handler('name')}
         fullWidth
+        value={form.name}
       />
 
       {/* Atrributes */}
       <Typography
         gutterBottom
-        variant='subheading'
+        variant='p'
         component='p'
         className='filter-label'
         style={{ '--line-pos': getLabelWidth('atrributes-header') }}
@@ -199,12 +208,7 @@ const Filter = ({ callout }) => {
           ))}
         </Select>
       </FormControl>
-      <Typography
-        gutterBottom
-        variant='subheading'
-        component='p'
-        className='age-label'
-      >
+      <Typography gutterBottom variant='p' component='p' className='age-label'>
         Age Range
       </Typography>
       <InputRange
@@ -218,7 +222,7 @@ const Filter = ({ callout }) => {
       {/* Breed */}
       <Typography
         gutterBottom
-        variant='subheading'
+        variant='p'
         component='p'
         className='filter-label'
         style={{ '--line-pos': getLabelWidth('breed-header') }}
@@ -280,6 +284,14 @@ const Filter = ({ callout }) => {
         color='primary'
         className={'search-button'}
         onClick={updateFilter}
+      >
+        Search
+      </Button>
+      <Button
+        variant='contained'
+        color='secondary'
+        className={'search-button'}
+        onClick={resetForm}
       >
         Search
       </Button>
