@@ -1,0 +1,13 @@
+button {
+  text-transform: uppercase;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid $light-gray-color;
+  color: $medium-gray-color;
+  @include border-radius;
+  @include transition;
+  &:hover {
+    background: $gradient-color-h;
+    color: $white-color;
+  }
+}

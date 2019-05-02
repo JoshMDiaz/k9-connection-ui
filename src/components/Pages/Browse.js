@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useReducer } from 'react'
-import List from '../../Dogs/List'
-import DogService from '../../../services/DogService'
-import Filter from '../../Filter/Filter'
+import List from '../Dogs/List'
+import DogService from '../../services/DogService'
+import Filter from '../Filter/Filter'
 import { Drawer } from '@material-ui/core'
 
-const DogSearch = () => {
+const Browse = () => {
   const [dogs, setDogs] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
 
@@ -71,7 +71,7 @@ const DogSearch = () => {
   const [form, dispatch] = useReducer(reducer, initialState())
 
   return (
-    <div className='dog-search-page'>
+    <div className='browse-page'>
       <Drawer open={filterOpen} onClose={() => toggleDrawer(false)}>
         <Filter form={form} dispatch={dispatch} />
       </Drawer>
@@ -81,4 +81,4 @@ const DogSearch = () => {
   )
 }
 
-export default DogSearch
+export default Browse

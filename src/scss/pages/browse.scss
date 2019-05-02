@@ -1,11 +1,13 @@
-.dog-search-page {
+.browse-page {
   // display: grid;
   // grid-template-columns: 400px 1fr;
+  background: $light-gray-color;
   @media only screen and (min-width: 1024px) {
     .card-list {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-gap: 10px;
+      grid-gap: 32px;
+      padding: 32px;
     }
   }
 }

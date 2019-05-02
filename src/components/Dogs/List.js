@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Card from './Card'
+import Card from './DogCard'
 
 const List = ({ dogs }) => {
   let count = 0

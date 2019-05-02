@@ -2,8 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import theme from '../theme'
-import Home from './Pages/Home'
-import DogSearch from './Pages/DogSearch/DogSearch'
+import Browse from './Pages/Browse'
 
 const Main = () => {
   return (
@@ -24,8 +23,7 @@ const Main = () => {
         </a>
       </header> */}
         <Switch>
-          <Route path='/search' render={() => <DogSearch />} />
-          <Route exact path='/' render={() => <Home />} />
+          <Route exact path='/' render={() => <Browse />} />
         </Switch>
       </div>
     </MuiThemeProvider>

@@ -23,3 +23,21 @@
   // Output standard non-prefixed declaration
   #{$property}: $value;
 }
+
+@mixin box-shadow(
+  $left: 0px,
+  $top: 2px,
+  $radius: 2px,
+  $inset: 0,
+  $color: #888
+) {
+  @include prefix(box-shadow, $left $top $radius $inset $color);
+}
+
+@mixin border-radius($radius: 4px) {
+  @include prefix(border-radius, $radius);
+}
+
+@mixin transition($duration: 0.25s, $property: all, $transition: ease-in-out) {
+  @include prefix(transition, $property $duration $transition);
+}
