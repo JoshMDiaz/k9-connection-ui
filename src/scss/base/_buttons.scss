@@ -1,13 +1,29 @@
 button {
   text-transform: uppercase;
-  padding: 8px;
+  padding: 0 16px;
+  height: 44px;
   font-size: 14px;
-  border: 1px solid $light-gray-color;
-  color: $medium-gray-color;
+  border: none;
   @include border-radius;
   @include transition;
-  &:hover {
+  position: relative;
+  cursor: pointer;
+  &.plain {
+    color: $light-text-color;
+    background: $white-color;
+    box-shadow: 0 5px 6px 0 rgba(141, 147, 181, 0.07),
+      0 5px 9px 0 rgba(141, 147, 181, 0.03);
+    border: 1px solid $border-color;
+    &:hover {
+      color: $primary-text-color;
+    }
+  }
+  &.primary {
     background: $gradient-color-h;
     color: $white-color;
+    &:hover {
+      box-shadow: 0 5px 6px 0 rgba(141, 147, 181, 0.07),
+        0 5px 9px 0 rgba(141, 147, 181, 0.03);
+    }
   }
 }

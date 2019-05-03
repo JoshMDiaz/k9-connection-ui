@@ -75,7 +75,9 @@ const Browse = () => {
       <Drawer open={filterOpen} onClose={() => toggleDrawer(false)}>
         <Filter form={form} dispatch={dispatch} />
       </Drawer>
-      <button onClick={() => toggleDrawer(true)}>Filter</button>
+      <button className='plain' onClick={() => toggleDrawer(true)}>
+        Filter
+      </button>
       <List dogs={dogs} />
     </div>
   )

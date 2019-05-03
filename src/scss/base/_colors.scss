@@ -1,9 +1,15 @@
-$primary-text-color: #333;
-$medium-gray-color: rgb(165, 165, 165);
-$light-gray-color: rgb(219, 219, 219);
+$primary-text-color: #2d3142;
+$light-text-color: #8d93b5;
+$medium-gray-color: #c0c4d6;
+$light-gray-color: #f3f7fb;
 $white-color: #fff;
 
-$primary-color: #773e72;
-$secondary-color: #cc368d;
-$gradient-color-v: linear-gradient(to bottom, $primary-color 50%, #9a4576);
-$gradient-color-h: linear-gradient(to right, $primary-color 50%, #9a4576);
+$primary-color: #824173;
+$secondary-color: #a04677;
+$gradient-color-h: linear-gradient(
+  right bottom,
+  rgba(160, 70, 120, 1) 0%,
+  rgba(130, 65, 115, 1) 100%
+);
+
+$border-color: #e4edf5;

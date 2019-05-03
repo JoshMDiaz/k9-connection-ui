@@ -1,8 +1,8 @@
 import React from 'react'
-import { IconButton } from '@material-ui/core'
-import { Favorite, Share } from '@material-ui/icons'
 import moment from 'moment'
 import Plural from '../common/Plural'
+import messageIcon from '../../images/icons/message.svg'
+import favoriteIcon from '../../images/icons/favorite.svg'
 
 const getYearsOld = date => {
   let start = moment(date),
@@ -37,28 +37,32 @@ const DogCard = ({ dog, count }) => {
         />
         <div className='card-content'>
           <h2>{dog.name}</h2>
-          <p>
-            <span className='gender'>{dog.gender}</span> /
+          <p className='gender-age'>
+            <span className='gender'>{dog.gender}</span>
+            &nbsp;&nbsp;/&nbsp;&nbsp;
             <span className='age'>{getYearsOld(dog.birthdate)}</span>
           </p>
           <p>
             {dog.description ? (
-              <>{trimText(dog.description, 120)}</>
+              <>{trimText(dog.description, 150)}</>
             ) : (
               <>No description available</>
             )}
           </p>
         </div>
         <div className='card-footer'>
-          <button className='view-profile' onClick={() => viewProfile(dog)}>
+          <button
+            className='view-profile primary'
+            onClick={() => viewProfile(dog)}
+          >
             View Profile
           </button>
-          <IconButton aria-label='Add to favorites'>
-            <Favorite />
-          </IconButton>
-          <IconButton aria-label='Share'>
-            <Share />
-          </IconButton>
+          <span className='img-border'>
+            <img src={messageIcon} alt='message' />
+          </span>
+          <span className='img-border'>
+            <img src={favoriteIcon} alt='favorite' />
+          </span>
         </div>
       </div>
     </div>
