@@ -4,6 +4,13 @@
   height: 100vh;
   overflow: auto;
   font-family: 'Poppins', sans-serif;
+  @media only screen and (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 216px 1fr;
+  }
+}
+.app-content {
+  background: $light-gray-color;
 }
 
 .text-center {

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 import logo from '../../images/logo.svg'
 
 const Sidebar = () => {
@@ -12,22 +12,28 @@ const Sidebar = () => {
     {
       id: 2,
       page: 'Messages',
-      path: '/'
+      path: '/messages'
     },
     {
       id: 3,
       page: 'Profile',
-      path: '/'
+      path: '/profile'
+    },
+    {
+      id: 4,
+      page: 'My Dogs',
+      path: '/profile/dogs'
     }
   ]
+
   return (
     <div className='sidebar'>
       <img src={logo} alt='logo' />
       <ul className='sidebar-content'>
         {sidebarContent.map((e, i) => (
-          <Link to={e.path} key={i}>
+          <NavLink to={e.path} exact key={i} activeClassName={'active'}>
             {e.page}
-          </Link>
+          </NavLink>
         ))}
       </ul>
     </div>

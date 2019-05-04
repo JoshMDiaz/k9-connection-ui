@@ -3,7 +3,6 @@ import List from '../Dogs/List'
 import DogService from '../../services/DogService'
 import Filter from '../Filter/Filter'
 import { Drawer } from '@material-ui/core'
-import Sidebar from '../Sidebar/Sidebar'
 
 const Browse = () => {
   const [dogs, setDogs] = useState([])
@@ -76,7 +75,6 @@ const Browse = () => {
       <Drawer open={filterOpen} onClose={() => toggleDrawer(false)}>
         <Filter form={form} dispatch={dispatch} />
       </Drawer>
-      <Sidebar />
       {/* <button className='plain' onClick={() => toggleDrawer(true)}>
         Filter
       </button> */}

@@ -1,8 +1,5 @@
 .browse-page {
-  background: $light-gray-color;
   @media only screen and (min-width: 768px) {
-    display: grid;
-    grid-template-columns: 216px 1fr;
     .card-list {
       display: grid;
       grid-template-columns: repeat(2, 1fr);

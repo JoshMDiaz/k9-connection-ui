@@ -1,6 +1,8 @@
 .sidebar {
-  padding: 24px 16px;
+  padding: 24px 0 24px 16px;
   background: $white-color;
+  box-shadow: 0 3px 6px rgba(45, 49, 66, 0.1);
+  position: relative;
   img {
     width: 100%;
   }
