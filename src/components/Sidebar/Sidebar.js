@@ -26,15 +26,26 @@ const Sidebar = () => {
     }
   ]
 
+  let count = 0
+
   return (
     <div className='sidebar'>
-      <img src={logo} alt='logo' />
+      <img src={logo} alt='logo' className='animated fadeInUp' />
       <ul className='sidebar-content'>
-        {sidebarContent.map((e, i) => (
-          <NavLink to={e.path} exact key={i} activeClassName={'active'}>
-            {e.page}
-          </NavLink>
-        ))}
+        {sidebarContent.map((e, i) => {
+          count++
+          return (
+            <NavLink
+              to={e.path}
+              exact
+              key={i}
+              activeClassName={'active'}
+              className={`animated fadeInUp delay-${count}`}
+            >
+              {e.page}
+            </NavLink>
+          )
+        })}
       </ul>
     </div>
   )

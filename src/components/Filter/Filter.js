@@ -14,7 +14,7 @@ import {
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
 import InputRange from 'react-input-range'
 
-const Filter = ({ form, dispatch }) => {
+const Filter = ({ form, dispatch, closing }) => {
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
 
@@ -138,163 +138,127 @@ const Filter = ({ form, dispatch }) => {
   }
 
   return (
-    <div className='filter-container'>
-      <Typography
-        gutterBottom
-        variant='h5'
-        component='h5'
-        className='filter-title'
-      >
-        Filters
-      </Typography>
-
-      {/* Name */}
-      <Typography
-        gutterBottom
-        variant='p'
-        component='p'
-        className='filter-label'
-        style={{ '--line-pos': getLabelWidth('name-header') }}
-      >
-        <span className='name-header'>Name</span>
-      </Typography>
-      <TextField
-        label={`Dog's Name`}
-        className={'filter-input'}
-        margin='normal'
-        onChange={handler('name')}
-        fullWidth
-        value={form.name}
-      />
-
-      {/* Atrributes */}
-      <Typography
-        gutterBottom
-        variant='p'
-        component='p'
-        className='filter-label'
-        style={{ '--line-pos': getLabelWidth('atrributes-header') }}
-      >
-        <span className='atrributes-header'>Attributes</span>
-      </Typography>
-      <Grid item xs={12}>
-        <div className={'form-toggle'}>
-          <ToggleButtonGroup
-            value={form.gender}
-            exclusive
-            onChange={handleGender}
+    <div
+      className={`filter-container animated ${
+        closing ? 'fadeOutUp' : 'fadeInDown'
+      }`}
+    >
+      <div className='filter-box'>
+        {/* Favorite */}
+        <input type='checkbox' value={form.favorite} />
+        <label>Favorite Dogs</label>
+        {/* Name */}
+        <label className='name-header'>Name</label>
+        <input type='text' value={form.name} onChange={handler('name')} />
+        {/* Age */}
+        <label className='name-header'>Age</label>
+        <InputRange
+          draggableTrack
+          maxValue={15}
+          minValue={1}
+          value={form.ageRange}
+          onChange={value => handleRange({ value })}
+        />
+        {/* Gender */}
+        <label className='name-header'>Gender</label>
+        <input type='radio' />
+        {/* Eye Color */}
+        <label className='name-header'>Eye Color</label>
+        {/* <FormControl className={'form-select'} fullWidth>
+          <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
+          <Select
+            multiple
+            value={form.eyes}
+            onChange={handleSelect}
+            inputProps={{
+              name: 'eyes',
+              id: 'eyes-select'
+            }}
           >
-            <ToggleButton value='Male'>Male</ToggleButton>
-            <ToggleButton value='Female'>Female</ToggleButton>
-            <ToggleButton value=''>Any</ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-      </Grid>
-      <FormControl className={'form-select'} fullWidth>
-        <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
-        <Select
-          multiple
-          value={form.eyes}
-          onChange={handleSelect}
-          inputProps={{
-            name: 'eyes',
-            id: 'eyes-select'
-          }}
+            {eyeColors.map((e, i) => (
+              <MenuItem key={i} value={e.name}>
+                {e.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl> */}
+        {/* Breed */}
+        <Typography
+          gutterBottom
+          variant='p'
+          component='p'
+          className='filter-label'
+          style={{ '--line-pos': getLabelWidth('breed-header') }}
         >
-          {eyeColors.map((e, i) => (
-            <MenuItem key={i} value={e.name}>
-              {e.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Typography gutterBottom variant='p' component='p' className='age-label'>
-        Age Range
-      </Typography>
-      <InputRange
-        draggableTrack
-        maxValue={15}
-        minValue={1}
-        value={form.ageRange}
-        onChange={value => handleRange({ value })}
-      />
-
-      {/* Breed */}
-      <Typography
-        gutterBottom
-        variant='p'
-        component='p'
-        className='filter-label'
-        style={{ '--line-pos': getLabelWidth('breed-header') }}
-      >
-        <span className='breed-header'>Breed</span>
-      </Typography>
-      <FormControl className={'form-select'} fullWidth>
-        <InputLabel htmlFor='breed-select'>Breed</InputLabel>
-        <Select
-          multiple
-          value={form.breed}
-          onChange={handleSelect}
-          inputProps={{
-            name: 'breed',
-            id: 'breed-select'
-          }}
+          <span className='breed-header'>Breed</span>
+        </Typography>
+        <FormControl className={'form-select'} fullWidth>
+          <InputLabel htmlFor='breed-select'>Breed</InputLabel>
+          <Select
+            multiple
+            value={form.breed}
+            onChange={handleSelect}
+            inputProps={{
+              name: 'breed',
+              id: 'breed-select'
+            }}
+          >
+            {breeds.map((e, i) => (
+              <MenuItem key={i} value={e.name}>
+                {e.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Grid item xs={12}>
+          <div className={'form-toggle'}>
+            <ToggleButtonGroup
+              value={form.papered}
+              exclusive
+              onChange={handlePapered}
+            >
+              <ToggleButton value={true}>Papered</ToggleButton>
+              <ToggleButton value={false}>Not Papered</ToggleButton>
+              <ToggleButton value={''}>Any</ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <div className={'form-toggle'}>
+            <ToggleButtonGroup
+              value={form.registered}
+              exclusive
+              onChange={handleRegistered}
+            >
+              <ToggleButton disabled={form.papered === false} value={true}>
+                Registered
+              </ToggleButton>
+              <ToggleButton disabled={form.papered === false} value={false}>
+                Not Registered
+              </ToggleButton>
+              <ToggleButton disabled={form.papered === false} value={''}>
+                Any
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+        </Grid>
+        <Button
+          variant='contained'
+          color='primary'
+          className={'search-button'}
+          onClick={updateFilter}
         >
-          {breeds.map((e, i) => (
-            <MenuItem key={i} value={e.name}>
-              {e.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Grid item xs={12}>
-        <div className={'form-toggle'}>
-          <ToggleButtonGroup
-            value={form.papered}
-            exclusive
-            onChange={handlePapered}
-          >
-            <ToggleButton value={true}>Papered</ToggleButton>
-            <ToggleButton value={false}>Not Papered</ToggleButton>
-            <ToggleButton value={''}>Any</ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <div className={'form-toggle'}>
-          <ToggleButtonGroup
-            value={form.registered}
-            exclusive
-            onChange={handleRegistered}
-          >
-            <ToggleButton disabled={form.papered === false} value={true}>
-              Registered
-            </ToggleButton>
-            <ToggleButton disabled={form.papered === false} value={false}>
-              Not Registered
-            </ToggleButton>
-            <ToggleButton disabled={form.papered === false} value={''}>
-              Any
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-      </Grid>
-      <Button
-        variant='contained'
-        color='primary'
-        className={'search-button'}
-        onClick={updateFilter}
-      >
-        Search
-      </Button>
-      <Button
-        variant='contained'
-        color='secondary'
-        className={'search-button'}
-        onClick={resetForm}
-      >
-        Search
-      </Button>
+          Search
+        </Button>
+        <Button
+          variant='contained'
+          color='secondary'
+          className={'search-button'}
+          onClick={resetForm}
+        >
+          Search
+        </Button>{' '}
+      </div>
     </div>
   )
 }

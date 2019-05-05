@@ -8,11 +8,13 @@ button {
   @include transition;
   position: relative;
   cursor: pointer;
+  &:hover {
+    top: -1px;
+    box-shadow: 0 3px 6px rgba(160, 70, 119, 0.2);
+  }
   &.plain {
     color: $light-text-color;
     background: $white-color;
-    box-shadow: 0 5px 6px 0 rgba(141, 147, 181, 0.07),
-      0 5px 9px 0 rgba(141, 147, 181, 0.03);
     border: 1px solid $border-color;
     &:hover {
       color: $primary-text-color;
@@ -21,9 +23,5 @@ button {
   &.primary {
     background: $gradient-color-h;
     color: $white-color;
-    &:hover {
-      box-shadow: 0 5px 6px 0 rgba(141, 147, 181, 0.07),
-        0 5px 9px 0 rgba(141, 147, 181, 0.03);
-    }
   }
 }

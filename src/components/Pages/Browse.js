@@ -2,14 +2,23 @@ import React, { useEffect, useState, useReducer } from 'react'
 import List from '../Dogs/List'
 import DogService from '../../services/DogService'
 import Filter from '../Filter/Filter'
-import { Drawer } from '@material-ui/core'
+import chevronIcon from '../../images/icons/chevron-down.svg'
+import NumberFormat from 'react-number-format'
+import { Link } from 'react-router-dom'
+import Plural from '../common/Plural'
 
 const Browse = () => {
   const [dogs, setDogs] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
+  const [closingFilter, setClosingFilter] = useState(false)
+  let filterTimeout, isCancelled
 
   useEffect(() => {
-    getDogs()
+    !isCancelled && getDogs()
+    return () => {
+      clearTimeout(filterTimeout)
+      isCancelled = true
+    }
   }, [])
 
   const getDogs = filter => {
@@ -23,7 +32,8 @@ const Browse = () => {
         start_date: filter.birthdate ? filter.birthdate.startDate : null,
         end_date: filter.birthdate ? filter.birthdate.endDate : null,
         breed: filter.breed || null,
-        eyes: filter.eyes || null
+        eyes: filter.eyes || null,
+        favorite: filter.favorite || null
       }
     }
     DogService.getAll(params).then(response => {
@@ -31,10 +41,6 @@ const Browse = () => {
         setDogs(response.data)
       }
     })
-  }
-
-  const toggleDrawer = isOpen => {
-    setFilterOpen(isOpen)
   }
 
   const initialState = () => ({
@@ -61,7 +67,7 @@ const Browse = () => {
         }
       case 'SEARCH':
         getDogs(form)
-        toggleDrawer(false)
+        openFilter(false)
         return
       default:
         break
@@ -70,15 +76,47 @@ const Browse = () => {
 
   const [form, dispatch] = useReducer(reducer, initialState())
 
+  const openFilter = isOpen => {
+    console.log('filter open')
+    if (isOpen === false) {
+      setClosingFilter(true)
+      filterTimeout = setTimeout(() => {
+        !isCancelled && setFilterOpen(isOpen)
+      }, 500)
+    } else {
+      !isCancelled && setFilterOpen(isOpen)
+      !isCancelled && setClosingFilter(false)
+    }
+  }
+
   return (
     <div className='browse-page'>
-      <Drawer open={filterOpen} onClose={() => toggleDrawer(false)}>
-        <Filter form={form} dispatch={dispatch} />
-      </Drawer>
-      {/* <button className='plain' onClick={() => toggleDrawer(true)}>
-        Filter
-      </button> */}
-      <List dogs={dogs} />
+      <div className='list-header'>
+        <h3 className='animated fadeInLeft'>
+          <NumberFormat
+            value={1130}
+            thousandSeparator={true}
+            displayType='text'
+          />
+          &nbsp;
+          <Plural text='Dog' number={1130} />
+        </h3>
+        <div className='button-container animated fadeInRight'>
+          <button className='plain' onClick={() => openFilter(!filterOpen)}>
+            Filter
+            <img className='chevron' src={chevronIcon} alt='chevron' />
+          </button>
+          <Link to='/new-dog'>
+            <button className='primary'>Add New Dogs</button>
+          </Link>
+        </div>
+      </div>
+      <div className='relative'>
+        {filterOpen && (
+          <Filter form={form} dispatch={dispatch} closing={closingFilter} />
+        )}
+        <List dogs={dogs} />
+      </div>
     </div>
   )
 }
