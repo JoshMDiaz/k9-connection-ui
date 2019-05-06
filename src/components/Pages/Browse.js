@@ -6,11 +6,11 @@ import chevronIcon from '../../images/icons/chevron-down.svg'
 import NumberFormat from 'react-number-format'
 import { Link } from 'react-router-dom'
 import Plural from '../common/Plural'
+import { Popover } from '@material-ui/core'
 
 const Browse = () => {
   const [dogs, setDogs] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
-  const [closingFilter, setClosingFilter] = useState(false)
   let filterTimeout, isCancelled
 
   useEffect(() => {
@@ -43,6 +43,10 @@ const Browse = () => {
     })
   }
 
+  const openFilter = isOpen => {
+    !isCancelled && setFilterOpen(isOpen)
+  }
+
   const initialState = () => ({
     name: '',
     gender: '',
@@ -53,7 +57,8 @@ const Browse = () => {
       max: 15
     },
     breed: [],
-    eyes: []
+    eyes: [],
+    favorite: ''
   })
 
   const reducer = (form, action) => {
@@ -68,26 +73,15 @@ const Browse = () => {
       case 'SEARCH':
         getDogs(form)
         openFilter(false)
-        return
+        return {
+          ...form
+        }
       default:
         break
     }
   }
 
   const [form, dispatch] = useReducer(reducer, initialState())
-
-  const openFilter = isOpen => {
-    console.log('filter open')
-    if (isOpen === false) {
-      setClosingFilter(true)
-      filterTimeout = setTimeout(() => {
-        !isCancelled && setFilterOpen(isOpen)
-      }, 500)
-    } else {
-      !isCancelled && setFilterOpen(isOpen)
-      !isCancelled && setClosingFilter(false)
-    }
-  }
 
   return (
     <div className='browse-page'>
@@ -106,17 +100,41 @@ const Browse = () => {
             Filter
             <img className='chevron' src={chevronIcon} alt='chevron' />
           </button>
+          <Popover
+            id='filter-popover'
+            open={filterOpen}
+            anchorEl={null}
+            onClose={() => openFilter(false)}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center'
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center'
+            }}
+          >
+            <Filter form={form} dispatch={dispatch} />
+          </Popover>
           <Link to='/new-dog'>
             <button className='primary'>Add New Dogs</button>
           </Link>
         </div>
       </div>
-      <div className='relative'>
-        {filterOpen && (
-          <Filter form={form} dispatch={dispatch} closing={closingFilter} />
-        )}
+      {dogs.length > 0 ? (
         <List dogs={dogs} />
-      </div>
+      ) : (
+        <div className='no-results'>
+          <div className='card'>
+            <span>
+              <h3>We're Sorry!</h3>
+              We could not find any dogs with the filters you have selected.
+              <br />
+              Please try changing the filters.
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

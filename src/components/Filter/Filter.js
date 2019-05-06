@@ -3,18 +3,20 @@ import FormService from '../../services/FormService'
 import moment from 'moment'
 import {
   TextField,
-  Typography,
-  Grid,
+  Checkbox,
   Button,
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Radio,
+  RadioGroup,
+  FormLabel,
+  FormControlLabel
 } from '@material-ui/core'
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
 import InputRange from 'react-input-range'
 
-const Filter = ({ form, dispatch, closing }) => {
+const Filter = ({ form, dispatch }) => {
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
 
@@ -50,8 +52,18 @@ const Filter = ({ form, dispatch, closing }) => {
     return obj
   }
 
-  const updateFilter = form => {
+  // const transformData = () => {
+  //   let formObj = {
+  //     birthdate: form.ageRange ? getBirthdateRange(form.ageRange) : null,
+  //     papered: form.papered == 'true' ? Boolean(form.papered) : null,
+  //     registered: form.registered !== '' ? Boolean(form.registered) : null
+  //   }
+  //   return formObj
+  // }
+
+  const updateFilter = () => {
     console.log(form)
+    // let updatedForm = transformData()
     dispatch({
       type: 'UPDATE',
       payload: {
@@ -70,56 +82,6 @@ const Filter = ({ form, dispatch, closing }) => {
     })
   }
 
-  const handler = formName => event => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        ...form,
-        [formName]: event.target.value
-      }
-    })
-  }
-
-  const handleGender = (event, value) => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        ...form,
-        gender: value
-      }
-    })
-  }
-
-  const handlePapered = (event, value) => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        ...form,
-        papered: value
-      }
-    })
-  }
-
-  const handleRegistered = (event, value) => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        ...form,
-        registered: value
-      }
-    })
-  }
-
-  const handleSelect = event => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        ...form,
-        [event.target.name]: event.target.value
-      }
-    })
-  }
-
   const handleRange = obj => {
     dispatch({
       type: 'UPDATE',
@@ -130,26 +92,38 @@ const Filter = ({ form, dispatch, closing }) => {
     })
   }
 
-  const getLabelWidth = label => {
-    let el = document.querySelector(`.filter-label span.${label}`)
-    if (el) {
-      return `${el.getBoundingClientRect().width + 16}px`
-    }
+  const handleChange = (event, field, elementValue) => {
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        [field]: event.target[elementValue]
+      }
+    })
   }
 
   return (
-    <div
-      className={`filter-container animated ${
-        closing ? 'fadeOutUp' : 'fadeInDown'
-      }`}
-    >
+    <div className={`filter-container`}>
       <div className='filter-box'>
         {/* Favorite */}
-        <input type='checkbox' value={form.favorite} />
-        <label>Favorite Dogs</label>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={e => handleChange(e, 'favorite', 'checked')}
+              value={'favorite'}
+            />
+          }
+          label='Favorite Dogs'
+        />
         {/* Name */}
         <label className='name-header'>Name</label>
-        <input type='text' value={form.name} onChange={handler('name')} />
+        <TextField
+          label={`Name`}
+          className={'filter-input'}
+          margin='normal'
+          onChange={e => handleChange(e, 'name', 'value')}
+          fullWidth
+          value={form.name}
+        />
         {/* Age */}
         <label className='name-header'>Age</label>
         <InputRange
@@ -160,44 +134,31 @@ const Filter = ({ form, dispatch, closing }) => {
           onChange={value => handleRange({ value })}
         />
         {/* Gender */}
-        <label className='name-header'>Gender</label>
-        <input type='radio' />
-        {/* Eye Color */}
-        <label className='name-header'>Eye Color</label>
-        {/* <FormControl className={'form-select'} fullWidth>
-          <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
-          <Select
-            multiple
-            value={form.eyes}
-            onChange={handleSelect}
-            inputProps={{
-              name: 'eyes',
-              id: 'eyes-select'
-            }}
+        <FormControl component='fieldset' className={'gender-filter'}>
+          <FormLabel component='legend'>Gender</FormLabel>
+          <RadioGroup
+            aria-label='Gender'
+            name='gender'
+            className={'gender'}
+            value={form.gender}
+            onChange={e => handleChange(e, 'gender', 'value')}
           >
-            {eyeColors.map((e, i) => (
-              <MenuItem key={i} value={e.name}>
-                {e.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl> */}
+            <FormControlLabel
+              value='Female'
+              control={<Radio />}
+              label='Female'
+            />
+            <FormControlLabel value='Male' control={<Radio />} label='Male' />
+            <FormControlLabel value={''} control={<Radio />} label='Any' />
+          </RadioGroup>
+        </FormControl>
         {/* Breed */}
-        <Typography
-          gutterBottom
-          variant='p'
-          component='p'
-          className='filter-label'
-          style={{ '--line-pos': getLabelWidth('breed-header') }}
-        >
-          <span className='breed-header'>Breed</span>
-        </Typography>
         <FormControl className={'form-select'} fullWidth>
           <InputLabel htmlFor='breed-select'>Breed</InputLabel>
           <Select
             multiple
             value={form.breed}
-            onChange={handleSelect}
+            onChange={e => handleChange(e, 'breed', 'value')}
             inputProps={{
               name: 'breed',
               id: 'breed-select'
@@ -210,38 +171,71 @@ const Filter = ({ form, dispatch, closing }) => {
             ))}
           </Select>
         </FormControl>
-        <Grid item xs={12}>
-          <div className={'form-toggle'}>
-            <ToggleButtonGroup
-              value={form.papered}
-              exclusive
-              onChange={handlePapered}
-            >
-              <ToggleButton value={true}>Papered</ToggleButton>
-              <ToggleButton value={false}>Not Papered</ToggleButton>
-              <ToggleButton value={''}>Any</ToggleButton>
-            </ToggleButtonGroup>
-          </div>
-        </Grid>
-        <Grid item xs={12}>
-          <div className={'form-toggle'}>
-            <ToggleButtonGroup
-              value={form.registered}
-              exclusive
-              onChange={handleRegistered}
-            >
-              <ToggleButton disabled={form.papered === false} value={true}>
-                Registered
-              </ToggleButton>
-              <ToggleButton disabled={form.papered === false} value={false}>
-                Not Registered
-              </ToggleButton>
-              <ToggleButton disabled={form.papered === false} value={''}>
-                Any
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </div>
-        </Grid>
+        {/* Papered */}
+        <FormControl component='fieldset' className={'registered-filter'}>
+          <FormLabel component='legend'>Papered</FormLabel>
+          <RadioGroup
+            aria-label='Papered'
+            name='papered'
+            className={'papered'}
+            value={form.papered}
+            onChange={e => handleChange(e, 'papered', 'value')}
+          >
+            <FormControlLabel
+              value={'true'}
+              control={<Radio />}
+              label='Papered'
+            />
+            <FormControlLabel
+              value={'false'}
+              control={<Radio />}
+              label='Not Papered'
+            />
+            <FormControlLabel value={''} control={<Radio />} label='Any' />
+          </RadioGroup>
+        </FormControl>
+        {/* Eye Color */}
+        <FormControl className={'form-select'} fullWidth>
+          <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
+          <Select
+            multiple
+            value={form.eyes}
+            onChange={e => handleChange(e, 'eyes', 'value')}
+            inputProps={{
+              name: 'eyes',
+              id: 'eyes-select'
+            }}
+          >
+            {eyeColors.map((e, i) => (
+              <MenuItem key={i} value={e.name}>
+                {e.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        {/* Registered */}
+        <FormControl component='fieldset' className={'registered-filter'}>
+          <FormLabel component='legend'>Registered</FormLabel>
+          <RadioGroup
+            aria-label='Registered'
+            name='registered'
+            className={'registered'}
+            value={form.registered}
+            onChange={e => handleChange(e, 'registered', 'value')}
+          >
+            <FormControlLabel
+              value={'true'}
+              control={<Radio />}
+              label='Registered'
+            />
+            <FormControlLabel
+              value={'false'}
+              control={<Radio />}
+              label='Not Registered'
+            />
+            <FormControlLabel value={''} control={<Radio />} label='Any' />
+          </RadioGroup>
+        </FormControl>
         <Button
           variant='contained'
           color='primary'

@@ -9,8 +9,7 @@ button {
   position: relative;
   cursor: pointer;
   &:hover {
-    top: -1px;
-    box-shadow: 0 3px 6px rgba(160, 70, 119, 0.2);
+    box-shadow: 0 8px 15px $border-color;
   }
   &.plain {
     color: $light-text-color;

@@ -1,4 +1,7 @@
 .browse-page {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: calc(100vh - 59px);
   .card-list {
     @media only screen and (min-width: 768px) {
       display: grid;
@@ -23,7 +26,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 32px 32px 0 32px;
+    padding: 16px 32px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: $light-gray-color;
+    box-shadow: 0 8px 15px $border-color;
     h3 {
       font-size: 18px;
       color: $primary-text-color;
@@ -49,6 +57,17 @@
       .chevron {
         margin-left: 8px;
       }
+    }
+  }
+  .no-results {
+    text-align: center;
+    font-size: 18px;
+    line-height: 28px;
+    padding: 32px;
+    h3 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
     }
   }
 }

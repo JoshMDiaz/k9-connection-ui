@@ -2,8 +2,7 @@
   .dog-picture {
     width: 100%;
     @include border-radius(10px);
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.07),
-      0 5px 15px 0 rgba(0, 0, 0, 0.03);
+    box-shadow: 0 8px 15px $border-color;
     object-fit: contain;
     margin-bottom: 16px;
   }
@@ -35,8 +34,7 @@
       justify-content: center;
       @include transition;
       &:hover {
-        box-shadow: 0 5px 6px 0 rgba(0, 0, 0, 0.07),
-          0 5px 9px 0 rgba(0, 0, 0, 0.03);
+        box-shadow: 0 8px 15px $border-color;
         cursor: pointer;
       }
     }
