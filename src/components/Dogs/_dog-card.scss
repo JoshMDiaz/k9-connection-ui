@@ -1,4 +1,8 @@
 .dog-card {
+  height: calc(100% - 32px);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   .dog-picture {
     width: 100%;
     @include border-radius(10px);

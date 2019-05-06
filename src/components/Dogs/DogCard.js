@@ -30,25 +30,27 @@ const DogCard = ({ dog, count }) => {
   return (
     <div className={`animated fadeInRight delay-${count}`}>
       <div className='card dog-card'>
-        <img
-          src={'http://placehold.it/1200x628'}
-          alt={dog.name}
-          className={`dog-picture`}
-        />
-        <div className='card-content'>
-          <h2>{dog.name}</h2>
-          <p className='gender-age'>
-            <span className='gender'>{dog.gender}</span>
-            &nbsp;&nbsp;/&nbsp;&nbsp;
-            <span className='age'>{getYearsOld(dog.birthdate)}</span>
-          </p>
-          <p>
-            {dog.description ? (
-              <>{trimText(dog.description, 150)}</>
-            ) : (
-              <>No description available</>
-            )}
-          </p>
+        <div className='top-content'>
+          <img
+            src={'http://placehold.it/1200x628'}
+            alt={dog.name}
+            className={`dog-picture`}
+          />
+          <div className='card-content'>
+            <h2>{dog.name}</h2>
+            <p className='gender-age'>
+              <span className='gender'>{dog.gender}</span>
+              &nbsp;&nbsp;/&nbsp;&nbsp;
+              <span className='age'>{getYearsOld(dog.birthdate)}</span>
+            </p>
+            <p>
+              {dog.description ? (
+                <>{trimText(dog.description, 150)}</>
+              ) : (
+                <>No description available</>
+              )}
+            </p>
+          </div>
         </div>
         <div className='card-footer'>
           <button
