@@ -5,8 +5,9 @@ import theme from '../theme'
 import Browse from './Pages/Browse'
 import Sidebar from './Sidebar/Sidebar'
 import Header from './Header/Header'
+import DogProfile from './Pages/DogProfile'
 
-const Main = () => {
+const Main = props => {
   return (
     <MuiThemeProvider theme={theme}>
       <div className='App'>
@@ -14,7 +15,12 @@ const Main = () => {
         <div className='app-content'>
           <Header />
           <Switch>
-            <Route exact path='/' render={() => <Browse />} />
+            <Route
+              exact
+              path='/profile/dog/:id'
+              render={props => <DogProfile {...props} />}
+            />
+            <Route exact path='/' render={props => <Browse {...props} />} />
           </Switch>
         </div>
       </div>

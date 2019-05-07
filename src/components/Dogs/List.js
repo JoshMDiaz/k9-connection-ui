@@ -6,10 +6,25 @@ const List = ({ dogs }) => {
   let count = 0
   return (
     <div className='card-list'>
-      {dogs.map((e, i) => {
-        count++
-        return <Card dog={e} key={i} count={count} />
-      })}
+      {dogs.length > 0 ? (
+        <>
+          {dogs.map((e, i) => {
+            count++
+            return <Card dog={e} key={i} count={count} />
+          })}
+        </>
+      ) : (
+        <div className='no-results'>
+          <div className='card'>
+            <span>
+              <h3>We're Sorry!</h3>
+              We could not find any dogs with the filters you have selected.
+              <br />
+              Please try changing the filters.
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

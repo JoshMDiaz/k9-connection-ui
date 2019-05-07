@@ -41,3 +41,26 @@
 @mixin transition($duration: 0.25s, $property: all, $transition: ease-in-out) {
   @include prefix(transition, $property $duration $transition);
 }
+
+@mixin animation($name, $timing: 0.5s, $transition: ease-in-out) {
+  @include prefix(animation, $name $timing $transition);
+}
+
+// Keyframes
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+    @content;
+  }
+  @-moz-keyframes #{$animationName} {
+    @content;
+  }
+  @-o-keyframes #{$animationName} {
+    @content;
+  }
+  @-ms-keyframes #{$animationName} {
+    @content;
+  }
+  @keyframes #{$animationName} {
+    @content;
+  }
+}

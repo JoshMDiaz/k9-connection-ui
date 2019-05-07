@@ -7,10 +7,12 @@ import NumberFormat from 'react-number-format'
 import { Link } from 'react-router-dom'
 import Plural from '../common/Plural'
 import { Popover } from '@material-ui/core'
+import LoadingCard from '../common/LoadingCard/LoadingCard'
 
-const Browse = () => {
+const Browse = props => {
   const [dogs, setDogs] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
   let filterTimeout, isCancelled
 
   useEffect(() => {
@@ -22,6 +24,7 @@ const Browse = () => {
   }, [])
 
   const getDogs = filter => {
+    !isCancelled && setLoading(true)
     let params = {}
     if (filter) {
       params = {
@@ -38,7 +41,8 @@ const Browse = () => {
     }
     DogService.getAll(params).then(response => {
       if (response) {
-        setDogs(response.data)
+        !isCancelled && setDogs(response.data)
+        !isCancelled && setLoading(false)
       }
     })
   }
@@ -82,18 +86,19 @@ const Browse = () => {
   }
 
   const [form, dispatch] = useReducer(reducer, initialState())
+  let count = 0
 
   return (
     <div className='browse-page'>
       <div className='list-header'>
         <h3 className='animated fadeInLeft'>
           <NumberFormat
-            value={1130}
+            value={dogs.length}
             thousandSeparator={true}
             displayType='text'
           />
           &nbsp;
-          <Plural text='Dog' number={1130} />
+          <Plural text='Dog' number={dogs.length} />
         </h3>
         <div className='button-container animated fadeInRight'>
           <button className='plain' onClick={() => openFilter(!filterOpen)}>
@@ -121,18 +126,15 @@ const Browse = () => {
           </Link>
         </div>
       </div>
-      {dogs.length > 0 ? (
+
+      {!loading ? (
         <List dogs={dogs} />
       ) : (
-        <div className='no-results'>
-          <div className='card'>
-            <span>
-              <h3>We're Sorry!</h3>
-              We could not find any dogs with the filters you have selected.
-              <br />
-              Please try changing the filters.
-            </span>
-          </div>
+        <div className='card-list'>
+          {[...Array(12).keys()].map(row => {
+            count++
+            return <LoadingCard key={row} count={count} />
+          })}
         </div>
       )}
     </div>

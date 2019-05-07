@@ -1,30 +1,14 @@
 import React from 'react'
-import moment from 'moment'
-import Plural from '../common/Plural'
 import messageIcon from '../../images/icons/message.svg'
 import favoriteIcon from '../../images/icons/favorite.svg'
-
-const getYearsOld = date => {
-  let start = moment(date),
-    end = moment(),
-    duration = moment.duration(end.diff(start)),
-    years = Math.round(duration.asYears())
-  return (
-    <span>
-      {years} <Plural text='year' number={years} /> old
-    </span>
-  )
-}
+import { Link } from 'react-router-dom'
+import HelperService from '../../services/HelperService'
 
 const DogCard = ({ dog, count }) => {
   const trimText = (text, characterLength) => {
     return text.length > characterLength
       ? `${text.substring(0, characterLength).trim()}...`
       : text
-  }
-
-  const viewProfile = dog => {
-    console.log(dog)
   }
 
   return (
@@ -41,7 +25,9 @@ const DogCard = ({ dog, count }) => {
             <p className='gender-age'>
               <span className='gender'>{dog.gender}</span>
               &nbsp;&nbsp;/&nbsp;&nbsp;
-              <span className='age'>{getYearsOld(dog.birthdate)}</span>
+              <span className='age'>
+                {HelperService.getYearsOld(dog.birthdate)}
+              </span>
             </p>
             <p>
               {dog.description ? (
@@ -53,12 +39,9 @@ const DogCard = ({ dog, count }) => {
           </div>
         </div>
         <div className='card-footer'>
-          <button
-            className='view-profile primary'
-            onClick={() => viewProfile(dog)}
-          >
-            View Profile
-          </button>
+          <Link to={`/profile/dog/${dog.id}`}>
+            <button className='view-profile primary'>View Profile</button>
+          </Link>
           <span className='img-border'>
             <img src={messageIcon} alt='message' />
           </span>

@@ -1,0 +1,100 @@
+.loading-card {
+  height: calc(100% - 32px);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  span {
+    background: $medium-gray-color;
+    display: block;
+    @include border-radius;
+    position: relative;
+    overflow: hidden;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 150%;
+      bottom: 0;
+      background: linear-gradient(
+        to right,
+        rgba(140, 146, 180, 0.2) 18%,
+        rgba(140, 146, 180, 0.2) 28%
+      );
+      @include animation(loadingShift, 3.5s, infinite);
+    }
+  }
+  .image-placeholder {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 16px;
+  }
+  .name-placeholder {
+    height: 25px;
+    width: 45%;
+    margin-bottom: 8px;
+  }
+  .gender-placeholder {
+    height: 15px;
+    width: 75%;
+    margin-bottom: 24px;
+  }
+  .description-placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 45px;
+    background: none;
+    margin-bottom: 24px;
+    &::after {
+      content: none;
+    }
+    span {
+      height: 10px;
+      &:first-child {
+        width: 95%;
+      }
+      &:last-child {
+        width: 85%;
+      }
+    }
+  }
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .button-placeholder {
+    height: 35px;
+    width: 45%;
+  }
+  .img-border {
+    padding: 4px;
+    border: 1px solid $border-color;
+    @include border-radius(50px);
+    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &::after {
+      content: none;
+    }
+  }
+  .icon-placeholder {
+    @include border-radius(50px);
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@include keyframes(loadingShift) {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+  }
+}

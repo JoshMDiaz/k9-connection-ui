@@ -1,0 +1,19 @@
+.dog-profile {
+  padding: 32px;
+  .dog-profile-header {
+    height: 50px;
+  }
+  .profile-container {
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    grid-gap: 32px;
+    background: $white-color;
+    @include border-radius;
+  }
+  .dog-info-header {
+    h2 {
+      color: $primary-color;
+    }
+  }
+}

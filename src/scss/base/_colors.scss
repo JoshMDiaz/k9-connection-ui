@@ -1,13 +1,13 @@
 $primary-text-color: #2d3142;
-$light-text-color: #8d93b5;
-$medium-gray-color: #c0c4d6;
-$light-gray-color: rgb(243, 247, 251);
+$light-text-color: rgb(140, 146, 180);
+$medium-gray-color: #c1c5d6;
+$light-gray-color: #f3f7fb;
 $white-color: #fff;
 
 $primary-color: #824173;
 $secondary-color: rgb(160, 70, 119);
 $gradient-color-h: linear-gradient(
-  right bottom,
+  -135deg,
   rgba(160, 70, 120, 1) 0%,
   rgba(130, 65, 115, 1) 100%
 );
