@@ -54,6 +54,9 @@ const DogProfile = props => {
       case 'registered':
         newVal = dog['registered'] === true ? 'Yes' : 'No'
         break
+      case 'eyes':
+        newVal = HelperService.capitalize(dog['eyes'])
+        break
       case 'birthdate':
         newVal = HelperService.getYearsOld(dog['birthdate'])
         break
@@ -82,7 +85,7 @@ const DogProfile = props => {
           <div className='dog-info-container'>
             {dogInfoConfig.map((e, i) => (
               <div className='dog-info' key={i}>
-                <span className='dog-info-label'>{e.label}</span>
+                <span className='dog-info-label'>{e.label}:</span>
                 <span className='dog-info-data'>{transformData(e.value)}</span>
               </div>
             ))}

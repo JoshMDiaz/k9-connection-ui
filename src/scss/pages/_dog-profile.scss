@@ -12,8 +12,29 @@
     @include border-radius;
   }
   .dog-info-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     h2 {
       color: $primary-color;
+      font-size: 22px;
+      line-height: 34px;
     }
+  }
+  .dog-info-container {
+    border-top: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+    padding: 16px 0;
+    margin: 16px 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 16px;
+    .dog-info {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+    }
+  }
+  .dog-info-label {
+    color: $light-text-color;
   }
 }
