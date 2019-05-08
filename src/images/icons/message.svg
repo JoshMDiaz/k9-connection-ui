@@ -1,3 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <path id="ic_chat_24px" d="M20,2H4A2,2,0,0,0,2.01,4L2,22l4-4H20a2.006,2.006,0,0,0,2-2V4A2.006,2.006,0,0,0,20,2ZM6,9H18v2H6Zm8,5H6V12h8Zm4-6H6V6H18Z" transform="translate(-2 -2)" fill="#a04677"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+  <g id="Group_9" data-name="Group 9" transform="translate(-389 -480)">
+    <g id="Rectangle_23" data-name="Rectangle 23" transform="translate(389 480)" fill="#fff" stroke="#e4edf5" stroke-width="1">
+      <rect width="44" height="44" rx="22" stroke="none"/>
+      <rect x="0.5" y="0.5" width="43" height="43" rx="21.5" fill="none"/>
+    </g>
+    <path id="ic_chat_24px" d="M20,2H4A2,2,0,0,0,2.01,4L2,22l4-4H20a2.006,2.006,0,0,0,2-2V4A2.006,2.006,0,0,0,20,2ZM6,9H18v2H6Zm8,5H6V12h8Zm4-6H6V6H18Z" transform="translate(399 490)" fill="#a04677"/>
+  </g>
 </svg>

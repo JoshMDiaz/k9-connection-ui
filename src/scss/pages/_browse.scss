@@ -1,7 +1,4 @@
 .browse-page {
-  overflow-x: hidden;
-  overflow-y: auto;
-  height: calc(100vh - 59px);
   .card-list {
     @media only screen and (min-width: 768px) {
       display: grid;

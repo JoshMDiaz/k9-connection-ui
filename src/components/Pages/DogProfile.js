@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import DogService from '../../services/DogService'
 import HelperService from '../../services/HelperService'
 import Icon from '../common/Icons/Icon'
+import BackButton from '../common/BackButton/BackButton'
 // import { ReactComponent as Message } from '../../images/icons/message.svg'
 
 const DogProfile = props => {
@@ -86,19 +87,29 @@ const DogProfile = props => {
 
   return (
     <div className='dog-profile'>
-      <div className='dog-profile-header'>Back Button here</div>
-      <div className='profile-container'>
+      <div className='dog-profile-header'>
+        <BackButton history={props.history} />
+      </div>
+      <div className='profile-container animated fadeInUp'>
         <div className='left-section'>dog pics</div>
         <div className='right-section'>
           <div className='dog-info-header'>
             <h2>{dog.name}</h2>
             <div className='button-container'>
-              <span className='img-border' onClick={messageOwner}>
+              <span className='img-border with-text' onClick={messageOwner}>
                 Message Owner&nbsp;
-                <Icon icon='message' />
+                <Icon icon='messageNoBorder' customClass='button-icon' />
               </span>
-              <span className='img-border' onClick={favoriteDog}>
-                <Icon icon={isFavorite ? 'favoriteSolid' : 'favorite'} />
+              <span
+                className={
+                  isFavorite ? 'favorite-icon-container' : 'img-border'
+                }
+                onClick={favoriteDog}
+              >
+                <Icon
+                  icon={isFavorite ? 'favoriteSolid' : 'favorite'}
+                  customClass='favorite-icon'
+                />
               </span>
             </div>
           </div>

@@ -21,13 +21,16 @@
       line-height: 34px;
     }
   }
-  .img-border {
-    display: flex;
-    border: 1px solid $border-color;
-    padding: 8px;
-    border-radius: 50px;
-    align-items: center;
-    justify-content: center;
+  .button-icon {
+    margin-left: 8px;
+  }
+  .favorite-icon-container {
+    @include border-radius(50px);
+    @include transition;
+    &:hover {
+      box-shadow: 0 8px 15px $border-color;
+      cursor: pointer;
+    }
   }
   .button-container {
     display: grid;
@@ -39,7 +42,7 @@
     border-top: 1px solid $border-color;
     border-bottom: 1px solid $border-color;
     padding: 16px 0;
-    margin: 16px 0;
+    margin: 24px 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 16px;
@@ -48,7 +51,7 @@
       grid-template-columns: repeat(2, auto);
     }
   }
-  span {
+  .right-section {
     font-size: 14px;
   }
   .dog-info-label {

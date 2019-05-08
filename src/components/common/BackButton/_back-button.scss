@@ -1,0 +1,22 @@
+.back-button {
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  &:hover {
+    cursor: pointer;
+  }
+  &::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 55%;
+    background: $medium-gray-color;
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+  }
+  .icon {
+    margin-right: 8px;
+  }
+}
