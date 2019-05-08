@@ -47,8 +47,7 @@
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 16px;
     .dog-info {
-      display: grid;
-      grid-template-columns: repeat(2, auto);
+      display: flex;
     }
   }
   .right-section {
@@ -56,6 +55,7 @@
   }
   .dog-info-label {
     color: $light-text-color;
+    margin-right: 8px;
   }
   .about-dog {
     .dog-info-label {

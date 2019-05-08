@@ -123,7 +123,7 @@ const DogProfile = props => {
           </div>
           <div className='about-dog'>
             <span className='dog-info-label'>About</span>
-            <span className='description'>{dog.description}</span>
+            <p className='description'>{dog.description}</p>
           </div>
         </div>
       </div>
