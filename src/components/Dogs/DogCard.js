@@ -1,14 +1,27 @@
-import React from 'react'
-import messageIcon from '../../images/icons/message.svg'
-import favoriteIcon from '../../images/icons/favorite.svg'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import HelperService from '../../services/HelperService'
+import Icon from '../common/Icons/Icon'
 
 const DogCard = ({ dog, count }) => {
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  useEffect(() => {
+    setIsFavorite()
+  }, [])
+
   const trimText = (text, characterLength) => {
     return text.length > characterLength
       ? `${text.substring(0, characterLength).trim()}...`
       : text
+  }
+
+  const messageOwner = () => {
+    console.log('message owner')
+  }
+
+  const favoriteDog = () => {
+    console.log('favorite this dog')
   }
 
   return (
@@ -42,12 +55,11 @@ const DogCard = ({ dog, count }) => {
           <Link to={`/profile/dog/${dog.id}`}>
             <button className='view-profile primary'>View Profile</button>
           </Link>
-          <span className='img-border'>
-            <img src={messageIcon} alt='message' />
-          </span>
-          <span className='img-border'>
-            <img src={favoriteIcon} alt='favorite' />
-          </span>
+          <Icon icon='message' callout={messageOwner} />
+          <Icon
+            icon={isFavorite ? 'favoriteSolid' : 'favorite'}
+            callout={favoriteDog}
+          />
         </div>
       </div>
     </div>

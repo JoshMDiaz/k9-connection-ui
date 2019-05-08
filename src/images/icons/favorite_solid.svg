@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+  <g id="ic_favourite" transform="translate(-442 -480)">
+    <g id="Rectangle_25" data-name="Rectangle 25" transform="translate(442 480)" fill="#a04677" stroke="#824173" stroke-width="1">
+      <rect width="44" height="44" rx="22" stroke="none"/>
+      <rect x="0.5" y="0.5" width="43" height="43" rx="21.5" fill="none"/>
+    </g>
+    <g id="favorite-heart-button" transform="translate(454 472.6)">
+      <g id="favorite" transform="translate(0 20.4)">
+        <path id="Path_1" data-name="Path 1" d="M10,38.8,8.6,37.4C3.4,32.8,0,29.7,0,25.9a5.422,5.422,0,0,1,5.5-5.5A6.01,6.01,0,0,1,10,22.5a6.01,6.01,0,0,1,4.5-2.1A5.422,5.422,0,0,1,20,25.9c0,3.8-3.4,6.9-8.6,11.5Z" transform="translate(0 -20.4)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

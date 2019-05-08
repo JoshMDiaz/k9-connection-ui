@@ -2,12 +2,12 @@ import React, { useEffect, useState, useReducer } from 'react'
 import List from '../Dogs/List'
 import DogService from '../../services/DogService'
 import Filter from '../Filter/Filter'
-import chevronIcon from '../../images/icons/chevron-down.svg'
 import NumberFormat from 'react-number-format'
 import { Link } from 'react-router-dom'
 import Plural from '../common/Plural'
 import { Popover } from '@material-ui/core'
 import LoadingCard from '../common/LoadingCard/LoadingCard'
+import Icon from '../common/Icons/Icon'
 
 const Browse = props => {
   const [dogs, setDogs] = useState([])
@@ -103,7 +103,7 @@ const Browse = props => {
         <div className='button-container animated fadeInRight'>
           <button className='plain' onClick={() => openFilter(!filterOpen)}>
             Filter
-            <img className='chevron' src={chevronIcon} alt='chevron' />
+            <Icon icon='chevronDown' />
           </button>
           <Popover
             id='filter-popover'

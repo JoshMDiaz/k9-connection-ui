@@ -21,6 +21,20 @@
       line-height: 34px;
     }
   }
+  .img-border {
+    display: flex;
+    border: 1px solid $border-color;
+    padding: 8px;
+    border-radius: 50px;
+    align-items: center;
+    justify-content: center;
+  }
+  .button-container {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 16px;
+    align-items: center;
+  }
   .dog-info-container {
     border-top: 1px solid $border-color;
     border-bottom: 1px solid $border-color;
@@ -34,7 +48,16 @@
       grid-template-columns: repeat(2, auto);
     }
   }
+  span {
+    font-size: 14px;
+  }
   .dog-info-label {
     color: $light-text-color;
+  }
+  .about-dog {
+    .dog-info-label {
+      margin-bottom: 8px;
+      display: block;
+    }
   }
 }

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import DogService from '../../services/DogService'
-import favoriteIcon from '../../images/icons/favorite.svg'
 import HelperService from '../../services/HelperService'
+import Icon from '../common/Icons/Icon'
+// import { ReactComponent as Message } from '../../images/icons/message.svg'
 
 const DogProfile = props => {
   const [dog, setDog] = useState({})
+  const [isFavorite, setIsFavorite] = useState()
 
   useEffect(() => {
     getDog(props.match.params.id)
+    getCurrentUser(props.match.params.id)
   }, [])
 
   const getDog = id => {
@@ -16,6 +19,12 @@ const DogProfile = props => {
         setDog(response.data)
       }
     })
+  }
+
+  const getCurrentUser = dogId => {
+    // Need to check if the dog is a favorite
+    console.log('getting current user')
+    setIsFavorite(true)
   }
 
   const dogInfoConfig = [
@@ -67,6 +76,14 @@ const DogProfile = props => {
     return newVal
   }
 
+  const messageOwner = () => {
+    console.log('message owner')
+  }
+
+  const favoriteDog = () => {
+    console.log('make favorite')
+  }
+
   return (
     <div className='dog-profile'>
       <div className='dog-profile-header'>Back Button here</div>
@@ -76,9 +93,12 @@ const DogProfile = props => {
           <div className='dog-info-header'>
             <h2>{dog.name}</h2>
             <div className='button-container'>
-              <button className='primary'>Message Owner</button>
-              <span className='img-border'>
-                <img src={favoriteIcon} alt='favorite' />
+              <span className='img-border' onClick={messageOwner}>
+                Message Owner&nbsp;
+                <Icon icon='message' />
+              </span>
+              <span className='img-border' onClick={favoriteDog}>
+                <Icon icon={isFavorite ? 'favoriteSolid' : 'favorite'} />
               </span>
             </div>
           </div>
@@ -92,7 +112,7 @@ const DogProfile = props => {
           </div>
           <div className='about-dog'>
             <span className='dog-info-label'>About</span>
-            <p>{dog.description}</p>
+            <span className='description'>{dog.description}</span>
           </div>
         </div>
       </div>
