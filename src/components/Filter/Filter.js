@@ -4,7 +4,6 @@ import moment from 'moment'
 import {
   TextField,
   Checkbox,
-  Button,
   FormControl,
   InputLabel,
   Select,
@@ -62,7 +61,6 @@ const Filter = ({ form, dispatch }) => {
   // }
 
   const updateFilter = () => {
-    console.log(form)
     // let updatedForm = transformData()
     dispatch({
       type: 'UPDATE',
@@ -93,6 +91,9 @@ const Filter = ({ form, dispatch }) => {
   }
 
   const handleChange = (event, field, elementValue) => {
+    if (field === 'breedSearch') {
+      console.log('search breeds')
+    }
     dispatch({
       type: 'UPDATE',
       payload: {
@@ -103,7 +104,7 @@ const Filter = ({ form, dispatch }) => {
 
   return (
     <div className={`filter-container`}>
-      <div className='filter-box'>
+      <div>
         {/* Favorite */}
         <FormControlLabel
           control={
@@ -115,7 +116,6 @@ const Filter = ({ form, dispatch }) => {
           label='Favorite Dogs'
         />
         {/* Name */}
-        <label className='name-header'>Name</label>
         <TextField
           label={`Name`}
           className={'filter-input'}
@@ -152,106 +152,124 @@ const Filter = ({ form, dispatch }) => {
             <FormControlLabel value={''} control={<Radio />} label='Any' />
           </RadioGroup>
         </FormControl>
-        {/* Breed */}
-        <FormControl className={'form-select'} fullWidth>
-          <InputLabel htmlFor='breed-select'>Breed</InputLabel>
-          <Select
-            multiple
-            value={form.breed}
-            onChange={e => handleChange(e, 'breed', 'value')}
-            inputProps={{
-              name: 'breed',
-              id: 'breed-select'
-            }}
-          >
-            {breeds.map((e, i) => (
-              <MenuItem key={i} value={e.name}>
-                {e.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        {/* Papered */}
-        <FormControl component='fieldset' className={'registered-filter'}>
-          <FormLabel component='legend'>Papered</FormLabel>
-          <RadioGroup
-            aria-label='Papered'
-            name='papered'
-            className={'papered'}
-            value={form.papered}
-            onChange={e => handleChange(e, 'papered', 'value')}
-          >
-            <FormControlLabel
-              value={'true'}
-              control={<Radio />}
-              label='Papered'
+      </div>
+      {/* Breed */}
+      {/* <TextField
+        label={`Search Breeds`}
+        className={'filter-input'}
+        margin='normal'
+        onChange={e => handleChange(e, 'breedSearch', 'value')}
+        fullWidth
+        value={form.breedSearch}
+      />
+      {breeds.map((e, i) => (
+        <FormControlLabel
+          key={i}
+          control={
+            <Checkbox
+              onChange={() => handleChecklist(e, 'breed')}
+              value={'breed'}
             />
-            <FormControlLabel
-              value={'false'}
-              control={<Radio />}
-              label='Not Papered'
-            />
-            <FormControlLabel value={''} control={<Radio />} label='Any' />
-          </RadioGroup>
-        </FormControl>
-        {/* Eye Color */}
-        <FormControl className={'form-select'} fullWidth>
-          <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
-          <Select
-            multiple
-            value={form.eyes}
-            onChange={e => handleChange(e, 'eyes', 'value')}
-            inputProps={{
-              name: 'eyes',
-              id: 'eyes-select'
-            }}
-          >
-            {eyeColors.map((e, i) => (
-              <MenuItem key={i} value={e.name}>
-                {e.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        {/* Registered */}
-        <FormControl component='fieldset' className={'registered-filter'}>
-          <FormLabel component='legend'>Registered</FormLabel>
-          <RadioGroup
-            aria-label='Registered'
-            name='registered'
-            className={'registered'}
-            value={form.registered}
-            onChange={e => handleChange(e, 'registered', 'value')}
-          >
-            <FormControlLabel
-              value={'true'}
-              control={<Radio />}
-              label='Registered'
-            />
-            <FormControlLabel
-              value={'false'}
-              control={<Radio />}
-              label='Not Registered'
-            />
-            <FormControlLabel value={''} control={<Radio />} label='Any' />
-          </RadioGroup>
-        </FormControl>
-        <Button
-          variant='contained'
-          color='primary'
-          className={'search-button'}
-          onClick={updateFilter}
+          }
+          label={e.name}
+        />
+      ))} */}
+
+      <FormControl className={'form-select'} fullWidth>
+        <InputLabel htmlFor='breed-select'>Breed</InputLabel>
+        <Select
+          multiple
+          value={form.breed}
+          onChange={e => handleChange(e, 'breed', 'value')}
+          inputProps={{
+            name: 'breed',
+            id: 'breed-select'
+          }}
         >
-          Search
-        </Button>
-        <Button
-          variant='contained'
-          color='secondary'
-          className={'search-button'}
-          onClick={resetForm}
+          {breeds.map((e, i) => (
+            <MenuItem key={i} value={e.name}>
+              {e.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      {/* Papered */}
+      <FormControl component='fieldset' className={'registered-filter'}>
+        <FormLabel component='legend'>Papered</FormLabel>
+        <RadioGroup
+          aria-label='Papered'
+          name='papered'
+          className={'papered'}
+          value={form.papered}
+          onChange={e => handleChange(e, 'papered', 'value')}
         >
-          Search
-        </Button>{' '}
+          <FormControlLabel
+            value={'true'}
+            control={<Radio />}
+            label='Papered'
+          />
+          <FormControlLabel
+            value={'false'}
+            control={<Radio />}
+            label='Not Papered'
+          />
+          <FormControlLabel value={''} control={<Radio />} label='Any' />
+        </RadioGroup>
+      </FormControl>
+      <div />
+      <div className='right-column'>
+        <div>
+          {/* Eye Color */}
+          <FormControl className={'form-select'} fullWidth>
+            <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
+            <Select
+              multiple
+              value={form.eyes}
+              onChange={e => handleChange(e, 'eyes', 'value')}
+              inputProps={{
+                name: 'eyes',
+                id: 'eyes-select'
+              }}
+            >
+              {eyeColors.map((e, i) => (
+                <MenuItem key={i} value={e.name}>
+                  {e.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {/* Registered */}
+          <FormControl component='fieldset' className={'papered-filter'}>
+            <FormLabel component='legend'>Registered</FormLabel>
+            <RadioGroup
+              aria-label='Registered'
+              name='registered'
+              className={'registered'}
+              value={form.registered}
+              onChange={e => handleChange(e, 'registered', 'value')}
+            >
+              <FormControlLabel
+                value={'true'}
+                control={<Radio />}
+                label='Registered'
+              />
+              <FormControlLabel
+                value={'false'}
+                control={<Radio />}
+                label='Not Registered'
+              />
+              <FormControlLabel value={''} control={<Radio />} label='Any' />
+            </RadioGroup>
+          </FormControl>
+        </div>
+        <div className='button-container'>
+          <button className={'plain search-button'} onClick={resetForm}>
+            Reset
+          </button>
+          <button className={'primary search-button'} onClick={updateFilter}>
+            Apply
+          </button>
+        </div>
       </div>
     </div>
   )

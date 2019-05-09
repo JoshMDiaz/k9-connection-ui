@@ -4,14 +4,39 @@
   .filter-input {
     margin-top: 0;
   }
+  .name-header {
+    margin: 16px 0 32px;
+  }
+  label,
+  legend {
+    color: $light-text-color;
+  }
+  .registered-filter,
+  .papered-filter {
+    margin-top: 32px;
+  }
   .input-range {
     margin-bottom: 50px;
     .input-range__slider {
-      background: $white-color;
-      border: 5px solid $secondary-color;
-      top: -5px;
+      background: $secondary-color;
+      border: 3px solid $white-color;
+      top: -4px;
+      position: relative;
+      width: 16px;
+      height: 16px;
       &:active {
         box-shadow: 0px 0px 1px 6px rgba(0, 0, 0, 0.1);
+      }
+      &::after {
+        content: '';
+        background: $secondary-color;
+        @include border-radius(50px);
+        width: 26px;
+        height: 26px;
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        z-index: -1;
       }
     }
     .input-range__track--active {
@@ -20,6 +45,18 @@
     .input-range__label--min,
     .input-range__label--max {
       display: none;
+    }
+  }
+  #select-breed,
+  #select-eyes {
+    max-width: 300px;
+  }
+  .button-container {
+    display: flex;
+    margin-top: 16px;
+    justify-content: flex-end;
+    button {
+      margin-left: 8px;
     }
   }
 }

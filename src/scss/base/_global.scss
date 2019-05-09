@@ -47,3 +47,16 @@ p {
     padding: 12px 16px;
   }
 }
+
+label,
+legend,
+span,
+p,
+button,
+div {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+label {
+  display: block;
+}

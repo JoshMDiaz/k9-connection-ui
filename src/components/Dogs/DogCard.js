@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import HelperService from '../../services/HelperService'
 import Icon from '../common/Icons/Icon'
+import noImage from '../../images/no-image.jpg'
 
 const DogCard = ({ dog, count }) => {
   const [isFavorite, setIsFavorite] = useState(false)
+  const [image, setImage] = useState({})
 
   useEffect(() => {
     setIsFavorite()
+    console.log(dog.dog_images)
+
+    setImage(dog.dog_images[0])
   }, [])
 
   const trimText = (text, characterLength) => {
@@ -29,7 +34,7 @@ const DogCard = ({ dog, count }) => {
       <div className='card dog-card'>
         <div className='top-content'>
           <img
-            src={'http://placehold.it/1200x628'}
+            src={image ? image.url : noImage}
             alt={dog.name}
             className={`dog-picture`}
           />

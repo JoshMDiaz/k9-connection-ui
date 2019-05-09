@@ -68,6 +68,7 @@ const Browse = props => {
   const reducer = (form, action) => {
     switch (action.type) {
       case 'RESET':
+        getDogs(initialState())
         return initialState()
       case 'UPDATE':
         return {

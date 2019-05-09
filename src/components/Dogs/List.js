@@ -5,14 +5,14 @@ import Card from './DogCard'
 const List = ({ dogs }) => {
   let count = 0
   return (
-    <div className='card-list'>
+    <>
       {dogs.length > 0 ? (
-        <>
+        <div className='card-list'>
           {dogs.map((e, i) => {
             count++
             return <Card dog={e} key={i} count={count} />
           })}
-        </>
+        </div>
       ) : (
         <div className='no-results'>
           <div className='card'>
@@ -25,7 +25,7 @@ const List = ({ dogs }) => {
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
 
