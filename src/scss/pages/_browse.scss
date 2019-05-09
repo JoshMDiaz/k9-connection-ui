@@ -23,16 +23,24 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-direction: column;
     padding: 16px 32px;
     position: sticky;
     top: 0;
     z-index: 10;
     background: $light-gray-color;
     box-shadow: 0 8px 15px $border-color;
+    @media only screen and (min-width: 768px) {
+      flex-direction: row;
+    }
     h3 {
       font-size: 18px;
       color: $primary-text-color;
       position: relative;
+      margin-bottom: 24px;
+      @media only screen and (min-width: 768px) {
+        margin-bottom: 0;
+      }
       &::after {
         content: '';
         display: block;

@@ -120,7 +120,11 @@ const Browse = props => {
               horizontal: 'center'
             }}
           >
-            <Filter form={form} dispatch={dispatch} />
+            <Filter
+              form={form}
+              dispatch={dispatch}
+              closeFilter={() => openFilter(false)}
+            />
           </Popover>
           <Link to='/new-dog'>
             <button className='primary'>Add New Dogs</button>

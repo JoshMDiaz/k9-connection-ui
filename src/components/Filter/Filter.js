@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core'
 import InputRange from 'react-input-range'
 
-const Filter = ({ form, dispatch }) => {
+const Filter = ({ form, dispatch, closeFilter }) => {
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
 
@@ -51,17 +51,7 @@ const Filter = ({ form, dispatch }) => {
     return obj
   }
 
-  // const transformData = () => {
-  //   let formObj = {
-  //     birthdate: form.ageRange ? getBirthdateRange(form.ageRange) : null,
-  //     papered: form.papered == 'true' ? Boolean(form.papered) : null,
-  //     registered: form.registered !== '' ? Boolean(form.registered) : null
-  //   }
-  //   return formObj
-  // }
-
   const updateFilter = () => {
-    // let updatedForm = transformData()
     dispatch({
       type: 'UPDATE',
       payload: {
@@ -105,6 +95,9 @@ const Filter = ({ form, dispatch }) => {
   return (
     <div className={`filter-container`}>
       <div>
+        <span onClick={closeFilter} className='close-filter'>
+          X
+        </span>
         {/* Favorite */}
         <FormControlLabel
           control={
@@ -154,27 +147,6 @@ const Filter = ({ form, dispatch }) => {
         </FormControl>
       </div>
       {/* Breed */}
-      {/* <TextField
-        label={`Search Breeds`}
-        className={'filter-input'}
-        margin='normal'
-        onChange={e => handleChange(e, 'breedSearch', 'value')}
-        fullWidth
-        value={form.breedSearch}
-      />
-      {breeds.map((e, i) => (
-        <FormControlLabel
-          key={i}
-          control={
-            <Checkbox
-              onChange={() => handleChecklist(e, 'breed')}
-              value={'breed'}
-            />
-          }
-          label={e.name}
-        />
-      ))} */}
-
       <FormControl className={'form-select'} fullWidth>
         <InputLabel htmlFor='breed-select'>Breed</InputLabel>
         <Select

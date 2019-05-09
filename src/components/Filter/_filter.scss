@@ -1,6 +1,15 @@
 @import './range';
 .filter-container {
   padding: 32px;
+  position: relative;
+  .close-filter {
+    color: $secondary-color;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-weight: 900;
+    font-size: 18px;
+  }
   .filter-input {
     margin-top: 0;
   }
