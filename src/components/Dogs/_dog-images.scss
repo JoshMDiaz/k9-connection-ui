@@ -5,7 +5,8 @@
   .dog-image {
     @include border-radius;
     overflow: hidden;
-    &.big {
+    &.big,
+    &.no-img {
       @include border-radius(10px);
       grid-row: 1 / 2;
       grid-column: 1 / 4;

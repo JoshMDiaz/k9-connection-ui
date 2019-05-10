@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import Icon from '../common/Icons/Icon'
 import Lightbox from 'react-image-lightbox'
+import noImage from '../../images/no-image.jpg'
 
 const DogImages = ({ images }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [photoIndex, setPhotoIndex] = useState(0)
-  // let dogImages = images.splice(0, 4)
 
   const openLightbox = index => {
     console.log(index)
@@ -38,6 +38,11 @@ const DogImages = ({ images }) => {
             setPhotoIndex((photoIndex + 1) % images.length)
           }
         />
+      )}
+      {images.length === 0 && (
+        <div className='dog-image no-img'>
+          <img src={noImage} alt={'No images available'} />
+        </div>
       )}
     </div>
   )
