@@ -1,17 +1,26 @@
 @import './range';
 #filter-popover {
-  .MuiPopover-paper-1 {
+  .popover-container {
     @media only screen and (min-width: 768px) {
       top: 135px !important;
       left: 248px !important;
       right: 32px;
       bottom: 32px;
     }
+    @media only screen and (min-width: 1024px) {
+      bottom: 128px;
+    }
   }
 }
 .filter-container {
   padding: 32px;
   position: relative;
+  height: calc(100% - 64px);
+  @media only screen and (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 64px;
+  }
   .close-filter {
     color: $secondary-color;
     position: absolute;
@@ -85,6 +94,13 @@
     justify-content: flex-end;
     button {
       margin-left: 8px;
+    }
+  }
+  .right-column {
+    @media only screen and (min-width: 1024px) {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
     }
   }
 }

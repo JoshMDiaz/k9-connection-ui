@@ -205,61 +205,62 @@ const Filter = ({ form, dispatch, closeFilter }) => {
         </FormControl>
       </div>
 
-      {/* Breed */}
-      <FormControl style={{ width: '100%' }}>
-        <InputLabel htmlFor='breeds-select'>Breeds</InputLabel>
-        <Select
-          multiple
-          value={form.breed}
-          onChange={e => handleChange(e, 'breed', 'value')}
-          inputProps={{
-            name: 'breeds',
-            id: 'breeds-select'
-          }}
-          renderValue={selected => (
-            <div className='select-chips'>
-              {selected.map(value => (
-                <Chip key={value} label={value} className='chip' />
-              ))}
-            </div>
-          )}
-        >
-          {breeds.map((e, i) => (
-            <MenuItem key={i} value={e.name}>
-              {e.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <div>
+        {/* Breed */}
+        <FormControl style={{ width: '100%' }}>
+          <InputLabel htmlFor='breeds-select'>Breeds</InputLabel>
+          <Select
+            multiple
+            value={form.breed}
+            onChange={e => handleChange(e, 'breed', 'value')}
+            inputProps={{
+              name: 'breeds',
+              id: 'breeds-select'
+            }}
+            renderValue={selected => (
+              <div className='select-chips'>
+                {selected.map(value => (
+                  <Chip key={value} label={value} className='chip' />
+                ))}
+              </div>
+            )}
+          >
+            {breeds.map((e, i) => (
+              <MenuItem key={i} value={e.name}>
+                {e.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      {/* Papered */}
-      <FormControl component='fieldset' className={'registered-filter'}>
-        <FormLabel component='legend'>Papered</FormLabel>
-        <RadioGroup
-          aria-label='Papered'
-          name='papered'
-          className={'papered'}
-          value={form.papered}
-          onChange={e => handleChange(e, 'papered', 'value')}
-        >
-          <FormControlLabel
-            value={'true'}
-            control={<Radio classes={{ checked: 'radio-checked' }} />}
-            label='Papered'
-          />
-          <FormControlLabel
-            value={'false'}
-            control={<Radio classes={{ checked: 'radio-checked' }} />}
-            label='Not Papered'
-          />
-          <FormControlLabel
-            value={''}
-            control={<Radio classes={{ checked: 'radio-checked' }} />}
-            label='Any'
-          />
-        </RadioGroup>
-      </FormControl>
-      <div />
+        {/* Papered */}
+        <FormControl component='fieldset' className={'registered-filter'}>
+          <FormLabel component='legend'>Papered</FormLabel>
+          <RadioGroup
+            aria-label='Papered'
+            name='papered'
+            className={'papered'}
+            value={form.papered}
+            onChange={e => handleChange(e, 'papered', 'value')}
+          >
+            <FormControlLabel
+              value={'true'}
+              control={<Radio classes={{ checked: 'radio-checked' }} />}
+              label='Papered'
+            />
+            <FormControlLabel
+              value={'false'}
+              control={<Radio classes={{ checked: 'radio-checked' }} />}
+              label='Not Papered'
+            />
+            <FormControlLabel
+              value={''}
+              control={<Radio classes={{ checked: 'radio-checked' }} />}
+              label='Any'
+            />
+          </RadioGroup>
+        </FormControl>
+      </div>
       <div className='right-column'>
         <div>
           {/* Eye Color */}
@@ -296,22 +297,37 @@ const Filter = ({ form, dispatch, closeFilter }) => {
               aria-label='Registered'
               name='registered'
               className={'registered'}
-              value={form.registered}
+              value={form.papered !== 'false' ? form.registered : 'false'}
               onChange={e => handleChange(e, 'registered', 'value')}
             >
               <FormControlLabel
                 value={'true'}
-                control={<Radio classes={{ checked: 'radio-checked' }} />}
+                control={
+                  <Radio
+                    classes={{ checked: 'radio-checked' }}
+                    disabled={form.papered === 'false'}
+                  />
+                }
                 label='Registered'
               />
               <FormControlLabel
                 value={'false'}
-                control={<Radio classes={{ checked: 'radio-checked' }} />}
+                control={
+                  <Radio
+                    classes={{ checked: 'radio-checked' }}
+                    disabled={form.papered === 'false'}
+                  />
+                }
                 label='Not Registered'
               />
               <FormControlLabel
                 value={''}
-                control={<Radio classes={{ checked: 'radio-checked' }} />}
+                control={
+                  <Radio
+                    classes={{ checked: 'radio-checked' }}
+                    disabled={form.papered === 'false'}
+                  />
+                }
                 label='Any'
               />
             </RadioGroup>

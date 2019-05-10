@@ -24,6 +24,14 @@ const Browse = props => {
     }
   }, [])
 
+  const getRegistered = form => {
+    let value
+    if (form.papered === 'false') {
+      value = false
+    }
+    return value
+  }
+
   const getDogs = filter => {
     !isCancelled && setLoading(true)
     let params = {}
@@ -32,7 +40,9 @@ const Browse = props => {
         name: filter.name || null,
         gender: filter.gender || null,
         papered: filter.papered || null,
-        registered: filter.registered || null,
+        registered: filter.registered
+          ? filter.registered
+          : getRegistered(filter),
         start_date: filter.birthdate ? filter.birthdate.startDate : null,
         end_date: filter.birthdate ? filter.birthdate.endDate : null,
         breed: filter.breed || null,
@@ -120,6 +130,9 @@ const Browse = props => {
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'center'
+            }}
+            classes={{
+              paper: 'popover-container'
             }}
             transformOrigin={{
               vertical: 'top',
