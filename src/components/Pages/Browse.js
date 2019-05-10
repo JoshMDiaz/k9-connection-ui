@@ -8,6 +8,7 @@ import Plural from '../common/Plural'
 import { Popover } from '@material-ui/core'
 import LoadingCard from '../common/LoadingCard/LoadingCard'
 import Icon from '../common/Icons/Icon'
+import InfiniteScroll from 'react-infinite-scroller'
 
 const Browse = props => {
   const [dogs, setDogs] = useState([])
@@ -150,9 +151,19 @@ const Browse = props => {
           </Link>
         </div>
       </div>
-
       {!loading ? (
-        <List dogs={dogs} />
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={loadFunc}
+          hasMore={true || false}
+          loader={
+            <div className='loader' key={0}>
+              Loading ...
+            </div>
+          }
+        >
+          <List dogs={dogs} />
+        </InfiniteScroll>
       ) : (
         <div className='card-list'>
           {[...Array(12).keys()].map(row => {
