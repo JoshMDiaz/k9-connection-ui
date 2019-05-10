@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70.894" height="71.069" viewBox="0 0 70.894 71.069">
+  <defs>
+    <filter id="Line_5" x="37.166" y="42.448" width="22.242" height="22.243" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feFlood flood-color="#824173" flood-opacity="0.439"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_17" data-name="Group 17" transform="translate(-317.213 -465.931)">
+    <path id="Path_5" data-name="Path 5" d="M317.271,537h70.836V465.931s-33.931,1.286-53.383,23.99S317.271,537,317.271,537Z" fill="#fff"/>
+    <g id="ic_ZOOM" transform="translate(22 31)">
+      <g transform="matrix(1, 0, 0, 1, 295.21, 434.93)" filter="url(#Line_5)">
+        <line id="Line_5-2" data-name="Line 5" x2="6" y2="6" transform="translate(45.29 48.57)" fill="none" stroke="#824173" stroke-linecap="round" stroke-width="3"/>
+      </g>
+      <path id="ic_loupe_24px" d="M13,7H11v4H7v2h4v4h2V13h4V11H13ZM12,2a10,10,0,0,0,0,20h8a2.006,2.006,0,0,0,2-2V12A10.016,10.016,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.011,8.011,0,0,1,12,20Z" transform="translate(321 464)" fill="#824173"/>
+    </g>
+  </g>
+</svg>

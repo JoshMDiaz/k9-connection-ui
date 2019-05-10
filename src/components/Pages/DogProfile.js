@@ -3,7 +3,7 @@ import DogService from '../../services/DogService'
 import HelperService from '../../services/HelperService'
 import Icon from '../common/Icons/Icon'
 import BackButton from '../common/BackButton/BackButton'
-// import { ReactComponent as Message } from '../../images/icons/message.svg'
+import DogImages from '../Dogs/DogImages'
 
 const DogProfile = props => {
   const [dog, setDog] = useState({})
@@ -91,7 +91,13 @@ const DogProfile = props => {
         <BackButton history={props.history} />
       </div>
       <div className='profile-container animated fadeInUp'>
-        <div className='left-section'>dog pics</div>
+        <div className='left-section'>
+          {dog.dog_images ? (
+            <DogImages images={dog.dog_images} />
+          ) : (
+            <span>No images</span>
+          )}
+        </div>
         <div className='right-section'>
           <div className='dog-info-header'>
             <h2>{dog.name}</h2>

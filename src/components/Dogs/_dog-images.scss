@@ -1,0 +1,24 @@
+.dog-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 8px;
+  .dog-image {
+    @include border-radius;
+    overflow: hidden;
+    &.big {
+      @include border-radius(10px);
+      grid-row: 1 / 2;
+      grid-column: 1 / 4;
+      position: relative;
+    }
+    img {
+      width: 100%;
+      transform: scale(1.1);
+    }
+    .icon {
+      position: absolute;
+      right: -4px;
+      bottom: -4px;
+    }
+  }
+}

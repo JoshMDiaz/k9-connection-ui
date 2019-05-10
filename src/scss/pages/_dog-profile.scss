@@ -5,11 +5,21 @@
   }
   .profile-container {
     padding: 16px;
-    display: grid;
-    grid-template-columns: 40% 1fr;
-    grid-gap: 32px;
     background: $white-color;
     @include border-radius;
+    display: flex;
+    flex-direction: column-reverse;
+    @media only screen and (min-width: 768px) {
+      display: grid;
+      grid-template-columns: 40% 1fr;
+      grid-gap: 32px;
+    }
+  }
+  .left-section {
+    margin-top: 32px;
+    @media only screen and (min-width: 768px) {
+      margin-top: 0;
+    }
   }
   .dog-info-header {
     display: flex;
@@ -62,5 +72,39 @@
       margin-bottom: 8px;
       display: block;
     }
+  }
+}
+
+// Lightbox
+
+.ril__outer {
+  background-color: rgba(228, 237, 245, 0.75) !important;
+  button {
+    background-color: $secondary-color;
+    color: $primary-text-color;
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+.ril__toolbar {
+  background: none !important;
+  button {
+    margin-left: 8px;
+  }
+}
+.ril__navButtons {
+  opacity: 1 !important;
+}
+img.ril__image:not(.ril__imagePrev) {
+  border: 32px solid $white-color;
+  @include border-radius;
+}
+@media only screen and (min-width: 768px) {
+  .ril__navButtonNext {
+    right: 32px !important;
+  }
+  .ril__navButtonPrev {
+    left: 32px !important;
   }
 }

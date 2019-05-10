@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import './scss/main.scss'
+import 'react-image-lightbox/style.css'
 
 import Main from './components/Main'
 
