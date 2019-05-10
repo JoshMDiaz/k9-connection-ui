@@ -52,9 +52,52 @@ const Filter = ({ form, dispatch, closeFilter }) => {
     return obj
   }
 
-  const updateFilter = () => {
-    console.log(form)
+  const determineActiveFilters = () => {
+    let initial = {
+        name: '',
+        gender: '',
+        papered: '',
+        registered: '',
+        ageRange: {
+          min: 1,
+          max: 15
+        },
+        breed: [],
+        eyes: [],
+        favorite: false
+      },
+      count = 0
+    for (const formKey in form) {
+      if (
+        formKey !== 'ageRange' &&
+        formKey !== 'eyes' &&
+        formKey !== 'breed' &&
+        formKey !== 'birthdate'
+      ) {
+        if (form[formKey] !== initial[formKey]) {
+          count++
+        }
+      }
+      if (formKey === 'eyes' || formKey === 'breed') {
+        if (form[formKey].length > 0) {
+          count++
+        }
+      }
+      if (
+        formKey === 'ageRange' &&
+        (form.ageRange.min !== 1 || form.ageRange.max !== 15)
+      ) {
+        count++
+      }
+    }
+    return count
+  }
 
+  const updateFilter = () => {
+    dispatch({
+      type: 'ACTIVE_FILTERS',
+      payload: determineActiveFilters()
+    })
     dispatch({
       type: 'UPDATE',
       payload: {

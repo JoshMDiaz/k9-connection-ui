@@ -13,6 +13,7 @@ const Browse = props => {
   const [dogs, setDogs] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [activeFilters, setActiveFilters] = useState(0)
   let filterTimeout, isCancelled
 
   useEffect(() => {
@@ -51,35 +52,6 @@ const Browse = props => {
     !isCancelled && setFilterOpen(isOpen)
   }
 
-  const determineActiveFilters = () => {
-    let initial = initialState(),
-      count = 0
-    for (const formKey in form) {
-      if (
-        formKey !== 'ageRange' &&
-        formKey !== 'eyes' &&
-        formKey !== 'breed' &&
-        formKey !== 'birthdate'
-      ) {
-        if (form[formKey] !== initial[formKey]) {
-          count++
-        }
-      }
-      if (formKey === 'eyes' || formKey === 'breed') {
-        if (form[formKey].length > 0) {
-          count++
-        }
-      }
-      if (
-        formKey === 'ageRange' &&
-        (form.ageRange.min !== 1 || form.ageRange.max !== 15)
-      ) {
-        count++
-      }
-    }
-    return count
-  }
-
   const initialState = () => ({
     name: '',
     gender: '',
@@ -98,12 +70,16 @@ const Browse = props => {
     switch (action.type) {
       case 'RESET':
         getDogs(initialState())
+        setActiveFilters(0)
         return initialState()
       case 'UPDATE':
         return {
           ...form,
           ...action.payload
         }
+      case 'ACTIVE_FILTERS':
+        setActiveFilters(action.payload)
+        return
       case 'SEARCH':
         getDogs(form)
         openFilter(false)
@@ -132,9 +108,7 @@ const Browse = props => {
         </h3>
         <div className='button-container animated fadeInRight'>
           <button className='plain' onClick={() => openFilter(!filterOpen)}>
-            {determineActiveFilters() > 0 && (
-              <span className='tag'>{determineActiveFilters()}</span>
-            )}
+            {activeFilters > 0 && <span className='tag'>{activeFilters}</span>}
             <span>Filter</span>
             <Icon icon='chevronDown' />
           </button>
