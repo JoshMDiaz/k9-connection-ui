@@ -10,8 +10,6 @@ const DogCard = ({ dog, count }) => {
 
   useEffect(() => {
     setIsFavorite()
-    console.log(dog.dog_images)
-
     setImage(dog.dog_images[0])
   }, [])
 

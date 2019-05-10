@@ -11,7 +11,8 @@ import {
   Radio,
   RadioGroup,
   FormLabel,
-  FormControlLabel
+  FormControlLabel,
+  Chip
 } from '@material-ui/core'
 import InputRange from 'react-input-range'
 
@@ -52,6 +53,8 @@ const Filter = ({ form, dispatch, closeFilter }) => {
   }
 
   const updateFilter = () => {
+    console.log(form)
+
     dispatch({
       type: 'UPDATE',
       payload: {
@@ -98,6 +101,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
         <span onClick={closeFilter} className='close-filter'>
           X
         </span>
+
         {/* Favorite */}
         <FormControlLabel
           control={
@@ -108,6 +112,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
           }
           label='Favorite Dogs'
         />
+
         {/* Name */}
         <TextField
           label={`Name`}
@@ -117,6 +122,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
           fullWidth
           value={form.name}
         />
+
         {/* Age */}
         <label className='name-header'>Age</label>
         <InputRange
@@ -126,6 +132,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
           value={form.ageRange}
           onChange={value => handleRange({ value })}
         />
+
         {/* Gender */}
         <FormControl component='fieldset' className={'gender-filter'}>
           <FormLabel component='legend'>Gender</FormLabel>
@@ -138,25 +145,41 @@ const Filter = ({ form, dispatch, closeFilter }) => {
           >
             <FormControlLabel
               value='Female'
-              control={<Radio />}
+              control={<Radio classes={{ checked: 'radio-checked' }} />}
               label='Female'
             />
-            <FormControlLabel value='Male' control={<Radio />} label='Male' />
-            <FormControlLabel value={''} control={<Radio />} label='Any' />
+            <FormControlLabel
+              value='Male'
+              control={<Radio classes={{ checked: 'radio-checked' }} />}
+              label='Male'
+            />
+            <FormControlLabel
+              value={''}
+              control={<Radio classes={{ checked: 'radio-checked' }} />}
+              label='Any'
+            />
           </RadioGroup>
         </FormControl>
       </div>
+
       {/* Breed */}
-      <FormControl className={'form-select'} fullWidth>
-        <InputLabel htmlFor='breed-select'>Breed</InputLabel>
+      <FormControl style={{ width: '100%' }}>
+        <InputLabel htmlFor='breeds-select'>Breeds</InputLabel>
         <Select
           multiple
           value={form.breed}
           onChange={e => handleChange(e, 'breed', 'value')}
           inputProps={{
-            name: 'breed',
-            id: 'breed-select'
+            name: 'breeds',
+            id: 'breeds-select'
           }}
+          renderValue={selected => (
+            <div className='select-chips'>
+              {selected.map(value => (
+                <Chip key={value} label={value} className='chip' />
+              ))}
+            </div>
+          )}
         >
           {breeds.map((e, i) => (
             <MenuItem key={i} value={e.name}>
@@ -165,6 +188,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
           ))}
         </Select>
       </FormControl>
+
       {/* Papered */}
       <FormControl component='fieldset' className={'registered-filter'}>
         <FormLabel component='legend'>Papered</FormLabel>
@@ -177,22 +201,26 @@ const Filter = ({ form, dispatch, closeFilter }) => {
         >
           <FormControlLabel
             value={'true'}
-            control={<Radio />}
+            control={<Radio classes={{ checked: 'radio-checked' }} />}
             label='Papered'
           />
           <FormControlLabel
             value={'false'}
-            control={<Radio />}
+            control={<Radio classes={{ checked: 'radio-checked' }} />}
             label='Not Papered'
           />
-          <FormControlLabel value={''} control={<Radio />} label='Any' />
+          <FormControlLabel
+            value={''}
+            control={<Radio classes={{ checked: 'radio-checked' }} />}
+            label='Any'
+          />
         </RadioGroup>
       </FormControl>
       <div />
       <div className='right-column'>
         <div>
           {/* Eye Color */}
-          <FormControl className={'form-select'} fullWidth>
+          <FormControl style={{ width: '100%' }}>
             <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
             <Select
               multiple
@@ -202,6 +230,13 @@ const Filter = ({ form, dispatch, closeFilter }) => {
                 name: 'eyes',
                 id: 'eyes-select'
               }}
+              renderValue={selected => (
+                <div className='select-chips'>
+                  {selected.map(value => (
+                    <Chip key={value} label={value} className='chip' />
+                  ))}
+                </div>
+              )}
             >
               {eyeColors.map((e, i) => (
                 <MenuItem key={i} value={e.name}>
@@ -210,6 +245,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
               ))}
             </Select>
           </FormControl>
+
           {/* Registered */}
           <FormControl component='fieldset' className={'papered-filter'}>
             <FormLabel component='legend'>Registered</FormLabel>
@@ -222,15 +258,19 @@ const Filter = ({ form, dispatch, closeFilter }) => {
             >
               <FormControlLabel
                 value={'true'}
-                control={<Radio />}
+                control={<Radio classes={{ checked: 'radio-checked' }} />}
                 label='Registered'
               />
               <FormControlLabel
                 value={'false'}
-                control={<Radio />}
+                control={<Radio classes={{ checked: 'radio-checked' }} />}
                 label='Not Registered'
               />
-              <FormControlLabel value={''} control={<Radio />} label='Any' />
+              <FormControlLabel
+                value={''}
+                control={<Radio classes={{ checked: 'radio-checked' }} />}
+                label='Any'
+              />
             </RadioGroup>
           </FormControl>
         </div>

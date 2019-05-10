@@ -51,6 +51,35 @@ const Browse = props => {
     !isCancelled && setFilterOpen(isOpen)
   }
 
+  const determineActiveFilters = () => {
+    let initial = initialState(),
+      count = 0
+    for (const formKey in form) {
+      if (
+        formKey !== 'ageRange' &&
+        formKey !== 'eyes' &&
+        formKey !== 'breed' &&
+        formKey !== 'birthdate'
+      ) {
+        if (form[formKey] !== initial[formKey]) {
+          count++
+        }
+      }
+      if (formKey === 'eyes' || formKey === 'breed') {
+        if (form[formKey].length > 0) {
+          count++
+        }
+      }
+      if (
+        formKey === 'ageRange' &&
+        (form.ageRange.min !== 1 || form.ageRange.max !== 15)
+      ) {
+        count++
+      }
+    }
+    return count
+  }
+
   const initialState = () => ({
     name: '',
     gender: '',
@@ -62,7 +91,7 @@ const Browse = props => {
     },
     breed: [],
     eyes: [],
-    favorite: ''
+    favorite: false
   })
 
   const reducer = (form, action) => {
@@ -103,7 +132,10 @@ const Browse = props => {
         </h3>
         <div className='button-container animated fadeInRight'>
           <button className='plain' onClick={() => openFilter(!filterOpen)}>
-            Filter
+            {determineActiveFilters() > 0 && (
+              <span className='tag'>{determineActiveFilters()}</span>
+            )}
+            <span>Filter</span>
             <Icon icon='chevronDown' />
           </button>
           <Popover

@@ -26,4 +26,12 @@ button {
   span.icon {
     margin-left: 8px;
   }
+  .tag {
+    margin-right: 8px;
+    padding: 4px 8px;
+    background: $gradient-color-h;
+    background: $secondary-color;
+    color: $white-color;
+    @include border-radius;
+  }
 }
