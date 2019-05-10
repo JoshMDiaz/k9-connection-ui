@@ -62,6 +62,10 @@ const Filter = ({ form, dispatch, closeFilter }) => {
           min: 1,
           max: 15
         },
+        milesAway: {
+          min: 0,
+          max: 100
+        },
         breed: [],
         eyes: [],
         favorite: false
@@ -72,7 +76,8 @@ const Filter = ({ form, dispatch, closeFilter }) => {
         formKey !== 'ageRange' &&
         formKey !== 'eyes' &&
         formKey !== 'breed' &&
-        formKey !== 'birthdate'
+        formKey !== 'birthdate' &&
+        formKey !== 'milesAway'
       ) {
         if (form[formKey] !== initial[formKey]) {
           count++
@@ -86,6 +91,12 @@ const Filter = ({ form, dispatch, closeFilter }) => {
       if (
         formKey === 'ageRange' &&
         (form.ageRange.min !== 1 || form.ageRange.max !== 15)
+      ) {
+        count++
+      }
+      if (
+        formKey === 'milesAway' &&
+        (form.milesAway.min !== 0 || form.milesAway.max !== 100)
       ) {
         count++
       }
@@ -116,12 +127,12 @@ const Filter = ({ form, dispatch, closeFilter }) => {
     })
   }
 
-  const handleRange = obj => {
+  const handleRange = (obj, field) => {
     dispatch({
       type: 'UPDATE',
       payload: {
         ...form,
-        ageRange: obj.value
+        [field]: obj.value
       }
     })
   }
@@ -167,13 +178,13 @@ const Filter = ({ form, dispatch, closeFilter }) => {
         />
 
         {/* Age */}
-        <label className='name-header'>Age</label>
+        <label className='slider-label'>Age</label>
         <InputRange
           draggableTrack
           maxValue={15}
           minValue={1}
           value={form.ageRange}
-          onChange={value => handleRange({ value })}
+          onChange={value => handleRange({ value }, 'ageRange')}
         />
 
         {/* Gender */}
@@ -234,7 +245,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
         </FormControl>
 
         {/* Papered */}
-        <FormControl component='fieldset' className={'registered-filter'}>
+        <FormControl component='fieldset' className={'papered-radios'}>
           <FormLabel component='legend'>Papered</FormLabel>
           <RadioGroup
             aria-label='Papered'
@@ -260,11 +271,54 @@ const Filter = ({ form, dispatch, closeFilter }) => {
             />
           </RadioGroup>
         </FormControl>
+
+        {/* Registered */}
+        <FormControl component='fieldset' className={'registered-radios'}>
+          <FormLabel component='legend'>Registered</FormLabel>
+          <RadioGroup
+            aria-label='Registered'
+            name='registered'
+            className={'registered'}
+            value={form.papered !== 'false' ? form.registered : 'false'}
+            onChange={e => handleChange(e, 'registered', 'value')}
+          >
+            <FormControlLabel
+              value={'true'}
+              control={
+                <Radio
+                  classes={{ checked: 'radio-checked' }}
+                  disabled={form.papered === 'false'}
+                />
+              }
+              label='Registered'
+            />
+            <FormControlLabel
+              value={'false'}
+              control={
+                <Radio
+                  classes={{ checked: 'radio-checked' }}
+                  disabled={form.papered === 'false'}
+                />
+              }
+              label='Not Registered'
+            />
+            <FormControlLabel
+              value={''}
+              control={
+                <Radio
+                  classes={{ checked: 'radio-checked' }}
+                  disabled={form.papered === 'false'}
+                />
+              }
+              label='Any'
+            />
+          </RadioGroup>
+        </FormControl>
       </div>
       <div className='right-column'>
         <div>
           {/* Eye Color */}
-          <FormControl style={{ width: '100%' }}>
+          <FormControl style={{ width: '100%', marginBottom: '16px' }}>
             <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
             <Select
               multiple
@@ -290,48 +344,16 @@ const Filter = ({ form, dispatch, closeFilter }) => {
             </Select>
           </FormControl>
 
-          {/* Registered */}
-          <FormControl component='fieldset' className={'papered-filter'}>
-            <FormLabel component='legend'>Registered</FormLabel>
-            <RadioGroup
-              aria-label='Registered'
-              name='registered'
-              className={'registered'}
-              value={form.papered !== 'false' ? form.registered : 'false'}
-              onChange={e => handleChange(e, 'registered', 'value')}
-            >
-              <FormControlLabel
-                value={'true'}
-                control={
-                  <Radio
-                    classes={{ checked: 'radio-checked' }}
-                    disabled={form.papered === 'false'}
-                  />
-                }
-                label='Registered'
-              />
-              <FormControlLabel
-                value={'false'}
-                control={
-                  <Radio
-                    classes={{ checked: 'radio-checked' }}
-                    disabled={form.papered === 'false'}
-                  />
-                }
-                label='Not Registered'
-              />
-              <FormControlLabel
-                value={''}
-                control={
-                  <Radio
-                    classes={{ checked: 'radio-checked' }}
-                    disabled={form.papered === 'false'}
-                  />
-                }
-                label='Any'
-              />
-            </RadioGroup>
-          </FormControl>
+          {/* Miles Away */}
+          <label className='slider-label'>Miles From Me</label>
+          <InputRange
+            draggableTrack
+            maxValue={100}
+            minValue={0}
+            step={10}
+            value={form.milesAway}
+            onChange={value => handleRange({ value }, 'milesAway')}
+          />
         </div>
         <div className='button-container'>
           <button className={'plain search-button'} onClick={resetForm}>

@@ -4,7 +4,6 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-gap: 32px;
-      padding: 32px;
     }
     @media only screen and (min-width: 1200px) {
       grid-template-columns: repeat(3, 1fr);
@@ -17,40 +16,6 @@
     }
     @media only screen and (min-width: 2200px) {
       grid-template-columns: repeat(6, 1fr);
-    }
-  }
-  .list-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    padding: 16px 32px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: $light-gray-color;
-    box-shadow: 0 8px 15px $border-color;
-    @media only screen and (min-width: 768px) {
-      flex-direction: row;
-    }
-    h3 {
-      font-size: 18px;
-      color: $primary-text-color;
-      position: relative;
-      margin-bottom: 24px;
-      @media only screen and (min-width: 768px) {
-        margin-bottom: 0;
-      }
-      &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        left: 0;
-        bottom: -8px;
-        width: 60%;
-        height: 1px;
-        background: $medium-gray-color;
-      }
     }
   }
   .button-container {

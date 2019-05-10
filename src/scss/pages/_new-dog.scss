@@ -1,0 +1,24 @@
+.new-dog {
+  .new-dog-container {
+    display: flex;
+    flex-direction: column-reverse;
+    @media only screen and (min-width: 768px) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 64px;
+    }
+  }
+  .left-section {
+  }
+  .right-section {
+  }
+  .button-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 8px;
+    margin-top: 32px;
+  }
+  textarea {
+    height: 80px !important;
+  }
+}

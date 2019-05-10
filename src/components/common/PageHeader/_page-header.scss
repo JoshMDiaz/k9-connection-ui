@@ -1,0 +1,19 @@
+.page-header {
+  font-size: 18px;
+  color: $primary-text-color;
+  position: relative;
+  margin-bottom: 24px;
+  @media only screen and (min-width: 768px) {
+    margin-bottom: 0;
+  }
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 60%;
+    height: 1px;
+    background: $medium-gray-color;
+  }
+}

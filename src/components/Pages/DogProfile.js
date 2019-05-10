@@ -4,6 +4,7 @@ import HelperService from '../../services/HelperService'
 import Icon from '../common/Icons/Icon'
 import BackButton from '../common/BackButton/BackButton'
 import DogImages from '../Dogs/DogImages'
+import ContentContainer from '../common/ContentContainer'
 
 const DogProfile = props => {
   const [dog, setDog] = useState({})
@@ -87,10 +88,10 @@ const DogProfile = props => {
 
   return (
     <div className='dog-profile'>
-      <div className='dog-profile-header'>
+      <div className='main-content-header'>
         <BackButton history={props.history} />
       </div>
-      <div className='profile-container animated fadeInUp'>
+      <ContentContainer customClass='profile-container'>
         <div className='left-section'>
           {dog.dog_images ? (
             <DogImages images={dog.dog_images} />
@@ -132,7 +133,7 @@ const DogProfile = props => {
             <p className='description'>{dog.description}</p>
           </div>
         </div>
-      </div>
+      </ContentContainer>
     </div>
   )
 }

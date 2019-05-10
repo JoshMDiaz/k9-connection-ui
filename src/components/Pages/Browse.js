@@ -8,6 +8,7 @@ import Plural from '../common/Plural'
 import { Popover } from '@material-ui/core'
 import LoadingCard from '../common/LoadingCard/LoadingCard'
 import Icon from '../common/Icons/Icon'
+import PageHeader from '../common/PageHeader/PageHeader'
 
 const Browse = props => {
   const [dogs, setDogs] = useState([])
@@ -47,7 +48,9 @@ const Browse = props => {
         end_date: filter.birthdate ? filter.birthdate.endDate : null,
         breed: filter.breed || null,
         eyes: filter.eyes || null,
-        favorite: filter.favorite || null
+        favorite: filter.favorite || null,
+        nearest_distance: filter.milesAway ? filter.milesAway.min : null,
+        farthest_distance: filter.milesAway ? filter.milesAway.max : null
       }
     }
     DogService.getAll(params).then(response => {
@@ -70,6 +73,10 @@ const Browse = props => {
     ageRange: {
       min: 1,
       max: 15
+    },
+    milesAway: {
+      min: 0,
+      max: 100
     },
     breed: [],
     eyes: [],
@@ -106,16 +113,20 @@ const Browse = props => {
 
   return (
     <div className='browse-page'>
-      <div className='list-header'>
-        <h3 className='animated fadeInLeft'>
-          <NumberFormat
-            value={dogs.length}
-            thousandSeparator={true}
-            displayType='text'
-          />
-          &nbsp;
-          <Plural text='Dog' number={dogs.length} />
-        </h3>
+      <div className='main-content-header'>
+        <PageHeader
+          text={
+            <>
+              <NumberFormat
+                value={dogs.length}
+                thousandSeparator={true}
+                displayType='text'
+              />
+              &nbsp;
+              <Plural text='Dog' number={dogs.length} />
+            </>
+          }
+        />
         <div className='button-container animated fadeInRight'>
           <button className='plain' onClick={() => openFilter(!filterOpen)}>
             {activeFilters > 0 && <span className='tag'>{activeFilters}</span>}
@@ -150,17 +161,18 @@ const Browse = props => {
           </Link>
         </div>
       </div>
-
-      {!loading ? (
-        <List dogs={dogs} />
-      ) : (
-        <div className='card-list'>
-          {[...Array(12).keys()].map(row => {
-            count++
-            return <LoadingCard key={row} count={count} />
-          })}
-        </div>
-      )}
+      <div className='page-padding'>
+        {!loading ? (
+          <List dogs={dogs} />
+        ) : (
+          <div className='card-list'>
+            {[...Array(12).keys()].map(row => {
+              count++
+              return <LoadingCard key={row} count={count} />
+            })}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

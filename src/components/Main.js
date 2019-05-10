@@ -6,22 +6,30 @@ import Browse from './Pages/Browse'
 import Sidebar from './Sidebar/Sidebar'
 import Header from './Header/Header'
 import DogProfile from './Pages/DogProfile'
+import NewDog from './Pages/NewDog'
 
 const Main = props => {
   return (
     <MuiThemeProvider theme={theme}>
       <div className='App'>
         <Sidebar />
-        <div className='app-content'>
+        <div>
           <Header />
-          <Switch>
-            <Route
-              exact
-              path='/profile/dog/:id'
-              render={props => <DogProfile {...props} />}
-            />
-            <Route exact path='/' render={props => <Browse {...props} />} />
-          </Switch>
+          <div className='app-content'>
+            <Switch>
+              <Route
+                exact
+                path='/new-dog'
+                render={props => <NewDog {...props} />}
+              />
+              <Route
+                exact
+                path='/profile/dog/:id'
+                render={props => <DogProfile {...props} />}
+              />
+              <Route exact path='/' render={props => <Browse {...props} />} />
+            </Switch>
+          </div>
         </div>
       </div>
     </MuiThemeProvider>

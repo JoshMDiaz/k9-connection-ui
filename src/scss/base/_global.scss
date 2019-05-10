@@ -14,9 +14,35 @@
   @media only screen and (min-width: 768px) {
     overflow-x: hidden;
     overflow-y: auto;
-    height: 100vh;
+    height: calc(100vh - 59px);
   }
 }
+
+.page-padding {
+  padding: 32px;
+}
+.main-content-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 0 32px;
+  height: 75px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: $light-gray-color;
+  box-shadow: 0 8px 15px $border-color;
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+.content-container {
+  padding: 16px;
+  background: $white-color;
+  @include border-radius;
+}
+
 p {
   font-size: 14px;
   line-height: 26px;
@@ -61,4 +87,26 @@ div {
 
 label {
   display: block;
+}
+
+label,
+legend {
+  color: $light-text-color;
+}
+.select-chips {
+  .chip {
+    background: $secondary-color;
+    margin-right: 8px;
+    color: $white-color;
+  }
+}
+.radio-checked {
+  svg {
+    color: $secondary-color;
+  }
+}
+fieldset.registered-radios,
+fieldset.papered-radios,
+fieldset.gender-radios {
+  margin-top: 32px;
 }

@@ -1,12 +1,8 @@
 .dog-profile {
-  padding: 32px;
   .dog-profile-header {
     height: 50px;
   }
   .profile-container {
-    padding: 16px;
-    background: $white-color;
-    @include border-radius;
     display: flex;
     flex-direction: column-reverse;
     @media only screen and (min-width: 768px) {
