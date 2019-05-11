@@ -8,13 +8,25 @@ import Header from './Header/Header'
 import DogProfile from './Pages/DogProfile'
 import NewDog from './Pages/NewDog'
 
+import Auth from '../services/Auth/Auth'
+import Callback from './Callback/Callback'
+
 const Main = props => {
+  const { isAuthenticated } = Auth
+  const auth = new Auth()
+
+  const handleAuthentication = (nextState, replace) => {
+    if (/access_token|id_token|error/.test(nextState.location.hash)) {
+      auth.handleAuthentication()
+    }
+  }
+
   return (
     <MuiThemeProvider theme={theme}>
       <div className='App'>
         <Sidebar />
         <div>
-          <Header />
+          <Header {...props} />
           <div className='app-content'>
             <Switch>
               <Route
@@ -27,7 +39,18 @@ const Main = props => {
                 path='/profile/dog/:id'
                 render={props => <DogProfile {...props} />}
               />
-              <Route exact path='/' render={props => <Browse {...props} />} />
+              <Route
+                exact
+                path='/browse'
+                render={props => <Browse {...props} />}
+              />
+              <Route
+                path='/callback'
+                render={props => {
+                  handleAuthentication(props)
+                  return <Callback {...props} />
+                }}
+              />
             </Switch>
           </div>
         </div>
