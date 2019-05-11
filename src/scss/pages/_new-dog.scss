@@ -2,7 +2,7 @@
   .new-dog-container {
     display: flex;
     flex-direction: column-reverse;
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 1024px) {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-gap: 64px;
@@ -20,5 +20,28 @@
   }
   textarea {
     height: 80px !important;
+  }
+  .dog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 100px;
+    grid-gap: 16px;
+    @media only screen and (min-width: 500px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+    @media only screen and (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media only screen and (min-width: 1200px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .dog-image {
+      overflow: hidden;
+      height: 100px;
+      @include border-radius;
+    }
+    img {
+      width: 100%;
+    }
   }
 }

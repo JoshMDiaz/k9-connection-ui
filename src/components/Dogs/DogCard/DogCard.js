@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import HelperService from '../../services/HelperService'
-import Icon from '../common/Icons/Icon'
-import noImage from '../../images/no-image.jpg'
+import HelperService from '../../../services/HelperService'
+import Icon from '../../common/Icons/Icon'
+import noImage from '../../../images/no-image.jpg'
 
 const DogCard = ({ dog, count }) => {
   const [isFavorite, setIsFavorite] = useState(false)

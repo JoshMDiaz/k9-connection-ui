@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Icon from '../common/Icons/Icon'
+import Icon from '../../common/Icons/Icon'
 import Lightbox from 'react-image-lightbox'
-import noImage from '../../images/no-image.jpg'
+import noImage from '../../../images/no-image.jpg'
 
 const DogImages = ({ images }) => {
   const [isOpen, setIsOpen] = useState(false)

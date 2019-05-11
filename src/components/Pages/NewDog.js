@@ -3,7 +3,6 @@ import DogService from '../../services/DogService'
 import FormService from '../../services/FormService'
 import {
   TextField,
-  Checkbox,
   FormControl,
   InputLabel,
   Select,
@@ -20,6 +19,7 @@ import moment from 'moment'
 import ContentContainer from '../common/ContentContainer'
 import PageHeader from '../common/PageHeader/PageHeader'
 import Icon from '../common/Icons/Icon'
+import UploadPhotos from '../Dogs/UploadPhotos/UploadPhotos'
 
 const NewDog = props => {
   const [form, setForm] = useState({
@@ -35,6 +35,7 @@ const NewDog = props => {
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
   const [focused, setFocused] = useState(false)
+  const [uploadedImages, setUploadedImages] = useState([])
 
   useEffect(() => {
     getBreeds()
@@ -83,10 +84,21 @@ const NewDog = props => {
         console.log('saved')
       }
     })
+    // Call to post images
+    console.log(uploadedImages)
   }
 
   const cancel = () => {
     console.log('cancel and go back to Browse')
+  }
+
+  const uploadImage = files => {
+    let reader = new FileReader()
+    let file = files[0]
+    reader.onloadend = () => {
+      setUploadedImages([...uploadedImages, reader.result])
+    }
+    reader.readAsDataURL(file)
   }
 
   return (
@@ -284,7 +296,17 @@ const NewDog = props => {
             </button>
           </div>
         </div>
-        <div className='right-section'>dog image upload</div>
+        <div className='right-section'>
+          <FormLabel component='legend'>Dog Photos</FormLabel>
+          <UploadPhotos callout={uploadImage} />
+          <div className='dog-grid'>
+            {uploadedImages.map((e, i) => (
+              <div className='dog-image' key={i}>
+                <img src={e} alt='uploaded dog' />
+              </div>
+            ))}
+          </div>
+        </div>
       </ContentContainer>
     </div>
   )

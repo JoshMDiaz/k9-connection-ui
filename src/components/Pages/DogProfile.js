@@ -3,7 +3,7 @@ import DogService from '../../services/DogService'
 import HelperService from '../../services/HelperService'
 import Icon from '../common/Icons/Icon'
 import BackButton from '../common/BackButton/BackButton'
-import DogImages from '../Dogs/DogImages'
+import DogImages from '../Dogs/DogImages/DogImages'
 import ContentContainer from '../common/ContentContainer'
 
 const DogProfile = props => {
