@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Sign In with Auth0</title>
+  <title>K9 Connect - Sign In</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
@@ -55,12 +55,13 @@
       }, */
       assetsUrl: config.assetsUrl,
       allowedConnections: connection ? [connection] : null,
+
       rememberLastLogin: !prompt,
       language: language,
       languageDictionary: languageDictionary,
       theme: {
-        //logo:            'YOUR LOGO HERE',
-        primaryColor: colors.primary ? colors.primary : 'green'
+        logo: 'http://k9-connect.com/logo.svg',
+        primaryColor: '#a04677'
       },
       prefill: loginHint ? {
         email: loginHint,
@@ -73,9 +74,8 @@
     });
 
     if (colors.page_background) {
-      var css = '.auth0-lock.auth0-lock .auth0-lock-overlay { background: ' +
-        colors.page_background +
-        ' }';
+      var css =
+        '.auth0-lock.auth0-lock .auth0-lock-overlay { background: #f3f7fb} .auth0-lock-name {display: none;} @media (min-width: 481px) .auth0-lock.auth0-lock .auth0-lock-header-bg {background: none !important;} button.auth0-lock-submit {background: linear-gradient(-135deg, rgba(160, 70, 120, 1) 0%,rgba(130, 65, 115, 1) 100%)} .auth0-lock-header-bg-blur {display: none !important;} .auth0-lock-header-bg-solid {background: #fff !important;}.auth0-lock-header-bg.auth0-lock-blur-support {background: #fff !important;}';
       var style = document.createElement('style');
 
       style.appendChild(document.createTextNode(css));

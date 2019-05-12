@@ -1,26 +1,24 @@
-import React from 'react'
-import Auth from '../../services/Auth/Auth'
+import React, { useState, useEffect } from 'react'
 
-const Header = ({ children }) => {
-  const { isAuthenticated } = Auth
+const Header = ({ auth }) => {
+  const [loggedIn, setLoggedIn] = useState(false)
 
-  const goToLogin = () => {
-    const auth = new Auth()
-    auth.login()
-  }
+  useEffect(() => {
+    if (auth.isAuthenticated()) {
+      setLoggedIn(true)
+    }
+  }, [])
 
   const logout = () => {
-    const auth = new Auth()
     auth.logout()
   }
 
   return (
     <div className='header'>
-      {children}
+      <div className='search-bar'>search bar here</div>
       <div className='user-dropdown'>
-        <span>Search here</span>
         <button onClick={logout}>Sign Out</button>
-        <button onClick={goToLogin}>Sign In</button>
+        <span>I am logged {loggedIn ? 'IN' : 'OUT'}</span>
       </div>
     </div>
   )

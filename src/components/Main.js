@@ -1,48 +1,60 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
+import Auth from '../services/Auth/Auth'
+
 import theme from '../theme'
-import Browse from './Pages/Browse'
 import Sidebar from './Sidebar/Sidebar'
+
+import Browse from './Pages/Browse'
 import Header from './Header/Header'
 import DogProfile from './Pages/DogProfile'
 import NewDog from './Pages/NewDog'
-
-import Auth from '../services/Auth/Auth'
 import Callback from './Callback/Callback'
+import Home from './Pages/Home'
+
+const auth = new Auth()
 
 const Main = props => {
-  const { isAuthenticated } = Auth
-  const auth = new Auth()
-
   const handleAuthentication = (nextState, replace) => {
     if (/access_token|id_token|error/.test(nextState.location.hash)) {
       auth.handleAuthentication()
     }
   }
 
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      auth.renewSession()
+    }
+  }, [])
+
   return (
     <MuiThemeProvider theme={theme}>
       <div className='App'>
         <Sidebar />
         <div>
-          <Header {...props} />
+          <Header {...props} auth={auth} />
           <div className='app-content'>
             <Switch>
               <Route
                 exact
                 path='/new-dog'
-                render={props => <NewDog {...props} />}
+                render={props => <NewDog {...props} auth={auth} />}
               />
               <Route
                 exact
                 path='/profile/dog/:id'
-                render={props => <DogProfile {...props} />}
+                render={props => <DogProfile {...props} auth={auth} />}
               />
               <Route
                 exact
                 path='/browse'
-                render={props => <Browse {...props} />}
+                render={props => <Browse {...props} auth={auth} />}
+              />
+              <Route
+                exact
+                path='/'
+                render={props => <Home {...props} auth={auth} />}
               />
               <Route
                 path='/callback'

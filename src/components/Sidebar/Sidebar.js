@@ -7,7 +7,7 @@ const Sidebar = () => {
     {
       id: 1,
       page: 'Browse Dogs',
-      path: '/'
+      path: '/browse'
     },
     {
       id: 2,
