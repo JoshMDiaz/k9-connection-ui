@@ -2,5 +2,9 @@
   @include border-radius;
   background: $white-color;
   padding: 16px;
-  border: 1px solid $border-color;
+  @include transition;
+  &:hover {
+    box-shadow: 0 0px 30px $shadow-color;
+    transform: scale(1.01);
+  }
 }

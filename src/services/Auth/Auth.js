@@ -5,13 +5,14 @@ export default class Auth {
   accessToken
   idToken
   expiresAt
+  userProfile
 
   auth0 = new auth0.WebAuth({
     domain: 'k9-connect.auth0.com',
     clientID: 'RJlTOOYnoxc7SdCRbV7rpuYJNMTawcj9',
     redirectUri: 'http://localhost:9000/callback',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile'
   })
 
   constructor() {
@@ -22,16 +23,31 @@ export default class Auth {
     this.getAccessToken = this.getAccessToken.bind(this)
     this.getIdToken = this.getIdToken.bind(this)
     this.renewSession = this.renewSession.bind(this)
-    this.refreshCount = 0
+    this.getProfile = this.getProfile.bind(this)
   }
 
   login() {
     this.auth0.authorize()
   }
 
+  getProfile(cb) {
+    this.auth0.client.userInfo(this.accessToken, (err, profile) => {
+      if (profile) {
+        this.userProfile = profile
+      }
+      cb(err, profile)
+    })
+  }
+
   handleAuthentication() {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
+        this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
+          if (profile) {
+            this.userProfile = profile
+            localStorage.setItem('user', JSON.stringify(profile))
+          }
+        })
         this.setSession(authResult)
       } else if (err) {
         history.replace('/')
@@ -83,6 +99,7 @@ export default class Auth {
     this.accessToken = null
     this.idToken = null
     this.expiresAt = 0
+    this.userProfile = null
 
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn')

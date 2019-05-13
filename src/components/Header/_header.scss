@@ -3,7 +3,56 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 42px;
-  padding: 8px 32px;
+  padding: 16px 32px;
   border-bottom: 1px solid $border-color;
+  .search-bar {
+    display: flex;
+    align-items: center;
+    .icon {
+      margin-right: 16px;
+    }
+    .search-dogs-input {
+      margin: -10px 0 10px;
+    }
+  }
+  button {
+    display: flex;
+    align-items: center;
+    padding: 4px 16px;
+    height: auto;
+    @include border-radius(100px);
+    .image-container {
+      @include border-radius(50px);
+      border: 1px solid $border-color;
+      margin-right: 16px;
+      padding: 8px;
+      height: 20px;
+    }
+    img {
+      height: 100%;
+    }
+    .icon {
+      margin-left: 16px;
+    }
+  }
+}
+.user-dropdown-container {
+  padding: 8px 16px;
+  top: 76px !important;
+  left: auto !important;
+  right: 32px !important;
+  .user-dropdown-item {
+    display: block;
+    line-height: 24px;
+    cursor: pointer;
+    border-bottom: 1px solid $border-color;
+    padding: 8px 0;
+    @include transition;
+    &:last-child {
+      border: 0;
+    }
+    &:hover {
+      color: $light-text-color;
+    }
+  }
 }

@@ -30,7 +30,9 @@ const Sidebar = () => {
 
   return (
     <div className='sidebar'>
-      <img src={logo} alt='logo' className='animated fadeInUp' />
+      <div className='image-container'>
+        <img src={logo} alt='logo' className='animated fadeInUp' />
+      </div>
       <ul className='sidebar-content'>
         {sidebarContent.map((e, i) => {
           count++

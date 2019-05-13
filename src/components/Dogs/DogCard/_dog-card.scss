@@ -27,10 +27,17 @@
   }
   .card-footer {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     img {
       width: 24px;
+    }
+    .icon {
+      @include border-radius(50px);
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0 4px 10px $border-color;
+      }
     }
   }
 }
