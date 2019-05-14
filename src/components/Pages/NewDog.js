@@ -18,7 +18,6 @@ import { SingleDatePicker, isInclusivelyBeforeDay } from 'react-dates'
 import moment from 'moment'
 import ContentContainer from '../common/ContentContainer'
 import PageHeader from '../common/PageHeader/PageHeader'
-import Icon from '../common/Icons/Icon'
 import UploadPhotos from '../Dogs/UploadPhotos/UploadPhotos'
 
 const NewDog = props => {
@@ -156,9 +155,6 @@ const NewDog = props => {
               focused={focused} // PropTypes.bool
               onFocusChange={({ focused }) => setFocused(focused)} // PropTypes.func.isRequired
               numberOfMonths={1}
-              // navPrev={<Icon icon='left' />}
-              // navNext={<Icon icon='right' />}
-              // customInputIcon={<Icon icon='calendar' />}
               readOnly
               hideKeyboardShortcutsPanel={true}
               displayFormat='MMMM DD, YYYY'

@@ -10,6 +10,7 @@ import Browse from './Pages/Browse'
 import Header from './Header/Header'
 import DogProfile from './Pages/DogProfile'
 import NewDog from './Pages/NewDog'
+import MyDogs from './Pages/MyDogs'
 import Callback from './Callback/Callback'
 import Home from './Pages/Home'
 
@@ -40,6 +41,11 @@ const Main = props => {
                 exact
                 path='/new-dog'
                 render={props => <NewDog {...props} auth={auth} />}
+              />
+              <Route
+                exact
+                path='/profile/dogs'
+                render={props => <MyDogs {...props} auth={auth} />}
               />
               <Route
                 exact

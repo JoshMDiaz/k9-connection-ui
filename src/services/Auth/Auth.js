@@ -77,7 +77,9 @@ export default class Auth {
     localStorage.setItem('expiresAt', expiresAt)
 
     // navigate to the browse route
-    history.push('/browse')
+    if (history.location.pathname === '/callback') {
+      history.push('/browse')
+    }
   }
 
   renewSession() {
@@ -104,6 +106,7 @@ export default class Auth {
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn')
     localStorage.removeItem('expiresAt')
+    localStorage.removeItem('user')
 
     this.auth0.logout({
       returnTo: window.location.origin

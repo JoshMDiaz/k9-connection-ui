@@ -4,14 +4,14 @@ import Icon from '../../components/common/Icons/Icon'
 import noProfileImg from '../../images/icons/no-profile.svg'
 
 const Header = ({ auth }) => {
-  const [loggedIn, setLoggedIn] = useState(false)
+  // const [loggedIn, setLoggedIn] = useState(false)
   const [user, setUser] = useState({})
   const [searchField, setSearchField] = useState('')
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     if (auth.isAuthenticated()) {
-      setLoggedIn(true)
+      // setLoggedIn(true)
       getUser()
     }
   }, [])
@@ -53,11 +53,6 @@ const Header = ({ auth }) => {
           value={searchField}
         />
       </div>
-      {/* <div className='user-dropdown'> */}
-      {/* <button onClick={logout}>Sign Out</button> */}
-      {/* <span>I am logged {loggedIn ? 'IN' : 'OUT'}</span> */}
-      {/* <span>{user.nickname}</span> */}
-      {/* </div> */}
       <button className='plain user-dropdown' onClick={() => toggle(!isOpen)}>
         <div className='image-container'>
           <img

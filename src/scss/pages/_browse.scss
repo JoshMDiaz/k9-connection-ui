@@ -1,23 +1,4 @@
 .browse-page {
-  .card-list {
-    @media only screen and (min-width: 768px) {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-gap: 32px;
-    }
-    @media only screen and (min-width: 1200px) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    @media only screen and (min-width: 1600px) {
-      grid-template-columns: repeat(4, 1fr);
-    }
-    @media only screen and (min-width: 1900px) {
-      grid-template-columns: repeat(5, 1fr);
-    }
-    @media only screen and (min-width: 2200px) {
-      grid-template-columns: repeat(6, 1fr);
-    }
-  }
   .button-container {
     button {
       box-shadow: 0 3px 6px rgba(160, 70, 119, 0.2);
@@ -27,17 +8,6 @@
       .chevron {
         margin-left: 8px;
       }
-    }
-  }
-  .no-results {
-    text-align: center;
-    font-size: 18px;
-    line-height: 28px;
-    padding: 32px;
-    h3 {
-      font-size: 24px;
-      font-weight: 600;
-      margin-bottom: 8px;
     }
   }
 }
