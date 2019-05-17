@@ -19,6 +19,15 @@ button {
       color: $primary-text-color;
     }
   }
+  &.no-bg {
+    color: $primary-color;
+    background: none;
+    border: 0;
+    &:hover {
+      color: $primary-text-color;
+      box-shadow: none;
+    }
+  }
   &.primary {
     background: $gradient-color-h;
     color: $white-color;

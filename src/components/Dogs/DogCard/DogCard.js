@@ -55,7 +55,7 @@ const DogCard = ({ dog, count }) => {
           </div>
         </div>
         <div className='card-footer'>
-          <Link to={`/profile/dog/${dog.id}`}>
+          <Link to={`/dogs/${dog.id}`}>
             <button className='view-profile primary'>View Profile</button>
           </Link>
           <Icon icon='message' callout={messageOwner} />

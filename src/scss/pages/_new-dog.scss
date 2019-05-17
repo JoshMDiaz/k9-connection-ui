@@ -13,10 +13,15 @@
   .right-section {
   }
   .button-container {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    grid-gap: 8px;
+    display: flex;
+    justify-content: space-between;
     margin-top: 32px;
+    .right-buttons {
+      display: flex;
+      button {
+        margin-left: 8px;
+      }
+    }
   }
   textarea {
     height: 80px !important;

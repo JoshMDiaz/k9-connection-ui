@@ -8,11 +8,11 @@ import Sidebar from './Sidebar/Sidebar'
 
 import Browse from './Pages/Browse'
 import Header from './Header/Header'
-import DogProfile from './Pages/DogProfile'
-import NewDog from './Pages/NewDog'
-import MyDogs from './Pages/MyDogs'
 import Callback from './Callback/Callback'
 import Home from './Pages/Home'
+import DogsRoute from './Pages/Dogs/DogsRoute'
+import ProfileRoute from './Pages/Profile/ProfileRoute'
+import NewDog from './Pages/Profile/NewDog'
 
 const auth = new Auth()
 
@@ -39,24 +39,18 @@ const Main = props => {
             <Switch>
               <Route
                 exact
-                path='/new-dog'
-                render={props => <NewDog {...props} auth={auth} />}
-              />
-              <Route
-                exact
-                path='/profile/dogs'
-                render={props => <MyDogs {...props} auth={auth} />}
-              />
-              <Route
-                exact
-                path='/profile/dog/:id'
-                render={props => <DogProfile {...props} auth={auth} />}
-              />
-              <Route
-                exact
                 path='/browse'
                 render={props => <Browse {...props} auth={auth} />}
               />
+              {/* <Route
+                render={props => <ProfileRoute {...props} auth={auth} />}
+              /> */}
+              <Route
+                exact
+                path='/profile/new-dog'
+                render={props => <NewDog {...props} auth={auth} />}
+              />
+              {/* <Route render={props => <DogsRoute {...props} auth={auth} />} /> */}
               <Route
                 exact
                 path='/'

@@ -10,7 +10,7 @@ import LoadingCard from '../common/LoadingCard/LoadingCard'
 import Icon from '../common/Icons/Icon'
 import PageHeader from '../common/PageHeader/PageHeader'
 
-const Browse = props => {
+const Browse = () => {
   const [dogs, setDogs] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -156,8 +156,8 @@ const Browse = props => {
               closeFilter={() => openFilter(false)}
             />
           </Popover>
-          <Link to='/new-dog'>
-            <button className='primary'>Add New Dogs</button>
+          <Link to='/profile/new-dog'>
+            <button className='primary'>New Dog</button>
           </Link>
         </div>
       </div>

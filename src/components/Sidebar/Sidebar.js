@@ -22,7 +22,7 @@ const Sidebar = () => {
     {
       id: 4,
       page: 'My Dogs',
-      path: '/profile/dogs'
+      path: '/dogs'
     }
   ]
 

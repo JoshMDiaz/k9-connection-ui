@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import DogService from '../../services/DogService'
-import FormService from '../../services/FormService'
+import DogService from '../../../services/DogService'
+import FormService from '../../../services/FormService'
 import {
   TextField,
   FormControl,
@@ -16,9 +16,9 @@ import {
 import 'react-dates/initialize'
 import { SingleDatePicker, isInclusivelyBeforeDay } from 'react-dates'
 import moment from 'moment'
-import ContentContainer from '../common/ContentContainer'
-import PageHeader from '../common/PageHeader/PageHeader'
-import UploadPhotos from '../Dogs/UploadPhotos/UploadPhotos'
+import ContentContainer from '../../common/ContentContainer'
+import PageHeader from '../../common/PageHeader/PageHeader'
+import UploadPhotos from '../../Dogs/UploadPhotos/UploadPhotos'
 
 const NewDog = props => {
   const [form, setForm] = useState({
@@ -77,14 +77,17 @@ const NewDog = props => {
   }
 
   const save = () => {
-    DogService.createDog(form).then(response => {
-      if (response) {
-        console.log(response)
-        console.log('saved')
-      }
-    })
-    // Call to post images
+    console.log(form)
     console.log(uploadedImages)
+
+    // DogService.createDog(form).then(response => {
+    //   if (response) {
+    //     console.log(response)
+    //     console.log('saved')
+    //   }
+    // })
+    // // Call to post images
+    // console.log(uploadedImages)
   }
 
   const cancel = () => {
@@ -281,15 +284,17 @@ const NewDog = props => {
             style={{ width: '100%' }}
           />
           <div className='button-container'>
-            <button className={'primary search-button'} onClick={save}>
-              Save
+            <button className={'no-bg search-button'} onClick={addAnother}>
+              Add Another
             </button>
-            <button className={'primary search-button'} onClick={addAnother}>
-              Save &amp; Add Another
-            </button>
-            <button className={'plain search-button'} onClick={cancel}>
-              Cancel
-            </button>
+            <div className='right-buttons'>
+              <button className={'plain search-button'} onClick={cancel}>
+                Cancel
+              </button>
+              <button className={'primary search-button'} onClick={save}>
+                Save
+              </button>
+            </div>
           </div>
         </div>
         <div className='right-section'>

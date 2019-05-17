@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import List from '../Dogs/List'
-import DogService from '../../services/DogService'
+import List from '../../Dogs/List'
+import DogService from '../../../services/DogService'
 import NumberFormat from 'react-number-format'
-import Plural from '../common/Plural'
-import LoadingCard from '../common/LoadingCard/LoadingCard'
-import PageHeader from '../common/PageHeader/PageHeader'
+import Plural from '../../common/Plural'
+import LoadingCard from '../../common/LoadingCard/LoadingCard'
+import PageHeader from '../../common/PageHeader/PageHeader'
 
-const Browse = props => {
+const MyDogs = props => {
   const [dogs, setDogs] = useState([])
   const [loading, setLoading] = useState(true)
   let filterTimeout, isCancelled
@@ -70,4 +70,4 @@ const Browse = props => {
   )
 }
 
-export default Browse
+export default MyDogs
