@@ -38,19 +38,18 @@ const Main = props => {
           <div className='app-content'>
             <Switch>
               <Route
+                path='/dogs'
+                render={props => <DogsRoute {...props} auth={auth} />}
+              />
+              <Route
+                path='/profile'
+                render={props => <ProfileRoute {...props} auth={auth} />}
+              />
+              <Route
                 exact
                 path='/browse'
                 render={props => <Browse {...props} auth={auth} />}
               />
-              {/* <Route
-                render={props => <ProfileRoute {...props} auth={auth} />}
-              /> */}
-              <Route
-                exact
-                path='/profile/new-dog'
-                render={props => <NewDog {...props} auth={auth} />}
-              />
-              {/* <Route render={props => <DogsRoute {...props} auth={auth} />} /> */}
               <Route
                 exact
                 path='/'

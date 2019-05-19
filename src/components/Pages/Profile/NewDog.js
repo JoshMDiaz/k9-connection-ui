@@ -26,7 +26,7 @@ const NewDog = props => {
     gender: 'Female',
     papered: 'false',
     registered: 'false',
-    breed: [],
+    breeds: [],
     eyes: [],
     birthdate: new Date(),
     description: ''
@@ -76,18 +76,27 @@ const NewDog = props => {
     console.log('save and add another dog')
   }
 
-  const save = () => {
-    console.log(form)
-    console.log(uploadedImages)
+  const transformBreedIds = breeds => {
+    return breeds.map(b => {
+      return b.id
+    })
+  }
 
-    // DogService.createDog(form).then(response => {
-    //   if (response) {
-    //     console.log(response)
-    //     console.log('saved')
-    //   }
-    // })
-    // // Call to post images
-    // console.log(uploadedImages)
+  const save = () => {
+    let dog = { ...form }
+    dog.birthdate = moment(dog.birthdate).format('YYYY-MM-DD')
+    delete dog.breeds
+    let body = {
+      dog: { ...dog },
+      breeds: transformBreedIds(form.breeds),
+      images: [...uploadedImages]
+    }
+    console.log(body)
+    DogService.createDog(body).then(response => {
+      if (response) {
+        console.log(response)
+      }
+    })
   }
 
   const cancel = () => {
@@ -120,13 +129,13 @@ const NewDog = props => {
             value={form.name}
           />
 
-          {/* Breed */}
+          {/* Breeds */}
           <FormControl style={{ width: '100%', marginTop: '20px' }}>
             <InputLabel htmlFor='breeds-select'>Breeds</InputLabel>
             <Select
               multiple
-              value={form.breed}
-              onChange={e => handleChange(e, 'breed', 'value')}
+              value={form.breeds}
+              onChange={e => handleChange(e, 'breeds', 'value')}
               inputProps={{
                 name: 'breeds',
                 id: 'breeds-select'
@@ -134,13 +143,17 @@ const NewDog = props => {
               renderValue={selected => (
                 <div className='select-chips'>
                   {selected.map(value => (
-                    <Chip key={value} label={value} className='chip' />
+                    <Chip
+                      key={value.name}
+                      label={value.name}
+                      className='chip'
+                    />
                   ))}
                 </div>
               )}
             >
               {breeds.map((e, i) => (
-                <MenuItem key={i} value={e.name}>
+                <MenuItem key={i} value={e}>
                   {e.name}
                 </MenuItem>
               ))}

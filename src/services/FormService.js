@@ -1,7 +1,7 @@
 import axios from 'axios'
 const CancelToken = axios.CancelToken
 
-const base = 'k9-connect/api/v1'
+const base = '/k9-connect/api/v1'
 
 let breedsCancel, statesCancel, eyeColorsCancel
 
