@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Auth from '../services/Auth/Auth'
+// import { Context, ContextProvider } from '../userContext'
+import UserContext from '../userContext'
 
 import theme from '../theme'
 import Sidebar from './Sidebar/Sidebar'
@@ -12,11 +14,11 @@ import Callback from './Callback/Callback'
 import Home from './Pages/Home'
 import DogsRoute from './Pages/Dogs/DogsRoute'
 import ProfileRoute from './Pages/Profile/ProfileRoute'
-import NewDog from './Pages/Profile/NewDog'
 
 const auth = new Auth()
 
 const Main = props => {
+  const [currentUser, setCurrentUser] = useState({})
   const handleAuthentication = (nextState, replace) => {
     if (/access_token|id_token|error/.test(nextState.location.hash)) {
       auth.handleAuthentication()
@@ -29,43 +31,49 @@ const Main = props => {
     }
   }, [])
 
+  const login = user => {
+    setCurrentUser(user)
+  }
+
   return (
     <MuiThemeProvider theme={theme}>
-      <div className='App'>
-        <Sidebar />
-        <div>
-          <Header {...props} auth={auth} />
-          <div className='app-content'>
-            <Switch>
-              <Route
-                path='/dogs'
-                render={props => <DogsRoute {...props} auth={auth} />}
-              />
-              <Route
-                path='/profile'
-                render={props => <ProfileRoute {...props} auth={auth} />}
-              />
-              <Route
-                exact
-                path='/browse'
-                render={props => <Browse {...props} auth={auth} />}
-              />
-              <Route
-                exact
-                path='/'
-                render={props => <Home {...props} auth={auth} />}
-              />
-              <Route
-                path='/callback'
-                render={props => {
-                  handleAuthentication(props)
-                  return <Callback {...props} />
-                }}
-              />
-            </Switch>
+      <UserContext.Provider value={{ user: currentUser, login: login }}>
+        <div className='App'>
+          <Sidebar />
+          <div>
+            <Header {...props} auth={auth} />
+            <div className='app-content'>
+              <Switch>
+                <Route
+                  path='/dogs'
+                  render={props => <DogsRoute {...props} auth={auth} />}
+                />
+                <Route
+                  path='/profile'
+                  render={props => <ProfileRoute {...props} auth={auth} />}
+                />
+                <Route
+                  exact
+                  path='/browse'
+                  render={props => <Browse {...props} auth={auth} />}
+                />
+                <Route
+                  exact
+                  path='/'
+                  render={props => <Home {...props} auth={auth} />}
+                />
+                <Route
+                  path='/callback'
+                  render={props => {
+                    handleAuthentication(props)
+                    return <Callback {...props} />
+                  }}
+                />
+              </Switch>
+            </div>
           </div>
         </div>
-      </div>
+      </UserContext.Provider>
     </MuiThemeProvider>
   )
 }

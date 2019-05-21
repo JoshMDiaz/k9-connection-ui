@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { TextField, Popover } from '@material-ui/core'
 import Icon from '../../components/common/Icons/Icon'
 import noProfileImg from '../../images/icons/no-profile.svg'
+import UserContext from '../../userContext'
+
+let loginTO
 
 const Header = ({ auth }) => {
-  // const [loggedIn, setLoggedIn] = useState(false)
-  const [user, setUser] = useState({})
   const [searchField, setSearchField] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+  const uc = useContext(UserContext)
 
   useEffect(() => {
-    if (auth.isAuthenticated()) {
-      // setLoggedIn(true)
-      getUser()
+    loginTO = setTimeout(() => {
+      if (auth.isAuthenticated()) {
+        uc.login(JSON.parse(localStorage.getItem('user')))
+      }
+    }, 500)
+    return () => {
+      clearTimeout(loginTO)
     }
-  }, [])
-
-  const getUser = () => {
-    setUser(JSON.parse(localStorage.getItem('user')))
-  }
+  })
 
   const logout = () => {
     auth.logout()
@@ -53,16 +55,19 @@ const Header = ({ auth }) => {
           value={searchField}
         />
       </div>
-      <button className='plain user-dropdown' onClick={() => toggle(!isOpen)}>
-        <div className='image-container'>
-          <img
-            src={user.avatar ? user.avatar : noProfileImg}
-            alt={user.nickname || user.name}
-          />
-        </div>
-        <span>{user.nickname || user.name}</span>
-        <Icon icon='chevronDown' />
-      </button>
+      {uc.user && (
+        <button className='plain user-dropdown' onClick={() => toggle(!isOpen)}>
+          <div className='image-container'>
+            <img
+              src={uc.user.picture ? uc.user.picture : noProfileImg}
+              alt={uc.user.nickname || uc.user.name}
+              // className={uc.user.picture ? ''}
+            />
+          </div>
+          <span>{uc.user.nickname || uc.user.name}</span>
+          <Icon icon='chevronDown' />
+        </button>
+      )}
       <Popover
         id='user-dropdown-popover'
         open={isOpen}
@@ -75,10 +80,6 @@ const Header = ({ auth }) => {
         classes={{
           paper: 'user-dropdown-container'
         }}
-        // transformOrigin={{
-        //   vertical: 'top',
-        //   horizontal: 'right'
-        // }}
         anchorReference='anchorEl'
       >
         <span className='user-dropdown-item' onClick={goToUserSettings}>

@@ -27,9 +27,11 @@
       margin-right: 16px;
       padding: 8px;
       height: 20px;
+      overflow: hidden;
     }
     img {
       height: 100%;
+      transform: scale(2);
     }
     .icon {
       margin-left: 16px;

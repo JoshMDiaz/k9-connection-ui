@@ -54,7 +54,7 @@ const UserProfile = props => {
         <BackButton history={props.history} />
       </div>
       <ContentContainer customClass='profile-container'>
-        <div className='user-info-header'>{user.name}</div>
+        <div className='user-info-header'>{user.nickname || user.name}</div>
         <div className='user-info-container'>
           {userInfoConfig.map((e, i) => (
             <div className='user-info' key={i}>
