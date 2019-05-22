@@ -1,6 +1,9 @@
 import React from 'react'
+import Auth from '../../services/Auth/Auth'
 
-const Home = ({ auth }) => {
+const auth = new Auth()
+
+const Home = () => {
   const goToLogin = () => {
     auth.login()
   }

@@ -1,20 +1,21 @@
-import React, { Component } from 'react'
-import { Router } from 'react-router-dom'
+import React, { Suspense } from 'react'
 import './scss/main.scss'
-import 'react-image-lightbox/style.css'
-import 'react-dates/lib/css/_datepicker.css'
-import history from './services/Auth/History'
+import Auth from './services/Auth/Auth'
+const AuthenticatedApp = React.lazy(() =>
+  import('./components/Pages/AuthenticatedApp')
+)
+const UnauthenticatedApp = React.lazy(() =>
+  import('./components/Pages/UnauthenticatedApp')
+)
 
-import Main from './components/Main'
+const auth = new Auth()
 
-class App extends Component {
-  render() {
-    return (
-      <Router history={history}>
-        <Main />
-      </Router>
-    )
-  }
+function App() {
+  return (
+    <Suspense fallback={<div> </div>}>
+      {auth.isAuthenticated() ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+    </Suspense>
+  )
 }
 
 export default App

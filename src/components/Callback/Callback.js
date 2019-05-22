@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Callback = () => {
-  return <div>Loading...</div>
+  return <div>{'Callback Loading...'}</div>
 }
 
 export default Callback

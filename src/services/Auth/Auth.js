@@ -46,9 +46,9 @@ export default class Auth {
           if (profile) {
             this.userProfile = profile
             localStorage.setItem('user', JSON.stringify(profile))
+            this.setSession(authResult)
           }
         })
-        this.setSession(authResult)
       } else if (err) {
         history.replace('/')
         console.log(err)
@@ -79,6 +79,7 @@ export default class Auth {
     // navigate to the browse route
     if (history.location.pathname === '/callback') {
       history.push('/browse')
+      window.location.reload()
     }
   }
 
