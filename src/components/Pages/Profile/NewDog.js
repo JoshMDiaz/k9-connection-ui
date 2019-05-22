@@ -89,7 +89,7 @@ const NewDog = props => {
     let body = {
       dog: { ...dog },
       breeds: transformBreedIds(form.breeds),
-      images: [...uploadedImages]
+      dog_images: [...uploadedImages]
     }
     console.log(body)
     DogService.createDog(body).then(response => {

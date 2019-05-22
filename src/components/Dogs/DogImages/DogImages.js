@@ -8,7 +8,6 @@ const DogImages = ({ images }) => {
   const [photoIndex, setPhotoIndex] = useState(0)
 
   const openLightbox = index => {
-    console.log(index)
     setIsOpen(true)
     setPhotoIndex(index)
   }
