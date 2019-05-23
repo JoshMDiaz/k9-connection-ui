@@ -9,7 +9,7 @@ const Home = () => {
   }
   return (
     <div className='home'>
-      <h1>This is the home page</h1>
+      <h1>This is where the website will be</h1>
       <button onClick={goToLogin}>Sign In</button>
     </div>
   )

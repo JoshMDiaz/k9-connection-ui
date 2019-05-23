@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import Auth from '../services/Auth/Auth'
 
@@ -29,6 +29,7 @@ const Website = props => {
                 return <Callback {...props} />
               }}
             />
+            <Redirect to='/' />
           </Switch>
         </div>
       </div>
