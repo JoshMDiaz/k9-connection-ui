@@ -135,7 +135,9 @@ fieldset.gender-radios {
   text-align: center;
   font-size: 18px;
   line-height: 28px;
-  padding: 32px;
+  padding: 0;
+  max-width: fit-content;
+  margin: auto;
   h3 {
     font-size: 24px;
     font-weight: 600;
@@ -145,7 +147,8 @@ fieldset.gender-radios {
     display: block;
     margin: 24px auto;
     @include border-radius;
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
   }
 }
 
