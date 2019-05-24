@@ -4,7 +4,10 @@ import Icon from '../../common/Icons/Icon'
 
 const UploadPhotos = ({ callout }) => {
   return (
-    <Dropzone onDrop={acceptedFiles => callout(acceptedFiles)}>
+    <Dropzone
+      onDrop={acceptedFiles => callout(acceptedFiles)}
+      accept='image/jpg, image/jpeg, image/png'
+    >
       {({ getRootProps, getInputProps }) => (
         <section>
           <div {...getRootProps()}>
@@ -16,6 +19,8 @@ const UploadPhotos = ({ callout }) => {
                 Drag and drop photos here.
                 <br />
                 Or click here to find files.
+                <br />
+                (Only .jpg and .png files will be accepted)
               </span>
             </div>
           </div>

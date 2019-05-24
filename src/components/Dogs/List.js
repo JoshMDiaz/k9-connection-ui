@@ -17,7 +17,7 @@ const List = ({ dogs }) => {
         <div className='no-results'>
           <div className='card'>
             <span>
-              <h3>We're Sorry!</h3>
+              <h3>Sorry about that!</h3>
               We could not find any dogs with the filters you have selected.
               <br />
               Please try changing the filters.

@@ -11,7 +11,8 @@ import {
   RadioGroup,
   FormLabel,
   FormControlLabel,
-  Chip
+  Chip,
+  Snackbar
 } from '@material-ui/core'
 import 'react-dates/initialize'
 import { SingleDatePicker, isInclusivelyBeforeDay } from 'react-dates'
@@ -20,8 +21,8 @@ import ContentContainer from '../../common/ContentContainer'
 import PageHeader from '../../common/PageHeader/PageHeader'
 import UploadPhotos from '../../Dogs/UploadPhotos/UploadPhotos'
 
-const NewDog = props => {
-  const [form, setForm] = useState({
+const NewDog = ({ history }) => {
+  let initialFormState = {
     name: '',
     gender: 'Female',
     papered: 'false',
@@ -30,11 +31,16 @@ const NewDog = props => {
     eyes: [],
     birthdate: new Date(),
     description: ''
-  })
+  }
+  const [form, setForm] = useState(initialFormState)
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
   const [focused, setFocused] = useState(false)
   const [uploadedImages, setUploadedImages] = useState([])
+  const [snack, setSnack] = useState({
+    isOpen: false,
+    message: ''
+  })
 
   useEffect(() => {
     getBreeds()
@@ -71,18 +77,13 @@ const NewDog = props => {
     })
   }
 
-  const addAnother = () => {
-    console.log(form)
-    console.log('save and add another dog')
-  }
-
   const transformBreedIds = breeds => {
     return breeds.map(b => {
       return b.id
     })
   }
 
-  const save = () => {
+  const save = addAnother => {
     let dog = { ...form }
     dog.birthdate = moment(dog.birthdate).format('YYYY-MM-DD')
     delete dog.breeds
@@ -91,25 +92,55 @@ const NewDog = props => {
       breeds: transformBreedIds(form.breeds),
       dog_images: [...uploadedImages]
     }
-    console.log(body)
-    DogService.createDog(body).then(response => {
-      if (response) {
-        console.log(response)
-      }
-    })
+    DogService.createDog(body)
+      .then(response => {
+        if (response) {
+          setSnack({
+            message: 'Congrats! Dog record created!',
+            isOpen: true,
+            className: 'success'
+          })
+          if (addAnother) {
+            setForm(initialFormState)
+            setUploadedImages([])
+          } else {
+            history.push('/browse')
+          }
+        }
+      })
+      .catch(error => {
+        setSnack({
+          message: 'Uh oh! Something went wrong! Please try again.',
+          isOpen: true
+        })
+      })
   }
 
   const cancel = () => {
-    console.log('cancel and go back to Browse')
+    history.push('/browse')
   }
 
   const uploadImage = files => {
-    let reader = new FileReader()
-    let file = files[0]
-    reader.onloadend = () => {
-      setUploadedImages([...uploadedImages, reader.result])
+    if (files.length > 0) {
+      let reader = new FileReader()
+      let file = files[0]
+      reader.onloadend = () => {
+        setUploadedImages([...uploadedImages, reader.result])
+      }
+      reader.readAsDataURL(file)
+    } else {
+      setSnack({
+        message: 'File type not accepted. Only .jpg and .png are accepted.',
+        isOpen: true
+      })
     }
-    reader.readAsDataURL(file)
+  }
+
+  const closeSnack = () => {
+    setSnack({
+      ...snack,
+      isOpen: false
+    })
   }
 
   return (
@@ -297,7 +328,10 @@ const NewDog = props => {
             style={{ width: '100%' }}
           />
           <div className='button-container'>
-            <button className={'no-bg search-button'} onClick={addAnother}>
+            <button
+              className={'no-bg search-button'}
+              onClick={() => save(true)}
+            >
               Add Another
             </button>
             <div className='right-buttons'>
@@ -322,6 +356,21 @@ const NewDog = props => {
           </div>
         </div>
       </ContentContainer>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+        key={`top,right`}
+        open={snack.isOpen}
+        onClose={closeSnack}
+        ContentProps={{
+          'aria-describedby': 'message-id'
+        }}
+        autoHideDuration={3000}
+        className={`snackbar ${snack.className || 'error'}`}
+        message={<span id='message-id'>{snack.message}</span>}
+      />
     </div>
   )
 }

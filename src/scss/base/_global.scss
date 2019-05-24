@@ -142,3 +142,13 @@ fieldset.gender-radios {
     margin-bottom: 8px;
   }
 }
+
+// Snackbar
+.snackbar {
+  &.error > div {
+    background: $red-color;
+  }
+  &.success > div {
+    background: $green-color;
+  }
+}
