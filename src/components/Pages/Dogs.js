@@ -10,7 +10,7 @@ import LoadingCard from '../common/LoadingCard/LoadingCard'
 import Icon from '../common/Icons/Icon'
 import PageHeader from '../common/PageHeader/PageHeader'
 
-const Browse = () => {
+const Dogs = () => {
   const [dogs, setDogs] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -112,7 +112,7 @@ const Browse = () => {
   let count = 0
 
   return (
-    <div className='browse-page'>
+    <div className='dogs-page'>
       <div className='main-content-header'>
         <PageHeader
           text={
@@ -177,4 +177,4 @@ const Browse = () => {
   )
 }
 
-export default Browse
+export default Dogs

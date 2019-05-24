@@ -7,7 +7,7 @@ import UserContext from '../userContext'
 import theme from '../theme'
 import Sidebar from './Sidebar/Sidebar'
 
-import Browse from './Pages/Browse'
+import Dogs from './Pages/Dogs'
 import Header from './Header/Header'
 import DogsRoute from './Pages/Dogs/DogsRoute'
 import ProfileRoute from './Pages/Profile/ProfileRoute'
@@ -37,11 +37,6 @@ const Main = props => {
             <div className='app-content'>
               <Switch>
                 <Route
-                  exact
-                  path='/browse'
-                  render={props => <Browse {...props} auth={auth} />}
-                />
-                <Route
                   path='/dogs'
                   render={props => <DogsRoute {...props} auth={auth} />}
                 />
@@ -49,7 +44,7 @@ const Main = props => {
                   path='/profile'
                   render={props => <ProfileRoute {...props} auth={auth} />}
                 />
-                <Redirect from='/' exact to='/browse' />
+                <Redirect from='/' exact to='/dogs' />
               </Switch>
             </div>
           </div>

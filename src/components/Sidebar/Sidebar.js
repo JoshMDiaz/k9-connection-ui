@@ -7,22 +7,17 @@ const Sidebar = () => {
     {
       id: 1,
       page: 'Browse Dogs',
-      path: '/browse'
+      path: '/dogs'
     },
     {
       id: 2,
-      page: 'Messages',
-      path: '/messages'
-    },
-    {
-      id: 3,
       page: 'Profile',
       path: '/profile'
     },
     {
-      id: 4,
-      page: 'My Dogs',
-      path: '/dogs'
+      id: 3,
+      page: 'Messages',
+      path: '/messages'
     }
   ]
 

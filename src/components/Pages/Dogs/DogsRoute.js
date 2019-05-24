@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import DogProfile from './DogProfile'
-import MyDogs from './MyDogs'
+import Dogs from '../Dogs'
 
 const DogsRoute = ({ auth }) => {
   return (
@@ -14,7 +14,7 @@ const DogsRoute = ({ auth }) => {
       <Route
         exact
         path='/dogs'
-        render={props => <MyDogs {...props} auth={auth} />}
+        render={props => <Dogs {...props} auth={auth} />}
       />
     </Switch>
   )

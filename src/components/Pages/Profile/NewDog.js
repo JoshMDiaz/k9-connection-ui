@@ -104,7 +104,7 @@ const NewDog = ({ history }) => {
             setForm(initialFormState)
             setUploadedImages([])
           } else {
-            history.push('/browse')
+            history.push('/dogs')
           }
         }
       })
@@ -117,7 +117,7 @@ const NewDog = ({ history }) => {
   }
 
   const cancel = () => {
-    history.push('/browse')
+    history.push('/dogs')
   }
 
   const uploadImage = files => {

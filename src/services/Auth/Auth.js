@@ -78,7 +78,7 @@ export default class Auth {
 
     // navigate to the browse route
     if (history.location.pathname === '/callback') {
-      history.push('/browse')
+      history.push('/dogs')
       window.location.reload()
     }
   }
