@@ -141,6 +141,12 @@ fieldset.gender-radios {
     font-weight: 600;
     margin-bottom: 8px;
   }
+  img {
+    display: block;
+    margin: 24px auto;
+    @include border-radius;
+    width: 300px;
+  }
 }
 
 // Snackbar
