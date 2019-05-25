@@ -32,6 +32,18 @@ button {
     background: $gradient-color-h;
     color: $white-color;
   }
+  &.text-only {
+    border: 0;
+    background: none;
+    color: $primary-color;
+    &:hover,
+    &:focus {
+      box-shadow: none;
+      border: 0;
+      background: none;
+      color: $primary-text-color;
+    }
+  }
   span.icon {
     margin-left: 8px;
   }

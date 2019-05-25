@@ -61,7 +61,6 @@ const Header = ({ auth }) => {
             <img
               src={uc.user.picture ? uc.user.picture : noProfileImg}
               alt={uc.user.nickname || uc.user.name}
-              // className={uc.user.picture ? ''}
             />
           </div>
           <span>{uc.user.nickname || uc.user.name}</span>

@@ -11,6 +11,7 @@ import Sidebar from './Sidebar/Sidebar'
 import Header from './Header/Header'
 import DogsRoute from './Pages/Dogs/DogsRoute'
 import ProfileRoute from './Pages/Profile/ProfileRoute'
+import MobileMenu from './MobileMenu/MobileMenu'
 
 const auth = new Auth()
 
@@ -58,8 +59,13 @@ const Main = props => {
             <span className='fab-line' />
             <span className='fab-line' />
           </Fab>
-          <Drawer anchor='right' open={isOpen} onClose={() => setIsOpen(false)}>
-            Menu stuff here
+          <Drawer
+            anchor='right'
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            className='mobile-menu-drawer'
+          >
+            <MobileMenu auth={auth} closeMenu={() => setIsOpen(false)} />
           </Drawer>
         </div>
       </UserContext.Provider>
