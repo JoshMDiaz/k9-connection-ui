@@ -26,14 +26,16 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  padding: 0 32px;
-  height: 75px;
-  position: sticky;
-  top: 0;
   z-index: 10;
   background: $light-gray-color;
   box-shadow: 0 8px 15px $border-color;
+  padding: 16px 32px;
+  @include prefix(position, sticky);
+  position: -webkit-sticky;
+  top: 0;
   @media only screen and (min-width: 768px) {
+    padding: 0 32px;
+    height: 75px;
     flex-direction: row;
   }
 }
@@ -112,10 +114,10 @@ fieldset.gender-radios {
 }
 
 .card-list {
+  display: grid;
+  grid-gap: 32px;
   @media only screen and (min-width: 768px) {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 32px;
   }
   @media only screen and (min-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
@@ -159,5 +161,23 @@ fieldset.gender-radios {
   }
   &.success > div {
     background: $green-color;
+  }
+}
+
+// Fab
+.fab-menu-button {
+  position: fixed !important;
+  bottom: 16px;
+  right: 16px;
+  & > span {
+    display: flex;
+    flex-direction: column;
+  }
+  span.fab-line {
+    display: block;
+    height: 2px;
+    width: 25px;
+    background: $white-color;
+    margin: 3px 0;
   }
 }

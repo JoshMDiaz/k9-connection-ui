@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import DogService from '../../../services/DogService'
-import HelperService from '../../../services/HelperService'
 import BackButton from '../../common/BackButton/BackButton'
 import ContentContainer from '../../common/ContentContainer'
 import List from '../../Dogs/List'

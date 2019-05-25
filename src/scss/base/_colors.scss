@@ -8,8 +8,8 @@ $primary-color: #824173;
 $secondary-color: #a04677;
 $gradient-color-h: linear-gradient(
   -135deg,
-  rgba(160, 70, 120, 1) 0%,
-  rgba(130, 65, 115, 1) 100%
+  $secondary-color 0%,
+  $primary-color 100%
 );
 
 $border-color: #e4edf5;
