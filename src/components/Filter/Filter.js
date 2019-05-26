@@ -152,7 +152,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
   return (
     <div className={`filter-container`}>
       <div>
-        <span onClick={closeFilter} className='close-filter'>
+        <span onClick={closeFilter} className='close-button'>
           X
         </span>
 

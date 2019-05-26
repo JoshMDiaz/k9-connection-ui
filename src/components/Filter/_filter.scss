@@ -21,15 +21,6 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 64px;
   }
-  .close-filter {
-    color: $secondary-color;
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    font-weight: 900;
-    font-size: 18px;
-    cursor: pointer;
-  }
   .filter-input {
     margin-top: 0;
   }

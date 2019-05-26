@@ -3,11 +3,6 @@
   height: calc(100vh - 64px);
   text-align: center;
   padding: 32px 16px;
-  .close {
-    position: fixed;
-    top: 32px;
-    right: 16px;
-  }
   h3 {
     font-size: 24px;
     color: $secondary-color;

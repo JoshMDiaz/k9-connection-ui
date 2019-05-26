@@ -28,6 +28,11 @@ const MobileMenu = ({ auth, closeMenu }) => {
     },
     {
       id: 4,
+      page: 'New Dog',
+      path: '/profile/new-dog'
+    },
+    {
+      id: 5,
       page: 'Settings',
       path: '/settings'
     }
@@ -37,7 +42,7 @@ const MobileMenu = ({ auth, closeMenu }) => {
 
   return (
     <div className='mobile-menu'>
-      <span onClick={closeMenu} className='close'>
+      <span onClick={closeMenu} className='close-button'>
         X
       </span>
       <img

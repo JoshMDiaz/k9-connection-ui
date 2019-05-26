@@ -156,7 +156,7 @@ const Dogs = () => {
               closeFilter={() => openFilter(false)}
             />
           </Popover>
-          <Link to='/profile/new-dog'>
+          <Link to='/profile/new-dog' className='new-dog-link'>
             <button className='primary'>New Dog</button>
           </Link>
         </div>

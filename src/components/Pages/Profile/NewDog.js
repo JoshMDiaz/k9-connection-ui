@@ -338,7 +338,10 @@ const NewDog = ({ history }) => {
               <button className={'plain search-button'} onClick={cancel}>
                 Cancel
               </button>
-              <button className={'primary search-button'} onClick={save}>
+              <button
+                className={'primary search-button'}
+                onClick={() => save()}
+              >
                 Save
               </button>
             </div>
@@ -347,13 +350,13 @@ const NewDog = ({ history }) => {
         <div className='right-section'>
           <FormLabel component='legend'>Dog Photos</FormLabel>
           <UploadPhotos callout={uploadImage} />
-          <div className='dog-grid'>
-            {uploadedImages.map((e, i) => (
-              <div className='dog-image' key={i}>
-                <img src={e} alt='uploaded dog' />
-              </div>
-            ))}
-          </div>
+          {uploadedImages.length > 0 && (
+            <div className='dog-grid'>
+              {uploadedImages.map((e, i) => (
+                <img src={e} alt='uploaded dog' key={i} className='dog-image' />
+              ))}
+            </div>
+          )}
         </div>
       </ContentContainer>
       <Snackbar
