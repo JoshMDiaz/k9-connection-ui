@@ -34,7 +34,6 @@ const Sidebar = () => {
           return (
             <NavLink
               to={e.path}
-              exact
               key={i}
               activeClassName={'active'}
               className={`animated fadeInUp delay-${count}`}

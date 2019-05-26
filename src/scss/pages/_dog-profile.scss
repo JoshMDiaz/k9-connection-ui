@@ -30,7 +30,7 @@
   .button-icon {
     margin-left: 8px;
   }
-  .favorite-icon-container {
+  .icon-container {
     @include border-radius(50px);
     @include transition;
     &:hover {
@@ -40,9 +40,12 @@
   }
   .button-container {
     display: grid;
-    grid-template-columns: repeat(2, auto);
     grid-gap: 16px;
     align-items: center;
+    grid-template-columns: repeat(2, auto);
+    &.is-user-dog {
+      grid-template-columns: repeat(3, auto);
+    }
   }
   .dog-info-container {
     border-top: 1px solid $border-color;

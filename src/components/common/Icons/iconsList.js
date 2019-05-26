@@ -10,6 +10,7 @@ import { ReactComponent as MagnifyingGlassBg } from '../../../images/icons/magni
 import { ReactComponent as MagnifyingGlassPlus } from '../../../images/icons/magnifying_glass_plus.svg'
 import { ReactComponent as Message } from '../../../images/icons/message.svg'
 import { ReactComponent as MessageNoBorder } from '../../../images/icons/message_no_border.svg'
+import { ReactComponent as Pencil } from '../../../images/icons/pencil.svg'
 import { ReactComponent as Trash } from '../../../images/icons/trash.svg'
 
 const iconsList = {
@@ -23,6 +24,7 @@ const iconsList = {
   magnifyingGlassPlus: <MagnifyingGlassPlus />,
   message: <Message />,
   messageNoBorder: <MessageNoBorder />,
+  pencil: <Pencil />,
   trash: <Trash />
 }
 

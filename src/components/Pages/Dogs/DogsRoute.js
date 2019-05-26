@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import DogProfile from './DogProfile'
+import DogProfile from './DogProfile/DogProfile'
 import Dogs from '../Dogs'
 
 const DogsRoute = ({ auth }) => {
