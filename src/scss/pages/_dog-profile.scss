@@ -4,7 +4,7 @@
   }
   .profile-container {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     @media only screen and (min-width: 768px) {
       display: grid;
       grid-template-columns: 40% 1fr;
@@ -21,10 +21,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media only screen and (max-width: 767px) {
+      flex-direction: column;
+    }
     h2 {
       color: $primary-color;
       font-size: 22px;
       line-height: 34px;
+      @media only screen and (max-width: 767px) {
+        margin-bottom: 16px;
+      }
     }
   }
   .button-icon {
@@ -53,8 +59,16 @@
     padding: 16px 0;
     margin: 24px 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     grid-gap: 16px;
+    @media only screen and (min-width: 500px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media only screen and (min-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+    @media only screen and (min-width: 1026px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
     .dog-info {
       display: flex;
     }
@@ -70,6 +84,15 @@
     .dog-info-label {
       margin-bottom: 8px;
       display: block;
+    }
+  }
+  .form-button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 16px;
+    button:last-child {
+      margin-left: 8px;
     }
   }
 }

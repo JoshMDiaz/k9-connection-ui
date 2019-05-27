@@ -13,12 +13,12 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
       value: 'gender'
     },
     {
-      label: 'Papered',
-      value: 'papered'
-    },
-    {
       label: 'Age',
       value: 'birthdate'
+    },
+    {
+      label: 'Papered',
+      value: 'papered'
     },
     {
       label: 'AKC Registered',
@@ -50,8 +50,6 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
         newVal = HelperService.getYearsOld(dog['birthdate'])
         break
       case 'breeds':
-        console.log('here')
-
         newVal = getDogBreeds(dog[value])
         break
       default:
@@ -83,10 +81,20 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
       <div className='dog-info-header'>
         <h2>{dog.name}</h2>
         <div className={`button-container ${isUserDog ? 'is-user-dog' : ''}`}>
-          <span className='img-border with-text' onClick={messageOwner}>
+          <span
+            className='img-border with-text not-mobile'
+            onClick={messageOwner}
+          >
             Message Owner&nbsp;
             <Icon icon='messageNoBorder' customClass='button-icon' />
           </span>
+          <div className='icon-container mobile-only'>
+            <Icon
+              icon={'message'}
+              customClass='message-icon'
+              callout={messageOwner}
+            />
+          </div>
           <div className='icon-container'>
             <Icon
               icon={isFavorite ? 'favoriteSolid' : 'favorite'}

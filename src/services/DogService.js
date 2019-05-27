@@ -3,7 +3,7 @@ const CancelToken = axios.CancelToken
 
 const base = '/k9-connect/api/v1/dogs'
 
-let dogCancel, dogsCancel, createDogCancel
+let dogCancel, dogsCancel, createDogCancel, updateDogCancel
 
 class DogService {
   get(dogId, params = {}) {
@@ -65,7 +65,28 @@ class DogService {
 
   cancelCreateDog() {
     if (createDogCancel) {
-      createDogCancel('Canceled dogs request')
+      createDogCancel('Canceled create dog request')
+    }
+  }
+
+  updateDog(dogId, body, params = {}) {
+    let url = `${base}/${dogId}`
+    return axios
+      .put(url, body, {
+        params: params,
+        cancelToken: new CancelToken(function executor(c) {
+          updateDogCancel = c
+        })
+      })
+      .then(response => {
+        return response.data
+      })
+      .catch(error => {})
+  }
+
+  cancelUpdateDog() {
+    if (updateDogCancel) {
+      updateDogCancel('Canceled update dog request')
     }
   }
 }

@@ -10,8 +10,18 @@ const DogCard = ({ dog, count }) => {
 
   useEffect(() => {
     setIsFavorite()
-    setImage(dog.dog_images[0])
+    findMainImage(dog.dog_images)
   }, [])
+
+  const findMainImage = images => {
+    let mainImage = images.filter(i => {
+      return i.main_image
+    })
+    if (mainImage.length === 0) {
+      mainImage = [images[0]]
+    }
+    setImage(mainImage[0])
+  }
 
   const trimText = (text, characterLength) => {
     return text.length > characterLength
