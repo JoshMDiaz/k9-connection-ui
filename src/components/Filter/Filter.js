@@ -14,7 +14,9 @@ import {
   FormControlLabel,
   Chip
 } from '@material-ui/core'
+import RS from 'react-select'
 import InputRange from 'react-input-range'
+import BreedSelect from '../common/BreedSelect/BreedSelect'
 
 const Filter = ({ form, dispatch, closeFilter }) => {
   const [breeds, setBreeds] = useState([])
@@ -28,7 +30,11 @@ const Filter = ({ form, dispatch, closeFilter }) => {
   const getBreeds = () => {
     FormService.getBreeds().then(response => {
       if (response) {
-        setBreeds(response.data)
+        let options = response.data.map(breed => ({
+          value: breed.id,
+          label: breed.name
+        }))
+        setBreeds(options)
       }
     })
   }
@@ -149,6 +155,10 @@ const Filter = ({ form, dispatch, closeFilter }) => {
     })
   }
 
+  const handleChangeRS = e => {
+    console.log(e)
+  }
+
   return (
     <div className={`filter-container`}>
       <div>
@@ -220,7 +230,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
         {/* Breed */}
         <FormControl style={{ width: '100%' }}>
           <InputLabel htmlFor='breeds-select'>Breeds</InputLabel>
-          <Select
+          {/* <Select
             multiple
             value={form.breed}
             onChange={e => handleChange(e, 'breed', 'value')}
@@ -241,7 +251,16 @@ const Filter = ({ form, dispatch, closeFilter }) => {
                 {e.name}
               </MenuItem>
             ))}
-          </Select>
+          </Select> */}
+
+          {/* <BreedSelect /> */}
+
+          <RS
+            value={form.breed}
+            onChange={e => handleChangeRS(e)}
+            options={breeds}
+            isMulti
+          />
         </FormControl>
 
         {/* Papered */}
