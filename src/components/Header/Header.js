@@ -3,12 +3,15 @@ import { TextField, Popover } from '@material-ui/core'
 import Icon from '../../components/common/Icons/Icon'
 import noProfileImg from '../../images/icons/no-profile.svg'
 import UserContext from '../../userContext'
+import SearchService from '../../services/SearchService'
+import history from '../../services/Auth/History'
 
-let loginTO
+let loginTO, searchTimeout, isCancelled
 
 const Header = ({ auth }) => {
   const [searchField, setSearchField] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
   const uc = useContext(UserContext)
 
   useEffect(() => {
@@ -19,6 +22,7 @@ const Header = ({ auth }) => {
     }, 500)
     return () => {
       clearTimeout(loginTO)
+      clearTimeout(searchTimeout)
     }
   })
 
@@ -26,12 +30,38 @@ const Header = ({ auth }) => {
     auth.logout()
   }
 
+  const getSearch = value => {
+    !isCancelled && setLoading(true)
+    let params = {
+      value
+    }
+    SearchService.getAll(params).then(response => {
+      if (response) {
+        uc.setDogs(response.data)
+        !isCancelled && setLoading(false)
+        history.push({
+          pathname: '/search',
+          search: `?${value}`
+        })
+      }
+    })
+  }
+
   const focusSearch = () => {
     console.log('focus search')
   }
 
   const handleChange = e => {
+    SearchService.cancelGetAll()
     setSearchField(e.target.value)
+    if (e.target.value !== '' && e.target.value !== undefined) {
+      getSearch(e.target.value)
+    } else {
+      uc.setDogs([])
+      history.push({
+        search: `?${e.target.value}`
+      })
+    }
   }
 
   const toggle = isOpen => {
@@ -53,7 +83,9 @@ const Header = ({ auth }) => {
           onChange={handleChange}
           fullWidth
           value={searchField}
+          placeholder='Search by name, gender, or breed'
         />
+        {loading && <span>Loading...</span>}
       </div>
       {uc.user && (
         <button className='plain user-dropdown' onClick={() => toggle(!isOpen)}>
