@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import NewDog from './NewDog'
-import UserProfile from './UserProfile'
+import UserProfile from './UserProfile/UserProfile'
 
 const ProfileRoute = ({ auth }) => {
   return (

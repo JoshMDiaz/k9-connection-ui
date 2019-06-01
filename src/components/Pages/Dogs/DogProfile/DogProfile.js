@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import DogService from '../../../../services/DogService'
 import BackButton from '../../../common/BackButton/BackButton'
 import DogImages from '../../../Dogs/DogImages/DogImages'
@@ -7,6 +7,7 @@ import DogRead from './DogRead'
 import DogEdit from './DogEdit'
 import { Snackbar } from '@material-ui/core'
 import moment from 'moment'
+import UserContext from '../../../../userContext'
 
 const DogProfile = props => {
   const [dog, setDog] = useState({})
@@ -16,10 +17,11 @@ const DogProfile = props => {
     isOpen: false,
     message: ''
   })
+  const uc = useContext(UserContext)
 
   useEffect(() => {
     getDog(props.match.params.id)
-    getCurrentUser()
+    setUser(uc.user)
   }, [])
 
   const getDog = id => {
@@ -28,12 +30,6 @@ const DogProfile = props => {
         setDog(response.data)
       }
     })
-  }
-
-  const getCurrentUser = () => {
-    // Need to check if the dog is a favorite
-    console.log('getting current user')
-    setUser({})
   }
 
   const transformBreedIds = breeds => {

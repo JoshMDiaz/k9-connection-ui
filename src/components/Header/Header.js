@@ -27,9 +27,9 @@ const Header = ({ auth }) => {
           auth0User = JSON.parse(localStorage.getItem('auth0User'))
         setUser(user)
         if (user) {
-          uc.login(user)
+          uc.setUser(user)
         } else {
-          uc.login(auth0User)
+          uc.setUser(auth0User)
           !localStorage.getItem('profilePrompt') &&
             setSnack({
               message: (

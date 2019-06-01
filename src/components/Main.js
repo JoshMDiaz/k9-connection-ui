@@ -27,7 +27,7 @@ const Main = props => {
     }
   }, [])
 
-  const login = user => {
+  const setUser = user => {
     setCurrentUser(user)
   }
 
@@ -38,7 +38,12 @@ const Main = props => {
   return (
     <MuiThemeProvider theme={theme}>
       <UserContext.Provider
-        value={{ user: currentUser, login: login, dogs: searchDogs, setDogs }}
+        value={{
+          user: currentUser,
+          dogs: searchDogs,
+          setDogs,
+          setUser
+        }}
       >
         <div className='App'>
           <Sidebar />
