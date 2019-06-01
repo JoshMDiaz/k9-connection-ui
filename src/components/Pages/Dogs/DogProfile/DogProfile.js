@@ -69,7 +69,7 @@ const DogProfile = props => {
   }
 
   return (
-    <div className='dog-profile'>
+    <div className='dog-profile profile'>
       <div className='main-content-header'>
         <BackButton history={props.history} />
       </div>

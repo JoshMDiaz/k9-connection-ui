@@ -10,20 +10,39 @@ import FormService from '../../../../services/FormService'
 
 const UserEdit = ({ user, setIsEditMode, update }) => {
   const [form, setForm] = useState({
-    name: user.name,
-    picture: user.picture,
-    phone: user.phone,
-    email: user.email,
-    address: user.address,
-    city: user.eyes,
-    zip: user.zip,
-    dogs: user.dogs
+    name: '',
+    // picture: '',
+    phone: '',
+    email: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
+    dogs: ''
   })
-  const [states, setStates] = useState()
+  const [states, setStates] = useState([])
 
   useEffect(() => {
     getStates()
   }, [])
+
+  useEffect(() => {
+    getUser()
+  }, [user])
+
+  const getUser = () => {
+    setForm({
+      name: user.name || '',
+      // picture: user.picture || '',
+      phone: user.phone || '',
+      email: user.email || '',
+      address: user.address || '',
+      city: user.city || '',
+      state: user.state || '',
+      zip: user.zip || '',
+      dogs: user.dogs || ''
+    })
+  }
 
   const getStates = () => {
     FormService.getStates().then(response => {
@@ -43,12 +62,12 @@ const UserEdit = ({ user, setIsEditMode, update }) => {
     <>
       {/* Name */}
       <TextField
-        label={`Name`}
+        label={`Name (required)`}
         className={'filter-input'}
         margin='normal'
         onChange={e => handleChange(e, 'name', 'value')}
         fullWidth
-        value={form.name}
+        value={form.name || ''}
       />
 
       {/* Phone - see Formatted Inputs - https://material-ui.com/components/text-fields/#formatted-inputs */}

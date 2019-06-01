@@ -29,28 +29,10 @@ const Header = ({ auth }) => {
         if (user) {
           uc.setUser(user)
         } else {
+          auth0User.email = auth0User.name
+          delete auth0User.name
           uc.setUser(auth0User)
-          !localStorage.getItem('profilePrompt') &&
-            setSnack({
-              message: (
-                <span className='account-finish-message'>
-                  <span className='message'>
-                    Want to finish setting up your account?
-                  </span>
-                  <button onClick={() => snackAction(true)} className='plain'>
-                    Set Up
-                  </button>
-                  <button
-                    onClick={() => snackAction()}
-                    className='close-button'
-                  >
-                    X
-                  </button>
-                </span>
-              ),
-              isOpen: true,
-              className: 'info'
-            })
+          !localStorage.getItem('profilePrompt') && snackPrompt()
         }
       }
     }, 500)
@@ -65,6 +47,26 @@ const Header = ({ auth }) => {
       clearTimeout(searchTimeout)
     }
   }, [])
+
+  const snackPrompt = () => {
+    setSnack({
+      message: (
+        <span className='account-finish-message'>
+          <span className='message'>
+            Want to finish setting up your account?
+          </span>
+          <button onClick={() => snackAction(true)} className='plain'>
+            Set Up
+          </button>
+          <button onClick={() => snackAction()} className='close-button'>
+            X
+          </button>
+        </span>
+      ),
+      isOpen: true,
+      className: 'info'
+    })
+  }
 
   const logout = () => {
     auth.logout()
@@ -174,7 +176,7 @@ const Header = ({ auth }) => {
               alt={uc.user.name}
             />
           </div>
-          <span>{uc.user.name}</span>
+          <span>{uc.user.name || uc.user.email}</span>
           <Icon icon='chevronDown' />
         </button>
       )}

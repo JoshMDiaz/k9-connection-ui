@@ -28,7 +28,7 @@ const UserProfile = props => {
 
   useEffect(() => {
     console.log(user)
-  }, [])
+  }, [user])
 
   const update = form => {
     console.log('updateUser', form)
@@ -70,7 +70,7 @@ const UserProfile = props => {
   }
 
   return (
-    <div className='user-profile'>
+    <div className='user-profile profile'>
       <div className='main-content-header'>
         <BackButton history={props.history} />
       </div>
@@ -85,7 +85,7 @@ const UserProfile = props => {
           </div>
         </div>
         <div className='right-section'>
-          {!isEditMode || !user ? (
+          {!isEditMode && user.id ? (
             <UserRead user={user} setIsEditMode={setIsEditMode} />
           ) : (
             <UserEdit

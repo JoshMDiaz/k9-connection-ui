@@ -78,7 +78,7 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
 
   return (
     <>
-      <div className='dog-info-header'>
+      <div className='info-header'>
         <h2>{dog.name}</h2>
         <div className={`button-container ${isUserDog ? 'is-user-dog' : ''}`}>
           <span
@@ -115,10 +115,10 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
           )}
         </div>
       </div>
-      <div className='dog-info-container'>
+      <div className='info-container'>
         {dogInfoConfig.map((e, i) => (
-          <div className='dog-info' key={i}>
-            <span className='dog-info-label'>
+          <div className='info' key={i}>
+            <span className='info-label'>
               {e.label === 'breeds' ? (
                 <Plural text={e.label} num={dog.breeds.length} />
               ) : (
@@ -131,7 +131,7 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
         ))}
       </div>
       <div className='about-dog'>
-        <span className='dog-info-label'>About</span>
+        <span className='info-label'>About</span>
         <p className='description'>{dog.description}</p>
       </div>
     </>
