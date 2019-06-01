@@ -16,7 +16,6 @@ const DogProfile = props => {
     isOpen: false,
     message: ''
   })
-  const [uploadedImages, setUploadedImages] = useState([])
 
   useEffect(() => {
     getDog(props.match.params.id)
@@ -34,6 +33,7 @@ const DogProfile = props => {
   const getCurrentUser = () => {
     // Need to check if the dog is a favorite
     console.log('getting current user')
+    setUser({})
   }
 
   const transformBreedIds = breeds => {
@@ -56,7 +56,7 @@ const DogProfile = props => {
     DogService.updateDog(props.match.params.id, body).then(response => {
       if (response) {
         setSnack({
-          message: 'Congrats! Dog has been updated!',
+          message: 'Dog has been updated!',
           isOpen: true,
           className: 'success'
         })

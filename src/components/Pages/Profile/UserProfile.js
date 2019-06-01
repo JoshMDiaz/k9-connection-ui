@@ -35,6 +35,7 @@ const UserProfile = props => {
   const getCurrentUser = dogId => {
     // Need to check if the dog is a favorite
     console.log('getting current user')
+    setUser({})
   }
 
   const userInfoConfig = [

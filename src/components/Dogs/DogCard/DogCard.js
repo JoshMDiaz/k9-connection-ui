@@ -49,14 +49,14 @@ const DogCard = ({ dog, count }) => {
           <div className='card-content'>
             <h2>{dog.name}</h2>
             <p className='dog-info-row'>
-              <div>
+              <span>
                 <span className='gender'>{dog.gender}</span>
                 &nbsp;&nbsp;/&nbsp;&nbsp;
                 <span className='age'>
                   {HelperService.getYearsOld(dog.birthdate)}
                 </span>
-              </div>
-              <div>
+              </span>
+              <span>
                 {dog.breeds.length > 1 ? (
                   // popover here with list of breeds
                   <span>Breeds</span>
@@ -68,7 +68,7 @@ const DogCard = ({ dog, count }) => {
                   // ))}
                   <span>{dog.breeds[0].name}</span>
                 )}
-              </div>
+              </span>
             </p>
             <p>
               {dog.description ? (

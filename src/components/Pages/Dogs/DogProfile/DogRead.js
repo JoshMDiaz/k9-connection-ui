@@ -95,13 +95,15 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
               callout={messageOwner}
             />
           </div>
-          <div className='icon-container'>
-            <Icon
-              icon={isFavorite ? 'favoriteSolid' : 'favorite'}
-              customClass='favorite-icon'
-              callout={favoriteDog}
-            />
-          </div>
+          {!isUserDog && (
+            <div className='icon-container'>
+              <Icon
+                icon={isFavorite ? 'favoriteSolid' : 'favorite'}
+                customClass='favorite-icon'
+                callout={favoriteDog}
+              />
+            </div>
+          )}
           {isUserDog && (
             <div className='icon-container'>
               <Icon

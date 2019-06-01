@@ -12,6 +12,7 @@
   .search-bar {
     align-items: center;
     display: none;
+    position: relative;
     @media only screen and (min-width: 768px) {
       display: flex;
     }
@@ -20,6 +21,9 @@
     }
     .search-dogs-input {
       margin: -10px 0 10px;
+    }
+    .loader {
+      right: -30px;
     }
   }
   button {

@@ -5,13 +5,14 @@ import noProfileImg from '../../images/icons/no-profile.svg'
 import UserContext from '../../userContext'
 import SearchService from '../../services/SearchService'
 import history from '../../services/Auth/History'
+import Spinner from '../common/Spinner/Spinner'
 
 let loginTO, searchTimeout, isCancelled
 
 const Header = ({ auth }) => {
   const [searchField, setSearchField] = useState('')
   const [isOpen, setIsOpen] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const uc = useContext(UserContext)
 
   useEffect(() => {
@@ -20,17 +21,31 @@ const Header = ({ auth }) => {
         uc.login(JSON.parse(localStorage.getItem('user')))
       }
     }, 500)
+    checkForSearchParams()
+    history.listen(location => {
+      if (location.pathname !== '/search') {
+        setSearchField('')
+      }
+    })
     return () => {
       clearTimeout(loginTO)
       clearTimeout(searchTimeout)
     }
-  })
+  }, [])
 
   const logout = () => {
     auth.logout()
   }
 
+  const checkForSearchParams = () => {
+    let searchParams = history.location.search.substring(1)
+    if (searchParams) {
+      setSearchField(searchParams)
+    }
+  }
+
   const getSearch = value => {
+    SearchService.cancelGetAll()
     !isCancelled && setLoading(true)
     let params = {
       value
@@ -52,15 +67,15 @@ const Header = ({ auth }) => {
   }
 
   const handleChange = e => {
-    SearchService.cancelGetAll()
     setSearchField(e.target.value)
     if (e.target.value !== '' && e.target.value !== undefined) {
       getSearch(e.target.value)
     } else {
       uc.setDogs([])
       history.push({
-        search: `?${e.target.value}`
+        search: ''
       })
+      setLoading(false)
     }
   }
 
@@ -85,7 +100,7 @@ const Header = ({ auth }) => {
           value={searchField}
           placeholder='Search by name, gender, or breed'
         />
-        {loading && <span>Loading...</span>}
+        {loading && <Spinner />}
       </div>
       {uc.user && (
         <button className='plain user-dropdown' onClick={() => toggle(!isOpen)}>

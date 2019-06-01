@@ -9,8 +9,7 @@ import {
   RadioGroup,
   FormLabel,
   FormControlLabel,
-  Chip,
-  Snackbar
+  Chip
 } from '@material-ui/core'
 import { SingleDatePicker, isInclusivelyBeforeDay } from 'react-dates'
 import FormService from '../../../../services/FormService'
