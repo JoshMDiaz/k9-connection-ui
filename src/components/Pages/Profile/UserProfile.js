@@ -1,42 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import DogService from '../../../services/DogService'
+import React, { useState, useEffect, useContext } from 'react'
 import BackButton from '../../common/BackButton/BackButton'
 import ContentContainer from '../../common/ContentContainer'
 import List from '../../Dogs/List'
-import LoadingCard from '../../common/LoadingCard/LoadingCard'
+import userContext from '../../../userContext'
+import Mdash from '../../common/Mdash/Mdash'
+// import UserService from '../../../services/UserService'
 
 const UserProfile = props => {
-  const [loading, setLoading] = useState(true)
   const [user, setUser] = useState({})
-  const [dogs, setDogs] = useState([])
+  const uc = useContext(userContext)
 
-  let isCancelled,
-    count = 0
+  let isCancelled
 
   useEffect(() => {
-    !isCancelled && getDogs()
-    getCurrentUser(props.match.params.id)
+    !isCancelled && setUser(uc.user)
+    // getUser()
+    return () => {
+      isCancelled = true
+    }
   }, [])
 
-  const getDogs = filter => {
-    !isCancelled && setLoading(true)
-    let params = {
-      owner_id: 1,
-      name: 'Test Rafi'
-    }
-    DogService.getAll(params).then(response => {
-      if (response) {
-        !isCancelled && setDogs(response.data)
-        !isCancelled && setLoading(false)
-      }
-    })
-  }
-
-  const getCurrentUser = dogId => {
-    // Need to check if the dog is a favorite
-    console.log('getting current user')
-    setUser({})
-  }
+  // const getUser = () => {
+  //   UserService.get(uc.user.sub).then(response => {
+  //     if (response) {
+  //       setUser(response.id)
+  //     }
+  //   })
+  // }
 
   const userInfoConfig = [
     {
@@ -72,21 +62,17 @@ const UserProfile = props => {
           {userInfoConfig.map((e, i) => (
             <div className='user-info' key={i}>
               <span className='user-info-label'>{e.label}:</span>
-              <span className='user-info-data'>{e.value}</span>
+              {` `}
+              <span className='user-info-data'>
+                {user[e.value] || <Mdash />}
+              </span>
             </div>
           ))}
         </div>
       </ContentContainer>
       <div className='page-padding'>
-        {!loading ? (
-          <List dogs={dogs} />
-        ) : (
-          <div className='card-list'>
-            {[...Array(3).keys()].map(row => {
-              count++
-              return <LoadingCard key={row} count={count} />
-            })}
-          </div>
+        {uc.user.dogs && uc.user.dogs.length > 0 && (
+          <List dogs={uc.user.dogs} />
         )}
       </div>
     </div>

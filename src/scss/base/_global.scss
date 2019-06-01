@@ -6,7 +6,7 @@
   font-family: 'Poppins', sans-serif;
   @media only screen and (min-width: 768px) {
     display: grid;
-    grid-template-columns: 216px 1fr;
+    grid-template-columns: 176px 1fr;
   }
 }
 .app-content {
@@ -112,11 +112,15 @@ fieldset.gender-radios {
   display: grid;
   grid-gap: 32px;
   margin-bottom: 64px;
-  @media only screen and (min-width: 500px) {
+  @media only screen and (min-width: 650px) {
     grid-template-columns: repeat(2, 1fr);
   }
   @media only screen and (min-width: 768px) {
+    grid-template-columns: 1fr;
     margin-bottom: 0;
+  }
+  @media only screen and (min-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
   }
   @media only screen and (min-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
@@ -160,6 +164,30 @@ fieldset.gender-radios {
   }
   &.success > div {
     background: $green-color;
+  }
+  &.info > div {
+    background: $secondary-color;
+  }
+  .close-button {
+    color: $white-color;
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    &:hover {
+      box-shadow: none;
+    }
+  }
+  .account-finish-message {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 24px;
+    align-items: center;
+    padding-right: 32px;
+    button {
+      @include border-radius;
+      box-shadow: none;
+    }
   }
 }
 

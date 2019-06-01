@@ -1,9 +1,11 @@
 @import './range';
 #filter-popover {
   .popover-container {
+    left: 32px !important;
+    right: 32px;
     @media only screen and (min-width: 768px) {
       top: 135px !important;
-      left: 248px !important;
+      left: 208px !important;
       right: 32px;
       bottom: 32px;
     }
