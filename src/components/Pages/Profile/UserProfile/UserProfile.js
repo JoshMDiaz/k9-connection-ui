@@ -7,16 +7,28 @@ import userContext from '../../../../userContext'
 import UserRead from './UserRead'
 import noProfileImg from '../../../../images/icons/no-profile.svg'
 import UserEdit from './UserEdit'
-// import UserService from '../../../../services/UserService'
+import UserService from '../../../../services/UserService'
 
 const UserProfile = props => {
   const [isEditMode, setIsEditMode] = useState(false)
+  const [user, setUser] = useState({})
   const [snack, setSnack] = useState({
     isOpen: false,
     message: ''
   })
-  const uc = useContext(userContext),
-    { user, updateUser } = uc
+  const uc = useContext(userContext)
+  let isCancelled
+
+  useEffect(() => {
+    !isCancelled && getUser()
+  }, [])
+
+  useEffect(() => {
+    setUser(uc.user)
+    if (Object.entries(uc.user).length !== 0 && !uc.user.id) {
+      setIsEditMode(true)
+    }
+  }, [uc.user])
 
   const determineUserChange = form => {
     if (user.id) {
@@ -26,40 +38,48 @@ const UserProfile = props => {
     }
   }
 
-  useEffect(() => {
-    console.log(user)
-  }, [user])
+  const getUser = () => {
+    UserService.get(uc.user.sub).then(response => {
+      if (response && response.data) {
+        setUser(response.data)
+        uc.setUser(response.data)
+        localStorage.setItem('user', JSON.stringify(response.data))
+      }
+    })
+  }
 
   const update = form => {
-    console.log('updateUser', form)
-    // let body = {}
-    // UserService.updateUser(body).then(response => {
-    //   if (response) {
-    //     setSnack({
-    //       message: 'Your account has been updated!',
-    //       isOpen: true,
-    //       className: 'success'
-    //     })
-    //     setIsEditMode(false)
-    // updateUser(response.data)
-    //   }
-    // })
+    let body = {
+      ...form
+    }
+    UserService.updateUser(user.sub, body).then(response => {
+      if (response) {
+        setSnack({
+          message: 'Your account has been updated!',
+          isOpen: true,
+          className: 'success'
+        })
+        getUser()
+        setIsEditMode(false)
+      }
+    })
   }
 
   const create = form => {
-    console.log('createUser', form)
-    // let body = {}
-    // UserService.createUser(body).then(response => {
-    //   if (response) {
-    //     setSnack({
-    //       message: 'Your account has been updated!',
-    //       isOpen: true,
-    //       className: 'success'
-    //     })
-    //     setIsEditMode(false)
-    // updateUser(response.data)
-    //   }
-    // })
+    let body = {
+      ...form
+    }
+    UserService.createUser(body).then(response => {
+      if (response) {
+        setSnack({
+          message: 'Your account has been updated!',
+          isOpen: true,
+          className: 'success'
+        })
+        setIsEditMode(false)
+        getUser()
+      }
+    })
   }
 
   const closeSnack = () => {
@@ -85,14 +105,14 @@ const UserProfile = props => {
           </div>
         </div>
         <div className='right-section'>
-          {!isEditMode && user.id ? (
-            <UserRead user={user} setIsEditMode={setIsEditMode} />
-          ) : (
+          {isEditMode ? (
             <UserEdit
               user={user}
               setIsEditMode={setIsEditMode}
               update={determineUserChange}
             />
+          ) : (
+            <UserRead user={user} setIsEditMode={setIsEditMode} />
           )}
         </div>
       </ContentContainer>

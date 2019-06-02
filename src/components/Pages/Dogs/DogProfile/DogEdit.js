@@ -70,7 +70,7 @@ const DogEdit = ({ dog, user, setIsEditMode, update }) => {
       {/* Name */}
       <TextField
         label={`Name`}
-        className={'filter-input'}
+        className={'form-input'}
         margin='normal'
         onChange={e => handleChange(e, 'name', 'value')}
         fullWidth

@@ -46,7 +46,7 @@
     grid-gap: 16px;
     align-items: center;
     grid-template-columns: repeat(2, auto);
-    &.is-user-dog {
+    &.is-user {
       grid-template-columns: repeat(3, auto);
     }
   }
@@ -72,6 +72,11 @@
   }
   .right-section {
     font-size: 14px;
+    .form-input {
+      &:first-child {
+        margin-top: 0;
+      }
+    }
   }
   .info-label {
     color: $light-text-color;

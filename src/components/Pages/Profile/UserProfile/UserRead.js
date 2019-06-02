@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Mdash from '../../../common/Mdash/Mdash'
+import Icon from '../../../common/Icons/Icon'
 
-const UserRead = ({ user }) => {
+const UserRead = ({ user, setIsEditMode }) => {
+  const [isUser, setIsUser] = useState(true)
+
   const userInfoConfig = [
     {
       label: 'Phone',
@@ -25,19 +28,54 @@ const UserRead = ({ user }) => {
     }
   ]
 
+  const message = () => {
+    console.log('message')
+  }
+
   return (
-    <div className='user-profile-read-only'>
-      <div className='user-info-header'>{user.nickname || user.name}</div>
-      <div className='user-info-container'>
+    <>
+      <div className='info-header'>
+        <h2>{user.name}</h2>
+        <div className={`button-container ${isUser ? 'is-user' : ''}`}>
+          {!isUser && (
+            <>
+              <span
+                className='img-border with-text not-mobile'
+                onClick={message}
+              >
+                Message Owner&nbsp;
+                <Icon icon='messageNoBorder' customClass='button-icon' />
+              </span>
+              <div className='icon-container mobile-only'>
+                <Icon
+                  icon={'message'}
+                  customClass='message-icon'
+                  callout={message}
+                />
+              </div>
+            </>
+          )}
+          {isUser && (
+            <div className='icon-container'>
+              <Icon
+                icon={'pencil'}
+                customClass='pencil-icon'
+                callout={() => setIsEditMode(true)}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+      <div className='info-container'>
         {userInfoConfig.map((e, i) => (
-          <div className='user-info' key={i}>
-            <span className='user-info-label'>{e.label}:</span>
+          <div className='info' key={i}>
+            <span className='info-label'>{e.label}:</span>
             {` `}
-            <span className='user-info-data'>{user[e.value] || <Mdash />}</span>
+            <span className='info-data'>{user[e.value] || <Mdash />}</span>
           </div>
         ))}
       </div>
-    </div>
+    </>
   )
 }
 

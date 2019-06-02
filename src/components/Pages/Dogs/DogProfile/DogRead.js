@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import HelperService from '../../../../services/HelperService'
 import Icon from '../../../common/Icons/Icon'
 import Plural from '../../../common/Plural'
+import Mdash from '../../../common/Mdash/Mdash'
 
 const DogRead = ({ dog, user, setIsEditMode }) => {
   const [isUserDog, setIsUserDog] = useState(true)
@@ -80,14 +81,16 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
     <>
       <div className='info-header'>
         <h2>{dog.name}</h2>
-        <div className={`button-container ${isUserDog ? 'is-user-dog' : ''}`}>
-          <span
-            className='img-border with-text not-mobile'
-            onClick={messageOwner}
-          >
-            Message Owner&nbsp;
-            <Icon icon='messageNoBorder' customClass='button-icon' />
-          </span>
+        <div className={`button-container ${isUserDog ? 'is-user' : ''}`}>
+          {!isUserDog && (
+            <span
+              className='img-border with-text not-mobile'
+              onClick={messageOwner}
+            >
+              Message Owner&nbsp;
+              <Icon icon='messageNoBorder' customClass='button-icon' />
+            </span>
+          )}
           <div className='icon-container mobile-only'>
             <Icon
               icon={'message'}
@@ -122,11 +125,12 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
               {e.label === 'breeds' ? (
                 <Plural text={e.label} num={dog.breeds.length} />
               ) : (
-                <span>{e.label} </span>
+                <span>{e.label}: </span>
               )}
-              :
             </span>
-            <span className='dog-info-data'>{transformData(e.value)}</span>
+            <span className='dog-info-data'>
+              {transformData(e.value) || <Mdash />}
+            </span>
           </div>
         ))}
       </div>

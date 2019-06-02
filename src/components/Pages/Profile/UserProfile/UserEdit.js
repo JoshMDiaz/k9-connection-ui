@@ -11,7 +11,7 @@ import FormService from '../../../../services/FormService'
 const UserEdit = ({ user, setIsEditMode, update }) => {
   const [form, setForm] = useState({
     name: '',
-    // picture: '',
+    picture: '',
     phone: '',
     email: '',
     address: '',
@@ -33,14 +33,15 @@ const UserEdit = ({ user, setIsEditMode, update }) => {
   const getUser = () => {
     setForm({
       name: user.name || '',
-      // picture: user.picture || '',
+      picture: user.picture || '',
       phone: user.phone || '',
       email: user.email || '',
       address: user.address || '',
       city: user.city || '',
       state: user.state || '',
       zip: user.zip || '',
-      dogs: user.dogs || ''
+      dogs: user.dogs || '',
+      sub: user.sub
     })
   }
 
@@ -62,8 +63,8 @@ const UserEdit = ({ user, setIsEditMode, update }) => {
     <>
       {/* Name */}
       <TextField
-        label={`Name (required)`}
-        className={'filter-input'}
+        label={`Name`}
+        className={'form-input'}
         margin='normal'
         onChange={e => handleChange(e, 'name', 'value')}
         fullWidth
@@ -73,7 +74,7 @@ const UserEdit = ({ user, setIsEditMode, update }) => {
       {/* Phone - see Formatted Inputs - https://material-ui.com/components/text-fields/#formatted-inputs */}
       <TextField
         label={`Phone`}
-        className={'filter-input'}
+        className={'form-input'}
         margin='normal'
         onChange={e => handleChange(e, 'phone', 'value')}
         fullWidth
@@ -82,8 +83,8 @@ const UserEdit = ({ user, setIsEditMode, update }) => {
 
       {/* Email */}
       <TextField
-        label={`Email`}
-        className={'filter-input'}
+        label={`Email (required)`}
+        className={'form-input'}
         margin='normal'
         onChange={e => handleChange(e, 'email', 'value')}
         fullWidth
@@ -93,7 +94,7 @@ const UserEdit = ({ user, setIsEditMode, update }) => {
       {/* Address */}
       <TextField
         label={`Address`}
-        className={'filter-input'}
+        className={'form-input'}
         margin='normal'
         onChange={e => handleChange(e, 'address', 'value')}
         fullWidth
@@ -103,7 +104,7 @@ const UserEdit = ({ user, setIsEditMode, update }) => {
       {/* City */}
       <TextField
         label={`City`}
-        className={'filter-input'}
+        className={'form-input'}
         margin='normal'
         onChange={e => handleChange(e, 'city', 'value')}
         fullWidth
@@ -113,7 +114,7 @@ const UserEdit = ({ user, setIsEditMode, update }) => {
       {/* Zip */}
       <TextField
         label={`Zip`}
-        className={'filter-input'}
+        className={'form-input'}
         margin='normal'
         onChange={e => handleChange(e, 'zip', 'value')}
         fullWidth
