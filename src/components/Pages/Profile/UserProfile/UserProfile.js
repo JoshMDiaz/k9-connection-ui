@@ -116,12 +116,15 @@ const UserProfile = props => {
   return (
     <div className='user-profile profile'>
       <div className='main-content-header'>
-        <span>
+        <span className='animated fadeInLeft'>
           You have {user.dogs ? user.dogs.length : 0}{' '}
           <Plural text='Dog' number={user.dogs ? user.dogs.length : 0} />{' '}
           Registered
         </span>
-        <Link to='/profile/new-dog' className='new-dog-link'>
+        <Link
+          to='/profile/new-dog'
+          className='new-dog-link animated fadeInRight'
+        >
           <button className='primary'>New Dog</button>
         </Link>
       </div>

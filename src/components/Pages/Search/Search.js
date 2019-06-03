@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import List from '../../Dogs/List'
 import NumberFormat from 'react-number-format'
 import Plural from '../../common/Plural'
-import PageHeader from '../../common/PageHeader/PageHeader'
 import BackButton from '../../common/BackButton/BackButton'
 import SearchService from '../../../services/SearchService'
 import LoadingCard from '../../common/LoadingCard/LoadingCard'
@@ -41,20 +40,16 @@ const Search = props => {
     <div className='search-page'>
       <div className='main-content-header'>
         <BackButton history={props.history} isSearch />
-        <PageHeader
-          text={
-            <>
-              <NumberFormat
-                value={dogs.length}
-                thousandSeparator={true}
-                displayType='text'
-              />
-              &nbsp;
-              <Plural text='Dog' number={dogs.length} />
-              &nbsp;Found
-            </>
-          }
-        />
+        <h3 className='page-header animated fadeInRight'>
+          <NumberFormat
+            value={dogs.length}
+            thousandSeparator={true}
+            displayType='text'
+          />
+          &nbsp;
+          <Plural text='Dog' number={dogs.length} />
+          &nbsp;Found
+        </h3>
       </div>
       <div className='page-padding'>
         {!loading ? (

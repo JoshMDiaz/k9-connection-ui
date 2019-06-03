@@ -2,6 +2,7 @@
   display: none;
   @media only screen and (min-width: 768px) {
     background: $white-color;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;

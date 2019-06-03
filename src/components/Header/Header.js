@@ -157,7 +157,7 @@ const Header = ({ auth }) => {
 
   return (
     <div className='header'>
-      <div className='search-bar'>
+      <div className='search-bar animated fadeInLeft'>
         <Icon icon='magnifyingGlass' onClick={focusSearch} />
         <TextField
           label={`Search Dogs`}
@@ -172,7 +172,10 @@ const Header = ({ auth }) => {
         <span>{snack.duration}</span>
       </div>
       {uc.user && (
-        <button className='plain user-dropdown' onClick={() => toggle(!isOpen)}>
+        <button
+          className='plain user-dropdown animated fadeInRight'
+          onClick={() => toggle(!isOpen)}
+        >
           <div className='image-container'>
             <img
               src={uc.user.picture ? uc.user.picture : noProfileImg}
