@@ -11,7 +11,7 @@ import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 import Plural from '../../../common/Plural'
 
 const UserProfile = props => {
-  const [isEditMode, setIsEditMode] = useState(true)
+  const [isEditMode, setIsEditMode] = useState(false)
   const [user, setUser] = useState({})
   const [uploadedImage, setUploadedImage] = useState(null)
   const [snack, setSnack] = useState({
@@ -57,38 +57,35 @@ const UserProfile = props => {
     })
   }
 
-  const update = form => {
-    let body = {
+  const responseAction = form => {
+    setSnack({
+      message: 'Your account has been updated!',
+      isOpen: true,
+      className: 'success'
+    })
+    getUser()
+    setIsEditMode(false)
+  }
+
+  const postBody = form => {
+    return {
       ...form,
       picture: uploadedImage || form.picture
     }
-    UserService.updateUser(user.sub, body).then(response => {
+  }
+
+  const update = form => {
+    UserService.updateUser(user.sub, postBody(form)).then(response => {
       if (response) {
-        setSnack({
-          message: 'Your account has been updated!',
-          isOpen: true,
-          className: 'success'
-        })
-        getUser()
-        setIsEditMode(false)
+        responseAction()
       }
     })
   }
 
   const create = form => {
-    let body = {
-      ...form,
-      picture: uploadedImage || form.picture
-    }
-    UserService.createUser(body).then(response => {
+    UserService.createUser(postBody(form)).then(response => {
       if (response) {
-        setSnack({
-          message: 'Your account has been updated!',
-          isOpen: true,
-          className: 'success'
-        })
-        setIsEditMode(false)
-        getUser()
+        responseAction()
       }
     })
   }
