@@ -19,6 +19,7 @@ const auth = new Auth()
 const Main = props => {
   const [currentUser, setCurrentUser] = useState({})
   const [searchDogs, setSearchDogs] = useState([])
+  const [previousPage, setPreviousPage] = useState('')
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
@@ -35,14 +36,20 @@ const Main = props => {
     setSearchDogs(dogs)
   }
 
+  const setPrevPage = page => {
+    setPreviousPage(page)
+  }
+
   return (
     <MuiThemeProvider theme={theme}>
       <UserContext.Provider
         value={{
           user: currentUser,
           dogs: searchDogs,
+          prevPage: previousPage,
           setDogs,
-          setUser
+          setUser,
+          setPrevPage
         }}
       >
         <div className='App'>

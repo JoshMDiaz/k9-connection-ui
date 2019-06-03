@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { TextField, Popover, Snackbar } from '@material-ui/core'
 import Icon from '../../components/common/Icons/Icon'
-import noProfileImg from '../../images/icons/no-profile.svg'
+import noProfileImg from '../../images/icons/user.svg'
 import UserContext from '../../userContext'
 import SearchService from '../../services/SearchService'
 import history from '../../services/Auth/History'
@@ -89,6 +89,9 @@ const Header = ({ auth }) => {
       if (response) {
         uc.setDogs(response.data)
         !isCancelled && setLoading(false)
+        if (history.location.pathname !== '/search') {
+          uc.setPrevPage(history.location.pathname)
+        }
         history.push({
           pathname: '/search',
           search: `?${value}`

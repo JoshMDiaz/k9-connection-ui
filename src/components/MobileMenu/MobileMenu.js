@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import UserContext from '../../userContext'
-import noProfileImg from '../../images/icons/no-profile.svg'
+import noProfileImg from '../../images/icons/user.svg'
 
 const MobileMenu = ({ auth, closeMenu }) => {
   const uc = useContext(UserContext)

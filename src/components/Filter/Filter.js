@@ -360,10 +360,10 @@ const Filter = ({ form, dispatch, closeFilter }) => {
           />
         </div>
         <div className='button-container'>
-          <button className={'plain search-button'} onClick={resetForm}>
+          <button className={'plain'} onClick={resetForm}>
             Reset
           </button>
-          <button className={'primary search-button'} onClick={updateFilter}>
+          <button className={'primary'} onClick={updateFilter}>
             Apply
           </button>
         </div>

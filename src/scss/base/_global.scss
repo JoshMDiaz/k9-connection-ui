@@ -38,6 +38,8 @@
   padding: 16px;
   background: $white-color;
   @include border-radius;
+  max-width: 1680px;
+  margin: auto;
 }
 
 p {

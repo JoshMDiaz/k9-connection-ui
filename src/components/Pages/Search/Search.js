@@ -40,7 +40,7 @@ const Search = props => {
   return (
     <div className='search-page'>
       <div className='main-content-header'>
-        <BackButton history={props.history} />
+        <BackButton history={props.history} isSearch />
         <PageHeader
           text={
             <>

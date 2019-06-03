@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core'
 import FormService from '../../../../services/FormService'
 
-const UserEdit = ({ user, setIsEditMode, update }) => {
+const UserEdit = ({ user, setIsEditMode, update, history }) => {
   const [form, setForm] = useState({
     name: '',
     picture: '',
@@ -56,6 +56,13 @@ const UserEdit = ({ user, setIsEditMode, update }) => {
     setForm({
       ...form,
       [field]: event.target[elementValue]
+    })
+  }
+
+  const goToNewDog = form => {
+    update(form)
+    history.pushState({
+      pathname: '/profile/new-dog'
     })
   }
 
@@ -141,18 +148,17 @@ const UserEdit = ({ user, setIsEditMode, update }) => {
       </FormControl>
 
       <div className='form-button-container'>
-        <button
-          className={'plain search-button'}
-          onClick={() => setIsEditMode(false)}
-        >
-          Cancel
+        <button className={'no-bg'} onClick={() => goToNewDog(form)}>
+          Add Dogs
         </button>
-        <button
-          className={'primary search-button'}
-          onClick={() => update(form)}
-        >
-          Save
-        </button>
+        <div>
+          <button className={'plain'} onClick={() => setIsEditMode(false)}>
+            Cancel
+          </button>
+          <button className={'primary'} onClick={() => update(form)}>
+            Save
+          </button>
+        </div>
       </div>
     </>
   )

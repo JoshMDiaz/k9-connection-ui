@@ -254,16 +254,10 @@ const DogEdit = ({ dog, user, setIsEditMode, update }) => {
         style={{ width: '100%' }}
       />
       <div className='form-button-container'>
-        <button
-          className={'plain search-button'}
-          onClick={() => setIsEditMode(false)}
-        >
+        <button className={'plain'} onClick={() => setIsEditMode(false)}>
           Cancel
         </button>
-        <button
-          className={'primary search-button'}
-          onClick={() => update(form)}
-        >
+        <button className={'primary'} onClick={() => update(form)}>
           Save
         </button>
       </div>
