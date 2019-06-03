@@ -37,8 +37,8 @@
     @include border-radius(50px);
     @include transition;
     &:hover {
-      box-shadow: 0 8px 15px $border-color;
       cursor: pointer;
+      transform: scale(1.1);
     }
   }
   .button-container {

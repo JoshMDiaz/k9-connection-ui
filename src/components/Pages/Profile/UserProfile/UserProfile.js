@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Snackbar } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 import ContentContainer from '../../../common/ContentContainer'
 import List from '../../../Dogs/List'
 import userContext from '../../../../userContext'
 import UserRead from './UserRead'
-import noProfileImg from '../../../../images/icons/user.svg'
 import UserEdit from './UserEdit'
 import UserService from '../../../../services/UserService'
 import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 import Plural from '../../../common/Plural'
 
 const UserProfile = props => {
-  const [isEditMode, setIsEditMode] = useState(false)
+  const [isEditMode, setIsEditMode] = useState(true)
   const [user, setUser] = useState({})
   const [uploadedImage, setUploadedImage] = useState(null)
   const [snack, setSnack] = useState({
@@ -24,6 +24,7 @@ const UserProfile = props => {
 
   useEffect(() => {
     setUser(uc.user)
+    setUploadedImage(uc.user.picture)
     if (Object.entries(uc.user).length !== 0 && !uc.user.id) {
       if (getUserCount === 0) {
         !isCancelled && getUser()
@@ -32,6 +33,10 @@ const UserProfile = props => {
       }
     }
   }, [uc.user])
+
+  useEffect(() => {
+    setUploadedImage(uc.user.picture)
+  }, [isEditMode])
 
   const determineUserChange = form => {
     if (user.id) {
@@ -116,12 +121,15 @@ const UserProfile = props => {
       <div className='main-content-header'>
         <span>
           You have {user.dogs ? user.dogs.length : 0}{' '}
-          <Plural text='Dog' num={user.dogs ? user.dogs.length : 0} />{' '}
+          <Plural text='Dog' number={user.dogs ? user.dogs.length : 0} />{' '}
           Registered
         </span>
+        <Link to='/profile/new-dog' className='new-dog-link'>
+          <button className='primary'>New Dog</button>
+        </Link>
       </div>
       <ContentContainer customClass='profile-container'>
-        <div className='left-section'>
+        <div className='left-section animated fadeInLeft'>
           {isEditMode ? (
             <>
               <UploadPhotos callout={uploadImage} type='user' />
@@ -133,14 +141,11 @@ const UserProfile = props => {
             </>
           ) : (
             <div className='image-container'>
-              <img
-                src={user.picture ? user.picture : noProfileImg}
-                alt={user.name}
-              />
+              <img src={user.picture} alt={user.name} />
             </div>
           )}
         </div>
-        <div className='right-section'>
+        <div className='right-section animated fadeInRight'>
           {isEditMode ? (
             <UserEdit
               user={user}

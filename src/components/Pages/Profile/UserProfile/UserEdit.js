@@ -61,7 +61,7 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
 
   const goToNewDog = form => {
     update(form)
-    history.pushState({
+    history.push({
       pathname: '/profile/new-dog'
     })
   }
