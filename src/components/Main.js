@@ -12,11 +12,14 @@ import Header from './Header/Header'
 import DogsRoute from './Pages/Dogs/DogsRoute'
 import ProfileRoute from './Pages/Profile/ProfileRoute'
 import MobileMenu from './MobileMenu/MobileMenu'
+import Search from './Pages/Search/Search'
 
 const auth = new Auth()
 
 const Main = props => {
   const [currentUser, setCurrentUser] = useState({})
+  const [searchDogs, setSearchDogs] = useState([])
+  const [previousPage, setPreviousPage] = useState('')
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
@@ -25,19 +28,42 @@ const Main = props => {
     }
   }, [])
 
-  const login = user => {
+  const setUser = user => {
     setCurrentUser(user)
+  }
+
+  const setDogs = dogs => {
+    setSearchDogs(dogs)
+  }
+
+  const setPrevPage = page => {
+    setPreviousPage(page)
   }
 
   return (
     <MuiThemeProvider theme={theme}>
-      <UserContext.Provider value={{ user: currentUser, login: login }}>
+      <UserContext.Provider
+        value={{
+          user: currentUser,
+          dogs: searchDogs,
+          prevPage: previousPage,
+          setDogs,
+          setUser,
+          setPrevPage
+        }}
+      >
         <div className='App'>
           <Sidebar />
           <div>
-            <Header {...props} auth={auth} />
+            <Header auth={auth} />
             <div className='app-content'>
               <Switch>
+                <Route
+                  path='/search'
+                  render={props => (
+                    <Search {...props} auth={auth} dogs={searchDogs} />
+                  )}
+                />
                 <Route
                   path='/dogs'
                   render={props => <DogsRoute {...props} auth={auth} />}

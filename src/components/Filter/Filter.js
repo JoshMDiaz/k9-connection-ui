@@ -166,17 +166,6 @@ const Filter = ({ form, dispatch, closeFilter }) => {
           X
         </span>
 
-        {/* Favorite */}
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChange(e, 'favorite', 'checked')}
-              value={'favorite'}
-            />
-          }
-          label='Favorite Dogs'
-        />
-
         {/* Name */}
         <TextField
           label={`Name`}
@@ -263,76 +252,80 @@ const Filter = ({ form, dispatch, closeFilter }) => {
           />
         </FormControl>
 
-        {/* Papered */}
-        <FormControl component='fieldset' className={'papered-radios'}>
-          <FormLabel component='legend'>Papered</FormLabel>
-          <RadioGroup
-            aria-label='Papered'
-            name='papered'
-            className={'papered'}
-            value={form.papered}
-            onChange={e => handleChange(e, 'papered', 'value')}
-          >
-            <FormControlLabel
-              value={'true'}
-              control={<Radio classes={{ checked: 'radio-checked' }} />}
-              label='Papered'
-            />
-            <FormControlLabel
-              value={'false'}
-              control={<Radio classes={{ checked: 'radio-checked' }} />}
-              label='Not Papered'
-            />
-            <FormControlLabel
-              value={''}
-              control={<Radio classes={{ checked: 'radio-checked' }} />}
-              label='Any'
-            />
-          </RadioGroup>
-        </FormControl>
+        <div>
+          {/* Papered */}
+          <FormControl component='fieldset' className={'papered-radios'}>
+            <FormLabel component='legend'>Papered</FormLabel>
+            <RadioGroup
+              aria-label='Papered'
+              name='papered'
+              className={'papered'}
+              value={form.papered}
+              onChange={e => handleChange(e, 'papered', 'value')}
+            >
+              <FormControlLabel
+                value={'true'}
+                control={<Radio classes={{ checked: 'radio-checked' }} />}
+                label='Papered'
+              />
+              <FormControlLabel
+                value={'false'}
+                control={<Radio classes={{ checked: 'radio-checked' }} />}
+                label='Not Papered'
+              />
+              <FormControlLabel
+                value={''}
+                control={<Radio classes={{ checked: 'radio-checked' }} />}
+                label='Any'
+              />
+            </RadioGroup>
+          </FormControl>
+        </div>
 
-        {/* Registered */}
-        <FormControl component='fieldset' className={'registered-radios'}>
-          <FormLabel component='legend'>Registered</FormLabel>
-          <RadioGroup
-            aria-label='Registered'
-            name='registered'
-            className={'registered'}
-            value={form.papered !== 'false' ? form.registered : 'false'}
-            onChange={e => handleChange(e, 'registered', 'value')}
-          >
-            <FormControlLabel
-              value={'true'}
-              control={
-                <Radio
-                  classes={{ checked: 'radio-checked' }}
-                  disabled={form.papered === 'false'}
-                />
-              }
-              label='Registered'
-            />
-            <FormControlLabel
-              value={'false'}
-              control={
-                <Radio
-                  classes={{ checked: 'radio-checked' }}
-                  disabled={form.papered === 'false'}
-                />
-              }
-              label='Not Registered'
-            />
-            <FormControlLabel
-              value={''}
-              control={
-                <Radio
-                  classes={{ checked: 'radio-checked' }}
-                  disabled={form.papered === 'false'}
-                />
-              }
-              label='Any'
-            />
-          </RadioGroup>
-        </FormControl>
+        <div>
+          {/* Registered */}
+          <FormControl component='fieldset' className={'registered-radios'}>
+            <FormLabel component='legend'>Registered</FormLabel>
+            <RadioGroup
+              aria-label='Registered'
+              name='registered'
+              className={'registered'}
+              value={form.papered !== 'false' ? form.registered : 'false'}
+              onChange={e => handleChange(e, 'registered', 'value')}
+            >
+              <FormControlLabel
+                value={'true'}
+                control={
+                  <Radio
+                    classes={{ checked: 'radio-checked' }}
+                    disabled={form.papered === 'false'}
+                  />
+                }
+                label='Registered'
+              />
+              <FormControlLabel
+                value={'false'}
+                control={
+                  <Radio
+                    classes={{ checked: 'radio-checked' }}
+                    disabled={form.papered === 'false'}
+                  />
+                }
+                label='Not Registered'
+              />
+              <FormControlLabel
+                value={''}
+                control={
+                  <Radio
+                    classes={{ checked: 'radio-checked' }}
+                    disabled={form.papered === 'false'}
+                  />
+                }
+                label='Any'
+              />
+            </RadioGroup>
+          </FormControl>
+        </div>
       </div>
       <div className='right-column'>
         <div>
@@ -373,12 +366,23 @@ const Filter = ({ form, dispatch, closeFilter }) => {
             value={form.milesAway}
             onChange={value => handleRange({ value }, 'milesAway')}
           />
+
+          {/* Favorite */}
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={e => handleChange(e, 'favorite', 'checked')}
+                value={'favorite'}
+              />
+            }
+            label='Favorite Dogs'
+          />
         </div>
         <div className='button-container'>
-          <button className={'plain search-button'} onClick={resetForm}>
+          <button className={'plain'} onClick={resetForm}>
             Reset
           </button>
-          <button className={'primary search-button'} onClick={updateFilter}>
+          <button className={'primary'} onClick={updateFilter}>
             Apply
           </button>
         </div>

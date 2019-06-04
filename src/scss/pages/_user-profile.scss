@@ -1,0 +1,25 @@
+.user-profile {
+  .button-container {
+    grid-template-columns: 1fr;
+  }
+  .info-container {
+    border-bottom: none;
+  }
+  .image-container {
+    img {
+      @include border-radius;
+      width: 100%;
+      object-fit: cover;
+      max-width: 400px;
+    }
+  }
+  .form-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+    .no-bg {
+      padding: 0;
+    }
+  }
+}

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import HelperService from '../../../../services/HelperService'
 import Icon from '../../../common/Icons/Icon'
 import Plural from '../../../common/Plural'
+import Mdash from '../../../common/Mdash/Mdash'
 
 const DogRead = ({ dog, user, setIsEditMode }) => {
   const [isUserDog, setIsUserDog] = useState(true)
@@ -78,16 +79,18 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
 
   return (
     <>
-      <div className='dog-info-header'>
+      <div className='info-header'>
         <h2>{dog.name}</h2>
-        <div className={`button-container ${isUserDog ? 'is-user-dog' : ''}`}>
-          <span
-            className='img-border with-text not-mobile'
-            onClick={messageOwner}
-          >
-            Message Owner&nbsp;
-            <Icon icon='messageNoBorder' customClass='button-icon' />
-          </span>
+        <div className={`button-container ${isUserDog ? 'is-user' : ''}`}>
+          {!isUserDog && (
+            <span
+              className='img-border with-text not-mobile'
+              onClick={messageOwner}
+            >
+              Message Owner&nbsp;
+              <Icon icon='messageNoBorder' customClass='button-icon' />
+            </span>
+          )}
           <div className='icon-container mobile-only'>
             <Icon
               icon={'message'}
@@ -95,13 +98,15 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
               callout={messageOwner}
             />
           </div>
-          <div className='icon-container'>
-            <Icon
-              icon={isFavorite ? 'favoriteSolid' : 'favorite'}
-              customClass='favorite-icon'
-              callout={favoriteDog}
-            />
-          </div>
+          {!isUserDog && (
+            <div className='icon-container'>
+              <Icon
+                icon={isFavorite ? 'favoriteSolid' : 'favorite'}
+                customClass='favorite-icon'
+                callout={favoriteDog}
+              />
+            </div>
+          )}
           {isUserDog && (
             <div className='icon-container'>
               <Icon
@@ -113,23 +118,24 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
           )}
         </div>
       </div>
-      <div className='dog-info-container'>
+      <div className='info-container'>
         {dogInfoConfig.map((e, i) => (
-          <div className='dog-info' key={i}>
-            <span className='dog-info-label'>
+          <div className='info' key={i}>
+            <span className='info-label'>
               {e.label === 'breeds' ? (
-                <Plural text={e.label} num={dog.breeds.length} />
+                <Plural text={e.label} number={dog.breeds.length} />
               ) : (
-                <span>{e.label} </span>
+                <span>{e.label}: </span>
               )}
-              :
             </span>
-            <span className='dog-info-data'>{transformData(e.value)}</span>
+            <span className='dog-info-data'>
+              {transformData(e.value) || <Mdash />}
+            </span>
           </div>
         ))}
       </div>
       <div className='about-dog'>
-        <span className='dog-info-label'>About</span>
+        <span className='info-label'>About</span>
         <p className='description'>{dog.description}</p>
       </div>
     </>

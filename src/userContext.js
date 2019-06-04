@@ -2,7 +2,11 @@ import React from 'react'
 
 const userContext = React.createContext({
   user: {},
-  login: () => {}
+  dogs: [],
+  prevPage: '',
+  setUser: () => {},
+  setDogs: () => {},
+  setPrevPage: () => {}
 })
 
 export default userContext

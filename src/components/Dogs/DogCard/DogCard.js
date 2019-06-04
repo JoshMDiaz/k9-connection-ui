@@ -48,11 +48,26 @@ const DogCard = ({ dog, count }) => {
           />
           <div className='card-content'>
             <h2>{dog.name}</h2>
-            <p className='gender-age'>
-              <span className='gender'>{dog.gender}</span>
-              &nbsp;&nbsp;/&nbsp;&nbsp;
-              <span className='age'>
-                {HelperService.getYearsOld(dog.birthdate)}
+            <p className='dog-info-row'>
+              <span>
+                <span className='gender'>{dog.gender}</span>
+                &nbsp;&nbsp;/&nbsp;&nbsp;
+                <span className='age'>
+                  {HelperService.getYearsOld(dog.birthdate)}
+                </span>
+              </span>
+              <span>
+                {dog.breeds.length > 1 ? (
+                  // popover here with list of breeds
+                  <span>Breeds</span>
+                ) : (
+                  // {dog.breeds.map((e, i) => (
+                  //   <span key={i}>
+                  //     {e.name} {dog.breeds.length > i + 1 && <span>/</span>}
+                  //   </span>
+                  // ))}
+                  <span>{dog.breeds[0].name}</span>
+                )}
               </span>
             </p>
             <p>

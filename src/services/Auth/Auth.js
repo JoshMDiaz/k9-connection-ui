@@ -1,5 +1,6 @@
 import history from './History'
 import auth0 from 'auth0-js'
+import UserService from '../UserService'
 
 export default class Auth {
   accessToken
@@ -39,14 +40,23 @@ export default class Auth {
     })
   }
 
+  getUser(profile, authResult) {
+    UserService.get(profile.sub).then(response => {
+      if (response) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+        this.setSession(authResult)
+      }
+    })
+  }
+
   handleAuthentication() {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
           if (profile) {
             this.userProfile = profile
-            localStorage.setItem('user', JSON.stringify(profile))
-            this.setSession(authResult)
+            localStorage.setItem('auth0User', JSON.stringify(profile))
+            this.getUser(profile, authResult)
           }
         })
       } else if (err) {
@@ -107,6 +117,7 @@ export default class Auth {
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn')
     localStorage.removeItem('expiresAt')
+    localStorage.removeItem('auth0User')
     localStorage.removeItem('user')
 
     this.auth0.logout({

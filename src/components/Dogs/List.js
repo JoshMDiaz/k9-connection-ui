@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Card from './DogCard/DogCard'
 import noDogImg from '../../images/no-image.jpg'
 
-const List = ({ dogs }) => {
+const List = ({ dogs, sorryText }) => {
   let count = 0
   return (
     <>
@@ -20,9 +20,9 @@ const List = ({ dogs }) => {
             <span>
               <h3>Sorry about that!</h3>
               <img src={noDogImg} alt='no-dog' />
-              We could not find any dogs with the filters you have selected.
+              We could not find any dogs.
               <br />
-              Please try changing the filters.
+              Please try to update your search filters.
             </span>
           </div>
         </div>
