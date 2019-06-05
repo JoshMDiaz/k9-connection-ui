@@ -38,14 +38,6 @@ const UserProfile = props => {
     setUploadedImage(uc.user.picture)
   }, [isEditMode])
 
-  const determineUserChange = form => {
-    if (user.id) {
-      update(form)
-    } else {
-      create(form)
-    }
-  }
-
   const getUser = () => {
     UserService.get(uc.user.sub).then(response => {
       if (response && response.data) {
@@ -57,35 +49,20 @@ const UserProfile = props => {
     })
   }
 
-  const responseAction = form => {
-    setSnack({
-      message: 'Your account has been updated!',
-      isOpen: true,
-      className: 'success'
-    })
-    getUser()
-    setIsEditMode(false)
-  }
-
-  const postBody = form => {
-    return {
+  const update = form => {
+    let body = {
       ...form,
       picture: uploadedImage || form.picture
     }
-  }
-
-  const update = form => {
-    UserService.updateUser(user.sub, postBody(form)).then(response => {
+    UserService.updateUser(user.sub, body).then(response => {
       if (response) {
-        responseAction()
-      }
-    })
-  }
-
-  const create = form => {
-    UserService.createUser(postBody(form)).then(response => {
-      if (response) {
-        responseAction()
+        setSnack({
+          message: 'Your account has been updated!',
+          isOpen: true,
+          className: 'success'
+        })
+        getUser()
+        setIsEditMode(false)
       }
     })
   }
@@ -150,7 +127,7 @@ const UserProfile = props => {
             <UserEdit
               user={user}
               setIsEditMode={setIsEditMode}
-              update={determineUserChange}
+              update={update}
               history={props.history}
             />
           ) : (
