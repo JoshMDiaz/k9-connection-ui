@@ -14,9 +14,8 @@ import {
   FormControlLabel,
   Chip
 } from '@material-ui/core'
-import RS from 'react-select'
 import InputRange from 'react-input-range'
-import BreedSelect from '../common/BreedSelect/BreedSelect'
+import Multiselect from '../common/Multiselect'
 
 const Filter = ({ form, dispatch, closeFilter }) => {
   const [breeds, setBreeds] = useState([])
@@ -218,7 +217,9 @@ const Filter = ({ form, dispatch, closeFilter }) => {
       <div>
         {/* Breed */}
         <FormControl style={{ width: '100%' }}>
-          <InputLabel htmlFor='breeds-select'>Breeds</InputLabel>
+          <Multiselect options={breeds} />
+
+          {/* <InputLabel htmlFor='breeds-select'>Breeds</InputLabel> */}
           {/* <Select
             multiple
             value={form.breed}
@@ -243,13 +244,6 @@ const Filter = ({ form, dispatch, closeFilter }) => {
           </Select> */}
 
           {/* <BreedSelect /> */}
-
-          <RS
-            value={form.breed}
-            onChange={e => handleChangeRS(e)}
-            options={breeds}
-            isMulti
-          />
         </FormControl>
 
         <div>

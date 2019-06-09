@@ -4,9 +4,12 @@
     flex-direction: column-reverse;
     @media only screen and (min-width: 1024px) {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 50%);
       grid-gap: 64px;
     }
+    // .left-section {
+    //   overflow: auto;
+    // }
   }
   .button-container {
     display: flex;
