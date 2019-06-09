@@ -85,11 +85,15 @@ const DogCard = ({ dog, count, userId }) => {
           </Link>
           {userId !== dog.user_id && (
             <>
-              <Icon icon='message' callout={messageOwner} />
-              <Icon
-                icon={isFavorite ? 'favoriteSolid' : 'favorite'}
-                callout={favoriteDog}
-              />
+              <div className='icon-container'>
+                <Icon icon='message' callout={messageOwner} />
+              </div>
+              <div className='icon-container'>
+                <Icon
+                  icon={isFavorite ? 'favoriteSolid' : 'favorite'}
+                  callout={favoriteDog}
+                />
+              </div>
             </>
           )}
         </div>

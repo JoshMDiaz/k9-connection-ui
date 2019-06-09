@@ -236,3 +236,13 @@ fieldset.gender-radios {
     display: none;
   }
 }
+
+// Icons
+.icon-container {
+  @include border-radius(50px);
+  @include transition;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
