@@ -66,6 +66,13 @@ const NewDog = ({ history }) => {
     })
   }
 
+  const handleMultiselect = selected => {
+    setForm({
+      ...form,
+      breeds: selected
+    })
+  }
+
   const handleChange = (event, field, elementValue) => {
     setForm({
       ...form,
@@ -87,36 +94,38 @@ const NewDog = ({ history }) => {
   }
 
   const save = addAnother => {
-    let dog = { ...form }
-    dog.birthdate = moment(dog.birthdate).format('YYYY-MM-DD')
-    delete dog.breeds
-    let body = {
-      dog: { ...dog },
-      breeds: transformBreedIds(form.breeds),
-      dog_images: [...uploadedImages]
-    }
-    DogService.createDog(body)
-      .then(response => {
-        if (response) {
-          setSnack({
-            message: 'Congrats! Dog record created!',
-            isOpen: true,
-            className: 'success'
-          })
-          if (addAnother) {
-            setForm(initialFormState)
-            setUploadedImages([])
-          } else {
-            history.push('/dogs')
-          }
-        }
-      })
-      .catch(error => {
-        setSnack({
-          message: 'Uh oh! Something went wrong! Please try again.',
-          isOpen: true
-        })
-      })
+    console.log(form)
+
+    // let dog = { ...form }
+    // dog.birthdate = moment(dog.birthdate).format('YYYY-MM-DD')
+    // delete dog.breeds
+    // let body = {
+    //   dog: { ...dog },
+    //   breeds: transformBreedIds(form.breeds),
+    //   dog_images: [...uploadedImages]
+    // }
+    // DogService.createDog(body)
+    //   .then(response => {
+    //     if (response) {
+    //       setSnack({
+    //         message: 'Congrats! Dog record created!',
+    //         isOpen: true,
+    //         className: 'success'
+    //       })
+    //       if (addAnother) {
+    //         setForm(initialFormState)
+    //         setUploadedImages([])
+    //       } else {
+    //         history.push('/dogs')
+    //       }
+    //     }
+    //   })
+    //   .catch(error => {
+    //     setSnack({
+    //       message: 'Uh oh! Something went wrong! Please try again.',
+    //       isOpen: true
+    //     })
+    //   })
   }
 
   const cancel = () => {
@@ -224,7 +233,7 @@ const NewDog = ({ history }) => {
 
           {/* Breeds */}
           <FormControl style={{ width: '100%', marginTop: '20px' }}>
-            <Multiselect options={breeds} />
+            <Multiselect options={breeds} callout={handleMultiselect} />
           </FormControl>
 
           {/* Birthdate */}

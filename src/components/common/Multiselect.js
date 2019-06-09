@@ -2,7 +2,7 @@ import React from 'react'
 import Downshift from 'downshift'
 import { TextField, Paper, Chip, MenuItem } from '@material-ui/core'
 
-const Multiselect = ({ options }) => {
+const Multiselect = ({ options, callout }) => {
   const [inputValue, setInputValue] = React.useState('')
   const [selectedItem, setSelectedItem] = React.useState([])
 
@@ -70,12 +70,14 @@ const Multiselect = ({ options }) => {
     }
     setInputValue('')
     setSelectedItem(newSelectedItem)
+    callout(newSelectedItem)
   }
 
   const handleDelete = item => () => {
     const newSelectedItem = [...selectedItem]
     newSelectedItem.splice(newSelectedItem.indexOf(item), 1)
     setSelectedItem(newSelectedItem)
+    callout(newSelectedItem)
   }
 
   function getOptions(value, showEmpty) {

@@ -29,11 +29,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
   const getBreeds = () => {
     FormService.getBreeds().then(response => {
       if (response) {
-        let options = response.data.map(breed => ({
-          value: breed.id,
-          label: breed.name
-        }))
-        setBreeds(options)
+        setBreeds(response.data)
       }
     })
   }
@@ -143,9 +139,6 @@ const Filter = ({ form, dispatch, closeFilter }) => {
   }
 
   const handleChange = (event, field, elementValue) => {
-    if (field === 'breedSearch') {
-      console.log('search breeds')
-    }
     dispatch({
       type: 'UPDATE',
       payload: {
@@ -154,8 +147,13 @@ const Filter = ({ form, dispatch, closeFilter }) => {
     })
   }
 
-  const handleChangeRS = e => {
-    console.log(e)
+  const handleMultiselect = selected => {
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        breeds: selected
+      }
+    })
   }
 
   return (
@@ -217,7 +215,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
       <div>
         {/* Breed */}
         <FormControl style={{ width: '100%' }}>
-          <Multiselect options={breeds} />
+          <Multiselect options={breeds} callout={handleMultiselect} />
 
           {/* <InputLabel htmlFor='breeds-select'>Breeds</InputLabel> */}
           {/* <Select
