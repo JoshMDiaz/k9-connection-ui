@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from 'react'
+import React, { useEffect, useState, useReducer, useContext } from 'react'
 import List from '../Dogs/List'
 import DogService from '../../services/DogService'
 import Filter from '../Filter/Filter'
@@ -9,12 +9,14 @@ import { Popover } from '@material-ui/core'
 import LoadingCard from '../common/LoadingCard/LoadingCard'
 import Icon from '../common/Icons/Icon'
 import PageHeader from '../common/PageHeader/PageHeader'
+import UserContext from '../../userContext'
 
 const Dogs = () => {
   const [dogs, setDogs] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [activeFilters, setActiveFilters] = useState(0)
+  const uc = useContext(UserContext)
   let filterTimeout, isCancelled
 
   useEffect(() => {
@@ -163,7 +165,7 @@ const Dogs = () => {
       </div>
       <div className='page-padding'>
         {!loading ? (
-          <List dogs={dogs} />
+          <List dogs={dogs} userId={uc.user.id} />
         ) : (
           <div className='card-list'>
             {[...Array(12).keys()].map(row => {

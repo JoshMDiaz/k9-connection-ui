@@ -41,7 +41,7 @@ export default class Auth {
   }
 
   getUser(profile, authResult) {
-    UserService.get(profile.sub).then(response => {
+    UserService.get({}, profile.sub).then(response => {
       if (response && response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
       } else {
