@@ -9,6 +9,7 @@ import UserEdit from './UserEdit'
 import UserService from '../../../../services/UserService'
 import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 import Plural from '../../../common/Plural'
+import noProfileImg from '../../../../images/icons/user.svg'
 
 const UserProfile = props => {
   const [isEditMode, setIsEditMode] = useState(false)
@@ -19,73 +20,46 @@ const UserProfile = props => {
     message: ''
   })
   const uc = useContext(userContext)
-  let isCancelled,
-    getUserCount = 0
+  let isCancelled
 
   useEffect(() => {
-    setUser(uc.user)
-    setUploadedImage(uc.user.picture)
-    if (Object.entries(uc.user).length !== 0 && !uc.user.id) {
-      if (getUserCount === 0) {
-        !isCancelled && getUser()
-        setIsEditMode(true)
-        getUserCount = 1
-      }
+    !isCancelled && getUser()
+    if (localStorage.getItem('isEditMode')) {
+      setIsEditMode(true)
     }
-  }, [uc.user])
+  }, [])
 
   useEffect(() => {
     setUploadedImage(uc.user.picture)
   }, [isEditMode])
 
-  const determineUserChange = form => {
-    if (user.id) {
-      update(form)
-    } else {
-      create(form)
-    }
-  }
-
   const getUser = () => {
-    UserService.get(uc.user.sub).then(response => {
+    UserService.get().then(response => {
       if (response && response.data) {
-        setUser(response.data)
-        uc.setUser(response.data)
-        setUploadedImage(response.data.picture)
-        localStorage.setItem('user', JSON.stringify(response.data))
+        let user = response.data
+        setUser(user)
+        // uc.setUser(user)
+        setUploadedImage(user.picture)
+        localStorage.setItem('user', JSON.stringify(user))
       }
     })
-  }
-
-  const responseAction = form => {
-    setSnack({
-      message: 'Your account has been updated!',
-      isOpen: true,
-      className: 'success'
-    })
-    getUser()
-    setIsEditMode(false)
-  }
-
-  const postBody = form => {
-    return {
-      ...form,
-      picture: uploadedImage || form.picture
-    }
   }
 
   const update = form => {
-    UserService.updateUser(user.sub, postBody(form)).then(response => {
+    let body = {
+      ...form,
+      picture: uploadedImage || form.picture
+    }
+    UserService.updateUser(user.sub, body).then(response => {
       if (response) {
-        responseAction()
-      }
-    })
-  }
-
-  const create = form => {
-    UserService.createUser(postBody(form)).then(response => {
-      if (response) {
-        responseAction()
+        setSnack({
+          message: 'Your account has been updated!',
+          isOpen: true,
+          className: 'success'
+        })
+        getUser()
+        setIsEditMode(false)
+        localStorage.removeItem('isEditMode')
       }
     })
   }
@@ -118,8 +92,8 @@ const UserProfile = props => {
       <div className='main-content-header'>
         <span className='animated fadeInLeft'>
           You have {user.dogs ? user.dogs.length : 0}{' '}
-          <Plural text='Dog' number={user.dogs ? user.dogs.length : 0} />{' '}
-          Registered
+          <Plural text='dog' number={user.dogs ? user.dogs.length : 0} />{' '}
+          registered
         </span>
         <Link
           to='/profile/new-dog'
@@ -129,7 +103,7 @@ const UserProfile = props => {
         </Link>
       </div>
       <ContentContainer customClass='profile-container'>
-        <div className='left-section animated fadeInLeft'>
+        <div className='left-section animated fadeInLeft delay-5'>
           {isEditMode ? (
             <>
               <UploadPhotos callout={uploadImage} type='user' />
@@ -141,16 +115,16 @@ const UserProfile = props => {
             </>
           ) : (
             <div className='image-container'>
-              <img src={user.picture} alt={user.name} />
+              <img src={user.picture || noProfileImg} alt={user.name} />
             </div>
           )}
         </div>
-        <div className='right-section animated fadeInRight'>
+        <div className='right-section animated fadeInRight delay-10'>
           {isEditMode ? (
             <UserEdit
               user={user}
               setIsEditMode={setIsEditMode}
-              update={determineUserChange}
+              update={update}
               history={props.history}
             />
           ) : (
@@ -160,7 +134,7 @@ const UserProfile = props => {
       </ContentContainer>
       {user.dogs && user.dogs.length > 0 && (
         <div className='page-padding'>
-          <List dogs={user.dogs} />
+          <List dogs={user.dogs} userId={user.id} />
         </div>
       )}
       <Snackbar

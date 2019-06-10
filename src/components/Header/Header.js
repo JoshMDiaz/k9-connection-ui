@@ -6,11 +6,11 @@ import UserContext from '../../userContext'
 import SearchService from '../../services/SearchService'
 import history from '../../services/Auth/History'
 import Spinner from '../common/Spinner/Spinner'
+import UserService from '../../services/UserService'
 
-let loginTO, searchTimeout, isCancelled
+let searchTimeout, isCancelled
 
 const Header = ({ auth }) => {
-  const [user, setUser] = useState(null)
   const [searchField, setSearchField] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -21,21 +21,17 @@ const Header = ({ auth }) => {
   const uc = useContext(UserContext)
 
   useEffect(() => {
-    loginTO = setTimeout(() => {
-      if (auth.isAuthenticated()) {
-        let user = JSON.parse(localStorage.getItem('user')),
-          auth0User = JSON.parse(localStorage.getItem('auth0User'))
-        setUser(user)
-        if (user) {
+    if (auth.isAuthenticated()) {
+      UserService.get().then(response => {
+        if (response) {
+          let user = response.data
+          if (!user.name) {
+            !localStorage.getItem('profilePrompt') && snackPrompt()
+          }
           uc.setUser(user)
-        } else {
-          auth0User.email = auth0User.name
-          delete auth0User.name
-          uc.setUser(auth0User)
-          !localStorage.getItem('profilePrompt') && snackPrompt()
         }
-      }
-    }, 500)
+      })
+    }
     checkForSearchParams()
     history.listen(location => {
       if (location.pathname !== '/search') {
@@ -43,7 +39,6 @@ const Header = ({ auth }) => {
       }
     })
     return () => {
-      clearTimeout(loginTO)
       clearTimeout(searchTimeout)
     }
   }, [])
@@ -121,10 +116,11 @@ const Header = ({ auth }) => {
     setIsOpen(isOpen)
   }
 
-  const goToUserProfile = () => {
+  const goToUserProfile = isEdit => {
     history.push({
-      pathname: '/profile'
+      pathname: `/profile`
     })
+    isEdit && localStorage.setItem('isEditMode', true)
     isOpen && toggle(false)
   }
 
@@ -135,7 +131,7 @@ const Header = ({ auth }) => {
   const snackAction = goToProfile => {
     localStorage.setItem('profilePrompt', true)
     if (goToProfile) {
-      goToUserProfile()
+      goToUserProfile(true)
       closeSnack()
     } else {
       setSnack({
@@ -200,12 +196,10 @@ const Header = ({ auth }) => {
         }}
         anchorReference='anchorEl'
       >
-        {user && (
-          <span className='user-dropdown-item' onClick={goToUserSettings}>
-            Settings
-          </span>
-        )}
-        <span className='user-dropdown-item' onClick={goToUserProfile}>
+        <span className='user-dropdown-item' onClick={goToUserSettings}>
+          Settings
+        </span>
+        <span className='user-dropdown-item' onClick={() => goToUserProfile()}>
           Profile
         </span>
         <span className='user-dropdown-item' onClick={logout}>

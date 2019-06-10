@@ -1,16 +1,24 @@
 import axios from 'axios'
 const CancelToken = axios.CancelToken
 
-const base = '/k9-connect/api/v1/users'
+const base = '/k9-connect/api/v1/users',
+  auth0UserObj = localStorage.getItem('auth0User')
+    ? JSON.parse(localStorage.getItem('auth0User'))
+    : {}
 
 let getUserCancel, getUsersCancel, createUserCancel, updateUserCancel
 
 class UserService {
-  get(sub, params = {}) {
-    let url = `${base}/${sub}`
+  auth0User() {
+    return auth0UserObj
+  }
+
+  get(params = {}, sub) {
+    let url = `${base}/${auth0UserObj.sub || sub}`
     return axios
       .get(url, {
         params: params,
+        headers: auth0UserObj,
         cancelToken: new CancelToken(function executor(c) {
           getUserCancel = c
         })
@@ -32,6 +40,7 @@ class UserService {
     return axios
       .get(url, {
         params: params,
+        headers: auth0UserObj,
         cancelToken: new CancelToken(function executor(c) {
           getUsersCancel = c
         })
@@ -53,6 +62,7 @@ class UserService {
     return axios
       .post(url, body, {
         params: params,
+        headers: auth0UserObj,
         cancelToken: new CancelToken(function executor(c) {
           createUserCancel = c
         })
@@ -74,6 +84,7 @@ class UserService {
     return axios
       .put(url, body, {
         params: params,
+        headers: auth0UserObj,
         cancelToken: new CancelToken(function executor(c) {
           updateUserCancel = c
         })

@@ -4,7 +4,7 @@ import HelperService from '../../../services/HelperService'
 import Icon from '../../common/Icons/Icon'
 import noImage from '../../../images/no-image.jpg'
 
-const DogCard = ({ dog, count }) => {
+const DogCard = ({ dog, count, userId }) => {
   const [isFavorite, setIsFavorite] = useState(false)
   const [image, setImage] = useState({})
 
@@ -83,11 +83,19 @@ const DogCard = ({ dog, count }) => {
           <Link to={`/dogs/${dog.id}`}>
             <button className='view-profile primary'>View Profile</button>
           </Link>
-          <Icon icon='message' callout={messageOwner} />
-          <Icon
-            icon={isFavorite ? 'favoriteSolid' : 'favorite'}
-            callout={favoriteDog}
-          />
+          {userId !== dog.user_id && (
+            <>
+              <div className='icon-container'>
+                <Icon icon='message' callout={messageOwner} />
+              </div>
+              <div className='icon-container'>
+                <Icon
+                  icon={isFavorite ? 'favoriteSolid' : 'favorite'}
+                  callout={favoriteDog}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

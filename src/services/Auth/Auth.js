@@ -41,11 +41,17 @@ export default class Auth {
   }
 
   getUser(profile, authResult) {
-    UserService.get(profile.sub).then(response => {
-      if (response) {
+    UserService.get({}, profile.sub).then(response => {
+      if (response && response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
-        this.setSession(authResult)
+      } else {
+        UserService.createUser({ sub: profile.sub, email: profile.name }).then(
+          r => {
+            localStorage.setItem('user', JSON.stringify(r.data))
+          }
+        )
       }
+      this.setSession(authResult)
     })
   }
 

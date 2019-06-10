@@ -33,14 +33,6 @@
   .button-icon {
     margin-left: 8px;
   }
-  .icon-container {
-    @include border-radius(50px);
-    @include transition;
-    &:hover {
-      cursor: pointer;
-      transform: scale(1.1);
-    }
-  }
   .button-container {
     display: grid;
     grid-gap: 16px;

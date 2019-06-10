@@ -12,7 +12,6 @@ const ProfileRoute = ({ auth }) => {
         render={props => <NewDog {...props} auth={auth} />}
       />
       <Route
-        exact
         path='/profile'
         render={props => <UserProfile {...props} auth={auth} />}
       />

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import UserService from './UserService'
 const CancelToken = axios.CancelToken
 
 const base = '/k9-connect/api/v1/dogs'
@@ -11,6 +12,7 @@ class DogService {
     return axios
       .get(url, {
         params: params,
+        headers: UserService.auth0User(),
         cancelToken: new CancelToken(function executor(c) {
           dogCancel = c
         })
@@ -32,6 +34,7 @@ class DogService {
     return axios
       .get(url, {
         params: params,
+        headers: UserService.auth0User(),
         cancelToken: new CancelToken(function executor(c) {
           dogsCancel = c
         })
@@ -53,6 +56,7 @@ class DogService {
     return axios
       .post(url, body, {
         params: params,
+        headers: UserService.auth0User(),
         cancelToken: new CancelToken(function executor(c) {
           createDogCancel = c
         })
@@ -74,6 +78,7 @@ class DogService {
     return axios
       .put(url, body, {
         params: params,
+        headers: UserService.auth0User(),
         cancelToken: new CancelToken(function executor(c) {
           updateDogCancel = c
         })

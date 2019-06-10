@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Card from './DogCard/DogCard'
 import noDogImg from '../../images/no-image.jpg'
 
-const List = ({ dogs, sorryText }) => {
+const List = ({ dogs, userId }) => {
   let count = 0
   return (
     <>
@@ -11,7 +11,7 @@ const List = ({ dogs, sorryText }) => {
         <div className='card-list'>
           {dogs.map((e, i) => {
             count++
-            return <Card dog={e} key={i} count={count} />
+            return <Card dog={e} key={i} count={count} userId={userId} />
           })}
         </div>
       ) : (

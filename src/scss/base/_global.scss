@@ -38,7 +38,7 @@
   padding: 16px;
   background: $white-color;
   @include border-radius;
-  max-width: 1680px;
+  max-width: 1440px;
   margin: auto;
 }
 
@@ -92,12 +92,30 @@ label,
 legend {
   color: $light-text-color;
 }
-.select-chips {
+#select-eyes,
+.form-input {
+  height: 30px;
+}
+.chip-select {
   .chip {
-    background: $secondary-color;
+    background-color: $secondary-color;
     margin-right: 8px;
     color: $white-color;
   }
+  .chip-text-input {
+    height: 30px;
+  }
+  svg {
+    color: rgba($white-color, 0.5);
+    @include transition;
+    &:hover {
+      color: $white-color;
+    }
+  }
+}
+.multiselect-dropdown {
+  max-height: 300px;
+  overflow: auto;
 }
 .radio-checked {
   svg {
@@ -234,5 +252,15 @@ fieldset.gender-radios {
 .not-mobile {
   @media only screen and (max-width: 1025px) {
     display: none;
+  }
+}
+
+// Icons
+.icon-container {
+  @include border-radius(50px);
+  @include transition;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
   }
 }

@@ -29,7 +29,7 @@ const UserRead = ({ user, setIsEditMode }) => {
   return (
     <>
       <div className='info-header'>
-        <h2>{user.name}</h2>
+        <h2>{user.name || <Mdash />}</h2>
         <div className={`button-container`}>
           <div className='icon-container'>
             <Icon

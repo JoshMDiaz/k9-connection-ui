@@ -36,12 +36,5 @@
     img {
       width: 24px;
     }
-    .icon {
-      @include border-radius(50px);
-      &:hover {
-        cursor: pointer;
-        box-shadow: 0 4px 10px $border-color;
-      }
-    }
   }
 }

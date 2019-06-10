@@ -9,6 +9,8 @@
     "animate.css": "^3.7.0",
     "auth0-js": "^9.10.2",
     "axios": "^0.18.0",
+    "clsx": "^1.0.4",
+    "downshift": "^3.2.10",
     "http-proxy-middleware": "^0.19.1",
     "moment": "^2.24.0",
     "node-sass": "^4.11.0",

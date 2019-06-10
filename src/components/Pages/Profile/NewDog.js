@@ -11,7 +11,6 @@ import {
   RadioGroup,
   FormLabel,
   FormControlLabel,
-  Chip,
   Snackbar
 } from '@material-ui/core'
 import 'react-dates/initialize'
@@ -20,6 +19,7 @@ import moment from 'moment'
 import ContentContainer from '../../common/ContentContainer'
 import PageHeader from '../../common/PageHeader/PageHeader'
 import UploadPhotos from '../../Dogs/UploadPhotos/UploadPhotos'
+import Multiselect from '../../common/Multiselect'
 
 const NewDog = ({ history }) => {
   let initialFormState = {
@@ -41,10 +41,12 @@ const NewDog = ({ history }) => {
     isOpen: false,
     message: ''
   })
+  const [years, setYears] = useState([])
 
   useEffect(() => {
     getBreeds()
     getEyeColors()
+    getYears(moment().year(), 15)
   }, [])
 
   const getBreeds = () => {
@@ -60,6 +62,13 @@ const NewDog = ({ history }) => {
       if (response) {
         setEyeColors(response.data)
       }
+    })
+  }
+
+  const handleMultiselect = selected => {
+    setForm({
+      ...form,
+      breeds: selected
     })
   }
 
@@ -143,6 +152,65 @@ const NewDog = ({ history }) => {
     })
   }
 
+  const getYears = (currentYear, numYears) => {
+    let years = []
+    for (let i = currentYear - numYears; i <= currentYear; i++) {
+      years.push(i)
+    }
+    setYears(years)
+  }
+
+  const renderMonthElement = ({ month, onMonthSelect, onYearSelect }) => (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      {/* <Select
+        value={month.month()}
+        onChange={e => onMonthSelect(month, e.target.value)}
+        inputProps={{
+          name: 'eyes',
+          id: 'eyes-select'
+        }}
+      >
+        {moment.months().map((label, value) => (
+          <MenuItem key={value} value={value}>
+            {label}
+          </MenuItem>
+        ))}
+      </Select> */}
+
+      <select
+        value={month.year()}
+        onChange={e => onYearSelect(month, e.target.value)}
+      >
+        {years.map(label => (
+          <option value={moment().year()}>{label}</option>
+        ))}
+      </select>
+
+      {/* <select
+        value={month.year()}
+        onChange={e => onYearSelect(month, e.target.value)}
+      >
+        <option value={moment().year() - 1}>Last year</option>
+        <option value={moment().year()}>{moment().year()}</option>
+        <option value={moment().year() + 1}>Next year</option>
+      </select> */}
+
+      {/* <Select
+        value={month.year()}
+        onChange={e => onYearSelect(month, e.target.value)}
+        // inputProps={{
+        //   name: 'eyes',
+        //   id: 'eyes-select'
+        // }}
+      >
+        {years.map(label => (
+          <MenuItem key={label} value={label}>
+            {label}
+          </MenuItem>
+        ))}
+      </Select> */}
+    </div>
+  )
   return (
     <div className='new-dog'>
       <div className='main-content-header'>
@@ -153,7 +221,7 @@ const NewDog = ({ history }) => {
           {/* Name */}
           <TextField
             label={`Name`}
-            className={'filter-input'}
+            className={'form-input'}
             margin='normal'
             onChange={e => handleChange(e, 'name', 'value')}
             fullWidth
@@ -162,33 +230,7 @@ const NewDog = ({ history }) => {
 
           {/* Breeds */}
           <FormControl style={{ width: '100%', marginTop: '20px' }}>
-            <InputLabel htmlFor='breeds-select'>Breeds</InputLabel>
-            <Select
-              multiple
-              value={form.breeds}
-              onChange={e => handleChange(e, 'breeds', 'value')}
-              inputProps={{
-                name: 'breeds',
-                id: 'breeds-select'
-              }}
-              renderValue={selected => (
-                <div className='select-chips'>
-                  {selected.map(value => (
-                    <Chip
-                      key={value.name}
-                      label={value.name}
-                      className='chip'
-                    />
-                  ))}
-                </div>
-              )}
-            >
-              {breeds.map((e, i) => (
-                <MenuItem key={i} value={e}>
-                  {e.name}
-                </MenuItem>
-              ))}
-            </Select>
+            <Multiselect options={breeds} callout={handleMultiselect} />
           </FormControl>
 
           {/* Birthdate */}
@@ -207,6 +249,7 @@ const NewDog = ({ history }) => {
               displayFormat='MMMM DD, YYYY'
               id={`birthdate-datepicker`} // PropTypes.string.isRequired,
               isOutsideRange={day => !isInclusivelyBeforeDay(day, moment())}
+              // renderMonthElement={renderMonthElement}
             />
           </div>
 
@@ -328,28 +371,21 @@ const NewDog = ({ history }) => {
             style={{ width: '100%' }}
           />
           <div className='button-container'>
-            <button
-              className={'no-bg search-button'}
-              onClick={() => save(true)}
-            >
+            <button className={'no-bg'} onClick={() => save(true)}>
               Add Another
             </button>
             <div className='right-buttons'>
-              <button className={'plain search-button'} onClick={cancel}>
+              <button className={'plain'} onClick={cancel}>
                 Cancel
               </button>
-              <button
-                className={'primary search-button'}
-                onClick={() => save()}
-              >
+              <button className={'primary'} onClick={() => save()}>
                 Save
               </button>
             </div>
           </div>
         </div>
         <div className='right-section'>
-          <FormLabel component='legend'>Dog Photos</FormLabel>
-          <UploadPhotos callout={uploadImage} />
+          <UploadPhotos callout={uploadImage} type='dog' />
           {uploadedImages.length > 0 && (
             <div className='dog-grid'>
               {uploadedImages.map((e, i) => (
