@@ -22,6 +22,8 @@ const Filter = ({ form, dispatch, closeFilter }) => {
   const [eyeColors, setEyeColors] = useState([])
 
   useEffect(() => {
+    console.log(form)
+
     getBreeds()
     getEyeColors()
   }, [])
@@ -151,7 +153,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
     dispatch({
       type: 'UPDATE',
       payload: {
-        breeds: selected
+        breed: selected
       }
     })
   }
@@ -166,7 +168,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
         {/* Name */}
         <TextField
           label={`Name`}
-          className={'filter-input'}
+          className={'form-input'}
           margin='normal'
           onChange={e => handleChange(e, 'name', 'value')}
           fullWidth
@@ -215,7 +217,11 @@ const Filter = ({ form, dispatch, closeFilter }) => {
       <div>
         {/* Breed */}
         <FormControl style={{ width: '100%' }}>
-          <Multiselect options={breeds} callout={handleMultiselect} />
+          <Multiselect
+            options={breeds}
+            callout={handleMultiselect}
+            value={form.breed}
+          />
 
           {/* <InputLabel htmlFor='breeds-select'>Breeds</InputLabel> */}
           {/* <Select
@@ -322,23 +328,15 @@ const Filter = ({ form, dispatch, closeFilter }) => {
       <div className='right-column'>
         <div>
           {/* Eye Color */}
-          <FormControl style={{ width: '100%', marginBottom: '16px' }}>
+          <FormControl style={{ width: '100%', marginBottom: '20px' }}>
             <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
             <Select
-              multiple
               value={form.eyes}
               onChange={e => handleChange(e, 'eyes', 'value')}
               inputProps={{
                 name: 'eyes',
                 id: 'eyes-select'
               }}
-              renderValue={selected => (
-                <div className='select-chips'>
-                  {selected.map(value => (
-                    <Chip key={value} label={value} className='chip' />
-                  ))}
-                </div>
-              )}
             >
               {eyeColors.map((e, i) => (
                 <MenuItem key={i} value={e.name}>
@@ -365,6 +363,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
               <Checkbox
                 onChange={e => handleChange(e, 'favorite', 'checked')}
                 value={'favorite'}
+                checked={form.favorite}
               />
             }
             label='Favorite Dogs'

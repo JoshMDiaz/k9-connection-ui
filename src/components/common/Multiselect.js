@@ -2,9 +2,9 @@ import React from 'react'
 import Downshift from 'downshift'
 import { TextField, Paper, Chip, MenuItem } from '@material-ui/core'
 
-const Multiselect = ({ options, callout }) => {
+const Multiselect = ({ options, callout, value }) => {
   const [inputValue, setInputValue] = React.useState('')
-  const [selectedItem, setSelectedItem] = React.useState([])
+  const [selectedItem, setSelectedItem] = React.useState(value || [])
 
   function renderInput(inputProps) {
     const { InputProps, classes, ref, ...other } = inputProps

@@ -11,7 +11,6 @@ import {
   RadioGroup,
   FormLabel,
   FormControlLabel,
-  Chip,
   Snackbar
 } from '@material-ui/core'
 import 'react-dates/initialize'
@@ -94,38 +93,36 @@ const NewDog = ({ history }) => {
   }
 
   const save = addAnother => {
-    console.log(form)
-
-    // let dog = { ...form }
-    // dog.birthdate = moment(dog.birthdate).format('YYYY-MM-DD')
-    // delete dog.breeds
-    // let body = {
-    //   dog: { ...dog },
-    //   breeds: transformBreedIds(form.breeds),
-    //   dog_images: [...uploadedImages]
-    // }
-    // DogService.createDog(body)
-    //   .then(response => {
-    //     if (response) {
-    //       setSnack({
-    //         message: 'Congrats! Dog record created!',
-    //         isOpen: true,
-    //         className: 'success'
-    //       })
-    //       if (addAnother) {
-    //         setForm(initialFormState)
-    //         setUploadedImages([])
-    //       } else {
-    //         history.push('/dogs')
-    //       }
-    //     }
-    //   })
-    //   .catch(error => {
-    //     setSnack({
-    //       message: 'Uh oh! Something went wrong! Please try again.',
-    //       isOpen: true
-    //     })
-    //   })
+    let dog = { ...form }
+    dog.birthdate = moment(dog.birthdate).format('YYYY-MM-DD')
+    delete dog.breeds
+    let body = {
+      dog: { ...dog },
+      breeds: transformBreedIds(form.breeds),
+      dog_images: [...uploadedImages]
+    }
+    DogService.createDog(body)
+      .then(response => {
+        if (response) {
+          setSnack({
+            message: 'Congrats! Dog record created!',
+            isOpen: true,
+            className: 'success'
+          })
+          if (addAnother) {
+            setForm(initialFormState)
+            setUploadedImages([])
+          } else {
+            history.push('/dogs')
+          }
+        }
+      })
+      .catch(error => {
+        setSnack({
+          message: 'Uh oh! Something went wrong! Please try again.',
+          isOpen: true
+        })
+      })
   }
 
   const cancel = () => {

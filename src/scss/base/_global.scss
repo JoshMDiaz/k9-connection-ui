@@ -92,6 +92,10 @@ label,
 legend {
   color: $light-text-color;
 }
+#select-eyes,
+.form-input {
+  height: 30px;
+}
 .chip-select {
   .chip {
     background-color: $secondary-color;
