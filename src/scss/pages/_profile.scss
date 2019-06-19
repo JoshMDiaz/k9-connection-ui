@@ -46,9 +46,9 @@
     border-top: 1px solid $border-color;
     border-bottom: 1px solid $border-color;
     padding: 16px 0;
-    margin: 24px 0;
+    margin: 16px 0;
     display: grid;
-    grid-gap: 16px;
+    grid-gap: 8px;
     @media only screen and (min-width: 500px) {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -60,6 +60,7 @@
     }
     .info {
       display: flex;
+      line-height: 20px;
     }
   }
   .right-section {

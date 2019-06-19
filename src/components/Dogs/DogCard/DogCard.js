@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom'
 import HelperService from '../../../services/HelperService'
 import Icon from '../../common/Icons/Icon'
 import noImage from '../../../images/no-image.jpg'
+import FavoriteIcon from '../../FavoriteIcon/FavoriteIcon'
 
 const DogCard = ({ dog, count, userId }) => {
-  const [isFavorite, setIsFavorite] = useState(false)
   const [image, setImage] = useState({})
 
   useEffect(() => {
-    setIsFavorite()
     findMainImage(dog.dog_images)
   }, [])
 
@@ -31,10 +30,6 @@ const DogCard = ({ dog, count, userId }) => {
 
   const messageOwner = () => {
     console.log('message owner')
-  }
-
-  const favoriteDog = () => {
-    console.log('favorite this dog')
   }
 
   return (
@@ -88,12 +83,7 @@ const DogCard = ({ dog, count, userId }) => {
               <div className='icon-container'>
                 <Icon icon='message' callout={messageOwner} />
               </div>
-              <div className='icon-container'>
-                <Icon
-                  icon={isFavorite ? 'favoriteSolid' : 'favorite'}
-                  callout={favoriteDog}
-                />
-              </div>
+              <FavoriteIcon dog={dog} />
             </>
           )}
         </div>

@@ -11,21 +11,24 @@ import UserContext from '../../../../userContext'
 
 const DogProfile = props => {
   const [dog, setDog] = useState({})
-  const [user, setUser] = useState()
+  const [user, setUser] = useState({})
   const [isEditMode, setIsEditMode] = useState(false)
   const [snack, setSnack] = useState({
     isOpen: false,
     message: ''
   })
-  const uc = useContext(UserContext)
+  let uc = useContext(UserContext)
 
   useEffect(() => {
-    getDog(props.match.params.id)
-    setUser(uc.user)
+    getDog()
   }, [])
 
-  const getDog = id => {
-    DogService.get(id).then(response => {
+  useEffect(() => {
+    setUser(uc.user)
+  }, [uc])
+
+  const getDog = () => {
+    DogService.get(props.match.params.id).then(response => {
       if (response) {
         setDog(response.data)
       }
@@ -46,7 +49,6 @@ const DogProfile = props => {
     let body = {
       dog: { ...dog },
       breeds: transformBreedIds(dogForm.breeds),
-      // dog_images: [...uploadedImages]
       dog_images: images
     }
     DogService.updateDog(props.match.params.id, body).then(response => {
@@ -79,7 +81,12 @@ const DogProfile = props => {
         </div>
         <div className='right-section'>
           {!isEditMode ? (
-            <DogRead dog={dog} user={user} setIsEditMode={setIsEditMode} />
+            <DogRead
+              dog={dog}
+              user={user}
+              setIsEditMode={setIsEditMode}
+              getDog={getDog}
+            />
           ) : (
             <DogEdit
               dog={dog}

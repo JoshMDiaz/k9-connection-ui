@@ -14,6 +14,7 @@ import {
 import { SingleDatePicker, isInclusivelyBeforeDay } from 'react-dates'
 import FormService from '../../../../services/FormService'
 import moment from 'moment'
+import Multiselect from '../../../common/Multiselect'
 
 const DogEdit = ({ dog, user, setIsEditMode, update }) => {
   const [form, setForm] = useState({
@@ -62,6 +63,13 @@ const DogEdit = ({ dog, user, setIsEditMode, update }) => {
     setForm({
       ...form,
       birthdate: moment(date).format('YYYY-MM-DD')
+    })
+  }
+
+  const handleMultiselect = selected => {
+    setForm({
+      ...form,
+      breeds: selected
     })
   }
 
@@ -199,29 +207,7 @@ const DogEdit = ({ dog, user, setIsEditMode, update }) => {
 
       {/* Breeds */}
       <FormControl style={{ width: '100%', marginTop: '20px' }}>
-        <InputLabel htmlFor='breeds-select'>Breeds</InputLabel>
-        <Select
-          multiple
-          value={form.breeds}
-          onChange={e => handleChange(e, 'breeds', 'value')}
-          inputProps={{
-            name: 'breeds',
-            id: 'breeds-select'
-          }}
-          renderValue={selected => (
-            <div className='select-chips'>
-              {selected.map(value => (
-                <Chip key={value.name} label={value.name} className='chip' />
-              ))}
-            </div>
-          )}
-        >
-          {breeds.map((e, i) => (
-            <MenuItem key={i} value={e}>
-              {e.name}
-            </MenuItem>
-          ))}
-        </Select>
+        <Multiselect options={breeds} callout={handleMultiselect} />
       </FormControl>
 
       {/* Eye Color */}

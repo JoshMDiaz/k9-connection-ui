@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import HelperService from '../../../../services/HelperService'
 import Icon from '../../../common/Icons/Icon'
 import Plural from '../../../common/Plural'
 import Mdash from '../../../common/Mdash/Mdash'
+import UserFavoriteService from '../../../../services/UserFavoriteService'
+import FavoriteIcon from '../../../FavoriteIcon/FavoriteIcon'
 
-const DogRead = ({ dog, user, setIsEditMode }) => {
-  const [isUserDog, setIsUserDog] = useState(true)
-  const [isFavorite, setIsFavorite] = useState()
-
+const DogRead = ({ dog, user, setIsEditMode, getDog }) => {
   const dogInfoConfig = [
     {
       label: 'Gender',
@@ -73,41 +72,35 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
     console.log('message owner')
   }
 
-  const favoriteDog = () => {
-    console.log('make favorite')
-  }
-
   return (
     <>
       <div className='info-header'>
         <h2>{dog.name}</h2>
-        <div className={`button-container ${isUserDog ? 'is-user' : ''}`}>
-          {!isUserDog && (
-            <span
-              className='img-border with-text not-mobile'
-              onClick={messageOwner}
-            >
-              Message Owner&nbsp;
-              <Icon icon='messageNoBorder' customClass='button-icon' />
-            </span>
+        <div
+          className={`button-container ${
+            dog.user_id === user.id ? 'is-user' : ''
+          }`}
+        >
+          {dog.user_id !== user.id && (
+            <>
+              <span
+                className='img-border with-text not-mobile'
+                onClick={messageOwner}
+              >
+                Message Owner&nbsp;
+                <Icon icon='messageNoBorder' customClass='button-icon' />
+              </span>
+              <div className='icon-container mobile-only'>
+                <Icon
+                  icon={'message'}
+                  customClass='message-icon'
+                  callout={messageOwner}
+                />
+              </div>
+              <FavoriteIcon dog={dog} />
+            </>
           )}
-          <div className='icon-container mobile-only'>
-            <Icon
-              icon={'message'}
-              customClass='message-icon'
-              callout={messageOwner}
-            />
-          </div>
-          {!isUserDog && (
-            <div className='icon-container'>
-              <Icon
-                icon={isFavorite ? 'favoriteSolid' : 'favorite'}
-                customClass='favorite-icon'
-                callout={favoriteDog}
-              />
-            </div>
-          )}
-          {isUserDog && (
+          {dog.user_id === user.id && (
             <div className='icon-container'>
               <Icon
                 icon={'pencil'}

@@ -70,14 +70,24 @@ const Multiselect = ({ options, callout, value }) => {
     }
     setInputValue('')
     setSelectedItem(newSelectedItem)
-    callout(newSelectedItem)
+    callout(findBreedObj(newSelectedItem))
   }
 
   const handleDelete = item => () => {
     const newSelectedItem = [...selectedItem]
     newSelectedItem.splice(newSelectedItem.indexOf(item), 1)
     setSelectedItem(newSelectedItem)
-    callout(newSelectedItem)
+    callout(findBreedObj(newSelectedItem))
+  }
+
+  const findBreedObj = items => {
+    return options.filter(o => {
+      for (let i = 0; i < items.length; i++) {
+        if (o.name === items[i]) {
+          return o
+        }
+      }
+    })
   }
 
   function getOptions(value, showEmpty) {

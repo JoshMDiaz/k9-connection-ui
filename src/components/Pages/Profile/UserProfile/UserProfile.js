@@ -38,9 +38,7 @@ const UserProfile = props => {
       if (response && response.data) {
         let user = response.data
         setUser(user)
-        // uc.setUser(user)
         setUploadedImage(user.picture)
-        localStorage.setItem('user', JSON.stringify(user))
       }
     })
   }

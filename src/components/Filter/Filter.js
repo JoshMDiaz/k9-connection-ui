@@ -11,8 +11,7 @@ import {
   Radio,
   RadioGroup,
   FormLabel,
-  FormControlLabel,
-  Chip
+  FormControlLabel
 } from '@material-ui/core'
 import InputRange from 'react-input-range'
 import Multiselect from '../common/Multiselect'
@@ -22,8 +21,6 @@ const Filter = ({ form, dispatch, closeFilter }) => {
   const [eyeColors, setEyeColors] = useState([])
 
   useEffect(() => {
-    console.log(form)
-
     getBreeds()
     getEyeColors()
   }, [])
@@ -107,6 +104,12 @@ const Filter = ({ form, dispatch, closeFilter }) => {
     return count
   }
 
+  const getBreedNames = breed => {
+    return breed.filter(b => {
+      return b.name
+    })
+  }
+
   const updateFilter = () => {
     dispatch({
       type: 'ACTIVE_FILTERS',
@@ -117,6 +120,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
       payload: {
         ...form,
         birthdate: form.ageRange ? getBirthdateRange(form.ageRange) : null
+        // breed: form.breed ? getBreedNames(form.breed) : null
       }
     })
     dispatch({
@@ -222,32 +226,6 @@ const Filter = ({ form, dispatch, closeFilter }) => {
             callout={handleMultiselect}
             value={form.breed}
           />
-
-          {/* <InputLabel htmlFor='breeds-select'>Breeds</InputLabel> */}
-          {/* <Select
-            multiple
-            value={form.breed}
-            onChange={e => handleChange(e, 'breed', 'value')}
-            inputProps={{
-              name: 'breeds',
-              id: 'breeds-select'
-            }}
-            renderValue={selected => (
-              <div className='select-chips'>
-                {selected.map(value => (
-                  <Chip key={value} label={value} className='chip' />
-                ))}
-              </div>
-            )}
-          >
-            {breeds.map((e, i) => (
-              <MenuItem key={i} value={e.name}>
-                {e.name}
-              </MenuItem>
-            ))}
-          </Select> */}
-
-          {/* <BreedSelect /> */}
         </FormControl>
 
         <div>
