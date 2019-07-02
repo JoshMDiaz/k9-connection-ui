@@ -18,21 +18,17 @@ const Website = props => {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <div className='App'>
-        <div>
-          <Switch>
-            <Route exact path='/' render={props => <Home {...props} />} />
-            <Route
-              path='/callback'
-              render={props => {
-                handleAuthentication(props)
-                return <Callback {...props} />
-              }}
-            />
-            <Redirect to='/' />
-          </Switch>
-        </div>
-      </div>
+      <Switch>
+        <Route exact path='/' render={props => <Home {...props} />} />
+        <Route
+          path='/callback'
+          render={props => {
+            handleAuthentication(props)
+            return <Callback {...props} />
+          }}
+        />
+        <Redirect to='/' />
+      </Switch>
     </MuiThemeProvider>
   )
 }

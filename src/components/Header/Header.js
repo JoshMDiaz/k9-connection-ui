@@ -164,7 +164,7 @@ const Header = ({ auth }) => {
           value={searchField}
           placeholder='Search by name, gender, or breed'
         />
-        {loading && <Spinner />}
+        {loading && <Spinner type='bars' />}
         <span>{snack.duration}</span>
       </div>
       {uc.user && (

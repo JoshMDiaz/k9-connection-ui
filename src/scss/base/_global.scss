@@ -17,6 +17,14 @@
     height: calc(100vh - 81px);
   }
 }
+.callback-loader {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
 .page-padding {
   padding: 32px;

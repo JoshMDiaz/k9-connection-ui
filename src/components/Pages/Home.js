@@ -16,12 +16,14 @@ const Home = () => {
           Sign In
         </button>
       </header>
-      {/* Banner */}
-      <div className='banner'>banner here</div>
-      {/* Who we are */}
-      <div className='who-we-are'>Who we are section</div>
-      {/* Pricing */}
-      <div className='pricing-section'>pricing section</div>
+      <div className='website-content'>
+        {/* Banner */}
+        <div className='banner'>banner here</div>
+        {/* Who we are */}
+        <div className='who-we-are'>Who we are section</div>
+        {/* Pricing */}
+        <div className='pricing-section'>pricing section</div>
+      </div>
     </div>
   )
 }
