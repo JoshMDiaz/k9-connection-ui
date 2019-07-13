@@ -92,6 +92,8 @@ const Dogs = () => {
         setActiveFilters(0)
         return initialState()
       case 'UPDATE':
+        console.log(action.payload)
+
         return {
           ...form,
           ...action.payload

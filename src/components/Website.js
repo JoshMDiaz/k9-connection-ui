@@ -4,7 +4,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import Auth from '../services/Auth/Auth'
 
 import theme from '../theme'
-import Home from './Pages/Home'
+import Home from './Pages/Home/Home'
 import Callback from './Callback/Callback'
 
 const auth = new Auth()

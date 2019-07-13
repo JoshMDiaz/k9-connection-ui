@@ -1,16 +1,21 @@
 .website {
-  header,
-  .website-content {
+  position: relative;
+  header {
     max-width: 1440px;
     margin: auto;
-  }
-  header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 16px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     img {
       width: 50px;
     }
+  }
+  h1 {
+    font-size: 48px;
   }
 }

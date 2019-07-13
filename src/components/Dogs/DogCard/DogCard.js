@@ -36,11 +36,13 @@ const DogCard = ({ dog, count, userId }) => {
     <div className={`animated fadeInRight delay-${count}`}>
       <div className='card dog-card'>
         <div className='top-content'>
-          <img
-            src={image ? image.url : noImage}
-            alt={dog.name}
-            className={`dog-picture`}
-          />
+          <Link to={`/dogs/${dog.id}`}>
+            <img
+              src={image ? image.url : noImage}
+              alt={dog.name}
+              className={`dog-picture`}
+            />
+          </Link>
           <div className='card-content'>
             <h2>{dog.name}</h2>
             <p className='dog-info-row'>

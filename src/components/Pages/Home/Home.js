@@ -1,6 +1,9 @@
 import React from 'react'
-import Auth from '../../services/Auth/Auth'
-import logo from '../../images/logo.svg'
+import Auth from '../../../services/Auth/Auth'
+import logo from '../../../images/logo.svg'
+import Banner from './Banner/Banner'
+import WhoWeAre from './WhoWeAre/WhoWeAre'
+import Pricing from './Pricing/Pricing'
 
 const auth = new Auth()
 
@@ -17,13 +20,11 @@ const Home = () => {
         </button>
       </header>
       <div className='website-content'>
-        {/* Banner */}
-        <div className='banner'>banner here</div>
-        {/* Who we are */}
-        <div className='who-we-are'>Who we are section</div>
-        {/* Pricing */}
-        <div className='pricing-section'>pricing section</div>
+        <Banner />
+        <WhoWeAre />
+        <Pricing />
       </div>
+      <footer>Footer things</footer>
     </div>
   )
 }

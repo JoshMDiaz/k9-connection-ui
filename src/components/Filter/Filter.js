@@ -105,7 +105,7 @@ const Filter = ({ form, dispatch, closeFilter }) => {
   }
 
   const getBreedNames = breed => {
-    return breed.filter(b => {
+    return breed.map(b => {
       return b.name
     })
   }
@@ -119,8 +119,8 @@ const Filter = ({ form, dispatch, closeFilter }) => {
       type: 'UPDATE',
       payload: {
         ...form,
-        birthdate: form.ageRange ? getBirthdateRange(form.ageRange) : null
-        // breed: form.breed ? getBreedNames(form.breed) : null
+        birthdate: form.ageRange ? getBirthdateRange(form.ageRange) : null,
+        breed: form.breed ? getBreedNames(form.breed) : null
       }
     })
     dispatch({

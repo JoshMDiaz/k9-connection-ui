@@ -1,0 +1,15 @@
+.banner-section {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  .banner-section-content {
+    max-width: 1440px;
+    margin: auto;
+    padding: 16px;
+    height: calc(100vh - 32px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
