@@ -27,8 +27,12 @@
 }
 
 .page-padding {
-  padding: 32px;
+  padding: 20px;
 }
+.padding-top-0 {
+  padding-top: 0;
+}
+
 .main-content-header {
   display: flex;
   align-items: center;
@@ -39,8 +43,8 @@
   @include prefix(position, sticky);
   position: -webkit-sticky;
   top: 0;
-  padding: 0 32px;
-  height: 75px;
+  padding: 0 20px;
+  height: 64px;
 }
 .content-container {
   padding: 16px;
@@ -138,7 +142,7 @@ fieldset.gender-radios {
 
 .card-list {
   display: grid;
-  grid-gap: 32px;
+  grid-gap: 20px;
   margin-bottom: 64px;
   @media only screen and (min-width: 650px) {
     grid-template-columns: repeat(2, 1fr);
@@ -202,6 +206,7 @@ fieldset.gender-radios {
     top: 6px;
     right: 8px;
     background: none;
+    padding: 0;
     &:hover {
       box-shadow: none;
     }
@@ -211,7 +216,7 @@ fieldset.gender-radios {
     grid-template-columns: 1fr auto;
     grid-gap: 24px;
     align-items: center;
-    padding-right: 32px;
+    padding-right: 20px;
     button {
       @include border-radius;
       box-shadow: none;

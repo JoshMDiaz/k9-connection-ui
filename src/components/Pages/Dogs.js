@@ -92,8 +92,6 @@ const Dogs = () => {
         setActiveFilters(0)
         return initialState()
       case 'UPDATE':
-        console.log(action.payload)
-
         return {
           ...form,
           ...action.payload
@@ -158,6 +156,7 @@ const Dogs = () => {
               form={form}
               dispatch={dispatch}
               closeFilter={() => openFilter(false)}
+              user={uc.user}
             />
           </Popover>
           <Link to='/profile/new-dog' className='new-dog-link'>
@@ -167,7 +166,7 @@ const Dogs = () => {
       </div>
       <div className='page-padding'>
         {!loading ? (
-          <List dogs={dogs} userId={uc.user.id} />
+          <List dogs={dogs} user={uc.user} />
         ) : (
           <div className='card-list'>
             {[...Array(12).keys()].map(row => {

@@ -1,4 +1,10 @@
 .dog-profile {
+  .profile-container {
+    margin-bottom: 64px;
+    @media only screen and (min-width: 768px) {
+      margin-bottom: 0;
+    }
+  }
   .about-dog {
     .info-label {
       margin-bottom: 8px;
@@ -41,9 +47,9 @@ img.ril__image:not(.ril__imagePrev) {
 }
 @media only screen and (min-width: 768px) {
   .ril__navButtonNext {
-    right: 32px !important;
+    right: 20px !important;
   }
   .ril__navButtonPrev {
-    left: 32px !important;
+    left: 20px !important;
   }
 }

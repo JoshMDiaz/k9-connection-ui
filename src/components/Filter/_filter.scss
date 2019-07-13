@@ -1,13 +1,13 @@
 @import './range';
 #filter-popover {
   .popover-container {
-    left: 32px !important;
-    right: 32px;
+    left: 20px !important;
+    right: 20px;
     @media only screen and (min-width: 768px) {
       top: 135px !important;
       left: 208px !important;
-      right: 32px;
-      bottom: 32px;
+      right: 20px;
+      bottom: 20px;
     }
     @media only screen and (min-width: 1024px) {
       bottom: 128px;
@@ -15,13 +15,13 @@
   }
 }
 .filter-container {
-  padding: 32px;
+  padding: 20px;
   position: relative;
-  height: calc(100% - 64px);
   @media only screen and (min-width: 1024px) {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 64px;
+    height: calc(100% - 40px);
   }
   .form-input {
     margin: 4px 0 40px;

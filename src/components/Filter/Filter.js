@@ -16,7 +16,7 @@ import {
 import InputRange from 'react-input-range'
 import Multiselect from '../common/Multiselect'
 
-const Filter = ({ form, dispatch, closeFilter }) => {
+const Filter = ({ form, dispatch, closeFilter, user }) => {
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
 
@@ -325,15 +325,19 @@ const Filter = ({ form, dispatch, closeFilter }) => {
           </FormControl>
 
           {/* Miles Away */}
-          <label className='slider-label'>Miles From Me</label>
-          <InputRange
-            draggableTrack
-            maxValue={100}
-            minValue={0}
-            step={10}
-            value={form.milesAway}
-            onChange={value => handleRange({ value }, 'milesAway')}
-          />
+          {user.zip && (
+            <>
+              <label className='slider-label'>Miles From Me</label>
+              <InputRange
+                draggableTrack
+                maxValue={100}
+                minValue={0}
+                step={10}
+                value={form.milesAway}
+                onChange={value => handleRange({ value }, 'milesAway')}
+              />
+            </>
+          )}
 
           {/* Favorite */}
           <FormControlLabel

@@ -22,11 +22,25 @@
     line-height: 24px;
     margin-bottom: 16px;
     font-weight: 300;
-    &.dog-info-row {
+  }
+  span {
+    &.gender-age,
+    &.dog-breed,
+    &.location {
+      display: block;
+    }
+    &.gender-age {
       color: $light-text-color;
+      margin: 4px 0 12px;
       font-weight: 400;
-      display: flex;
-      justify-content: space-between;
+    }
+    &.dog-breed {
+      font-weight: 300;
+      margin-bottom: 12px;
+    }
+    &.location {
+      font-weight: 300;
+      margin-bottom: 16px;
     }
   }
   .card-footer {

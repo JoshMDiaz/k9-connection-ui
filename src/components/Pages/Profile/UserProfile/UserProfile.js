@@ -88,20 +88,20 @@ const UserProfile = props => {
   return (
     <div className='user-profile profile'>
       <div className='main-content-header'>
-        <span className='animated fadeInLeft'>
-          You have {user.dogs ? user.dogs.length : 0}{' '}
+        <span className='animated fadeInLeft delay-5'>
+          {user.dogs ? user.dogs.length : 0}{' '}
           <Plural text='dog' number={user.dogs ? user.dogs.length : 0} />{' '}
           registered
         </span>
         <Link
           to='/profile/new-dog'
-          className='new-dog-link animated fadeInRight'
+          className='new-dog-link animated fadeInRight delay-5'
         >
           <button className='primary'>New Dog</button>
         </Link>
       </div>
       <ContentContainer customClass='profile-container'>
-        <div className='left-section animated fadeInLeft delay-5'>
+        <div className='left-section'>
           {isEditMode ? (
             <>
               <UploadPhotos callout={uploadImage} type='user' />
@@ -117,7 +117,7 @@ const UserProfile = props => {
             </div>
           )}
         </div>
-        <div className='right-section animated fadeInRight delay-10'>
+        <div className='right-section'>
           {isEditMode ? (
             <UserEdit
               user={user}
@@ -131,8 +131,8 @@ const UserProfile = props => {
         </div>
       </ContentContainer>
       {user.dogs && user.dogs.length > 0 && (
-        <div className='page-padding'>
-          <List dogs={user.dogs} userId={user.id} />
+        <div className='page-padding padding-top-0'>
+          <List dogs={user.dogs} user={user} startingCount={8} />
         </div>
       )}
       <Snackbar

@@ -5,13 +5,13 @@
     @media only screen and (min-width: 768px) {
       display: grid;
       grid-template-columns: 40% 1fr;
-      grid-gap: 32px;
+      grid-gap: 20px;
     }
   }
   .left-section {
-    margin-top: 32px;
+    margin-bottom: 20px;
     @media only screen and (min-width: 768px) {
-      margin-top: 0;
+      margin-bottom: 0;
     }
   }
   .info-header {

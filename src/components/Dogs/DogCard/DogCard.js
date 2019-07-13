@@ -5,7 +5,7 @@ import Icon from '../../common/Icons/Icon'
 import noImage from '../../../images/no-image.jpg'
 import FavoriteIcon from '../../FavoriteIcon/FavoriteIcon'
 
-const DogCard = ({ dog, count, userId }) => {
+const DogCard = ({ dog, count, user }) => {
   const [image, setImage] = useState({})
 
   useEffect(() => {
@@ -45,28 +45,31 @@ const DogCard = ({ dog, count, userId }) => {
           </Link>
           <div className='card-content'>
             <h2>{dog.name}</h2>
-            <p className='dog-info-row'>
-              <span>
-                <span className='gender'>{dog.gender}</span>
-                &nbsp;&nbsp;/&nbsp;&nbsp;
-                <span className='age'>
-                  {HelperService.getYearsOld(dog.birthdate)}
-                </span>
+            <span className='gender-age'>
+              <span className='gender'>{dog.gender}</span>
+              &nbsp;&nbsp;/&nbsp;&nbsp;
+              <span className='age'>
+                {HelperService.getYearsOld(dog.birthdate)}
               </span>
-              <span>
-                {dog.breeds.length > 1 ? (
-                  // popover here with list of breeds
-                  <span>Breeds</span>
-                ) : (
-                  // {dog.breeds.map((e, i) => (
-                  //   <span key={i}>
-                  //     {e.name} {dog.breeds.length > i + 1 && <span>/</span>}
-                  //   </span>
-                  // ))}
-                  <span>{dog.breeds[0].name}</span>
-                )}
+            </span>
+            <span className='dog-breed'>
+              {dog.breeds.length > 1 ? (
+                // popover here with list of breeds
+                <span>Breeds</span>
+              ) : (
+                // {dog.breeds.map((e, i) => (
+                //   <span key={i}>
+                //     {e.name} {dog.breeds.length > i + 1 && <span>/</span>}
+                //   </span>
+                // ))}
+                <span>{dog.breeds[0].name}</span>
+              )}
+            </span>
+            {user.city && user.state && (
+              <span className='location'>
+                {dog.city || 'Lehi'}, {dog.state || 'UT'}
               </span>
-            </p>
+            )}
             <p>
               {dog.description ? (
                 <>{trimText(dog.description, 150)}</>
@@ -80,7 +83,7 @@ const DogCard = ({ dog, count, userId }) => {
           <Link to={`/dogs/${dog.id}`}>
             <button className='view-profile primary'>View Profile</button>
           </Link>
-          {userId !== dog.user_id && (
+          {user.id !== dog.user_id && (
             <>
               <div className='icon-container'>
                 <Icon icon='message' callout={messageOwner} />
