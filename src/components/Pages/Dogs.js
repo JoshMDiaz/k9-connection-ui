@@ -12,15 +12,6 @@ import PageHeader from '../common/PageHeader/PageHeader'
 import UserContext from '../../userContext'
 
 const Dogs = () => {
-  let filterTimeout,
-    isCancelled,
-    initialForm = JSON.parse(localStorage.getItem('filter')) || initialState(),
-    initialFilterCount = localStorage.getItem('filterCount') || 0
-  const [dogs, setDogs] = useState([])
-  const [filterOpen, setFilterOpen] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [activeFilters, setActiveFilters] = useState(initialFilterCount)
-  const uc = useContext(UserContext)
   const initialState = () => ({
     name: '',
     gender: '',
@@ -38,6 +29,23 @@ const Dogs = () => {
     eyes: [],
     favorite: false
   })
+  let filterTimeout,
+    isCancelled,
+    initialForm = JSON.parse(localStorage.getItem('filter')) || initialState(),
+    initialFilterCount = localStorage.getItem('filterCount') || 0
+  const [dogs, setDogs] = useState([])
+  const [filterOpen, setFilterOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [activeFilters, setActiveFilters] = useState(initialFilterCount)
+  const uc = useContext(UserContext)
+
+  const getRegistered = form => {
+    let value
+    if (form.papered === 'false') {
+      value = false
+    }
+    return value
+  }
 
   const getDogs = filter => {
     !isCancelled && setLoading(true)
@@ -106,14 +114,6 @@ const Dogs = () => {
       isCancelled = true
     }
   }, [])
-
-  const getRegistered = form => {
-    let value
-    if (form.papered === 'false') {
-      value = false
-    }
-    return value
-  }
 
   return (
     <div className='dogs-page'>

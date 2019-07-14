@@ -3,10 +3,9 @@ import HelperService from '../../../../services/HelperService'
 import Icon from '../../../common/Icons/Icon'
 import Plural from '../../../common/Plural'
 import Mdash from '../../../common/Mdash/Mdash'
-import UserFavoriteService from '../../../../services/UserFavoriteService'
 import FavoriteIcon from '../../../FavoriteIcon/FavoriteIcon'
 
-const DogRead = ({ dog, user, setIsEditMode, getDog }) => {
+const DogRead = ({ dog, user, setIsEditMode }) => {
   const dogInfoConfig = [
     {
       label: 'Gender',
@@ -129,7 +128,7 @@ const DogRead = ({ dog, user, setIsEditMode, getDog }) => {
       </div>
       <div className='about-dog'>
         <span className='info-label'>About</span>
-        <p className='description'>{dog.description}</p>
+        <p className='description'>{dog.description || <Mdash />}</p>
       </div>
     </>
   )

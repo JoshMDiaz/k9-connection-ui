@@ -8,15 +8,14 @@ import {
   Radio,
   RadioGroup,
   FormLabel,
-  FormControlLabel,
-  Chip
+  FormControlLabel
 } from '@material-ui/core'
 import { SingleDatePicker, isInclusivelyBeforeDay } from 'react-dates'
 import FormService from '../../../../services/FormService'
 import moment from 'moment'
 import Multiselect from '../../../common/Multiselect'
 
-const DogEdit = ({ dog, user, setIsEditMode, update }) => {
+const DogEdit = ({ dog, setIsEditMode, update }) => {
   const [form, setForm] = useState({
     name: dog.name,
     gender: dog.gender,

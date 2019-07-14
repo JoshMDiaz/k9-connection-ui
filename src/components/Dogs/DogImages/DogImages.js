@@ -45,24 +45,26 @@ const DogImages = ({ images }) => {
 
   return (
     <div className='dog-images-component'>
-      {mainImage && (
-        <div className={`dog-image big`} onClick={() => openLightbox(0)}>
-          <img src={mainImage.url} alt='main' />
-          <Icon icon='magnifyingGlassBg' />
-        </div>
-      )}
-      <div className='dog-images'>
-        {dogImages.map((e, i) => (
-          <div
-            className={`dog-image`}
-            key={i}
-            onClick={() => openLightbox(i + 1)}
-          >
-            <img src={e.url} alt={'dog'} />
+      {images.length > 0 && (
+        <>
+          <div className={`dog-image big`} onClick={() => openLightbox(0)}>
+            <img src={mainImage.url} alt='main' />
+            <Icon icon='magnifyingGlassBg' />
           </div>
-        ))}
-      </div>
-      {isOpen && (
+          <div className='dog-images'>
+            {dogImages.map((e, i) => (
+              <div
+                className={`dog-image`}
+                key={i}
+                onClick={() => openLightbox(i + 1)}
+              >
+                <img src={e.url} alt={'dog'} />
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+      {images.length > 0 && isOpen && (
         <Lightbox
           mainSrc={sortedImages[photoIndex].url}
           nextSrc={sortedImages[(photoIndex + 1) % sortedImages.length].url}

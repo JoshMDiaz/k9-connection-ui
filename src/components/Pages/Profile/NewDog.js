@@ -41,7 +41,7 @@ const NewDog = ({ history }) => {
     isOpen: false,
     message: ''
   })
-  const [years, setYears] = useState([])
+  // const [years, setYears] = useState([])
 
   useEffect(() => {
     getBreeds()
@@ -157,60 +157,61 @@ const NewDog = ({ history }) => {
     for (let i = currentYear - numYears; i <= currentYear; i++) {
       years.push(i)
     }
-    setYears(years)
+    // setYears(years)
   }
 
-  const renderMonthElement = ({ month, onMonthSelect, onYearSelect }) => (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      {/* <Select
-        value={month.month()}
-        onChange={e => onMonthSelect(month, e.target.value)}
-        inputProps={{
-          name: 'eyes',
-          id: 'eyes-select'
-        }}
-      >
-        {moment.months().map((label, value) => (
-          <MenuItem key={value} value={value}>
-            {label}
-          </MenuItem>
-        ))}
-      </Select> */}
+  // const renderMonthElement = ({ month, onMonthSelect, onYearSelect }) => (
+  //   <div style={{ display: 'flex', justifyContent: 'center' }}>
+  //     {/* <Select
+  //       value={month.month()}
+  //       onChange={e => onMonthSelect(month, e.target.value)}
+  //       inputProps={{
+  //         name: 'eyes',
+  //         id: 'eyes-select'
+  //       }}
+  //     >
+  //       {moment.months().map((label, value) => (
+  //         <MenuItem key={value} value={value}>
+  //           {label}
+  //         </MenuItem>
+  //       ))}
+  //     </Select> */}
 
-      <select
-        value={month.year()}
-        onChange={e => onYearSelect(month, e.target.value)}
-      >
-        {years.map(label => (
-          <option value={moment().year()}>{label}</option>
-        ))}
-      </select>
+  //     <select
+  //       value={month.year()}
+  //       onChange={e => onYearSelect(month, e.target.value)}
+  //     >
+  //       {years.map(label => (
+  //         <option value={moment().year()}>{label}</option>
+  //       ))}
+  //     </select>
 
-      {/* <select
-        value={month.year()}
-        onChange={e => onYearSelect(month, e.target.value)}
-      >
-        <option value={moment().year() - 1}>Last year</option>
-        <option value={moment().year()}>{moment().year()}</option>
-        <option value={moment().year() + 1}>Next year</option>
-      </select> */}
+  //     {/* <select
+  //       value={month.year()}
+  //       onChange={e => onYearSelect(month, e.target.value)}
+  //     >
+  //       <option value={moment().year() - 1}>Last year</option>
+  //       <option value={moment().year()}>{moment().year()}</option>
+  //       <option value={moment().year() + 1}>Next year</option>
+  //     </select> */}
 
-      {/* <Select
-        value={month.year()}
-        onChange={e => onYearSelect(month, e.target.value)}
-        // inputProps={{
-        //   name: 'eyes',
-        //   id: 'eyes-select'
-        // }}
-      >
-        {years.map(label => (
-          <MenuItem key={label} value={label}>
-            {label}
-          </MenuItem>
-        ))}
-      </Select> */}
-    </div>
-  )
+  //     {/* <Select
+  //       value={month.year()}
+  //       onChange={e => onYearSelect(month, e.target.value)}
+  //       // inputProps={{
+  //       //   name: 'eyes',
+  //       //   id: 'eyes-select'
+  //       // }}
+  //     >
+  //       {years.map(label => (
+  //         <MenuItem key={label} value={label}>
+  //           {label}
+  //         </MenuItem>
+  //       ))}
+  //     </Select> */}
+  //   </div>
+  // )
+
   return (
     <div className='new-dog'>
       <div className='main-content-header'>

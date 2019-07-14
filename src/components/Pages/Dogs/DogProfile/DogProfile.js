@@ -109,7 +109,7 @@ const DogProfile = props => {
           'aria-describedby': 'message-id'
         }}
         autoHideDuration={3000}
-        className={`snackbar ${snack.className || 'error'}`}
+        className={`snackbar ${snack.className}`}
         message={<span id='message-id'>{snack.message}</span>}
       />
     </div>

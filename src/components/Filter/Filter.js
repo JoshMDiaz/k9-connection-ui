@@ -140,6 +140,8 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
     dispatch({
       type: 'RESET'
     })
+    localStorage.removeItem('filter')
+    localStorage.removeItem('filterCount')
   }
 
   const handleRange = (obj, field) => {

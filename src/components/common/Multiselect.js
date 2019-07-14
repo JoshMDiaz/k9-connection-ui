@@ -87,6 +87,7 @@ const Multiselect = ({ options, callout, value }) => {
           return o
         }
       }
+      return null
     })
   }
 

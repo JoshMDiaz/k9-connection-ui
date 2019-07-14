@@ -63,6 +63,14 @@
     .input-range__label--max {
       display: none;
     }
+    .input-range__track--background {
+      z-index: 1;
+    }
+    .input-range__label-container {
+      left: calc(-50% + 3px);
+      position: relative;
+      top: -4px;
+    }
   }
   .button-container {
     display: flex;
