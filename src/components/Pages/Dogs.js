@@ -12,28 +12,32 @@ import PageHeader from '../common/PageHeader/PageHeader'
 import UserContext from '../../userContext'
 
 const Dogs = () => {
+  let filterTimeout,
+    isCancelled,
+    initialForm = JSON.parse(localStorage.getItem('filter')) || initialState(),
+    initialFilterCount = localStorage.getItem('filterCount') || 0
   const [dogs, setDogs] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [activeFilters, setActiveFilters] = useState(0)
+  const [activeFilters, setActiveFilters] = useState(initialFilterCount)
   const uc = useContext(UserContext)
-  let filterTimeout, isCancelled
-
-  useEffect(() => {
-    !isCancelled && getDogs()
-    return () => {
-      clearTimeout(filterTimeout)
-      isCancelled = true
-    }
-  }, [])
-
-  const getRegistered = form => {
-    let value
-    if (form.papered === 'false') {
-      value = false
-    }
-    return value
-  }
+  const initialState = () => ({
+    name: '',
+    gender: '',
+    papered: '',
+    registered: '',
+    ageRange: {
+      min: 1,
+      max: 15
+    },
+    milesAway: {
+      min: 0,
+      max: 100
+    },
+    breed: [],
+    eyes: [],
+    favorite: false
+  })
 
   const getDogs = filter => {
     !isCancelled && setLoading(true)
@@ -67,24 +71,6 @@ const Dogs = () => {
     !isCancelled && setFilterOpen(isOpen)
   }
 
-  const initialState = () => ({
-    name: '',
-    gender: '',
-    papered: '',
-    registered: '',
-    ageRange: {
-      min: 1,
-      max: 15
-    },
-    milesAway: {
-      min: 0,
-      max: 100
-    },
-    breed: [],
-    eyes: [],
-    favorite: false
-  })
-
   const reducer = (form, action) => {
     switch (action.type) {
       case 'RESET':
@@ -110,8 +96,24 @@ const Dogs = () => {
     }
   }
 
-  const [form, dispatch] = useReducer(reducer, initialState())
+  const [form, dispatch] = useReducer(reducer, initialForm)
   let count = 0
+
+  useEffect(() => {
+    !isCancelled && getDogs(initialForm)
+    return () => {
+      clearTimeout(filterTimeout)
+      isCancelled = true
+    }
+  }, [])
+
+  const getRegistered = form => {
+    let value
+    if (form.papered === 'false') {
+      value = false
+    }
+    return value
+  }
 
   return (
     <div className='dogs-page'>

@@ -111,17 +111,21 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
   }
 
   const updateFilter = () => {
-    dispatch({
-      type: 'ACTIVE_FILTERS',
-      payload: determineActiveFilters()
-    })
-    dispatch({
-      type: 'UPDATE',
-      payload: {
+    let filterCount = determineActiveFilters(),
+      body = {
         ...form,
         birthdate: form.ageRange ? getBirthdateRange(form.ageRange) : null,
         breed: form.breed ? getBreedNames(form.breed) : null
       }
+    localStorage.setItem('filterCount', filterCount)
+    localStorage.setItem('filter', JSON.stringify(body))
+    dispatch({
+      type: 'ACTIVE_FILTERS',
+      payload: filterCount
+    })
+    dispatch({
+      type: 'UPDATE',
+      payload: body
     })
     dispatch({
       type: 'SEARCH'
