@@ -4,6 +4,8 @@ import HelperService from '../../../services/HelperService'
 import Icon from '../../common/Icons/Icon'
 import noImage from '../../../images/no-image.jpg'
 import FavoriteIcon from '../../FavoriteIcon/FavoriteIcon'
+import { withStyles } from '@material-ui/core/styles'
+import { Tooltip, Zoom } from '@material-ui/core'
 
 const DogCard = ({ dog, count, user }) => {
   const [image, setImage] = useState({})
@@ -31,6 +33,14 @@ const DogCard = ({ dog, count, user }) => {
   const messageOwner = () => {
     console.log('message owner')
   }
+  const LightTooltip = withStyles(theme => ({
+    tooltip: {
+      backgroundColor: theme.palette.common.white,
+      color: 'rgba(0, 0, 0, 0.87)',
+      boxShadow: theme.shadows[1],
+      fontSize: 11
+    }
+  }))(Tooltip)
 
   return (
     <div className={`animated fadeInRight delay-${count}`}>
@@ -54,14 +64,22 @@ const DogCard = ({ dog, count, user }) => {
             </span>
             <span className='dog-breed'>
               {dog.breeds.length > 1 ? (
-                // popover here with list of breeds
-                <span>Breeds</span>
+                <LightTooltip
+                  title={
+                    <>
+                      {dog.breeds.map((e, i) => (
+                        <p className='breed-names' key={i}>
+                          {e.name}
+                        </p>
+                      ))}
+                    </>
+                  }
+                  placement='right'
+                  TransitionComponent={Zoom}
+                >
+                  <span>{dog.breeds.length} Breeds</span>
+                </LightTooltip>
               ) : (
-                // {dog.breeds.map((e, i) => (
-                //   <span key={i}>
-                //     {e.name} {dog.breeds.length > i + 1 && <span>/</span>}
-                //   </span>
-                // ))}
                 <span>{dog.breeds[0].name}</span>
               )}
             </span>
