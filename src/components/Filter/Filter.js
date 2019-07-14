@@ -106,7 +106,11 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
 
   const getBreedNames = breed => {
     return breed.map(b => {
-      return b.name
+      if (b.name) {
+        return b.name
+      } else {
+        return b
+      }
     })
   }
 
