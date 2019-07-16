@@ -156,7 +156,6 @@ const Header = ({ auth }) => {
       <div className='search-bar animated fadeInLeft'>
         <Icon icon='magnifyingGlass' onClick={focusSearch} />
         <TextField
-          label={`Search Dogs`}
           className={'search-dogs-input'}
           margin='normal'
           onChange={handleChange}

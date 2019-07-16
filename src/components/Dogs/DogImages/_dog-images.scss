@@ -19,13 +19,9 @@
   }
   .dog-image {
     overflow: hidden;
-    height: 200px;
-    object-fit: cover;
-    @include border-radius;
-    width: 100%;
+    @include border-radius(10px);
     &.big,
     &.no-img {
-      @include border-radius(10px);
       position: relative;
       height: 350px;
       margin-bottom: 16px;

@@ -4,8 +4,10 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Input
 } from '@material-ui/core'
+import MaskedInput from 'react-text-mask'
 import FormService from '../../../../services/FormService'
 
 const UserEdit = ({ user, setIsEditMode, update, history }) => {
@@ -53,6 +55,7 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
     })
   }
   const handleChange = (event, field, elementValue) => {
+    console.log(event, field, elementValue)
     setForm({
       ...form,
       [field]: event.target[elementValue]
@@ -64,6 +67,37 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
     history.push({
       pathname: '/profile/new-dog'
     })
+  }
+
+  function TextMaskCustom(props) {
+    const { inputRef, ...other } = props
+
+    return (
+      <MaskedInput
+        {...other}
+        ref={ref => {
+          inputRef(ref ? ref.inputElement : null)
+        }}
+        mask={[
+          '(',
+          /[1-9]/,
+          /\d/,
+          /\d/,
+          ')',
+          ' ',
+          /\d/,
+          /\d/,
+          /\d/,
+          '-',
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/
+        ]}
+        placeholderChar={'\u2000'}
+        showMask
+      />
+    )
   }
 
   return (
@@ -87,6 +121,16 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
         fullWidth
         value={form.phone}
       />
+      {/* <div className={'form-input'}>
+        <InputLabel htmlFor='phone'>Phone</InputLabel>
+        <Input
+          value={form.phone}
+          onChange={e => handleChange(e, 'phone', 'value')}
+          id='phone'
+          fullWidth
+          inputComponent={TextMaskCustom}
+        />
+      </div> */}
 
       {/* Email */}
       <TextField

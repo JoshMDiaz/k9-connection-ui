@@ -21,7 +21,8 @@
       margin-right: 16px;
     }
     .search-dogs-input {
-      margin: -10px 0 10px;
+      margin: -8px 0 0;
+      width: 285px;
     }
     .spinner {
       right: -30px;
@@ -30,7 +31,7 @@
   button {
     display: flex;
     align-items: center;
-    padding: 4px 16px;
+    padding: 4px 16px 4px 8px;
     height: auto;
     @include border-radius(100px);
     .image-container {

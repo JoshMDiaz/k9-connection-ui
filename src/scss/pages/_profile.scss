@@ -39,7 +39,7 @@
     align-items: center;
     grid-template-columns: repeat(2, auto);
     &.is-user {
-      grid-template-columns: repeat(3, auto);
+      grid-template-columns: auto;
     }
   }
   .info-container {
@@ -66,6 +66,7 @@
   .right-section {
     font-size: 14px;
     .form-input {
+      margin: 16px 0;
       &:first-child {
         margin-top: 0;
       }

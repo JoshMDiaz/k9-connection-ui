@@ -4,7 +4,7 @@ button {
   height: 44px;
   font-size: 14px;
   border: none;
-  @include border-radius;
+  @include border-radius(50px);
   @include transition;
   position: relative;
   cursor: pointer;
