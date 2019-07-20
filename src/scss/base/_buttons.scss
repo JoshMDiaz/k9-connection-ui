@@ -53,6 +53,6 @@ button {
     background: $gradient-color-h;
     background: $secondary-color;
     color: $white-color;
-    @include border-radius;
+    @include border-radius(50px);
   }
 }

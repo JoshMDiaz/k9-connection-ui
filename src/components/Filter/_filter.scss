@@ -29,12 +29,12 @@
       padding-bottom: 16px;
     }
   }
-  .slider-label {
-    margin: 16px 0 32px;
-  }
   .input-range {
     width: calc(100% - 22px);
     margin: 0 0 50px 10px;
+    &.input-range--disabled {
+      opacity: 0.5;
+    }
     .input-range__slider {
       background: $secondary-color;
       border: 3px solid $white-color;
@@ -79,6 +79,14 @@
     justify-content: flex-end;
     button {
       margin-left: 8px;
+    }
+  }
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    margin: 16px 0 32px;
+    .slider-label {
+      margin-right: 8px;
     }
   }
   .right-column {

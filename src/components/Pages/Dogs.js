@@ -27,7 +27,9 @@ const Dogs = () => {
     },
     breed: [],
     eyes: [],
-    favorite: false
+    favorite: false,
+    useAge: false,
+    useMilesAway: false
   })
   let filterTimeout,
     isCancelled,
@@ -58,13 +60,17 @@ const Dogs = () => {
         registered: filter.registered
           ? filter.registered
           : getRegistered(filter),
-        start_date: filter.birthdate ? filter.birthdate.startDate : null,
-        end_date: filter.birthdate ? filter.birthdate.endDate : null,
+        start_date:
+          filter.useAge && filter.birthdate ? filter.birthdate.startDate : null,
+        end_date:
+          filter.useAge && filter.birthdate ? filter.birthdate.endDate : null,
         breed: filter.breed || null,
         eyes: filter.eyes || null,
         favorite: filter.favorite || null,
-        nearest_distance: filter.milesAway ? filter.milesAway.min : null,
-        farthest_distance: filter.milesAway ? filter.milesAway.max : null
+        nearest_distance:
+          filter.useMilesAway && filter.milesAway ? filter.milesAway.min : null,
+        farthest_distance:
+          filter.useMilesAway && filter.milesAway ? filter.milesAway.max : null
       }
     }
     DogService.getAll(params).then(response => {

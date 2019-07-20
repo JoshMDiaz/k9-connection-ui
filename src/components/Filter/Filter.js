@@ -68,7 +68,9 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
         },
         breed: [],
         eyes: [],
-        favorite: false
+        favorite: false,
+        useAge: false,
+        useMilesAway: false
       },
       count = 0
     for (const formKey in form) {
@@ -88,18 +90,6 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
           count++
         }
       }
-      if (
-        formKey === 'ageRange' &&
-        (form.ageRange.min !== 1 || form.ageRange.max !== 15)
-      ) {
-        count++
-      }
-      if (
-        formKey === 'milesAway' &&
-        (form.milesAway.min !== 0 || form.milesAway.max !== 100)
-      ) {
-        count++
-      }
     }
     return count
   }
@@ -118,7 +108,10 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
     let filterCount = determineActiveFilters(),
       body = {
         ...form,
-        birthdate: form.ageRange ? getBirthdateRange(form.ageRange) : null,
+        birthdate:
+          form.useAge && form.ageRange
+            ? getBirthdateRange(form.ageRange)
+            : null,
         breed: form.breed ? getBreedNames(form.breed) : null
       }
     localStorage.setItem('filterCount', filterCount)
@@ -190,13 +183,26 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
         />
 
         {/* Age */}
-        <label className='slider-label'>Age</label>
+        <div className='checkbox-label'>
+          <label className='slider-label'>Age</label>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={form.useAge}
+                onChange={e => handleChange(e, 'useAge', 'checked')}
+                value='useAge'
+                color='secondary'
+              />
+            }
+          />
+        </div>
         <InputRange
           draggableTrack
           maxValue={15}
           minValue={1}
           value={form.ageRange}
           onChange={value => handleRange({ value }, 'ageRange')}
+          disabled={!form.useAge}
         />
 
         {/* Gender */}
@@ -337,7 +343,19 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
           {/* Miles Away */}
           {user.zip && (
             <>
-              <label className='slider-label'>Miles From Me</label>
+              <div className='checkbox-label'>
+                <label className='slider-label'>Miles From Me</label>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={form.useMilesAway}
+                      onChange={e => handleChange(e, 'useMilesAway', 'checked')}
+                      value='useMilesAway'
+                      color='secondary'
+                    />
+                  }
+                />
+              </div>
               <InputRange
                 draggableTrack
                 maxValue={100}
@@ -345,6 +363,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
                 step={10}
                 value={form.milesAway}
                 onChange={value => handleRange({ value }, 'milesAway')}
+                disabled={!form.useMilesAway}
               />
             </>
           )}
