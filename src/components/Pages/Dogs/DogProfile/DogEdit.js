@@ -90,9 +90,6 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
         label='Birthdate'
         value={form.birthdate}
         onChange={date => handleDateChange(date)}
-        KeyboardButtonProps={{
-          'aria-label': 'change date'
-        }}
         format='MMMM DD, YYYY'
         disableFuture
         fullWidth
