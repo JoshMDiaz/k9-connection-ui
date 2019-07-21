@@ -177,3 +177,11 @@
     @include border-radius(100px);
   }
 }
+
+.MuiPickersBasePicker-container {
+  button {
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}

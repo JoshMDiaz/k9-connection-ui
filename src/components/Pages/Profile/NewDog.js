@@ -13,8 +13,8 @@ import {
   FormControlLabel,
   Snackbar
 } from '@material-ui/core'
-import 'react-dates/initialize'
-import { SingleDatePicker, isInclusivelyBeforeDay } from 'react-dates'
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
+import MomentUtils from '@date-io/moment'
 import moment from 'moment'
 import ContentContainer from '../../common/ContentContainer'
 import PageHeader from '../../common/PageHeader/PageHeader'
@@ -29,24 +29,21 @@ const NewDog = ({ history }) => {
     registered: 'false',
     breeds: [],
     eyes: [],
-    birthdate: new Date(),
+    birthdate: moment(new Date()).subtract(1, 'years'),
     description: ''
   }
   const [form, setForm] = useState(initialFormState)
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
-  const [focused, setFocused] = useState(false)
   const [uploadedImages, setUploadedImages] = useState([])
   const [snack, setSnack] = useState({
     isOpen: false,
     message: ''
   })
-  // const [years, setYears] = useState([])
 
   useEffect(() => {
     getBreeds()
     getEyeColors()
-    getYears(moment().year(), 15)
   }, [])
 
   const getBreeds = () => {
@@ -152,250 +149,193 @@ const NewDog = ({ history }) => {
     })
   }
 
-  const getYears = (currentYear, numYears) => {
-    let years = []
-    for (let i = currentYear - numYears; i <= currentYear; i++) {
-      years.push(i)
-    }
-    // setYears(years)
-  }
-
-  // const renderMonthElement = ({ month, onMonthSelect, onYearSelect }) => (
-  //   <div style={{ display: 'flex', justifyContent: 'center' }}>
-  //     {/* <Select
-  //       value={month.month()}
-  //       onChange={e => onMonthSelect(month, e.target.value)}
-  //       inputProps={{
-  //         name: 'eyes',
-  //         id: 'eyes-select'
-  //       }}
-  //     >
-  //       {moment.months().map((label, value) => (
-  //         <MenuItem key={value} value={value}>
-  //           {label}
-  //         </MenuItem>
-  //       ))}
-  //     </Select> */}
-
-  //     <select
-  //       value={month.year()}
-  //       onChange={e => onYearSelect(month, e.target.value)}
-  //     >
-  //       {years.map(label => (
-  //         <option value={moment().year()}>{label}</option>
-  //       ))}
-  //     </select>
-
-  //     {/* <select
-  //       value={month.year()}
-  //       onChange={e => onYearSelect(month, e.target.value)}
-  //     >
-  //       <option value={moment().year() - 1}>Last year</option>
-  //       <option value={moment().year()}>{moment().year()}</option>
-  //       <option value={moment().year() + 1}>Next year</option>
-  //     </select> */}
-
-  //     {/* <Select
-  //       value={month.year()}
-  //       onChange={e => onYearSelect(month, e.target.value)}
-  //       // inputProps={{
-  //       //   name: 'eyes',
-  //       //   id: 'eyes-select'
-  //       // }}
-  //     >
-  //       {years.map(label => (
-  //         <MenuItem key={label} value={label}>
-  //           {label}
-  //         </MenuItem>
-  //       ))}
-  //     </Select> */}
-  //   </div>
-  // )
-
   return (
     <div className='new-dog'>
       <div className='main-content-header'>
         <PageHeader text={<>Add New Dog</>} />
       </div>
-      <ContentContainer customClass='new-dog-container'>
-        <div className='left-section'>
-          {/* Name */}
-          <TextField
-            label={`Name`}
-            className={'form-input'}
-            margin='normal'
-            onChange={e => handleChange(e, 'name', 'value')}
-            fullWidth
-            value={form.name}
-          />
-
-          {/* Breeds */}
-          <FormControl style={{ width: '100%', marginTop: '20px' }}>
-            <Multiselect options={breeds} callout={handleMultiselect} />
-          </FormControl>
-
-          {/* Birthdate */}
-          <div className='datepicker'>
-            <FormLabel component='legend' style={{ marginTop: '32px' }}>
-              Birthdate
-            </FormLabel>
-            <SingleDatePicker
-              date={moment(form.birthdate)} // momentPropTypes.momentObj or null
-              onDateChange={date => handleDateChange(date)} // PropTypes.func.isRequired
-              focused={focused} // PropTypes.bool
-              onFocusChange={({ focused }) => setFocused(focused)} // PropTypes.func.isRequired
-              numberOfMonths={1}
-              readOnly
-              hideKeyboardShortcutsPanel={true}
-              displayFormat='MMMM DD, YYYY'
-              id={`birthdate-datepicker`} // PropTypes.string.isRequired,
-              isOutsideRange={day => !isInclusivelyBeforeDay(day, moment())}
-              // renderMonthElement={renderMonthElement}
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <ContentContainer customClass='new-dog-container'>
+          <div className='left-section'>
+            {/* Name */}
+            <TextField
+              label={`Name`}
+              className={'form-input'}
+              margin='normal'
+              onChange={e => handleChange(e, 'name', 'value')}
+              fullWidth
+              value={form.name}
             />
-          </div>
 
-          {/* Gender */}
-          <FormControl
-            component='fieldset'
-            className={'gender-radios'}
-            style={{ width: '100%' }}
-          >
-            <FormLabel component='legend'>Gender</FormLabel>
-            <RadioGroup
-              aria-label='Gender'
-              name='gender'
-              className={'gender'}
-              value={form.gender}
-              onChange={e => handleChange(e, 'gender', 'value')}
-            >
-              <FormControlLabel
-                value='Female'
-                control={<Radio classes={{ checked: 'radio-checked' }} />}
-                label='Female'
-              />
-              <FormControlLabel
-                value='Male'
-                control={<Radio classes={{ checked: 'radio-checked' }} />}
-                label='Male'
-              />
-            </RadioGroup>
-          </FormControl>
+            {/* Breeds */}
+            <FormControl style={{ width: '100%', marginTop: '20px' }}>
+              <Multiselect options={breeds} callout={handleMultiselect} />
+            </FormControl>
 
-          {/* Eye Color */}
-          <FormControl style={{ width: '100%', marginTop: '20px' }}>
-            <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
-            <Select
-              value={form.eyes}
-              onChange={e => handleChange(e, 'eyes', 'value')}
-              inputProps={{
-                name: 'eyes',
-                id: 'eyes-select'
+            {/* Birthdate */}
+            <DatePicker
+              id='birthdate-datepicker'
+              className={'birthdate-datepicker'}
+              label='Birthdate'
+              value={form.birthdate}
+              onChange={date => handleDateChange(date)}
+              KeyboardButtonProps={{
+                'aria-label': 'change date'
               }}
-            >
-              {eyeColors.map((e, i) => (
-                <MenuItem key={i} value={e.name}>
-                  {e.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              format='MMMM DD, YYYY'
+              disableFuture
+              fullWidth
+              autoOk
+            />
 
-          {/* Papered */}
-          <FormControl component='fieldset' className={'registered-radios'}>
-            <FormLabel component='legend'>Papered</FormLabel>
-            <RadioGroup
-              aria-label='Papered'
-              name='papered'
-              className={'papered'}
-              value={form.papered}
-              onChange={e => handleChange(e, 'papered', 'value')}
+            {/* Gender */}
+            <FormControl
+              component='fieldset'
+              className={'gender-radios'}
+              style={{ width: '100%' }}
             >
-              <FormControlLabel
-                value={'true'}
-                control={<Radio classes={{ checked: 'radio-checked' }} />}
-                label='Papered'
-              />
-              <FormControlLabel
-                value={'false'}
-                control={<Radio classes={{ checked: 'radio-checked' }} />}
-                label='Not Papered'
-              />
-            </RadioGroup>
-          </FormControl>
+              <FormLabel component='legend'>Gender</FormLabel>
+              <RadioGroup
+                aria-label='Gender'
+                name='gender'
+                className={'gender'}
+                value={form.gender}
+                onChange={e => handleChange(e, 'gender', 'value')}
+              >
+                <FormControlLabel
+                  value='Female'
+                  control={<Radio classes={{ checked: 'radio-checked' }} />}
+                  label='Female'
+                />
+                <FormControlLabel
+                  value='Male'
+                  control={<Radio classes={{ checked: 'radio-checked' }} />}
+                  label='Male'
+                />
+              </RadioGroup>
+            </FormControl>
 
-          {/* Registered */}
-          <FormControl
-            component='fieldset'
-            className={'papered-radios'}
-            style={{ marginLeft: '32px' }}
-          >
-            <FormLabel component='legend'>Registered</FormLabel>
-            <RadioGroup
-              aria-label='Registered'
-              name='registered'
-              className={'registered'}
-              value={form.papered !== 'false' ? form.registered : 'false'}
-              onChange={e => handleChange(e, 'registered', 'value')}
+            {/* Eye Color */}
+            <FormControl style={{ width: '100%', marginTop: '20px' }}>
+              <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
+              <Select
+                value={form.eyes}
+                onChange={e => handleChange(e, 'eyes', 'value')}
+                inputProps={{
+                  name: 'eyes',
+                  id: 'eyes-select'
+                }}
+              >
+                {eyeColors.map((e, i) => (
+                  <MenuItem key={i} value={e.name}>
+                    {e.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            {/* Papered */}
+            <FormControl component='fieldset' className={'registered-radios'}>
+              <FormLabel component='legend'>Papered</FormLabel>
+              <RadioGroup
+                aria-label='Papered'
+                name='papered'
+                className={'papered'}
+                value={form.papered}
+                onChange={e => handleChange(e, 'papered', 'value')}
+              >
+                <FormControlLabel
+                  value={'true'}
+                  control={<Radio classes={{ checked: 'radio-checked' }} />}
+                  label='Papered'
+                />
+                <FormControlLabel
+                  value={'false'}
+                  control={<Radio classes={{ checked: 'radio-checked' }} />}
+                  label='Not Papered'
+                />
+              </RadioGroup>
+            </FormControl>
+
+            {/* Registered */}
+            <FormControl
+              component='fieldset'
+              className={'papered-radios'}
+              style={{ marginLeft: '32px' }}
             >
-              <FormControlLabel
-                value={'true'}
-                control={
-                  <Radio
-                    classes={{ checked: 'radio-checked' }}
-                    disabled={form.papered === 'false'}
-                  />
-                }
-                label='Registered'
-              />
-              <FormControlLabel
-                value={'false'}
-                control={
-                  <Radio
-                    classes={{ checked: 'radio-checked' }}
-                    disabled={form.papered === 'false'}
-                  />
-                }
-                label='Not Registered'
-              />
-            </RadioGroup>
-          </FormControl>
+              <FormLabel component='legend'>Registered</FormLabel>
+              <RadioGroup
+                aria-label='Registered'
+                name='registered'
+                className={'registered'}
+                value={form.papered !== 'false' ? form.registered : 'false'}
+                onChange={e => handleChange(e, 'registered', 'value')}
+              >
+                <FormControlLabel
+                  value={'true'}
+                  control={
+                    <Radio
+                      classes={{ checked: 'radio-checked' }}
+                      disabled={form.papered === 'false'}
+                    />
+                  }
+                  label='Registered'
+                />
+                <FormControlLabel
+                  value={'false'}
+                  control={
+                    <Radio
+                      classes={{ checked: 'radio-checked' }}
+                      disabled={form.papered === 'false'}
+                    />
+                  }
+                  label='Not Registered'
+                />
+              </RadioGroup>
+            </FormControl>
 
-          {/* Description */}
-          <TextField
-            id='description'
-            label='Description'
-            multiline
-            rowsMax='4'
-            value={form.description}
-            onChange={e => handleChange(e, 'description', 'value')}
-            margin='normal'
-            style={{ width: '100%' }}
-          />
-          <div className='button-container'>
-            <button className={'no-bg'} onClick={() => save(true)}>
-              Add Another
-            </button>
-            <div className='right-buttons'>
-              <button className={'plain'} onClick={cancel}>
-                Cancel
+            {/* Description */}
+            <TextField
+              id='description'
+              label='Description'
+              multiline
+              rowsMax='4'
+              value={form.description}
+              onChange={e => handleChange(e, 'description', 'value')}
+              margin='normal'
+              style={{ width: '100%' }}
+            />
+            <div className='button-container'>
+              <button className={'no-bg'} onClick={() => save(true)}>
+                Add Another
               </button>
-              <button className={'primary'} onClick={() => save()}>
-                Save
-              </button>
+              <div className='right-buttons'>
+                <button className={'plain'} onClick={cancel}>
+                  Cancel
+                </button>
+                <button className={'primary'} onClick={() => save()}>
+                  Save
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div className='right-section'>
-          <UploadPhotos callout={uploadImage} type='dog' />
-          {uploadedImages.length > 0 && (
-            <div className='dog-grid'>
-              {uploadedImages.map((e, i) => (
-                <img src={e} alt='uploaded dog' key={i} className='dog-image' />
-              ))}
-            </div>
-          )}
-        </div>
-      </ContentContainer>
+          <div className='right-section'>
+            <UploadPhotos callout={uploadImage} type='dog' />
+            {uploadedImages.length > 0 && (
+              <div className='dog-grid'>
+                {uploadedImages.map((e, i) => (
+                  <img
+                    src={e}
+                    alt='uploaded dog'
+                    key={i}
+                    className='dog-image'
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </ContentContainer>
+      </MuiPickersUtilsProvider>
       <Snackbar
         anchorOrigin={{
           vertical: 'top',

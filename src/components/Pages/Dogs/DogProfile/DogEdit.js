@@ -10,7 +10,8 @@ import {
   FormLabel,
   FormControlLabel
 } from '@material-ui/core'
-import { SingleDatePicker, isInclusivelyBeforeDay } from 'react-dates'
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
+import MomentUtils from '@date-io/moment'
 import FormService from '../../../../services/FormService'
 import moment from 'moment'
 import Multiselect from '../../../common/Multiselect'
@@ -28,7 +29,6 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
   })
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
-  const [focused, setFocused] = useState(false)
 
   useEffect(() => {
     getBreeds()
@@ -73,7 +73,7 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
   }
 
   return (
-    <>
+    <MuiPickersUtilsProvider utils={MomentUtils}>
       {/* Name */}
       <TextField
         label={`Name`}
@@ -84,23 +84,20 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
         value={form.name}
       />
       {/* Birthdate */}
-      <div className='datepicker'>
-        <FormLabel component='legend' style={{ marginTop: '32px' }}>
-          Birthdate
-        </FormLabel>
-        <SingleDatePicker
-          date={moment(form.birthdate)} // momentPropTypes.momentObj or null
-          onDateChange={date => handleDateChange(date)} // PropTypes.func.isRequired
-          focused={focused} // PropTypes.bool
-          onFocusChange={({ focused }) => setFocused(focused)} // PropTypes.func.isRequired
-          numberOfMonths={1}
-          readOnly
-          hideKeyboardShortcutsPanel={true}
-          displayFormat='MMMM DD, YYYY'
-          id={`birthdate-datepicker`} // PropTypes.string.isRequired,
-          isOutsideRange={day => !isInclusivelyBeforeDay(day, moment())}
-        />
-      </div>
+      <DatePicker
+        id='birthdate-datepicker'
+        className={'birthdate-datepicker'}
+        label='Birthdate'
+        value={form.birthdate}
+        onChange={date => handleDateChange(date)}
+        KeyboardButtonProps={{
+          'aria-label': 'change date'
+        }}
+        format='MMMM DD, YYYY'
+        disableFuture
+        fullWidth
+        autoOk
+      />
 
       {/* Gender */}
       <FormControl
@@ -246,7 +243,7 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
           Save
         </button>
       </div>
-    </>
+    </MuiPickersUtilsProvider>
   )
 }
 

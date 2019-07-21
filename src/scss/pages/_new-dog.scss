@@ -7,9 +7,6 @@
       grid-template-columns: repeat(2, 1fr);
       grid-gap: 64px;
     }
-    // .left-section {
-    //   overflow: auto;
-    // }
   }
   .button-container {
     display: flex;
@@ -27,6 +24,9 @@
   }
   .form-input {
     margin-top: 0;
+  }
+  .birthdate-datepicker {
+    margin-top: 32px;
   }
   .dog-grid {
     display: grid;

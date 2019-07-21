@@ -11,6 +11,14 @@
       display: block;
     }
   }
+  .registered-radios,
+  .papered-radios,
+  .gender-radios {
+    margin-bottom: 0;
+  }
+  .birthdate-datepicker {
+    margin-top: 20px;
+  }
 }
 
 // Lightbox
