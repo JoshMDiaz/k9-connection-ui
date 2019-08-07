@@ -13,7 +13,6 @@ import noProfileImg from '../../../../images/icons/user.svg'
 
 const UserProfile = props => {
   const [isEditMode, setIsEditMode] = useState(false)
-  const [user, setUser] = useState({})
   const [uploadedImage, setUploadedImage] = useState(null)
   const [snack, setSnack] = useState({
     isOpen: false,
@@ -37,7 +36,7 @@ const UserProfile = props => {
     UserService.get().then(response => {
       if (response && response.data) {
         let user = response.data
-        setUser(user)
+        uc.setUser(user)
         setUploadedImage(user.picture)
       }
     })
@@ -48,7 +47,7 @@ const UserProfile = props => {
       ...form,
       picture: uploadedImage || form.picture
     }
-    UserService.updateUser(user.sub, body).then(response => {
+    UserService.updateUser(uc.user.sub, body).then(response => {
       if (response) {
         setSnack({
           message: 'Your account has been updated!',
@@ -89,8 +88,8 @@ const UserProfile = props => {
     <div className='user-profile profile'>
       <div className='main-content-header'>
         <span className='animated fadeInLeft delay-5'>
-          {user.dogs ? user.dogs.length : 0}{' '}
-          <Plural text='dog' number={user.dogs ? user.dogs.length : 0} />{' '}
+          {uc.user.dogs ? uc.user.dogs.length : 0}{' '}
+          <Plural text='dog' number={uc.user.dogs ? uc.user.dogs.length : 0} />{' '}
           registered
         </span>
         <Link
@@ -113,26 +112,26 @@ const UserProfile = props => {
             </>
           ) : (
             <div className='image-container'>
-              <img src={user.picture || noProfileImg} alt={user.name} />
+              <img src={uc.user.picture || noProfileImg} alt={uc.user.name} />
             </div>
           )}
         </div>
         <div className='right-section'>
           {isEditMode ? (
             <UserEdit
-              user={user}
+              user={uc.user}
               setIsEditMode={setIsEditMode}
               update={update}
               history={props.history}
             />
           ) : (
-            <UserRead user={user} setIsEditMode={setIsEditMode} />
+            <UserRead user={uc.user} setIsEditMode={setIsEditMode} />
           )}
         </div>
       </ContentContainer>
-      {user.dogs && user.dogs.length > 0 && (
+      {uc.user.dogs && uc.user.dogs.length > 0 && (
         <div className='page-padding padding-top-0'>
-          <List dogs={user.dogs} user={user} startingCount={8} />
+          <List dogs={uc.user.dogs} user={uc.user} startingCount={8} />
         </div>
       )}
       <Snackbar
