@@ -14,8 +14,8 @@ const DogCard = ({ dog, count, user }) => {
     findMainImage(dog.dog_images)
   }, [])
 
-  const findMainImage = images => {
-    let mainImage = images.filter(i => {
+  const findMainImage = (images) => {
+    let mainImage = images.filter((i) => {
       return i.main_image
     })
     if (mainImage.length === 0) {
@@ -33,13 +33,13 @@ const DogCard = ({ dog, count, user }) => {
   const messageOwner = () => {
     console.log('message owner')
   }
-  const LightTooltip = withStyles(theme => ({
+  const LightTooltip = withStyles((theme) => ({
     tooltip: {
       backgroundColor: theme.palette.common.white,
       color: 'rgba(0, 0, 0, 0.87)',
       boxShadow: theme.shadows[1],
-      fontSize: 11
-    }
+      fontSize: 11,
+    },
   }))(Tooltip)
 
   return (
@@ -83,9 +83,9 @@ const DogCard = ({ dog, count, user }) => {
                 <span>{dog.breeds[0].name}</span>
               )}
             </span>
-            {user.city && user.state && (
+            {user && user.city && user.state && (
               <span className='location'>
-                {dog.city || 'Lehi'}, {dog.state || 'UT'}
+                {user.city || 'Lehi'}, {user.state || 'UT'}
               </span>
             )}
             <p>
@@ -102,12 +102,12 @@ const DogCard = ({ dog, count, user }) => {
             <button className='view-profile primary'>View Profile</button>
           </Link>
           {user.id !== dog.user_id && (
-            <>
+            <span class='footer-icons'>
               <div className='icon-container'>
                 <Icon icon='message' callout={messageOwner} />
               </div>
               <FavoriteIcon dog={dog} />
-            </>
+            </span>
           )}
         </div>
       </div>

@@ -1,12 +1,12 @@
-const proxy = require('http-proxy-middleware')
+const { createProxyMiddleware } = require('http-proxy-middleware')
 
-module.exports = function(app) {
+module.exports = function (app) {
   app.use(
-    proxy('/k9-connect', {
+    createProxyMiddleware('/k9-connect', {
       target: 'http://localhost:9001/',
       pathRewrite: { '^/k9-connect': '' },
       changeOrigin: true,
-      secure: false
+      secure: false,
     })
   )
 }

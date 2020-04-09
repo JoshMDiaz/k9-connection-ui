@@ -5,58 +5,60 @@ import Plural from '../../common/Plural'
 import BackButton from '../../common/BackButton/BackButton'
 import SearchService from '../../../services/SearchService'
 import LoadingCard from '../../common/LoadingCard/LoadingCard'
+import { useHistory } from 'react-router-dom'
 
-const Search = props => {
-  const [dogs, setDogs] = useState([])
+const Search = ({ dogs }) => {
+  const [dogsToDisplay, setDogsToDisplay] = useState(dogs)
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    if (props.dogs.length === 0) {
-      getDogs()
-    } else {
-      SearchService.cancelGetAll()
-      setDogs(props.dogs)
-      setLoading(false)
-    }
-  }, [props.dogs])
+  const history = useHistory(),
+    searchParams = history.location.search.substring(1)
 
   const getDogs = () => {
+    SearchService.cancelGetAll()
     setLoading(true)
-    let searchParams = props.location.search.substring(1),
-      params = {
-        value: searchParams !== '' ? searchParams : null
-      }
-    SearchService.getAll(params).then(response => {
+    let params = {
+      value: searchParams !== '' ? searchParams : null,
+    }
+    SearchService.getAll(params).then((response) => {
       if (response) {
-        setDogs(response.data)
+        setDogsToDisplay(response.data)
         setLoading(false)
       }
     })
   }
+
+  useEffect(() => {
+    if (dogs.length === 0 && searchParams === '') {
+      getDogs()
+    } else {
+      setDogsToDisplay(dogs)
+    }
+  }, [dogs, searchParams])
 
   let count = 0
 
   return (
     <div className='search-page'>
       <div className='main-content-header'>
-        <BackButton history={props.history} isSearch />
+        <BackButton history={history} isSearch />
         <h3 className='page-header animated fadeInRight'>
           <NumberFormat
-            value={dogs.length}
+            value={dogsToDisplay.length}
             thousandSeparator={true}
             displayType='text'
           />
           &nbsp;
-          <Plural text='Dog' number={dogs.length} />
+          <Plural text='Dog' number={dogsToDisplay.length} />
           &nbsp;Found
         </h3>
       </div>
       <div className='page-padding'>
         {!loading ? (
-          <List dogs={dogs} />
+          <List dogs={dogsToDisplay} />
         ) : (
           <div className='card-list'>
-            {[...Array(12).keys()].map(row => {
+            {[...Array(12).keys()].map((row) => {
               count++
               return <LoadingCard key={row} count={count} />
             })}

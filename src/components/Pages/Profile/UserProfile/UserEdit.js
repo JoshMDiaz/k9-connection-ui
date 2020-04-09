@@ -55,7 +55,6 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
     })
   }
   const handleChange = (event, field, elementValue) => {
-    console.log(event, field, elementValue)
     setForm({
       ...form,
       [field]: event.target[elementValue]

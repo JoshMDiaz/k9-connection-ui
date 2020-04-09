@@ -11,12 +11,12 @@ import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 import Plural from '../../../common/Plural'
 import noProfileImg from '../../../../images/icons/user.svg'
 
-const UserProfile = props => {
+const UserProfile = (props) => {
   const [isEditMode, setIsEditMode] = useState(false)
   const [uploadedImage, setUploadedImage] = useState(null)
   const [snack, setSnack] = useState({
     isOpen: false,
-    message: ''
+    message: '',
   })
   const uc = useContext(userContext)
   let isCancelled
@@ -33,7 +33,7 @@ const UserProfile = props => {
   }, [isEditMode])
 
   const getUser = () => {
-    UserService.get().then(response => {
+    UserService.get().then((response) => {
       if (response && response.data) {
         let user = response.data
         uc.setUser(user)
@@ -42,17 +42,17 @@ const UserProfile = props => {
     })
   }
 
-  const update = form => {
+  const update = (form) => {
     let body = {
       ...form,
-      picture: uploadedImage || form.picture
+      picture: uploadedImage || form.picture,
     }
-    UserService.updateUser(uc.user.sub, body).then(response => {
+    UserService.updateUser(uc.user.sub, body).then((response) => {
       if (response) {
         setSnack({
           message: 'Your account has been updated!',
           isOpen: true,
-          className: 'success'
+          className: 'success',
         })
         getUser()
         setIsEditMode(false)
@@ -64,11 +64,11 @@ const UserProfile = props => {
   const closeSnack = () => {
     setSnack({
       ...snack,
-      isOpen: false
+      isOpen: false,
     })
   }
 
-  const uploadImage = files => {
+  const uploadImage = (files) => {
     if (files.length > 0) {
       let reader = new FileReader()
       let file = files[0]
@@ -79,7 +79,7 @@ const UserProfile = props => {
     } else {
       setSnack({
         message: 'File type not accepted. Only .jpg and .png are accepted.',
-        isOpen: true
+        isOpen: true,
       })
     }
   }
@@ -131,19 +131,19 @@ const UserProfile = props => {
       </ContentContainer>
       {uc.user.dogs && uc.user.dogs.length > 0 && (
         <div className='page-padding padding-top-0'>
-          <List dogs={uc.user.dogs} user={uc.user} startingCount={8} />
+          <List dogs={uc.user.dogs} startingCount={8} />
         </div>
       )}
       <Snackbar
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'right'
+          horizontal: 'right',
         }}
         key={`top,right`}
         open={snack.isOpen}
         onClose={closeSnack}
         ContentProps={{
-          'aria-describedby': 'message-id'
+          'aria-describedby': 'message-id',
         }}
         autoHideDuration={3000}
         className={`snackbar ${snack.className || 'error'}`}

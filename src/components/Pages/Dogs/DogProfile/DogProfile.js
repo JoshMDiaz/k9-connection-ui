@@ -8,6 +8,7 @@ import DogEdit from './DogEdit'
 import { Snackbar } from '@material-ui/core'
 import moment from 'moment'
 import UserContext from '../../../../userContext'
+import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 
 const DogProfile = props => {
   const [dog, setDog] = useState({})
@@ -17,6 +18,7 @@ const DogProfile = props => {
     isOpen: false,
     message: ''
   })
+  const [uploadedImages, setUploadedImages] = useState([])
   let uc = useContext(UserContext)
 
   useEffect(() => {
@@ -31,6 +33,7 @@ const DogProfile = props => {
     DogService.get(props.match.params.id).then(response => {
       if (response) {
         setDog(response.data)
+        // setUploadedImages(response.data.dog_images)
       }
     })
   }
@@ -70,6 +73,22 @@ const DogProfile = props => {
     })
   }
 
+  const uploadImage = files => {
+    if (files.length > 0) {
+      let reader = new FileReader()
+      let file = files[0]
+      reader.onloadend = () => {
+        setUploadedImages([...uploadedImages, reader.result])
+      }
+      reader.readAsDataURL(file)
+    } else {
+      setSnack({
+        message: 'File type not accepted. Only .jpg and .png are accepted.',
+        isOpen: true
+      })
+    }
+  }
+
   return (
     <div className='dog-profile profile'>
       <div className='main-content-header'>
@@ -77,7 +96,26 @@ const DogProfile = props => {
       </div>
       <ContentContainer customClass='profile-container'>
         <div className='left-section'>
-          {dog.dog_images && <DogImages images={dog.dog_images} />}
+          {isEditMode && (
+            <>
+              <UploadPhotos callout={uploadImage} type='dog' />
+              {uploadedImages.length > 0 && (
+                <div className='dog-grid'>
+                  {uploadedImages.map((e, i) => (
+                    <img
+                      src={e}
+                      alt='uploaded dog'
+                      key={i}
+                      className='dog-image'
+                    />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+          {!isEditMode && dog.dog_images && (
+            <DogImages images={dog.dog_images} />
+          )}
         </div>
         <div className='right-section'>
           {!isEditMode ? (

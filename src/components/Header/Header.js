@@ -16,13 +16,13 @@ const Header = ({ auth }) => {
   const [loading, setLoading] = useState(false)
   const [snack, setSnack] = useState({
     isOpen: false,
-    message: ''
+    message: '',
   })
   const uc = useContext(UserContext)
 
   useEffect(() => {
     if (auth.isAuthenticated()) {
-      UserService.get().then(response => {
+      UserService.get().then((response) => {
         if (response) {
           let user = response.data
           if (!user.name) {
@@ -33,7 +33,7 @@ const Header = ({ auth }) => {
       })
     }
     checkForSearchParams()
-    history.listen(location => {
+    history.listen((location) => {
       if (location.pathname !== '/search') {
         setSearchField('')
       }
@@ -59,7 +59,7 @@ const Header = ({ auth }) => {
         </span>
       ),
       isOpen: true,
-      className: 'info'
+      className: 'info',
     })
   }
 
@@ -74,13 +74,13 @@ const Header = ({ auth }) => {
     }
   }
 
-  const getSearch = value => {
+  const getSearch = (value) => {
     SearchService.cancelGetAll()
     !isCancelled && setLoading(true)
     let params = {
-      value
+      value,
     }
-    SearchService.getAll(params).then(response => {
+    SearchService.getAll(params).then((response) => {
       if (response) {
         uc.setDogs(response.data)
         !isCancelled && setLoading(false)
@@ -89,7 +89,7 @@ const Header = ({ auth }) => {
         }
         history.push({
           pathname: '/search',
-          search: `?${value}`
+          search: `?${value}`,
         })
       }
     })
@@ -99,26 +99,26 @@ const Header = ({ auth }) => {
     console.log('focus search')
   }
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setSearchField(e.target.value)
     if (e.target.value !== '' && e.target.value !== undefined) {
       getSearch(e.target.value)
     } else {
       uc.setDogs([])
       history.push({
-        search: ''
+        search: '',
       })
       setLoading(false)
     }
   }
 
-  const toggle = isOpen => {
+  const toggle = (isOpen) => {
     setIsOpen(isOpen)
   }
 
-  const goToUserProfile = isEdit => {
+  const goToUserProfile = (isEdit) => {
     history.push({
-      pathname: `/profile`
+      pathname: `/profile`,
     })
     isEdit && localStorage.setItem('isEditMode', true)
     isOpen && toggle(false)
@@ -128,7 +128,7 @@ const Header = ({ auth }) => {
     console.log('go to settings')
   }
 
-  const snackAction = goToProfile => {
+  const snackAction = (goToProfile) => {
     localStorage.setItem('profilePrompt', true)
     if (goToProfile) {
       goToUserProfile(true)
@@ -139,7 +139,7 @@ const Header = ({ auth }) => {
           'You can visit the Profile page to finsh setting up your account.',
         isOpen: true,
         duration: 3000,
-        onClose: closeSnack
+        onClose: closeSnack,
       })
     }
   }
@@ -147,7 +147,7 @@ const Header = ({ auth }) => {
   const closeSnack = () => {
     setSnack({
       ...snack,
-      isOpen: false
+      isOpen: false,
     })
   }
 
@@ -188,10 +188,10 @@ const Header = ({ auth }) => {
         onClose={() => toggle(false)}
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'right'
+          horizontal: 'right',
         }}
         classes={{
-          paper: 'user-dropdown-container'
+          paper: 'user-dropdown-container',
         }}
         anchorReference='anchorEl'
       >
@@ -208,12 +208,12 @@ const Header = ({ auth }) => {
       <Snackbar
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'right'
+          horizontal: 'right',
         }}
         key={`top,right`}
         open={snack.isOpen}
         ContentProps={{
-          'aria-describedby': 'message-id'
+          'aria-describedby': 'message-id',
         }}
         onClose={snack.onClose}
         autoHideDuration={snack.duration}

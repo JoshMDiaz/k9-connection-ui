@@ -16,7 +16,7 @@ import Search from './Pages/Search/Search'
 
 const auth = new Auth()
 
-const Main = props => {
+const Main = (props) => {
   const [currentUser, setCurrentUser] = useState({})
   const [searchDogs, setSearchDogs] = useState([])
   const [previousPage, setPreviousPage] = useState('')
@@ -28,15 +28,15 @@ const Main = props => {
     }
   }, [])
 
-  const setUser = user => {
+  const setUser = (user) => {
     setCurrentUser(user)
   }
 
-  const setDogs = dogs => {
+  const setDogs = (dogs) => {
     setSearchDogs(dogs)
   }
 
-  const setPrevPage = page => {
+  const setPrevPage = (page) => {
     setPreviousPage(page)
   }
 
@@ -49,7 +49,7 @@ const Main = props => {
           prevPage: previousPage,
           setDogs,
           setUser,
-          setPrevPage
+          setPrevPage,
         }}
       >
         <div className='App'>
@@ -60,17 +60,17 @@ const Main = props => {
               <Switch>
                 <Route
                   path='/search'
-                  render={props => (
+                  render={(props) => (
                     <Search {...props} auth={auth} dogs={searchDogs} />
                   )}
                 />
                 <Route
                   path='/dogs'
-                  render={props => <DogsRoute {...props} auth={auth} />}
+                  render={(props) => <DogsRoute {...props} auth={auth} />}
                 />
                 <Route
                   path='/profile'
-                  render={props => <ProfileRoute {...props} auth={auth} />}
+                  render={(props) => <ProfileRoute {...props} auth={auth} />}
                 />
                 <Redirect from='/' exact to='/dogs' />
               </Switch>
