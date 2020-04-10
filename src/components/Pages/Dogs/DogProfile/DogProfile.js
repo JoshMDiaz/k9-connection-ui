@@ -5,32 +5,19 @@ import DogImages from '../../../Dogs/DogImages/DogImages'
 import ContentContainer from '../../../common/ContentContainer'
 import DogRead from './DogRead'
 import DogEdit from './DogEdit'
-import { Snackbar } from '@material-ui/core'
 import moment from 'moment'
 import UserContext from '../../../../userContext'
 import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 
-const DogProfile = props => {
+const DogProfile = (props) => {
   const [dog, setDog] = useState({})
   const [user, setUser] = useState({})
   const [isEditMode, setIsEditMode] = useState(false)
-  const [snack, setSnack] = useState({
-    isOpen: false,
-    message: ''
-  })
   const [uploadedImages, setUploadedImages] = useState([])
   let uc = useContext(UserContext)
 
-  useEffect(() => {
-    getDog()
-  }, [])
-
-  useEffect(() => {
-    setUser(uc.user)
-  }, [uc])
-
   const getDog = () => {
-    DogService.get(props.match.params.id).then(response => {
+    DogService.get(props.match.params.id).then((response) => {
       if (response) {
         setDog(response.data)
         // setUploadedImages(response.data.dog_images)
@@ -38,13 +25,13 @@ const DogProfile = props => {
     })
   }
 
-  const transformBreedIds = breeds => {
-    return breeds.map(b => {
+  const transformBreedIds = (breeds) => {
+    return breeds.map((b) => {
       return b.id
     })
   }
 
-  const updateDog = dogForm => {
+  const updateDog = (dogForm) => {
     let dog = { ...dogForm },
       images = dog.dog_images
     dog.birthdate = moment(dog.birthdate).format('YYYY-MM-DD')
@@ -52,28 +39,21 @@ const DogProfile = props => {
     let body = {
       dog: { ...dog },
       breeds: transformBreedIds(dogForm.breeds),
-      dog_images: images
+      dog_images: images,
     }
-    DogService.updateDog(props.match.params.id, body).then(response => {
+    DogService.updateDog(props.match.params.id, body).then((response) => {
       if (response) {
-        setSnack({
+        uc.openSnack({
           message: 'Dog has been updated!',
           isOpen: true,
-          className: 'success'
+          className: 'success',
         })
         setIsEditMode(false)
       }
     })
   }
 
-  const closeSnack = () => {
-    setSnack({
-      ...snack,
-      isOpen: false
-    })
-  }
-
-  const uploadImage = files => {
+  const uploadImage = (files) => {
     if (files.length > 0) {
       let reader = new FileReader()
       let file = files[0]
@@ -82,12 +62,20 @@ const DogProfile = props => {
       }
       reader.readAsDataURL(file)
     } else {
-      setSnack({
+      uc.openSnack({
         message: 'File type not accepted. Only .jpg and .png are accepted.',
-        isOpen: true
+        isOpen: true,
       })
     }
   }
+
+  useEffect(() => {
+    getDog()
+  })
+
+  useEffect(() => {
+    setUser(uc.user)
+  }, [uc])
 
   return (
     <div className='dog-profile profile'>
@@ -135,21 +123,6 @@ const DogProfile = props => {
           )}
         </div>
       </ContentContainer>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-        key={`top,right`}
-        open={snack.isOpen}
-        onClose={closeSnack}
-        ContentProps={{
-          'aria-describedby': 'message-id'
-        }}
-        autoHideDuration={3000}
-        className={`snackbar ${snack.className}`}
-        message={<span id='message-id'>{snack.message}</span>}
-      />
     </div>
   )
 }

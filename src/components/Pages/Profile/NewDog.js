@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import DogService from '../../../services/DogService'
 import FormService from '../../../services/FormService'
 import {
@@ -11,7 +11,6 @@ import {
   RadioGroup,
   FormLabel,
   FormControlLabel,
-  Snackbar
 } from '@material-ui/core'
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
@@ -20,6 +19,7 @@ import ContentContainer from '../../common/ContentContainer'
 import PageHeader from '../../common/PageHeader/PageHeader'
 import UploadPhotos from '../../Dogs/UploadPhotos/UploadPhotos'
 import Multiselect from '../../common/Multiselect'
+import userContext from '../../../userContext'
 
 const NewDog = ({ history }) => {
   let initialFormState = {
@@ -30,24 +30,16 @@ const NewDog = ({ history }) => {
     breeds: [],
     eyes: [],
     birthdate: moment(new Date()).subtract(1, 'years'),
-    description: ''
+    description: '',
   }
   const [form, setForm] = useState(initialFormState)
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
   const [uploadedImages, setUploadedImages] = useState([])
-  const [snack, setSnack] = useState({
-    isOpen: false,
-    message: ''
-  })
-
-  useEffect(() => {
-    getBreeds()
-    getEyeColors()
-  }, [])
+  const uc = useContext(userContext)
 
   const getBreeds = () => {
-    FormService.getBreeds().then(response => {
+    FormService.getBreeds().then((response) => {
       if (response) {
         setBreeds(response.data)
       }
@@ -55,56 +47,56 @@ const NewDog = ({ history }) => {
   }
 
   const getEyeColors = () => {
-    FormService.getEyeColors().then(response => {
+    FormService.getEyeColors().then((response) => {
       if (response) {
         setEyeColors(response.data)
       }
     })
   }
 
-  const handleMultiselect = selected => {
+  const handleMultiselect = (selected) => {
     setForm({
       ...form,
-      breeds: selected
+      breeds: selected,
     })
   }
 
   const handleChange = (event, field, elementValue) => {
     setForm({
       ...form,
-      [field]: event.target[elementValue]
+      [field]: event.target[elementValue],
     })
   }
 
-  const handleDateChange = date => {
+  const handleDateChange = (date) => {
     setForm({
       ...form,
-      birthdate: moment(date).format('YYYY-MM-DD')
+      birthdate: moment(date).format('YYYY-MM-DD'),
     })
   }
 
-  const transformBreedIds = breeds => {
-    return breeds.map(b => {
+  const transformBreedIds = (breeds) => {
+    return breeds.map((b) => {
       return b.id
     })
   }
 
-  const save = addAnother => {
+  const save = (addAnother) => {
     let dog = { ...form }
     dog.birthdate = moment(dog.birthdate).format('YYYY-MM-DD')
     delete dog.breeds
     let body = {
       dog: { ...dog },
       breeds: transformBreedIds(form.breeds),
-      dog_images: [...uploadedImages]
+      dog_images: [...uploadedImages],
     }
     DogService.createDog(body)
-      .then(response => {
+      .then((response) => {
         if (response) {
-          setSnack({
+          uc.openSnack({
             message: 'Congrats! Dog record created!',
             isOpen: true,
-            className: 'success'
+            className: 'success',
           })
           if (addAnother) {
             setForm(initialFormState)
@@ -114,10 +106,10 @@ const NewDog = ({ history }) => {
           }
         }
       })
-      .catch(error => {
-        setSnack({
+      .catch((error) => {
+        uc.openSnack({
           message: 'Uh oh! Something went wrong! Please try again.',
-          isOpen: true
+          isOpen: true,
         })
       })
   }
@@ -126,7 +118,7 @@ const NewDog = ({ history }) => {
     history.push('/dogs')
   }
 
-  const uploadImage = files => {
+  const uploadImage = (files) => {
     if (files.length > 0) {
       let reader = new FileReader()
       let file = files[0]
@@ -135,19 +127,17 @@ const NewDog = ({ history }) => {
       }
       reader.readAsDataURL(file)
     } else {
-      setSnack({
+      uc.openSnack({
         message: 'File type not accepted. Only .jpg and .png are accepted.',
-        isOpen: true
+        isOpen: true,
       })
     }
   }
 
-  const closeSnack = () => {
-    setSnack({
-      ...snack,
-      isOpen: false
-    })
-  }
+  useEffect(() => {
+    getBreeds()
+    getEyeColors()
+  }, [])
 
   return (
     <div className='new-dog'>
@@ -162,7 +152,7 @@ const NewDog = ({ history }) => {
               label={`Name`}
               className={'form-input'}
               margin='normal'
-              onChange={e => handleChange(e, 'name', 'value')}
+              onChange={(e) => handleChange(e, 'name', 'value')}
               fullWidth
               value={form.name}
             />
@@ -178,7 +168,7 @@ const NewDog = ({ history }) => {
               className={'birthdate-datepicker'}
               label='Birthdate'
               value={form.birthdate}
-              onChange={date => handleDateChange(date)}
+              onChange={(date) => handleDateChange(date)}
               format='MMMM DD, YYYY'
               disableFuture
               fullWidth
@@ -197,7 +187,7 @@ const NewDog = ({ history }) => {
                 name='gender'
                 className={'gender'}
                 value={form.gender}
-                onChange={e => handleChange(e, 'gender', 'value')}
+                onChange={(e) => handleChange(e, 'gender', 'value')}
               >
                 <FormControlLabel
                   value='Female'
@@ -217,10 +207,10 @@ const NewDog = ({ history }) => {
               <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
               <Select
                 value={form.eyes}
-                onChange={e => handleChange(e, 'eyes', 'value')}
+                onChange={(e) => handleChange(e, 'eyes', 'value')}
                 inputProps={{
                   name: 'eyes',
-                  id: 'eyes-select'
+                  id: 'eyes-select',
                 }}
               >
                 {eyeColors.map((e, i) => (
@@ -239,7 +229,7 @@ const NewDog = ({ history }) => {
                 name='papered'
                 className={'papered'}
                 value={form.papered}
-                onChange={e => handleChange(e, 'papered', 'value')}
+                onChange={(e) => handleChange(e, 'papered', 'value')}
               >
                 <FormControlLabel
                   value={'true'}
@@ -266,7 +256,7 @@ const NewDog = ({ history }) => {
                 name='registered'
                 className={'registered'}
                 value={form.papered !== 'false' ? form.registered : 'false'}
-                onChange={e => handleChange(e, 'registered', 'value')}
+                onChange={(e) => handleChange(e, 'registered', 'value')}
               >
                 <FormControlLabel
                   value={'true'}
@@ -298,7 +288,7 @@ const NewDog = ({ history }) => {
               multiline
               rowsMax='4'
               value={form.description}
-              onChange={e => handleChange(e, 'description', 'value')}
+              onChange={(e) => handleChange(e, 'description', 'value')}
               margin='normal'
               style={{ width: '100%' }}
             />
@@ -333,21 +323,6 @@ const NewDog = ({ history }) => {
           </div>
         </ContentContainer>
       </MuiPickersUtilsProvider>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-        key={`top,right`}
-        open={snack.isOpen}
-        onClose={closeSnack}
-        ContentProps={{
-          'aria-describedby': 'message-id'
-        }}
-        autoHideDuration={3000}
-        className={`snackbar ${snack.className || 'error'}`}
-        message={<span id='message-id'>{snack.message}</span>}
-      />
     </div>
   )
 }

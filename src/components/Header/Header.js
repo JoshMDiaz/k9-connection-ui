@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { TextField, Popover, Snackbar } from '@material-ui/core'
+import { TextField, Popover } from '@material-ui/core'
 import Icon from '../../components/common/Icons/Icon'
 import noProfileImg from '../../images/icons/user.svg'
 import UserContext from '../../userContext'
@@ -14,10 +14,6 @@ const Header = ({ auth }) => {
   const [searchField, setSearchField] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [snack, setSnack] = useState({
-    isOpen: false,
-    message: '',
-  })
   const uc = useContext(UserContext)
 
   useEffect(() => {
@@ -44,7 +40,7 @@ const Header = ({ auth }) => {
   }, [])
 
   const snackPrompt = () => {
-    setSnack({
+    uc.openSnack({
       message: (
         <span className='account-finish-message'>
           <span className='message'>
@@ -132,23 +128,16 @@ const Header = ({ auth }) => {
     localStorage.setItem('profilePrompt', true)
     if (goToProfile) {
       goToUserProfile(true)
-      closeSnack()
+      uc.closeSnack()
     } else {
-      setSnack({
+      uc.openSnack({
         message:
           'You can visit the Profile page to finsh setting up your account.',
         isOpen: true,
         duration: 3000,
-        onClose: closeSnack,
+        onClose: uc.closeSnack,
       })
     }
-  }
-
-  const closeSnack = () => {
-    setSnack({
-      ...snack,
-      isOpen: false,
-    })
   }
 
   return (
@@ -164,7 +153,6 @@ const Header = ({ auth }) => {
           placeholder='Search by name, gender, or breed'
         />
         {loading && <Spinner type='bars' />}
-        <span>{snack.duration}</span>
       </div>
       {uc.user && (
         <button
@@ -205,21 +193,6 @@ const Header = ({ auth }) => {
           Logout
         </span>
       </Popover>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        key={`top,right`}
-        open={snack.isOpen}
-        ContentProps={{
-          'aria-describedby': 'message-id',
-        }}
-        onClose={snack.onClose}
-        autoHideDuration={snack.duration}
-        className={`snackbar info`}
-        message={<span id='message-id'>{snack.message}</span>}
-      />
     </div>
   )
 }

@@ -1,4 +1,10 @@
 .user-profile {
+  .user-dog-list {
+    background: none;
+    padding: 0;
+    max-width: 1472px;
+    margin-top: -16px;
+  }
   .button-container {
     grid-template-columns: 1fr;
   }

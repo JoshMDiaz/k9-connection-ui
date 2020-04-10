@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import { Fab, Drawer } from '@material-ui/core'
+import { Fab, Drawer, Snackbar } from '@material-ui/core'
 import Auth from '../services/Auth/Auth'
 import UserContext from '../userContext'
 
@@ -21,6 +21,10 @@ const Main = (props) => {
   const [searchDogs, setSearchDogs] = useState([])
   const [previousPage, setPreviousPage] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+  const [snack, setSnack] = useState({
+    isOpen: false,
+    message: '',
+  })
 
   useEffect(() => {
     if (localStorage.getItem('isLoggedIn') === 'true') {
@@ -40,6 +44,17 @@ const Main = (props) => {
     setPreviousPage(page)
   }
 
+  const openSnack = (snackObj) => {
+    setSnack(snackObj)
+  }
+
+  const closeSnack = () => {
+    setSnack({
+      ...snack,
+      isOpen: false,
+    })
+  }
+
   return (
     <MuiThemeProvider theme={theme}>
       <UserContext.Provider
@@ -50,6 +65,8 @@ const Main = (props) => {
           setDogs,
           setUser,
           setPrevPage,
+          openSnack,
+          closeSnack,
         }}
       >
         <div className='App'>
@@ -93,6 +110,22 @@ const Main = (props) => {
           >
             <MobileMenu auth={auth} closeMenu={() => setIsOpen(false)} />
           </Drawer>
+
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            key={`top,right`}
+            open={snack.isOpen}
+            onClose={closeSnack}
+            ContentProps={{
+              'aria-describedby': 'message-id',
+            }}
+            autoHideDuration={3000}
+            className={`snackbar ${snack.className || 'error'}`}
+            message={<span id='message-id'>{snack.message}</span>}
+          />
         </div>
       </UserContext.Provider>
     </MuiThemeProvider>

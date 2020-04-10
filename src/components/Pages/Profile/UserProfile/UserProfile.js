@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Snackbar } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import ContentContainer from '../../../common/ContentContainer'
 import List from '../../../Dogs/List'
@@ -14,27 +13,12 @@ import noProfileImg from '../../../../images/icons/user.svg'
 const UserProfile = (props) => {
   const [isEditMode, setIsEditMode] = useState(false)
   const [uploadedImage, setUploadedImage] = useState(null)
-  const [snack, setSnack] = useState({
-    isOpen: false,
-    message: '',
-  })
   const uc = useContext(userContext)
   let isCancelled
 
-  useEffect(() => {
-    !isCancelled && getUser()
-    if (localStorage.getItem('isEditMode')) {
-      setIsEditMode(true)
-    }
-  }, [])
-
-  useEffect(() => {
-    setUploadedImage(uc.user.picture)
-  }, [isEditMode])
-
   const getUser = () => {
     UserService.get().then((response) => {
-      if (response && response.data) {
+      if (response?.data) {
         let user = response.data
         uc.setUser(user)
         setUploadedImage(user.picture)
@@ -49,7 +33,7 @@ const UserProfile = (props) => {
     }
     UserService.updateUser(uc.user.sub, body).then((response) => {
       if (response) {
-        setSnack({
+        uc.openSnack({
           message: 'Your account has been updated!',
           isOpen: true,
           className: 'success',
@@ -58,13 +42,6 @@ const UserProfile = (props) => {
         setIsEditMode(false)
         localStorage.removeItem('isEditMode')
       }
-    })
-  }
-
-  const closeSnack = () => {
-    setSnack({
-      ...snack,
-      isOpen: false,
     })
   }
 
@@ -77,12 +54,23 @@ const UserProfile = (props) => {
       }
       reader.readAsDataURL(file)
     } else {
-      setSnack({
+      uc.openSnack({
         message: 'File type not accepted. Only .jpg and .png are accepted.',
         isOpen: true,
       })
     }
   }
+
+  useEffect(() => {
+    !isCancelled && getUser()
+    if (localStorage.getItem('isEditMode')) {
+      setIsEditMode(true)
+    }
+  }, [isCancelled])
+
+  useEffect(() => {
+    setUploadedImage(uc.user.picture)
+  }, [isEditMode, uc.user.picture])
 
   return (
     <div className='user-profile profile'>
@@ -130,25 +118,10 @@ const UserProfile = (props) => {
         </div>
       </ContentContainer>
       {uc.user.dogs && uc.user.dogs.length > 0 && (
-        <div className='page-padding padding-top-0'>
+        <ContentContainer customClass='user-dog-list'>
           <List dogs={uc.user.dogs} startingCount={8} />
-        </div>
+        </ContentContainer>
       )}
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        key={`top,right`}
-        open={snack.isOpen}
-        onClose={closeSnack}
-        ContentProps={{
-          'aria-describedby': 'message-id',
-        }}
-        autoHideDuration={3000}
-        className={`snackbar ${snack.className || 'error'}`}
-        message={<span id='message-id'>{snack.message}</span>}
-      />
     </div>
   )
 }

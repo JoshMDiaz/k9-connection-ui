@@ -1,29 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Icon from '../common/Icons/Icon'
 import UserFavoriteService from '../../services/UserFavoriteService'
-import { Snackbar } from '@material-ui/core'
+import userContext from '../../userContext'
 
 const FavoriteIcon = ({ dog }) => {
   const [favorite, setFavorite] = useState(dog.is_favorite)
-  const [snack, setSnack] = useState({
-    isOpen: false,
-    message: ''
-  })
-  useEffect(() => {
-    setFavorite(dog.is_favorite)
-  }, [dog])
+  const uc = useContext(userContext)
 
   const removeFavoriteDog = () => {
     let params = {
-      dog_id: dog.id
+      dog_id: dog.id,
     }
-    UserFavoriteService.removeFavorite(params).then(response => {
+    UserFavoriteService.removeFavorite(params).then((response) => {
       if (response) {
         setFavorite(false)
-        setSnack({
+        uc.openSnack({
           message: `${dog.name} isn't your favorite...`,
           isOpen: true,
-          className: 'info'
+          className: 'info',
         })
       }
     })
@@ -31,26 +25,23 @@ const FavoriteIcon = ({ dog }) => {
 
   const favoriteDog = () => {
     let params = {
-      dog_id: dog.id
+      dog_id: dog.id,
     }
-    UserFavoriteService.makeFavorite({}, params).then(response => {
+    UserFavoriteService.makeFavorite({}, params).then((response) => {
       if (response) {
         setFavorite(true)
-        setSnack({
+        uc.openSnack({
           message: `${dog.name} is now a favorite!`,
           isOpen: true,
-          className: 'success'
+          className: 'success',
         })
       }
     })
   }
 
-  const closeSnack = () => {
-    setSnack({
-      ...snack,
-      isOpen: false
-    })
-  }
+  useEffect(() => {
+    setFavorite(dog.is_favorite)
+  }, [dog])
 
   return (
     <div className='icon-container'>
@@ -58,21 +49,6 @@ const FavoriteIcon = ({ dog }) => {
         icon={favorite ? 'favoriteSolid' : 'favorite'}
         customClass='favorite-icon'
         callout={favorite ? removeFavoriteDog : favoriteDog}
-      />
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-        key={`top,right`}
-        open={snack.isOpen}
-        onClose={closeSnack}
-        ContentProps={{
-          'aria-describedby': 'message-id'
-        }}
-        autoHideDuration={3000}
-        className={`snackbar ${snack.className || 'error'}`}
-        message={<span id='message-id'>{snack.message}</span>}
       />
     </div>
   )
