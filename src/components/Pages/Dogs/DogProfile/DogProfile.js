@@ -71,7 +71,7 @@ const DogProfile = (props) => {
 
   useEffect(() => {
     getDog()
-  })
+  }, [])
 
   useEffect(() => {
     setUser(uc.user)
