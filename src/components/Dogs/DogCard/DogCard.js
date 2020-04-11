@@ -102,7 +102,7 @@ const DogCard = ({ dog, count, user }) => {
             <button className='view-profile primary'>View Profile</button>
           </Link>
           {user.id !== dog.user_id && (
-            <span class='footer-icons'>
+            <span className='footer-icons'>
               <div className='icon-container'>
                 <Icon icon='message' callout={messageOwner} />
               </div>

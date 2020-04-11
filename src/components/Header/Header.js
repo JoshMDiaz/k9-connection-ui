@@ -143,7 +143,7 @@ const Header = ({ auth }) => {
   return (
     <div className='header'>
       <div className='search-bar animated fadeInLeft'>
-        <Icon icon='magnifyingGlass' onClick={focusSearch} />
+        <Icon icon='magnifyingGlass' callout={focusSearch} />
         <TextField
           className={'search-dogs-input'}
           margin='normal'

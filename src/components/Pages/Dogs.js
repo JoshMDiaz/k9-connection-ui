@@ -10,6 +10,7 @@ import LoadingCard from '../common/LoadingCard/LoadingCard'
 import Icon from '../common/Icons/Icon'
 import PageHeader from '../common/PageHeader/PageHeader'
 import UserContext from '../../userContext'
+import FilterHelperService from '../../services/FilterHelperService'
 
 const Dogs = () => {
   const initialState = () => ({
@@ -42,39 +43,11 @@ const Dogs = () => {
   const [popoverAnchorEl, setPopoverAnchorEl] = useState(null)
   const uc = useContext(UserContext)
 
-  const getRegistered = (form) => {
-    let value
-    if (form.papered === 'false') {
-      value = false
-    }
-    return value
-  }
-
   const getDogs = (filter) => {
     !isCancelled && setLoading(true)
     let params = {}
     if (filter) {
-      console.log(filter)
-
-      params = {
-        // name: filter.name || null,
-        // gender: filter.gender || null,
-        // papered: filter.papered || null,
-        // registered: filter.registered
-        //   ? filter.registered
-        //   : getRegistered(filter),
-        // start_date:
-        //   filter.useAge && filter.birthdate ? filter.birthdate.startDate : null,
-        // end_date:
-        //   filter.useAge && filter.birthdate ? filter.birthdate.endDate : null,
-        // breed: filter.breed || null,
-        // eyes: filter.eyes || null,
-        // favorite: filter.favorite || null,
-        // nearest_distance:
-        //   filter.useMilesAway && filter.milesAway ? filter.milesAway.min : null,
-        // farthest_distance:
-        //   filter.useMilesAway && filter.milesAway ? filter.milesAway.max : null
-      }
+      params = FilterHelperService.generateParams(filter)
     }
     DogService.getAll(params).then((response) => {
       if (response) {

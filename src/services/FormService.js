@@ -1,26 +1,29 @@
+import SecureAxios from './SecureAxios'
 import axios from 'axios'
 import UserService from './UserService'
-const CancelToken = axios.CancelToken
+import { Cache } from 'axios-extensions'
 
-const base = '/k9-connect/api/v1'
+const base = '/k9-connect/api/v1',
+  CancelToken = axios.CancelToken,
+  FormCache = new Cache()
 
 let breedsCancel, statesCancel, eyeColorsCancel
 
 class DogService {
   getBreeds(params = {}) {
     let url = `${base}/breeds`
-    return axios
-      .get(url, {
-        params: params,
-        headers: UserService.auth0User(),
-        cancelToken: new CancelToken(function executor(c) {
-          breedsCancel = c
-        })
-      })
-      .then(response => {
+    return SecureAxios.get(url, {
+      params: params,
+      headers: UserService.auth0User(),
+      cancelToken: new CancelToken(function executor(c) {
+        breedsCancel = c
+      }),
+      cache: FormCache,
+    })
+      .then((response) => {
         return response.data
       })
-      .catch(error => {})
+      .catch((error) => {})
   }
 
   cancelGetBreeds() {
@@ -31,18 +34,18 @@ class DogService {
 
   getStates(params = {}) {
     let url = `${base}/states`
-    return axios
-      .get(url, {
-        params: params,
-        headers: UserService.auth0User(),
-        cancelToken: new CancelToken(function executor(c) {
-          statesCancel = c
-        })
-      })
-      .then(response => {
+    return SecureAxios.get(url, {
+      params: params,
+      headers: UserService.auth0User(),
+      cancelToken: new CancelToken(function executor(c) {
+        statesCancel = c
+      }),
+      cache: FormCache,
+    })
+      .then((response) => {
         return response.data
       })
-      .catch(error => {})
+      .catch((error) => {})
   }
 
   cancelGetStates() {
@@ -53,24 +56,28 @@ class DogService {
 
   getEyeColors(params = {}) {
     let url = `${base}/eye_colors`
-    return axios
-      .get(url, {
-        params: params,
-        headers: UserService.auth0User(),
-        cancelToken: new CancelToken(function executor(c) {
-          eyeColorsCancel = c
-        })
-      })
-      .then(response => {
+    return SecureAxios.get(url, {
+      params: params,
+      headers: UserService.auth0User(),
+      cancelToken: new CancelToken(function executor(c) {
+        eyeColorsCancel = c
+      }),
+      cache: FormCache,
+    })
+      .then((response) => {
         return response.data
       })
-      .catch(error => {})
+      .catch((error) => {})
   }
 
   cancelGetEyeColors() {
     if (eyeColorsCancel) {
       eyeColorsCancel('Canceled eye colors request')
     }
+  }
+
+  clearCache() {
+    FormCache.reset()
   }
 }
 
