@@ -19,17 +19,17 @@ const Dogs = () => {
     registered: '',
     ageRange: {
       min: 1,
-      max: 15
+      max: 15,
     },
     milesAway: {
       min: 0,
-      max: 100
+      max: 100,
     },
     breed: [],
     eyes: [],
     favorite: false,
     useAge: false,
-    useMilesAway: false
+    useMilesAway: false,
   })
   let filterTimeout,
     isCancelled,
@@ -39,9 +39,10 @@ const Dogs = () => {
   const [filterOpen, setFilterOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [activeFilters, setActiveFilters] = useState(initialFilterCount)
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState(null)
   const uc = useContext(UserContext)
 
-  const getRegistered = form => {
+  const getRegistered = (form) => {
     let value
     if (form.papered === 'false') {
       value = false
@@ -49,31 +50,33 @@ const Dogs = () => {
     return value
   }
 
-  const getDogs = filter => {
+  const getDogs = (filter) => {
     !isCancelled && setLoading(true)
     let params = {}
     if (filter) {
+      console.log(filter)
+
       params = {
-        name: filter.name || null,
-        gender: filter.gender || null,
-        papered: filter.papered || null,
-        registered: filter.registered
-          ? filter.registered
-          : getRegistered(filter),
-        start_date:
-          filter.useAge && filter.birthdate ? filter.birthdate.startDate : null,
-        end_date:
-          filter.useAge && filter.birthdate ? filter.birthdate.endDate : null,
-        breed: filter.breed || null,
-        eyes: filter.eyes || null,
-        favorite: filter.favorite || null,
-        nearest_distance:
-          filter.useMilesAway && filter.milesAway ? filter.milesAway.min : null,
-        farthest_distance:
-          filter.useMilesAway && filter.milesAway ? filter.milesAway.max : null
+        // name: filter.name || null,
+        // gender: filter.gender || null,
+        // papered: filter.papered || null,
+        // registered: filter.registered
+        //   ? filter.registered
+        //   : getRegistered(filter),
+        // start_date:
+        //   filter.useAge && filter.birthdate ? filter.birthdate.startDate : null,
+        // end_date:
+        //   filter.useAge && filter.birthdate ? filter.birthdate.endDate : null,
+        // breed: filter.breed || null,
+        // eyes: filter.eyes || null,
+        // favorite: filter.favorite || null,
+        // nearest_distance:
+        //   filter.useMilesAway && filter.milesAway ? filter.milesAway.min : null,
+        // farthest_distance:
+        //   filter.useMilesAway && filter.milesAway ? filter.milesAway.max : null
       }
     }
-    DogService.getAll(params).then(response => {
+    DogService.getAll(params).then((response) => {
       if (response) {
         !isCancelled && setDogs(response.data)
         !isCancelled && setLoading(false)
@@ -81,8 +84,9 @@ const Dogs = () => {
     })
   }
 
-  const openFilter = isOpen => {
+  const toggleFilter = (isOpen, e) => {
     !isCancelled && setFilterOpen(isOpen)
+    isOpen && setPopoverAnchorEl(e.currentTarget)
   }
 
   const reducer = (form, action) => {
@@ -94,16 +98,16 @@ const Dogs = () => {
       case 'UPDATE':
         return {
           ...form,
-          ...action.payload
+          ...action.payload,
         }
       case 'ACTIVE_FILTERS':
         setActiveFilters(action.payload)
         return
       case 'SEARCH':
         getDogs(form)
-        openFilter(false)
+        toggleFilter(false)
         return {
-          ...form
+          ...form,
         }
       default:
         break
@@ -138,7 +142,7 @@ const Dogs = () => {
           }
         />
         <div className='button-container animated fadeInRight'>
-          <button className='plain' onClick={() => openFilter(!filterOpen)}>
+          <button className='plain' onClick={(e) => toggleFilter(true, e)}>
             {activeFilters > 0 && <span className='tag'>{activeFilters}</span>}
             <span>Filter</span>
             <Icon icon='chevronDown' />
@@ -146,24 +150,24 @@ const Dogs = () => {
           <Popover
             id='filter-popover'
             open={filterOpen}
-            anchorEl={null}
-            onClose={() => openFilter(false)}
+            anchorEl={popoverAnchorEl}
+            onClose={() => toggleFilter(false)}
+            classes={{
+              paper: 'popover-container',
+            }}
             anchorOrigin={{
               vertical: 'bottom',
-              horizontal: 'center'
-            }}
-            classes={{
-              paper: 'popover-container'
+              horizontal: 'right',
             }}
             transformOrigin={{
               vertical: 'top',
-              horizontal: 'center'
+              horizontal: 'right',
             }}
           >
             <Filter
               form={form}
               dispatch={dispatch}
-              closeFilter={() => openFilter(false)}
+              closeFilter={() => toggleFilter(false)}
               user={uc.user}
             />
           </Popover>
@@ -177,7 +181,7 @@ const Dogs = () => {
           <List dogs={dogs} user={uc.user} />
         ) : (
           <div className='card-list'>
-            {[...Array(12).keys()].map(row => {
+            {[...Array(12).keys()].map((row) => {
               count++
               return <LoadingCard key={row} count={count} />
             })}

@@ -1,26 +1,29 @@
+import SecureAxios from './SecureAxios'
 import axios from 'axios'
 import UserService from './UserService'
-const CancelToken = axios.CancelToken
+import { Cache } from 'axios-extensions'
 
-const base = '/k9-connect/api/v1/dogs'
+const CancelToken = axios.CancelToken,
+  DogCache = new Cache(),
+  base = '/k9-connect/api/v1/dogs'
 
 let dogCancel, dogsCancel, createDogCancel, updateDogCancel
 
 class DogService {
   get(dogId, params = {}) {
     let url = `${base}/${dogId}`
-    return axios
-      .get(url, {
-        params: params,
-        headers: UserService.auth0User(),
-        cancelToken: new CancelToken(function executor(c) {
-          dogCancel = c
-        })
-      })
-      .then(response => {
+    return SecureAxios.get(url, {
+      params: params,
+      headers: UserService.auth0User(),
+      cancelToken: new CancelToken(function executor(c) {
+        dogCancel = c
+      }),
+      cache: DogCache,
+    })
+      .then((response) => {
         return response.data
       })
-      .catch(error => {})
+      .catch((error) => {})
   }
 
   cancelGet() {
@@ -31,18 +34,18 @@ class DogService {
 
   getAll(params = {}) {
     let url = `${base}`
-    return axios
-      .get(url, {
-        params: params,
-        headers: UserService.auth0User(),
-        cancelToken: new CancelToken(function executor(c) {
-          dogsCancel = c
-        })
-      })
-      .then(response => {
+    return SecureAxios.get(url, {
+      params: params,
+      headers: UserService.auth0User(),
+      cancelToken: new CancelToken(function executor(c) {
+        dogsCancel = c
+      }),
+      cache: DogCache,
+    })
+      .then((response) => {
         return response.data
       })
-      .catch(error => {})
+      .catch((error) => {})
   }
 
   cancelGetAll() {
@@ -53,18 +56,17 @@ class DogService {
 
   createDog(body, params = {}) {
     let url = `${base}`
-    return axios
-      .post(url, body, {
-        params: params,
-        headers: UserService.auth0User(),
-        cancelToken: new CancelToken(function executor(c) {
-          createDogCancel = c
-        })
-      })
-      .then(response => {
+    return SecureAxios.post(url, body, {
+      params: params,
+      headers: UserService.auth0User(),
+      cancelToken: new CancelToken(function executor(c) {
+        createDogCancel = c
+      }),
+    })
+      .then((response) => {
         return response.data
       })
-      .catch(error => {})
+      .catch((error) => {})
   }
 
   cancelCreateDog() {
@@ -75,24 +77,27 @@ class DogService {
 
   updateDog(dogId, body, params = {}) {
     let url = `${base}/${dogId}`
-    return axios
-      .put(url, body, {
-        params: params,
-        headers: UserService.auth0User(),
-        cancelToken: new CancelToken(function executor(c) {
-          updateDogCancel = c
-        })
-      })
-      .then(response => {
+    return SecureAxios.put(url, body, {
+      params: params,
+      headers: UserService.auth0User(),
+      cancelToken: new CancelToken(function executor(c) {
+        updateDogCancel = c
+      }),
+    })
+      .then((response) => {
         return response.data
       })
-      .catch(error => {})
+      .catch((error) => {})
   }
 
   cancelUpdateDog() {
     if (updateDogCancel) {
       updateDogCancel('Canceled update dog request')
     }
+  }
+
+  clearCache() {
+    DogCache.reset()
   }
 }
 

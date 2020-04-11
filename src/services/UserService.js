@@ -1,10 +1,13 @@
+import SecureAxios from './SecureAxios'
 import axios from 'axios'
-const CancelToken = axios.CancelToken
+import { Cache } from 'axios-extensions'
 
 const base = '/k9-connect/api/v1/users',
   auth0UserObj = localStorage.getItem('auth0User')
     ? JSON.parse(localStorage.getItem('auth0User'))
-    : {}
+    : {},
+  CancelToken = axios.CancelToken,
+  UserCache = new Cache()
 
 let getUserCancel, getUsersCancel, createUserCancel, updateUserCancel
 
@@ -15,18 +18,18 @@ class UserService {
 
   get(params = {}, sub) {
     let url = `${base}/${auth0UserObj.sub || sub}`
-    return axios
-      .get(url, {
-        params: params,
-        headers: auth0UserObj,
-        cancelToken: new CancelToken(function executor(c) {
-          getUserCancel = c
-        })
-      })
-      .then(response => {
+    return SecureAxios.get(url, {
+      params: params,
+      headers: auth0UserObj,
+      cancelToken: new CancelToken(function executor(c) {
+        getUserCancel = c
+      }),
+      cache: UserCache,
+    })
+      .then((response) => {
         return response.data
       })
-      .catch(error => {})
+      .catch((error) => {})
   }
 
   cancelGet() {
@@ -37,18 +40,18 @@ class UserService {
 
   getAll(params = {}) {
     let url = `${base}`
-    return axios
-      .get(url, {
-        params: params,
-        headers: auth0UserObj,
-        cancelToken: new CancelToken(function executor(c) {
-          getUsersCancel = c
-        })
-      })
-      .then(response => {
+    return SecureAxios.get(url, {
+      params: params,
+      headers: auth0UserObj,
+      cancelToken: new CancelToken(function executor(c) {
+        getUsersCancel = c
+      }),
+      cache: UserCache,
+    })
+      .then((response) => {
         return response.data
       })
-      .catch(error => {})
+      .catch((error) => {})
   }
 
   cancelGetAll() {
@@ -59,18 +62,17 @@ class UserService {
 
   createUser(body, params = {}) {
     let url = `${base}`
-    return axios
-      .post(url, body, {
-        params: params,
-        headers: auth0UserObj,
-        cancelToken: new CancelToken(function executor(c) {
-          createUserCancel = c
-        })
-      })
-      .then(response => {
+    return SecureAxios.post(url, body, {
+      params: params,
+      headers: auth0UserObj,
+      cancelToken: new CancelToken(function executor(c) {
+        createUserCancel = c
+      }),
+    })
+      .then((response) => {
         return response.data
       })
-      .catch(error => {})
+      .catch((error) => {})
   }
 
   cancelCreateUser() {
@@ -81,24 +83,27 @@ class UserService {
 
   updateUser(userId, body, params = {}) {
     let url = `${base}/${userId}`
-    return axios
-      .put(url, body, {
-        params: params,
-        headers: auth0UserObj,
-        cancelToken: new CancelToken(function executor(c) {
-          updateUserCancel = c
-        })
-      })
-      .then(response => {
+    return SecureAxios.put(url, body, {
+      params: params,
+      headers: auth0UserObj,
+      cancelToken: new CancelToken(function executor(c) {
+        updateUserCancel = c
+      }),
+    })
+      .then((response) => {
         return response.data
       })
-      .catch(error => {})
+      .catch((error) => {})
   }
 
   cancelUpdateUser() {
     if (updateUserCancel) {
       updateUserCancel('Canceled update user request')
     }
+  }
+
+  clearCache() {
+    UserCache.reset()
   }
 }
 
