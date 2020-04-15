@@ -33,6 +33,7 @@ const DogCard = ({ dog, count, user }) => {
   const messageOwner = () => {
     console.log('message owner')
   }
+
   const LightTooltip = withStyles((theme) => ({
     tooltip: {
       backgroundColor: theme.palette.common.white,

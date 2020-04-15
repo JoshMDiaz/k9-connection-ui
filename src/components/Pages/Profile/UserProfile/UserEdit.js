@@ -5,7 +5,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Input
 } from '@material-ui/core'
 import MaskedInput from 'react-text-mask'
 import FormService from '../../../../services/FormService'
@@ -20,7 +19,7 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
     city: '',
     state: '',
     zip: '',
-    dogs: ''
+    dogs: '',
   })
   const [states, setStates] = useState([])
 
@@ -43,12 +42,12 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
       state: user.state || '',
       zip: user.zip || '',
       dogs: user.dogs || '',
-      sub: user.sub
+      sub: user.sub,
     })
   }
 
   const getStates = () => {
-    FormService.getStates().then(response => {
+    FormService.getStates().then((response) => {
       if (response) {
         setStates(response.data)
       }
@@ -57,47 +56,47 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
   const handleChange = (event, field, elementValue) => {
     setForm({
       ...form,
-      [field]: event.target[elementValue]
+      [field]: event.target[elementValue],
     })
   }
 
-  const goToNewDog = form => {
+  const goToNewDog = (form) => {
     update(form)
     history.push({
-      pathname: '/profile/new-dog'
+      pathname: '/profile/new-dog',
     })
   }
 
-  function TextMaskCustom(props) {
-    const { inputRef, ...other } = props
+  // function TextMaskCustom(props) {
+  //   const { inputRef, ...other } = props
 
-    return (
-      <MaskedInput
-        {...other}
-        ref={ref => {
-          inputRef(ref ? ref.inputElement : null)
-        }}
-        mask={[
-          '(',
-          /[1-9]/,
-          /\d/,
-          /\d/,
-          ')',
-          ' ',
-          /\d/,
-          /\d/,
-          /\d/,
-          '-',
-          /\d/,
-          /\d/,
-          /\d/,
-          /\d/
-        ]}
-        placeholderChar={'\u2000'}
-        showMask
-      />
-    )
-  }
+  //   return (
+  //     <MaskedInput
+  //       {...other}
+  //       ref={(ref) => {
+  //         inputRef(ref ? ref.inputElement : null)
+  //       }}
+  //       mask={[
+  //         '(',
+  //         /[1-9]/,
+  //         /\d/,
+  //         /\d/,
+  //         ')',
+  //         ' ',
+  //         /\d/,
+  //         /\d/,
+  //         /\d/,
+  //         '-',
+  //         /\d/,
+  //         /\d/,
+  //         /\d/,
+  //         /\d/,
+  //       ]}
+  //       placeholderChar={'\u2000'}
+  //       showMask
+  //     />
+  //   )
+  // }
 
   return (
     <>
@@ -106,7 +105,7 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
         label={`Name`}
         className={'form-input'}
         margin='normal'
-        onChange={e => handleChange(e, 'name', 'value')}
+        onChange={(e) => handleChange(e, 'name', 'value')}
         fullWidth
         value={form.name || ''}
       />
@@ -116,7 +115,7 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
         label={`Phone`}
         className={'form-input'}
         margin='normal'
-        onChange={e => handleChange(e, 'phone', 'value')}
+        onChange={(e) => handleChange(e, 'phone', 'value')}
         fullWidth
         value={form.phone}
       />
@@ -136,7 +135,7 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
         label={`Email (required)`}
         className={'form-input'}
         margin='normal'
-        onChange={e => handleChange(e, 'email', 'value')}
+        onChange={(e) => handleChange(e, 'email', 'value')}
         fullWidth
         value={form.email}
       />
@@ -146,7 +145,7 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
         label={`Address`}
         className={'form-input'}
         margin='normal'
-        onChange={e => handleChange(e, 'address', 'value')}
+        onChange={(e) => handleChange(e, 'address', 'value')}
         fullWidth
         value={form.address}
       />
@@ -156,7 +155,7 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
         label={`City`}
         className={'form-input'}
         margin='normal'
-        onChange={e => handleChange(e, 'city', 'value')}
+        onChange={(e) => handleChange(e, 'city', 'value')}
         fullWidth
         value={form.city}
       />
@@ -166,7 +165,7 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
         label={`Zip`}
         className={'form-input'}
         margin='normal'
-        onChange={e => handleChange(e, 'zip', 'value')}
+        onChange={(e) => handleChange(e, 'zip', 'value')}
         fullWidth
         value={form.zip}
       />
@@ -176,10 +175,10 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
         <InputLabel htmlFor='state-select'>State</InputLabel>
         <Select
           value={form.state}
-          onChange={e => handleChange(e, 'state', 'value')}
+          onChange={(e) => handleChange(e, 'state', 'value')}
           inputProps={{
             name: 'state',
-            id: 'state-select'
+            id: 'state-select',
           }}
         >
           {states.map((e, i) => (

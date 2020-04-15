@@ -8,7 +8,7 @@ import {
   Radio,
   RadioGroup,
   FormLabel,
-  FormControlLabel
+  FormControlLabel,
 } from '@material-ui/core'
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
@@ -16,27 +16,28 @@ import FormService from '../../../../services/FormService'
 import moment from 'moment'
 import Multiselect from '../../../common/Multiselect'
 
+const findDogBreeds = (breeds) => {
+  return breeds.map((b) => {
+    return b.name
+  })
+}
+
 const DogEdit = ({ dog, setIsEditMode, update }) => {
   const [form, setForm] = useState({
     name: dog.name,
     gender: dog.gender,
-    papered: dog.papered.toString(),
-    registered: dog.registered.toString(),
-    breeds: dog.breeds,
+    papered: dog.papered?.toString(),
+    registered: dog.registered?.toString(),
+    breeds: findDogBreeds(dog.breeds),
     eyes: dog.eyes,
     birthdate: dog.birthdate,
-    description: dog.description
+    description: dog.description,
   })
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
 
-  useEffect(() => {
-    getBreeds()
-    getEyeColors()
-  }, [])
-
   const getBreeds = () => {
-    FormService.getBreeds().then(response => {
+    FormService.getBreeds().then((response) => {
       if (response) {
         setBreeds(response.data)
       }
@@ -44,7 +45,7 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
   }
 
   const getEyeColors = () => {
-    FormService.getEyeColors().then(response => {
+    FormService.getEyeColors().then((response) => {
       if (response) {
         setEyeColors(response.data)
       }
@@ -54,23 +55,28 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
   const handleChange = (event, field, elementValue) => {
     setForm({
       ...form,
-      [field]: event.target[elementValue]
+      [field]: event.target[elementValue],
     })
   }
 
-  const handleDateChange = date => {
+  const handleDateChange = (date) => {
     setForm({
       ...form,
-      birthdate: moment(date).format('YYYY-MM-DD')
+      birthdate: moment(date).format('YYYY-MM-DD'),
     })
   }
 
-  const handleMultiselect = selected => {
+  const handleMultiselect = (selected) => {
     setForm({
       ...form,
-      breeds: selected
+      breeds: selected,
     })
   }
+
+  useEffect(() => {
+    getBreeds()
+    getEyeColors()
+  }, [])
 
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -79,7 +85,7 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
         label={`Name`}
         className={'form-input'}
         margin='normal'
-        onChange={e => handleChange(e, 'name', 'value')}
+        onChange={(e) => handleChange(e, 'name', 'value')}
         fullWidth
         value={form.name}
       />
@@ -89,7 +95,7 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
         className={'birthdate-datepicker'}
         label='Birthdate'
         value={form.birthdate}
-        onChange={date => handleDateChange(date)}
+        onChange={(date) => handleDateChange(date)}
         format='MMMM DD, YYYY'
         disableFuture
         fullWidth
@@ -108,7 +114,7 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
           name='gender'
           className={'gender'}
           value={form.gender}
-          onChange={e => handleChange(e, 'gender', 'value')}
+          onChange={(e) => handleChange(e, 'gender', 'value')}
         >
           <FormControlLabel
             value='Female'
@@ -128,10 +134,10 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
         <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
         <Select
           value={form.eyes}
-          onChange={e => handleChange(e, 'eyes', 'value')}
+          onChange={(e) => handleChange(e, 'eyes', 'value')}
           inputProps={{
             name: 'eyes',
-            id: 'eyes-select'
+            id: 'eyes-select',
           }}
         >
           {eyeColors.map((e, i) => (
@@ -150,7 +156,7 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
           name='papered'
           className={'papered'}
           value={form.papered}
-          onChange={e => handleChange(e, 'papered', 'value')}
+          onChange={(e) => handleChange(e, 'papered', 'value')}
         >
           <FormControlLabel
             value={'true'}
@@ -173,7 +179,7 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
           name='registered'
           className={'registered'}
           value={form.papered !== 'false' ? form.registered : 'false'}
-          onChange={e => handleChange(e, 'registered', 'value')}
+          onChange={(e) => handleChange(e, 'registered', 'value')}
         >
           <FormControlLabel
             value={'true'}
@@ -200,7 +206,11 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
 
       {/* Breeds */}
       <FormControl style={{ width: '100%', marginTop: '20px' }}>
-        <Multiselect options={breeds} callout={handleMultiselect} />
+        <Multiselect
+          breeds={breeds}
+          dogBreeds={form.breeds}
+          updateBreeds={handleMultiselect}
+        />
       </FormControl>
 
       {/* Eye Color */}
@@ -208,10 +218,10 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
         <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
         <Select
           value={form.eyes}
-          onChange={e => handleChange(e, 'eyes', 'value')}
+          onChange={(e) => handleChange(e, 'eyes', 'value')}
           inputProps={{
             name: 'eyes',
-            id: 'eyes-select'
+            id: 'eyes-select',
           }}
         >
           {eyeColors.map((e, i) => (
@@ -228,7 +238,7 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
         multiline
         rowsMax='4'
         value={form.description}
-        onChange={e => handleChange(e, 'description', 'value')}
+        onChange={(e) => handleChange(e, 'description', 'value')}
         margin='normal'
         style={{ width: '100%' }}
       />
@@ -236,7 +246,7 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
         <button className={'plain'} onClick={() => setIsEditMode(false)}>
           Cancel
         </button>
-        <button className={'primary'} onClick={() => update(form)}>
+        <button className={'primary'} onClick={() => update(form, breeds)}>
           Save
         </button>
       </div>

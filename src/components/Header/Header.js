@@ -8,7 +8,7 @@ import history from '../../services/Auth/History'
 import Spinner from '../common/Spinner/Spinner'
 import UserService from '../../services/UserService'
 
-let searchTimeout, isCancelled
+let searchTimeout
 
 const Header = ({ auth }) => {
   const [searchField, setSearchField] = useState('')
@@ -72,14 +72,14 @@ const Header = ({ auth }) => {
 
   const getSearch = (value) => {
     SearchService.cancelGetAll()
-    !isCancelled && setLoading(true)
+    setLoading(true)
     let params = {
       value,
     }
     SearchService.getAll(params).then((response) => {
       if (response) {
         uc.setDogs(response.data)
-        !isCancelled && setLoading(false)
+        setLoading(false)
         if (history.location.pathname !== '/search') {
           uc.setPrevPage(history.location.pathname)
         }

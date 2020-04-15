@@ -14,7 +14,6 @@ const UserProfile = (props) => {
   const [isEditMode, setIsEditMode] = useState(false)
   const [uploadedImage, setUploadedImage] = useState(null)
   const uc = useContext(userContext)
-  let isCancelled
 
   const getUser = () => {
     UserService.get().then((response) => {
@@ -62,11 +61,11 @@ const UserProfile = (props) => {
   }
 
   useEffect(() => {
-    !isCancelled && getUser()
+    getUser()
     if (localStorage.getItem('isEditMode')) {
       setIsEditMode(true)
     }
-  }, [isCancelled])
+  }, [])
 
   useEffect(() => {
     setUploadedImage(uc.user.picture)

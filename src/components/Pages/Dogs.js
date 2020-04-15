@@ -33,7 +33,6 @@ const Dogs = () => {
     useMilesAway: false,
   })
   let filterTimeout,
-    isCancelled,
     initialForm = JSON.parse(localStorage.getItem('filter')) || initialState(),
     initialFilterCount = localStorage.getItem('filterCount') || 0
   const [dogs, setDogs] = useState([])
@@ -44,21 +43,21 @@ const Dogs = () => {
   const uc = useContext(UserContext)
 
   const getDogs = (filter) => {
-    !isCancelled && setLoading(true)
+    setLoading(true)
     let params = {}
     if (filter) {
       params = FilterHelperService.generateParams(filter)
     }
     DogService.getAll(params).then((response) => {
       if (response) {
-        !isCancelled && setDogs(response.data)
-        !isCancelled && setLoading(false)
+        setDogs(response.data)
+        setLoading(false)
       }
     })
   }
 
   const toggleFilter = (isOpen, e) => {
-    !isCancelled && setFilterOpen(isOpen)
+    setFilterOpen(isOpen)
     isOpen && setPopoverAnchorEl(e.currentTarget)
   }
 
@@ -91,10 +90,9 @@ const Dogs = () => {
   let count = 0
 
   useEffect(() => {
-    !isCancelled && getDogs(initialForm)
+    getDogs(initialForm)
     return () => {
       clearTimeout(filterTimeout)
-      isCancelled = true
     }
   }, [])
 

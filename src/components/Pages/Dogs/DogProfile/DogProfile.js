@@ -25,20 +25,28 @@ const DogProfile = (props) => {
     })
   }
 
-  const transformBreedIds = (breeds) => {
-    return breeds.map((b) => {
-      return b.id
-    })
+  const transformBreeds = (breeds, formBreeds) => {
+    return breeds
+      .map((b) => {
+        if (formBreeds.includes(b.name)) {
+          return b.id
+        }
+      })
+      .filter((id) => {
+        if (id) {
+          return id
+        }
+      })
   }
 
-  const updateDog = (dogForm) => {
+  const updateDog = (dogForm, breeds) => {
     let dog = { ...dogForm },
       images = dog.dog_images
     dog.birthdate = moment(dog.birthdate).format('YYYY-MM-DD')
     delete dog.breeds
     let body = {
       dog: { ...dog },
-      breeds: transformBreedIds(dogForm.breeds),
+      breeds: transformBreeds(breeds, dogForm.breeds),
       dog_images: images,
     }
     DogService.updateDog(props.match.params.id, body).then((response) => {
