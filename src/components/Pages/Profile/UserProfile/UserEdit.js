@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
   TextField,
   FormControl,
@@ -6,7 +6,7 @@ import {
   Select,
   MenuItem,
 } from '@material-ui/core'
-import MaskedInput from 'react-text-mask'
+// import MaskedInput from 'react-text-mask'
 import FormService from '../../../../services/FormService'
 
 const UserEdit = ({ user, setIsEditMode, update, history }) => {
@@ -23,15 +23,7 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
   })
   const [states, setStates] = useState([])
 
-  useEffect(() => {
-    getStates()
-  }, [])
-
-  useEffect(() => {
-    getUser()
-  }, [user])
-
-  const getUser = () => {
+  const getUser = useCallback(() => {
     setForm({
       name: user.name || '',
       picture: user.picture || '',
@@ -44,15 +36,16 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
       dogs: user.dogs || '',
       sub: user.sub,
     })
-  }
+  }, [user])
 
-  const getStates = () => {
+  const getStates = useCallback(() => {
     FormService.getStates().then((response) => {
       if (response) {
         setStates(response.data)
       }
     })
-  }
+  }, [])
+
   const handleChange = (event, field, elementValue) => {
     setForm({
       ...form,
@@ -97,6 +90,14 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
   //     />
   //   )
   // }
+
+  useEffect(() => {
+    getStates()
+  }, [getStates])
+
+  useEffect(() => {
+    getUser()
+  }, [user, getUser])
 
   return (
     <>

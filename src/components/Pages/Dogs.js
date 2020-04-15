@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useReducer, useContext } from 'react'
+import React, {
+  useEffect,
+  useState,
+  useReducer,
+  useContext,
+  useCallback,
+} from 'react'
 import List from '../Dogs/List'
 import DogService from '../../services/DogService'
 import Filter from '../Filter/Filter'
@@ -42,7 +48,7 @@ const Dogs = () => {
   const [popoverAnchorEl, setPopoverAnchorEl] = useState(null)
   const uc = useContext(UserContext)
 
-  const getDogs = (filter) => {
+  const getDogs = useCallback((filter) => {
     setLoading(true)
     let params = {}
     if (filter) {
@@ -54,7 +60,7 @@ const Dogs = () => {
         setLoading(false)
       }
     })
-  }
+  }, [])
 
   const toggleFilter = (isOpen, e) => {
     setFilterOpen(isOpen)
@@ -90,11 +96,11 @@ const Dogs = () => {
   let count = 0
 
   useEffect(() => {
-    getDogs(initialForm)
+    // getDogs(initialForm)
     return () => {
       clearTimeout(filterTimeout)
     }
-  }, [])
+  }, [getDogs, initialForm, filterTimeout])
 
   return (
     <div className='dogs-page'>

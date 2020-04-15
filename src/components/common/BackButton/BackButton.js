@@ -1,14 +1,16 @@
 import React, { useContext } from 'react'
 import Icon from '../Icons/Icon'
 import UserContext from '../../../userContext'
+import { useHistory } from 'react-router-dom'
 
-const BackButton = ({ history, isSearch }) => {
-  const uc = useContext(UserContext)
+const BackButton = ({ isSearch }) => {
+  const uc = useContext(UserContext),
+    history = useHistory()
 
   const goBack = () => {
     if (isSearch) {
       history.push({
-        pathname: uc.prevPage
+        pathname: uc.prevPage,
       })
     } else {
       history.goBack()

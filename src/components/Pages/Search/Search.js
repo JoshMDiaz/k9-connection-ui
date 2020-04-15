@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import List from '../../Dogs/List'
 import NumberFormat from 'react-number-format'
 import Plural from '../../common/Plural'
@@ -14,7 +14,7 @@ const Search = ({ dogs }) => {
   const history = useHistory(),
     searchParams = history.location.search.substring(1)
 
-  const getDogs = () => {
+  const getDogs = useCallback(() => {
     SearchService.cancelGetAll()
     setLoading(true)
     let params = {
@@ -26,7 +26,7 @@ const Search = ({ dogs }) => {
         setLoading(false)
       }
     })
-  }
+  }, [searchParams])
 
   useEffect(() => {
     if (dogs.length === 0 && searchParams === '') {
@@ -34,14 +34,14 @@ const Search = ({ dogs }) => {
     } else {
       setDogsToDisplay(dogs)
     }
-  }, [dogs, searchParams])
+  }, [dogs, searchParams, getDogs])
 
   let count = 0
 
   return (
     <div className='search-page'>
       <div className='main-content-header'>
-        <BackButton history={history} isSearch />
+        <BackButton isSearch />
         <h3 className='page-header animated fadeInRight'>
           <NumberFormat
             value={dogsToDisplay.length}

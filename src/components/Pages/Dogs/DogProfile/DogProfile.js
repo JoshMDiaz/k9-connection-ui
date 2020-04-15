@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import DogService from '../../../../services/DogService'
 import BackButton from '../../../common/BackButton/BackButton'
 import DogImages from '../../../Dogs/DogImages/DogImages'
@@ -8,34 +8,33 @@ import DogEdit from './DogEdit'
 import moment from 'moment'
 import UserContext from '../../../../userContext'
 import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
+import { useRouteMatch } from 'react-router-dom'
 
-const DogProfile = (props) => {
+const DogProfile = () => {
   const [dog, setDog] = useState({})
   const [user, setUser] = useState({})
   const [isEditMode, setIsEditMode] = useState(false)
   const [uploadedImages, setUploadedImages] = useState([])
+
+  const match = useRouteMatch()
   let uc = useContext(UserContext)
 
-  const getDog = () => {
-    DogService.get(props.match.params.id).then((response) => {
+  const getDog = useCallback(() => {
+    DogService.get(match.params.id).then((response) => {
       if (response) {
         setDog(response.data)
         // setUploadedImages(response.data.dog_images)
       }
     })
-  }
+  }, [match])
 
   const transformBreeds = (breeds, formBreeds) => {
     return breeds
-      .map((b) => {
-        if (formBreeds.includes(b.name)) {
-          return b.id
-        }
+      .filter((b) => {
+        return formBreeds.includes(b.name) && b
       })
-      .filter((id) => {
-        if (id) {
-          return id
-        }
+      .map((b) => {
+        return b.id
       })
   }
 
@@ -49,7 +48,7 @@ const DogProfile = (props) => {
       breeds: transformBreeds(breeds, dogForm.breeds),
       dog_images: images,
     }
-    DogService.updateDog(props.match.params.id, body).then((response) => {
+    DogService.updateDog(match.params.id, body).then((response) => {
       if (response) {
         uc.openSnack({
           message: 'Dog has been updated!',
@@ -79,7 +78,7 @@ const DogProfile = (props) => {
 
   useEffect(() => {
     getDog()
-  }, [])
+  }, [getDog])
 
   useEffect(() => {
     setUser(uc.user)
@@ -88,7 +87,7 @@ const DogProfile = (props) => {
   return (
     <div className='dog-profile profile'>
       <div className='main-content-header'>
-        <BackButton history={props.history} />
+        <BackButton />
       </div>
       <ContentContainer customClass='profile-container'>
         <div className='left-section'>

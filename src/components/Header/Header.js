@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { TextField, Popover } from '@material-ui/core'
 import Icon from '../../components/common/Icons/Icon'
 import noProfileImg from '../../images/icons/user.svg'
@@ -16,30 +16,37 @@ const Header = ({ auth }) => {
   const [loading, setLoading] = useState(false)
   const uc = useContext(UserContext)
 
-  useEffect(() => {
-    if (auth.isAuthenticated()) {
-      UserService.get().then((response) => {
-        if (response) {
-          let user = response.data
-          if (!user.name) {
-            !localStorage.getItem('profilePrompt') && snackPrompt()
-          }
-          uc.setUser(user)
-        }
+  const goToUserProfile = useCallback(
+    (isEdit) => {
+      history.push({
+        pathname: `/profile`,
       })
-    }
-    checkForSearchParams()
-    history.listen((location) => {
-      if (location.pathname !== '/search') {
-        setSearchField('')
-      }
-    })
-    return () => {
-      clearTimeout(searchTimeout)
-    }
-  }, [])
+      isEdit && localStorage.setItem('isEditMode', true)
+      isOpen && toggle(false)
+    },
+    [isOpen]
+  )
 
-  const snackPrompt = () => {
+  const snackAction = useCallback(
+    (goToProfile) => {
+      localStorage.setItem('profilePrompt', true)
+      if (goToProfile) {
+        goToUserProfile(true)
+        uc.closeSnack()
+      } else {
+        uc.openSnack({
+          message:
+            'You can visit the Profile page to finsh setting up your account.',
+          isOpen: true,
+          duration: 3000,
+          onClose: uc.closeSnack,
+        })
+      }
+    },
+    [goToUserProfile, uc]
+  )
+
+  const snackPrompt = useCallback(() => {
     uc.openSnack({
       message: (
         <span className='account-finish-message'>
@@ -57,18 +64,18 @@ const Header = ({ auth }) => {
       isOpen: true,
       className: 'info',
     })
-  }
+  }, [snackAction, uc])
 
   const logout = () => {
     auth.logout()
   }
 
-  const checkForSearchParams = () => {
+  const checkForSearchParams = useCallback(() => {
     let searchParams = history.location.search.substring(1)
     if (searchParams) {
       setSearchField(searchParams)
     }
-  }
+  }, [])
 
   const getSearch = (value) => {
     SearchService.cancelGetAll()
@@ -112,33 +119,38 @@ const Header = ({ auth }) => {
     setIsOpen(isOpen)
   }
 
-  const goToUserProfile = (isEdit) => {
-    history.push({
-      pathname: `/profile`,
-    })
-    isEdit && localStorage.setItem('isEditMode', true)
-    isOpen && toggle(false)
-  }
-
   const goToUserSettings = () => {
     console.log('go to settings')
   }
 
-  const snackAction = (goToProfile) => {
-    localStorage.setItem('profilePrompt', true)
-    if (goToProfile) {
-      goToUserProfile(true)
-      uc.closeSnack()
-    } else {
-      uc.openSnack({
-        message:
-          'You can visit the Profile page to finsh setting up your account.',
-        isOpen: true,
-        duration: 3000,
-        onClose: uc.closeSnack,
+  useEffect(() => {
+    if (auth.isAuthenticated()) {
+      UserService.get().then((response) => {
+        if (response) {
+          let user = response.data
+          if (!user.name) {
+            !localStorage.getItem('profilePrompt') && snackPrompt()
+          }
+          uc.setUser(user)
+        }
       })
     }
-  }
+    return () => {
+      clearTimeout(searchTimeout)
+    }
+  }, [uc, auth, snackPrompt])
+
+  useEffect(() => {
+    checkForSearchParams()
+  }, [checkForSearchParams])
+
+  useEffect(() => {
+    history.listen((location) => {
+      if (location.pathname !== '/search') {
+        setSearchField('')
+      }
+    })
+  }, [])
 
   return (
     <div className='header'>

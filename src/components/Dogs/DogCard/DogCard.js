@@ -10,10 +10,6 @@ import { Tooltip, Zoom } from '@material-ui/core'
 const DogCard = ({ dog, count, user }) => {
   const [image, setImage] = useState({})
 
-  useEffect(() => {
-    findMainImage(dog.dog_images)
-  }, [])
-
   const findMainImage = (images) => {
     let mainImage = images.filter((i) => {
       return i.main_image
@@ -42,6 +38,10 @@ const DogCard = ({ dog, count, user }) => {
       fontSize: 11,
     },
   }))(Tooltip)
+
+  useEffect(() => {
+    findMainImage(dog.dog_images)
+  }, [dog])
 
   return (
     <div className={`animated fadeInRight delay-${count}`}>

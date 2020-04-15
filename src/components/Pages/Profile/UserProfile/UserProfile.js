@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import ContentContainer from '../../../common/ContentContainer'
 import List from '../../../Dogs/List'
@@ -15,7 +15,7 @@ const UserProfile = (props) => {
   const [uploadedImage, setUploadedImage] = useState(null)
   const uc = useContext(userContext)
 
-  const getUser = () => {
+  const getUser = useCallback(() => {
     UserService.get().then((response) => {
       if (response?.data) {
         let user = response.data
@@ -23,7 +23,7 @@ const UserProfile = (props) => {
         setUploadedImage(user.picture)
       }
     })
-  }
+  }, [uc])
 
   const update = (form) => {
     let body = {
@@ -65,7 +65,7 @@ const UserProfile = (props) => {
     if (localStorage.getItem('isEditMode')) {
       setIsEditMode(true)
     }
-  }, [])
+  }, [getUser])
 
   useEffect(() => {
     setUploadedImage(uc.user.picture)
