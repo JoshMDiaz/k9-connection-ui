@@ -342,7 +342,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
           {user.zip && (
             <TextField
               id='miles-away'
-              label='Miles'
+              label='Miles From Me'
               type='number'
               onChange={(e) => handleChange(e, 'distance', 'value')}
               margin='normal'
