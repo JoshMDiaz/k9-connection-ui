@@ -79,10 +79,13 @@
   .checkbox-label {
     display: flex;
     align-items: center;
-    margin: 16px 0 32px;
+    margin: 16px 0;
     .slider-label {
       margin-right: 8px;
     }
+  }
+  .favorite-checkbox {
+    margin-top: 32px;
   }
   .right-column {
     @media only screen and (min-width: 1024px) {

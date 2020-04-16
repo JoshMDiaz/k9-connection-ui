@@ -11,7 +11,7 @@ import {
   Radio,
   RadioGroup,
   FormLabel,
-  FormControlLabel
+  FormControlLabel,
 } from '@material-ui/core'
 import InputRange from 'react-input-range'
 import Multiselect from '../common/Multiselect'
@@ -26,7 +26,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
   }, [])
 
   const getBreeds = () => {
-    FormService.getBreeds().then(response => {
+    FormService.getBreeds().then((response) => {
       if (response) {
         setBreeds(response.data)
       }
@@ -34,14 +34,14 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
   }
 
   const getEyeColors = () => {
-    FormService.getEyeColors().then(response => {
+    FormService.getEyeColors().then((response) => {
       if (response) {
         setEyeColors(response.data)
       }
     })
   }
 
-  const getBirthdateRange = ageRange => {
+  const getBirthdateRange = (ageRange) => {
     let obj = {}
     obj.startDate = moment()
       .subtract(parseInt(ageRange.max), 'years')
@@ -60,17 +60,13 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
         registered: '',
         ageRange: {
           min: 1,
-          max: 15
+          max: 15,
         },
-        milesAway: {
-          min: 0,
-          max: 100
-        },
+        distance: null,
         breed: [],
         eyes: [],
         favorite: false,
         useAge: false,
-        useMilesAway: false
       },
       count = 0
     for (const formKey in form) {
@@ -79,7 +75,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
         formKey !== 'eyes' &&
         formKey !== 'breed' &&
         formKey !== 'birthdate' &&
-        formKey !== 'milesAway'
+        formKey !== 'distance'
       ) {
         if (form[formKey] !== initial[formKey]) {
           count++
@@ -94,8 +90,8 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
     return count
   }
 
-  const getBreedNames = breed => {
-    return breed.map(b => {
+  const getBreedNames = (breed) => {
+    return breed.map((b) => {
       if (b.name) {
         return b.name
       } else {
@@ -112,26 +108,26 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
           form.useAge && form.ageRange
             ? getBirthdateRange(form.ageRange)
             : null,
-        breed: form.breed ? getBreedNames(form.breed) : null
+        breed: form.breed ? getBreedNames(form.breed) : null,
       }
     localStorage.setItem('filterCount', filterCount)
     localStorage.setItem('filter', JSON.stringify(body))
     dispatch({
       type: 'ACTIVE_FILTERS',
-      payload: filterCount
+      payload: filterCount,
     })
     dispatch({
       type: 'UPDATE',
-      payload: body
+      payload: body,
     })
     dispatch({
-      type: 'SEARCH'
+      type: 'SEARCH',
     })
   }
 
   const resetForm = () => {
     dispatch({
-      type: 'RESET'
+      type: 'RESET',
     })
     localStorage.removeItem('filter')
     localStorage.removeItem('filterCount')
@@ -142,26 +138,28 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
       type: 'UPDATE',
       payload: {
         ...form,
-        [field]: obj.value
-      }
+        [field]: obj.value,
+      },
     })
   }
 
   const handleChange = (event, field, elementValue) => {
+    console.log(event.target[elementValue], field)
+
     dispatch({
       type: 'UPDATE',
       payload: {
-        [field]: event.target[elementValue]
-      }
+        [field]: event.target[elementValue],
+      },
     })
   }
 
-  const handleMultiselect = selected => {
+  const handleMultiselect = (selected) => {
     dispatch({
       type: 'UPDATE',
       payload: {
-        breed: selected
-      }
+        breed: selected,
+      },
     })
   }
 
@@ -177,7 +175,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
           label={`Name`}
           className={'form-input'}
           margin='normal'
-          onChange={e => handleChange(e, 'name', 'value')}
+          onChange={(e) => handleChange(e, 'name', 'value')}
           fullWidth
           value={form.name}
         />
@@ -189,7 +187,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
             control={
               <Checkbox
                 checked={form.useAge}
-                onChange={e => handleChange(e, 'useAge', 'checked')}
+                onChange={(e) => handleChange(e, 'useAge', 'checked')}
                 value='useAge'
                 color='secondary'
               />
@@ -201,7 +199,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
           maxValue={15}
           minValue={1}
           value={form.ageRange}
-          onChange={value => handleRange({ value }, 'ageRange')}
+          onChange={(value) => handleRange({ value }, 'ageRange')}
           disabled={!form.useAge}
         />
 
@@ -213,7 +211,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
             name='gender'
             className={'gender'}
             value={form.gender}
-            onChange={e => handleChange(e, 'gender', 'value')}
+            onChange={(e) => handleChange(e, 'gender', 'value')}
           >
             <FormControlLabel
               value='Female'
@@ -238,9 +236,9 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
         {/* Breed */}
         <FormControl style={{ width: '100%' }}>
           <Multiselect
-            options={breeds}
-            callout={handleMultiselect}
-            value={form.breed}
+            breeds={breeds}
+            dogBreeds={form.breed}
+            updateBreeds={handleMultiselect}
           />
         </FormControl>
 
@@ -253,7 +251,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
               name='papered'
               className={'papered'}
               value={form.papered}
-              onChange={e => handleChange(e, 'papered', 'value')}
+              onChange={(e) => handleChange(e, 'papered', 'value')}
             >
               <FormControlLabel
                 value={'true'}
@@ -283,7 +281,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
               name='registered'
               className={'registered'}
               value={form.papered !== 'false' ? form.registered : 'false'}
-              onChange={e => handleChange(e, 'registered', 'value')}
+              onChange={(e) => handleChange(e, 'registered', 'value')}
             >
               <FormControlLabel
                 value={'true'}
@@ -326,10 +324,10 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
             <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
             <Select
               value={form.eyes}
-              onChange={e => handleChange(e, 'eyes', 'value')}
+              onChange={(e) => handleChange(e, 'eyes', 'value')}
               inputProps={{
                 name: 'eyes',
-                id: 'eyes-select'
+                id: 'eyes-select',
               }}
             >
               {eyeColors.map((e, i) => (
@@ -342,43 +340,30 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
 
           {/* Miles Away */}
           {user.zip && (
-            <>
-              <div className='checkbox-label'>
-                <label className='slider-label'>Miles From Me</label>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={form.useMilesAway}
-                      onChange={e => handleChange(e, 'useMilesAway', 'checked')}
-                      value='useMilesAway'
-                      color='secondary'
-                    />
-                  }
-                />
-              </div>
-              <InputRange
-                draggableTrack
-                maxValue={100}
-                minValue={0}
-                step={10}
-                value={form.milesAway}
-                onChange={value => handleRange({ value }, 'milesAway')}
-                disabled={!form.useMilesAway}
-              />
-            </>
+            <TextField
+              id='miles-away'
+              label='Miles'
+              type='number'
+              onChange={(e) => handleChange(e, 'distance', 'value')}
+              margin='normal'
+              fullWidth
+              value={form.distance}
+            />
           )}
 
           {/* Favorite */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                onChange={e => handleChange(e, 'favorite', 'checked')}
-                value={'favorite'}
-                checked={form.favorite}
-              />
-            }
-            label='Favorite Dogs'
-          />
+          <div className='favorite-checkbox'>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={(e) => handleChange(e, 'favorite', 'checked')}
+                  value={'favorite'}
+                  checked={form.favorite}
+                />
+              }
+              label='Favorite Dogs'
+            />
+          </div>
         </div>
         <div className='button-container'>
           <button className={'plain'} onClick={resetForm}>

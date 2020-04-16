@@ -159,7 +159,11 @@ const NewDog = ({ history }) => {
 
             {/* Breeds */}
             <FormControl style={{ width: '100%', marginTop: '20px' }}>
-              <Multiselect options={breeds} callout={handleMultiselect} />
+              <Multiselect
+                breeds={breeds}
+                dogBreeds={form.breeds}
+                updateBreeds={handleMultiselect}
+              />
             </FormControl>
 
             {/* Birthdate */}

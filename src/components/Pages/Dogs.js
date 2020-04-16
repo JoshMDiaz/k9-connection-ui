@@ -28,15 +28,11 @@ const Dogs = () => {
       min: 1,
       max: 15,
     },
-    milesAway: {
-      min: 0,
-      max: 100,
-    },
+    distance: null,
     breed: [],
     eyes: [],
     favorite: false,
     useAge: false,
-    useMilesAway: false,
   })
   let filterTimeout,
     initialForm = JSON.parse(localStorage.getItem('filter')) || initialState(),
@@ -96,7 +92,9 @@ const Dogs = () => {
   let count = 0
 
   useEffect(() => {
-    // getDogs(initialForm)
+    if (dogs.length === 0) {
+      getDogs(initialForm)
+    }
     return () => {
       clearTimeout(filterTimeout)
     }

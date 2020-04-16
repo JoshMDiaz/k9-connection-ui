@@ -12,10 +12,7 @@ class FilterHelperService {
         filter.useAge && filter.birthdate ? filter.birthdate.startDate : null,
       end_date:
         filter.useAge && filter.birthdate ? filter.birthdate.endDate : null,
-      nearest_distance:
-        filter.useMilesAway && filter.milesAway ? filter.milesAway.min : null,
-      farthest_distance:
-        filter.useMilesAway && filter.milesAway ? filter.milesAway.max : null,
+      distance: filter.distance || null,
     }
     for (const key in params) {
       if (params.hasOwnProperty(key)) {
