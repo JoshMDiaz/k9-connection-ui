@@ -8,7 +8,6 @@ import React, {
 import List from '../Dogs/List'
 import DogService from '../../services/DogService'
 import Filter from '../Filter/Filter'
-import NumberFormat from 'react-number-format'
 import { Link } from 'react-router-dom'
 import Plural from '../common/Plural'
 import { Popover } from '@material-ui/core'
@@ -17,6 +16,7 @@ import Icon from '../common/Icons/Icon'
 import PageHeader from '../common/PageHeader/PageHeader'
 import UserContext from '../../userContext'
 import FilterHelperService from '../../services/FilterHelperService'
+import HelperService from '../../services/HelperService'
 
 const Dogs = () => {
   const initialState = () => ({
@@ -98,7 +98,7 @@ const Dogs = () => {
     return () => {
       clearTimeout(filterTimeout)
     }
-  }, [getDogs, initialForm, filterTimeout])
+  }, [dogs, getDogs, initialForm, filterTimeout])
 
   return (
     <div className='dogs-page'>
@@ -106,11 +106,7 @@ const Dogs = () => {
         <PageHeader
           text={
             <>
-              <NumberFormat
-                value={dogs.length}
-                thousandSeparator={true}
-                displayType='text'
-              />
+              {HelperService.numberFormat(dogs.length)}
               &nbsp;
               <Plural text='Dog' number={dogs.length} />
             </>

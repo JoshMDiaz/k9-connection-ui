@@ -3,7 +3,7 @@ import moment from 'moment'
 import Plural from '../components/common/Plural'
 
 class HelperService {
-  getYearsOld = date => {
+  getYearsOld = (date) => {
     let start = moment(date),
       end = moment(),
       duration = moment.duration(end.diff(start)),
@@ -15,12 +15,16 @@ class HelperService {
     )
   }
 
-  capitalize = str => {
+  capitalize = (str) => {
     if (str) {
-      return str.replace(/\w\S*/g, function(txt) {
+      return str.replace(/\w\S*/g, function (txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
       })
     }
+  }
+
+  numberFormat = (num) => {
+    return num.toLocaleString('en-US', { minimumFractionDigits: 0 })
   }
 }
 

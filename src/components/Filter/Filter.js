@@ -194,6 +194,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
             }
           />
         </div>
+        {/* TODO: Remove range and use two number inputs instead. yarn remove react-input-range when done */}
         <InputRange
           draggableTrack
           maxValue={15}
