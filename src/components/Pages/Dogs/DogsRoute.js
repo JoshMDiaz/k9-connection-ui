@@ -8,7 +8,7 @@ const DogsRoute = ({ auth }) => {
   return (
     <DogsContextProvider>
       <DogsContext.Consumer>
-        {({ filters, dispatch }) => (
+        {({ filters, filterCount, dispatch }) => (
           <Switch>
             <Route
               exact
@@ -23,6 +23,7 @@ const DogsRoute = ({ auth }) => {
                   {...props}
                   auth={auth}
                   filters={filters}
+                  filterCount={filterCount}
                   dogsDispatch={dispatch}
                 />
               )}

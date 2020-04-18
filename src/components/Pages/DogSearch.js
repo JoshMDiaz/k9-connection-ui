@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from 'react'
+import React, { useReducer, useContext, useCallback } from 'react'
 import Filter from '../Filter/Filter'
 import { Link } from 'react-router-dom'
 import Plural from '../common/Plural'
@@ -9,16 +9,15 @@ import UserContext from '../../userContext'
 import HelperService from '../../services/HelperService'
 import Dogs from './Dogs'
 
-const DogSearch = ({ filters, dogsDispatch }) => {
-  const initialState = {
+const DogSearch = ({ filters, filterCount, dogsDispatch }) => {
+  const pageState = {
     filterOpen: false,
-    activeFilters: localStorage.getItem('filterCount') || 0,
     popoverAnchorEl: null,
     dogsNum: 0,
   }
 
-  const [state, dispatch] = useReducer(HelperService.reducer, initialState)
-  const { dogsNum, filterOpen, activeFilters, popoverAnchorEl } = state
+  const [state, dispatch] = useReducer(HelperService.reducer, pageState)
+  const { dogsNum, filterOpen, popoverAnchorEl } = state
 
   const uc = useContext(UserContext)
 
@@ -35,14 +34,14 @@ const DogSearch = ({ filters, dogsDispatch }) => {
     })
   }
 
-  const updateDogsNum = (num) => {
+  const updateDogsNum = useCallback((num) => {
     dispatch({
       type: 'UPDATE',
       payload: {
         dogsNum: num,
       },
     })
-  }
+  }, [])
 
   return (
     <div className='dogs-page'>
@@ -58,7 +57,7 @@ const DogSearch = ({ filters, dogsDispatch }) => {
         />
         <div className='button-container animated fadeInRight'>
           <button className='plain' onClick={(e) => toggleFilter(true, e)}>
-            {activeFilters > 0 && <span className='tag'>{activeFilters}</span>}
+            {filterCount > 0 && <span className='tag'>{filterCount}</span>}
             <span>Filter</span>
             <Icon icon='chevronDown' />
           </button>
@@ -82,8 +81,7 @@ const DogSearch = ({ filters, dogsDispatch }) => {
             <Filter
               filters={filters}
               formDispatch={dogsDispatch}
-              pageDispatch={dispatch}
-              closeFilter={() => toggleFilter(false)}
+              toggleFilter={toggleFilter}
               user={uc.user}
             />
           </Popover>

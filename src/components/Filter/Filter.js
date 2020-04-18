@@ -16,7 +16,7 @@ import {
 import Multiselect from '../common/Multiselect'
 import HelperService from '../../services/HelperService'
 
-const Filter = ({ filters, formDispatch, pageDispatch, closeFilter, user }) => {
+const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
   const initialState = {
     filterCopy: filters,
     breeds: [],
@@ -75,7 +75,7 @@ const Filter = ({ filters, formDispatch, pageDispatch, closeFilter, user }) => {
         },
         distance: null,
         breed: [],
-        eyes: [],
+        eyes: '',
         favorite: false,
         useAge: false,
       },
@@ -85,8 +85,7 @@ const Filter = ({ filters, formDispatch, pageDispatch, closeFilter, user }) => {
         key !== 'ageRange' &&
         key !== 'eyes' &&
         key !== 'breed' &&
-        key !== 'birthdate' &&
-        key !== 'distance'
+        key !== 'birthdate'
       ) {
         if (filterCopy[key] !== initial[key]) {
           count++
@@ -115,7 +114,7 @@ const Filter = ({ filters, formDispatch, pageDispatch, closeFilter, user }) => {
     console.log('filterCopy', filterCopy)
 
     let filterCount = determineActiveFilters(),
-      body = {
+      newFilters = {
         ...filterCopy,
         birthdate:
           filterCopy.useAge && filterCopy.ageRange
@@ -123,14 +122,18 @@ const Filter = ({ filters, formDispatch, pageDispatch, closeFilter, user }) => {
             : null,
         breed: filterCopy.breed ? getBreedNames(filterCopy.breed) : null,
       }
-    // localStorage.setItem('filterCount', filterCount)
+    toggleFilter(false)
     formDispatch({
       type: 'UPDATE',
-      payload: body,
+      payload: {
+        filters: newFilters,
+        filterCount: filterCount,
+      },
     })
   }
 
   const resetForm = () => {
+    toggleFilter(false)
     formDispatch({
       type: 'RESET',
     })
@@ -190,7 +193,7 @@ const Filter = ({ filters, formDispatch, pageDispatch, closeFilter, user }) => {
   return (
     <div className={`filter-container`}>
       <div>
-        <span onClick={closeFilter} className='close-button'>
+        <span onClick={toggleFilter} className='close-button'>
           X
         </span>
 

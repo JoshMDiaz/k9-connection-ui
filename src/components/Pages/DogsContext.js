@@ -11,7 +11,7 @@ const defaultFilter = {
   },
   distance: null,
   breed: [],
-  eyes: [],
+  eyes: '',
   favorite: false,
   useAge: false,
 }
@@ -20,6 +20,7 @@ const initialState = () => ({
   filters: localStorage.getItem('filter')
     ? JSON.parse(localStorage.getItem('filter'))
     : defaultFilter,
+  filterCount: localStorage.getItem('filterCount') || 0,
 })
 
 const reducer = (state, action) => {
@@ -27,18 +28,25 @@ const reducer = (state, action) => {
     case 'UPDATE':
       let newFilters = {
         ...state.filters,
-        ...action.payload,
+        ...action.payload.filters,
       }
       localStorage.setItem('filter', JSON.stringify(newFilters))
+      localStorage.setItem(
+        'filterCount',
+        JSON.stringify(action.payload.filterCount)
+      )
       return {
         ...state,
         filters: newFilters,
+        filterCount: action.payload.filterCount,
       }
     case 'RESET':
       localStorage.removeItem('filter')
+      localStorage.removeItem('filterCount')
       return {
         ...state,
         filters: { ...defaultFilter },
+        filterCount: 0,
       }
     default:
       break

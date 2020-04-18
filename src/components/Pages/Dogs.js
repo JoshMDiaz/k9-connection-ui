@@ -53,7 +53,7 @@ const Dogs = ({ filter, callout }) => {
 
   useEffect(() => {
     getDogs()
-  }, [filter])
+  }, [getDogs, filter])
 
   return (
     <div className='page-padding'>
