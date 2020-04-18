@@ -48,7 +48,7 @@ instance.interceptors.response.use(
     ) {
       const auth = new Auth()
       if (auth.isAuthenticated()) {
-        auth.logout() // TODO: Consider a more robust logout experience with redirect back in and messaging
+        auth.logout()
       } else {
         auth.login()
       }

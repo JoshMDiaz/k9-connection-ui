@@ -1,22 +1,36 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import DogProfile from './DogProfile/DogProfile'
-import Dogs from '../Dogs'
+import DogSearch from '../DogSearch'
+import { DogsContext, DogsContextProvider } from '../DogsContext'
 
 const DogsRoute = ({ auth }) => {
   return (
-    <Switch>
-      <Route
-        exact
-        path='/dogs/:id'
-        render={props => <DogProfile {...props} auth={auth} />}
-      />
-      <Route
-        exact
-        path='/dogs'
-        render={props => <Dogs {...props} auth={auth} />}
-      />
-    </Switch>
+    <DogsContextProvider>
+      <DogsContext.Consumer>
+        {({ filters, dispatch }) => (
+          <Switch>
+            <Route
+              exact
+              path='/dogs/:id'
+              render={(props) => <DogProfile {...props} auth={auth} />}
+            />
+            <Route
+              exact
+              path='/dogs'
+              render={(props) => (
+                <DogSearch
+                  {...props}
+                  auth={auth}
+                  filters={filters}
+                  dogsDispatch={dispatch}
+                />
+              )}
+            />
+          </Switch>
+        )}
+      </DogsContext.Consumer>
+    </DogsContextProvider>
   )
 }
 

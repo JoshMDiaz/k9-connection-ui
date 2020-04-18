@@ -142,7 +142,7 @@ const Header = ({ auth }) => {
 
   useEffect(() => {
     checkForSearchParams()
-  }, [checkForSearchParams])
+  }, [])
 
   useEffect(() => {
     history.listen((location) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import FormService from '../../services/FormService'
 import moment from 'moment'
 import {
@@ -13,22 +13,28 @@ import {
   FormLabel,
   FormControlLabel,
 } from '@material-ui/core'
-import InputRange from 'react-input-range'
 import Multiselect from '../common/Multiselect'
+import HelperService from '../../services/HelperService'
 
-const Filter = ({ form, dispatch, closeFilter, user }) => {
-  const [breeds, setBreeds] = useState([])
-  const [eyeColors, setEyeColors] = useState([])
+const Filter = ({ filters, formDispatch, pageDispatch, closeFilter, user }) => {
+  const initialState = {
+    filterCopy: filters,
+    breeds: [],
+    eyeColors: [],
+  }
 
-  useEffect(() => {
-    getBreeds()
-    getEyeColors()
-  }, [])
+  const [state, dispatch] = useReducer(HelperService.reducer, initialState)
+  const { filterCopy, breeds, eyeColors } = state
 
   const getBreeds = () => {
     FormService.getBreeds().then((response) => {
       if (response) {
-        setBreeds(response.data)
+        dispatch({
+          type: 'UPDATE',
+          payload: {
+            breeds: [...response.data],
+          },
+        })
       }
     })
   }
@@ -36,7 +42,12 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
   const getEyeColors = () => {
     FormService.getEyeColors().then((response) => {
       if (response) {
-        setEyeColors(response.data)
+        dispatch({
+          type: 'UPDATE',
+          payload: {
+            eyeColors: [...response.data],
+          },
+        })
       }
     })
   }
@@ -69,20 +80,20 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
         useAge: false,
       },
       count = 0
-    for (const formKey in form) {
+    for (const key in filterCopy) {
       if (
-        formKey !== 'ageRange' &&
-        formKey !== 'eyes' &&
-        formKey !== 'breed' &&
-        formKey !== 'birthdate' &&
-        formKey !== 'distance'
+        key !== 'ageRange' &&
+        key !== 'eyes' &&
+        key !== 'breed' &&
+        key !== 'birthdate' &&
+        key !== 'distance'
       ) {
-        if (form[formKey] !== initial[formKey]) {
+        if (filterCopy[key] !== initial[key]) {
           count++
         }
       }
-      if (formKey === 'eyes' || formKey === 'breed') {
-        if (form[formKey].length > 0) {
+      if (key === 'eyes' || key === 'breed') {
+        if (filterCopy[key].length > 0) {
           count++
         }
       }
@@ -101,55 +112,51 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
   }
 
   const updateFilter = () => {
+    console.log('filterCopy', filterCopy)
+
     let filterCount = determineActiveFilters(),
       body = {
-        ...form,
+        ...filterCopy,
         birthdate:
-          form.useAge && form.ageRange
-            ? getBirthdateRange(form.ageRange)
+          filterCopy.useAge && filterCopy.ageRange
+            ? getBirthdateRange(filterCopy.ageRange)
             : null,
-        breed: form.breed ? getBreedNames(form.breed) : null,
+        breed: filterCopy.breed ? getBreedNames(filterCopy.breed) : null,
       }
-    localStorage.setItem('filterCount', filterCount)
-    localStorage.setItem('filter', JSON.stringify(body))
-    dispatch({
-      type: 'ACTIVE_FILTERS',
-      payload: filterCount,
-    })
-    dispatch({
+    // localStorage.setItem('filterCount', filterCount)
+    formDispatch({
       type: 'UPDATE',
       payload: body,
-    })
-    dispatch({
-      type: 'SEARCH',
     })
   }
 
   const resetForm = () => {
-    dispatch({
+    formDispatch({
       type: 'RESET',
     })
     localStorage.removeItem('filter')
     localStorage.removeItem('filterCount')
   }
 
-  const handleRange = (obj, field) => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        ...form,
-        [field]: obj.value,
-      },
-    })
-  }
-
-  const handleChange = (event, field, elementValue) => {
-    console.log(event.target[elementValue], field)
-
-    dispatch({
-      type: 'UPDATE',
-      payload: {
+  const handleChange = (event, field, elementValue, nestedField) => {
+    let payloadObj = {}
+    if (nestedField) {
+      payloadObj[field] = {
+        ...filterCopy[field],
+        [nestedField]: event.target[elementValue],
+      }
+    } else {
+      payloadObj = {
         [field]: event.target[elementValue],
+      }
+    }
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        filterCopy: {
+          ...filterCopy,
+          ...payloadObj,
+        },
       },
     })
   }
@@ -158,10 +165,27 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
     dispatch({
       type: 'UPDATE',
       payload: {
-        breed: selected,
+        filterCopy: {
+          ...filterCopy,
+          breed: selected,
+        },
       },
     })
   }
+
+  useEffect(() => {
+    getBreeds()
+    getEyeColors()
+  }, [])
+
+  useEffect(() => {
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        filterCopy: filters,
+      },
+    })
+  }, [filters])
 
   return (
     <div className={`filter-container`}>
@@ -177,16 +201,16 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
           margin='normal'
           onChange={(e) => handleChange(e, 'name', 'value')}
           fullWidth
-          value={form.name}
+          value={filterCopy.name}
         />
 
         {/* Age */}
         <div className='checkbox-label'>
-          <label className='slider-label'>Age</label>
+          <label>Age (Years)</label>
           <FormControlLabel
             control={
               <Checkbox
-                checked={form.useAge}
+                checked={filterCopy.useAge}
                 onChange={(e) => handleChange(e, 'useAge', 'checked')}
                 value='useAge'
                 color='secondary'
@@ -194,15 +218,23 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
             }
           />
         </div>
-        {/* TODO: Remove range and use two number inputs instead. yarn remove react-input-range when done */}
-        <InputRange
-          draggableTrack
-          maxValue={15}
-          minValue={1}
-          value={form.ageRange}
-          onChange={(value) => handleRange({ value }, 'ageRange')}
-          disabled={!form.useAge}
-        />
+        <div className='age-input-container'>
+          <TextField
+            id='min-age'
+            type='number'
+            onChange={(e) => handleChange(e, 'ageRange', 'value', 'min')}
+            value={filterCopy.ageRange.min}
+            disabled={!filterCopy.useAge}
+          />
+          <span className={!filterCopy.useAge ? 'disabled' : ''}>-</span>
+          <TextField
+            id='max-age'
+            type='number'
+            onChange={(e) => handleChange(e, 'ageRange', 'value', 'max')}
+            value={filterCopy.ageRange.max}
+            disabled={!filterCopy.useAge}
+          />
+        </div>
 
         {/* Gender */}
         <FormControl component='fieldset' className={'gender-filter'}>
@@ -211,7 +243,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
             aria-label='Gender'
             name='gender'
             className={'gender'}
-            value={form.gender}
+            value={filterCopy.gender}
             onChange={(e) => handleChange(e, 'gender', 'value')}
           >
             <FormControlLabel
@@ -238,7 +270,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
         <FormControl style={{ width: '100%' }}>
           <Multiselect
             breeds={breeds}
-            dogBreeds={form.breed}
+            dogBreeds={filterCopy.breed}
             updateBreeds={handleMultiselect}
           />
         </FormControl>
@@ -251,7 +283,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
               aria-label='Papered'
               name='papered'
               className={'papered'}
-              value={form.papered}
+              value={filterCopy.papered}
               onChange={(e) => handleChange(e, 'papered', 'value')}
             >
               <FormControlLabel
@@ -281,7 +313,9 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
               aria-label='Registered'
               name='registered'
               className={'registered'}
-              value={form.papered !== 'false' ? form.registered : 'false'}
+              value={
+                filterCopy.papered !== 'false' ? filterCopy.registered : 'false'
+              }
               onChange={(e) => handleChange(e, 'registered', 'value')}
             >
               <FormControlLabel
@@ -289,7 +323,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
                 control={
                   <Radio
                     classes={{ checked: 'radio-checked' }}
-                    disabled={form.papered === 'false'}
+                    disabled={filterCopy.papered === 'false'}
                   />
                 }
                 label='Registered'
@@ -299,7 +333,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
                 control={
                   <Radio
                     classes={{ checked: 'radio-checked' }}
-                    disabled={form.papered === 'false'}
+                    disabled={filterCopy.papered === 'false'}
                   />
                 }
                 label='Not Registered'
@@ -309,7 +343,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
                 control={
                   <Radio
                     classes={{ checked: 'radio-checked' }}
-                    disabled={form.papered === 'false'}
+                    disabled={filterCopy.papered === 'false'}
                   />
                 }
                 label='Any'
@@ -324,7 +358,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
           <FormControl style={{ width: '100%', marginBottom: '20px' }}>
             <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
             <Select
-              value={form.eyes}
+              value={filterCopy.eyes}
               onChange={(e) => handleChange(e, 'eyes', 'value')}
               inputProps={{
                 name: 'eyes',
@@ -348,7 +382,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
               onChange={(e) => handleChange(e, 'distance', 'value')}
               margin='normal'
               fullWidth
-              value={form.distance}
+              value={filterCopy.distance}
             />
           )}
 
@@ -359,7 +393,7 @@ const Filter = ({ form, dispatch, closeFilter, user }) => {
                 <Checkbox
                   onChange={(e) => handleChange(e, 'favorite', 'checked')}
                   value={'favorite'}
-                  checked={form.favorite}
+                  checked={filterCopy.favorite}
                 />
               }
               label='Favorite Dogs'
