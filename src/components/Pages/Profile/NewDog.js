@@ -20,6 +20,7 @@ import PageHeader from '../../common/PageHeader/PageHeader'
 import UploadPhotos from '../../Dogs/UploadPhotos/UploadPhotos'
 import Multiselect from '../../common/Multiselect'
 import userContext from '../../../userContext'
+import Gallery from '../Dogs/Gallery/Gallery'
 
 const NewDog = ({ history }) => {
   let initialFormState = {
@@ -312,20 +313,19 @@ const NewDog = ({ history }) => {
           </div>
           <div className='right-section'>
             <UploadPhotos callout={uploadImage} type='dog' />
-            {uploadedImages.length > 0 && (
-              <div className='dog-grid'>
-                {uploadedImages.map((e, i) => (
-                  <img
-                    src={e}
-                    alt='uploaded dog'
-                    key={i}
-                    className='dog-image'
-                  />
-                ))}
-              </div>
-            )}
           </div>
         </ContentContainer>
+        {uploadedImages && (
+          <div
+            style={{
+              maxWidth: '1472px',
+              margin: 'auto',
+              padding: '0 20px 20px',
+            }}
+          >
+            <Gallery images={uploadedImages} />
+          </div>
+        )}
       </MuiPickersUtilsProvider>
     </div>
   )

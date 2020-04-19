@@ -29,7 +29,7 @@ const Gallery = ({ images, uploadedImages }) => {
 
   useEffect(() => {
     resizeAllGridItems()
-  }, [resizeAllGridItems, uploadedImages])
+  }, [resizeAllGridItems, uploadedImages, images])
 
   useEffect(() => {
     window.addEventListener('resize', resizeAllGridItems)
@@ -41,7 +41,12 @@ const Gallery = ({ images, uploadedImages }) => {
   return (
     <div className='gallery'>
       {imagesToDisplay.map((e, i) => (
-        <div className='gallery-item' key={e.id + i}>
+        <div
+          className={`gallery-item animated fadeInRight delay-${
+            (i % 100) + 10
+          }`}
+          key={i}
+        >
           <div className='gallery-content'>
             <img
               src={e.url || e}

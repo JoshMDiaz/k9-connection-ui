@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react'
 import DogService from '../../../../services/DogService'
 import BackButton from '../../../common/BackButton/BackButton'
-import DogImages from '../../../Dogs/DogImages/DogImages'
+import MainImage from '../../../Dogs/MainImage/MainImage'
 import ContentContainer from '../../../common/ContentContainer'
 import DogRead from './DogRead'
 import DogEdit from './DogEdit'
@@ -92,25 +92,9 @@ const DogProfile = () => {
       </div>
       <ContentContainer customClass='profile-container'>
         <div className='left-section'>
-          {isEditMode && (
-            <>
-              <UploadPhotos callout={uploadImage} type='dog' />
-              {uploadedImages.length > 0 && (
-                <div className='dog-grid'>
-                  {uploadedImages.map((e, i) => (
-                    <img
-                      src={e}
-                      alt='uploaded dog'
-                      key={e.id}
-                      className='dog-image'
-                    />
-                  ))}
-                </div>
-              )}
-            </>
-          )}
+          {isEditMode && <UploadPhotos callout={uploadImage} type='dog' />}
           {!isEditMode && dog.dog_images && (
-            <DogImages images={dog.dog_images} />
+            <MainImage images={dog.dog_images} />
           )}
         </div>
         <div className='right-section'>
@@ -122,14 +106,12 @@ const DogProfile = () => {
               getDog={getDog}
             />
           ) : (
-            <>
-              <DogEdit
-                dog={dog}
-                user={user}
-                setIsEditMode={setIsEditMode}
-                update={updateDog}
-              />
-            </>
+            <DogEdit
+              dog={dog}
+              user={user}
+              setIsEditMode={setIsEditMode}
+              update={updateDog}
+            />
           )}
         </div>
       </ContentContainer>

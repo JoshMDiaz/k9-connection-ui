@@ -1,7 +1,6 @@
 import React from 'react'
 import { Router } from 'react-router-dom'
 import '../../scss/main.scss'
-import 'react-image-lightbox/style.css'
 import history from '../../services/Auth/History'
 
 import Main from '../Main'

@@ -1,6 +1,6 @@
 // Iterate
 @mixin iterate(
-  $iterateNum: 20,
+  $iterateNum: 100,
   $step: 0.05,
   $className: 'delay',
   $property: animation-delay,
