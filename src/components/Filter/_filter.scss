@@ -9,7 +9,7 @@
   }
 }
 .filter-container {
-  padding: 20px;
+  padding: 40px 20px 20px;
   position: relative;
   @media only screen and (min-width: 1024px) {
     display: grid;
@@ -18,9 +18,9 @@
     height: calc(100% - 40px);
   }
   .form-input {
-    margin: 4px 0 40px;
+    margin: 4px 0 32px;
     input {
-      padding-bottom: 16px;
+      height: 15px;
     }
   }
   .age-input-container {
@@ -44,13 +44,9 @@
   .checkbox-label {
     display: flex;
     align-items: center;
-    margin: 16px 0 0;
     label {
       margin-right: 8px;
     }
-  }
-  .favorite-checkbox {
-    margin-top: 32px;
   }
   .right-column {
     @media only screen and (min-width: 1024px) {

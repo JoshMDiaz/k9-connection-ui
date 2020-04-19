@@ -111,8 +111,6 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
   }
 
   const updateFilter = () => {
-    console.log('filterCopy', filterCopy)
-
     let filterCount = determineActiveFilters(),
       newFilters = {
         ...filterCopy,
@@ -122,7 +120,7 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
             : null,
         breed: filterCopy.breed ? getBreedNames(filterCopy.breed) : null,
       }
-    toggleFilter(false)
+    closeFilter()
     formDispatch({
       type: 'UPDATE',
       payload: {
@@ -133,12 +131,16 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
   }
 
   const resetForm = () => {
-    toggleFilter(false)
+    closeFilter()
     formDispatch({
       type: 'RESET',
     })
     localStorage.removeItem('filter')
     localStorage.removeItem('filterCount')
+  }
+
+  const closeFilter = () => {
+    toggleFilter(false)
   }
 
   const handleChange = (event, field, elementValue, nestedField) => {
@@ -193,7 +195,7 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
   return (
     <div className={`filter-container`}>
       <div>
-        <span onClick={toggleFilter} className='close-button'>
+        <span onClick={closeFilter} className='close-button'>
           X
         </span>
 
