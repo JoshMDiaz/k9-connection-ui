@@ -1,6 +1,8 @@
 import React, { useEffect, useCallback } from 'react'
 
-const Gallery = ({ images }) => {
+const Gallery = ({ images, uploadedImages }) => {
+  let imagesToDisplay = uploadedImages ? images.concat(uploadedImages) : images
+
   const resizeGridItem = (item) => {
     let grid = document.getElementsByClassName('gallery')[0],
       rowHeight = parseInt(
@@ -27,6 +29,9 @@ const Gallery = ({ images }) => {
 
   useEffect(() => {
     resizeAllGridItems()
+  }, [resizeAllGridItems, uploadedImages])
+
+  useEffect(() => {
     window.addEventListener('resize', resizeAllGridItems)
     return () => {
       window.removeEventListener('resize', resizeAllGridItems)
@@ -35,10 +40,14 @@ const Gallery = ({ images }) => {
 
   return (
     <div className='gallery'>
-      {images.map((e, i) => (
+      {imagesToDisplay.map((e, i) => (
         <div className='gallery-item' key={e.id + i}>
           <div className='gallery-content'>
-            <img src={e.url} alt={`dog ${i + 1}`} className='gallery-image' />
+            <img
+              src={e.url || e}
+              alt={`dog ${i + 1}`}
+              className='gallery-image'
+            />
           </div>
         </div>
       ))}
