@@ -5,7 +5,7 @@ import Icon from '../../common/Icons/Icon'
 const UploadPhotos = ({ callout, type }) => {
   return (
     <Dropzone
-      onDrop={acceptedFiles => callout(acceptedFiles)}
+      onDrop={(acceptedFiles) => callout(acceptedFiles)}
       accept='image/jpg, image/jpeg, image/png'
     >
       {({ getRootProps, getInputProps }) => (
@@ -15,11 +15,7 @@ const UploadPhotos = ({ callout, type }) => {
             <div className='upload-photos'>
               <Icon icon={type} />
               <span className='upload-text-header'>
-                {type === 'dog' ? (
-                  <span>Upload Dog Photos</span>
-                ) : (
-                  <span>Upload Your Photo</span>
-                )}
+                <span>Upload {type === 'dog' ? 'Dog' : 'Your'} Photos</span>
               </span>
               <span className='upload-text'>
                 Drag and drop photos here.

@@ -2,9 +2,8 @@ import React, { useEffect, useState, useCallback } from 'react'
 import GalleryItem from './GalleryItem'
 
 const Gallery = ({ images, uploadedImages, isEdit }) => {
-  const [imagesToDisplay, setImagesToDisplay] = useState(
-    uploadedImages ? images.concat(uploadedImages) : images
-  )
+  let initialImages = uploadedImages ? images.concat(uploadedImages) : images
+  const [imagesCopy, setImagesCopy] = useState(initialImages)
 
   const resizeGridItem = (item) => {
     let grid = document.getElementsByClassName('gallery')[0],
@@ -30,12 +29,23 @@ const Gallery = ({ images, uploadedImages, isEdit }) => {
     }
   }, [])
 
-  const makeFavorite = (image) => {
-    console.log(image)
+  const setMain = (image) => {
+    let newImages = JSON.parse(JSON.stringify(imagesCopy))
+    newImages.map((ni) => {
+      if (ni.main_image && ni.id !== image.id) {
+        ni.main_image = false
+      } else if (ni.id === image.id) {
+        ni.main_image = true
+      }
+      return ni
+    })
+    setImagesCopy(newImages)
   }
 
-  const deleteImage = (image) => {
-    console.log(`delete ${image}`)
+  const deleteImage = (index) => {
+    let newImages = [...imagesCopy]
+    newImages.splice(index, 1)
+    setImagesCopy(newImages)
   }
 
   useEffect(() => {
@@ -51,9 +61,11 @@ const Gallery = ({ images, uploadedImages, isEdit }) => {
 
   useEffect(() => {
     if (uploadedImages) {
-      setImagesToDisplay(images.concat(uploadedImages))
+      setImagesCopy(images.concat(uploadedImages))
     }
   }, [images, uploadedImages])
+
+  let imagesToDisplay = isEdit ? imagesCopy : images
 
   return (
     <div className='gallery'>
@@ -63,7 +75,7 @@ const Gallery = ({ images, uploadedImages, isEdit }) => {
           image={e}
           index={i}
           isEdit={isEdit}
-          makeFavorite={makeFavorite}
+          setMain={setMain}
           deleteImage={deleteImage}
         />
       ))}

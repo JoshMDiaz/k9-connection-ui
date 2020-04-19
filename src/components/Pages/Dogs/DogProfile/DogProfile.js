@@ -79,6 +79,10 @@ const DogProfile = () => {
       })
     }
   }
+  const cancelEdit = () => {
+    setUploadedImages([])
+    setIsEditMode(false)
+  }
 
   useEffect(() => {
     getDog()
@@ -112,7 +116,7 @@ const DogProfile = () => {
             <DogEdit
               dog={dog}
               user={user}
-              setIsEditMode={setIsEditMode}
+              cancel={cancelEdit}
               update={updateDog}
             />
           )}

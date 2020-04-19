@@ -22,7 +22,7 @@ const findDogBreeds = (breeds) => {
   })
 }
 
-const DogEdit = ({ dog, setIsEditMode, update }) => {
+const DogEdit = ({ dog, cancel, update }) => {
   const [form, setForm] = useState({
     name: dog.name,
     gender: dog.gender,
@@ -243,7 +243,7 @@ const DogEdit = ({ dog, setIsEditMode, update }) => {
         style={{ width: '100%' }}
       />
       <div className='form-button-container'>
-        <button className={'plain'} onClick={() => setIsEditMode(false)}>
+        <button className={'plain'} onClick={cancel}>
           Cancel
         </button>
         <button className={'primary'} onClick={() => update(form, breeds)}>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Icon from '../../../common/Icons/Icon'
 
-const GalleryItem = ({ image, index, isEdit, makeFavorite, deleteImage }) => {
+const GalleryItem = ({ image, index, isEdit, setMain, deleteImage }) => {
   const [hovered, setHovered] = useState(false)
   let overlayTimeout
 
@@ -44,8 +44,8 @@ const GalleryItem = ({ image, index, isEdit, makeFavorite, deleteImage }) => {
       {hovered && (
         <div className='overlay animated fadeIn'>
           <div className='overlay-content'>
-            <Icon icon={'star'} callout={() => makeFavorite(image)} />
-            <Icon icon={'trash'} callout={() => deleteImage(image)} />
+            <Icon icon={'star'} callout={() => setMain(image)} />
+            <Icon icon={'trash'} callout={() => deleteImage(index)} />
           </div>
         </div>
       )}
