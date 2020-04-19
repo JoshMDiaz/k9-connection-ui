@@ -1,8 +1,10 @@
-import React, { useEffect, useCallback } from 'react'
-import Icon from '../../../common/Icons/Icon'
+import React, { useEffect, useState, useCallback } from 'react'
+import GalleryItem from './GalleryItem'
 
-const Gallery = ({ images, uploadedImages }) => {
-  let imagesToDisplay = uploadedImages ? images.concat(uploadedImages) : images
+const Gallery = ({ images, uploadedImages, isEdit }) => {
+  const [imagesToDisplay, setImagesToDisplay] = useState(
+    uploadedImages ? images.concat(uploadedImages) : images
+  )
 
   const resizeGridItem = (item) => {
     let grid = document.getElementsByClassName('gallery')[0],
@@ -28,6 +30,14 @@ const Gallery = ({ images, uploadedImages }) => {
     }
   }, [])
 
+  const makeFavorite = (image) => {
+    console.log(image)
+  }
+
+  const deleteImage = (image) => {
+    console.log(`delete ${image}`)
+  }
+
   useEffect(() => {
     resizeAllGridItems()
   }, [resizeAllGridItems, uploadedImages, images])
@@ -39,24 +49,23 @@ const Gallery = ({ images, uploadedImages }) => {
     }
   }, [resizeAllGridItems])
 
+  useEffect(() => {
+    if (uploadedImages) {
+      setImagesToDisplay(images.concat(uploadedImages))
+    }
+  }, [images, uploadedImages])
+
   return (
     <div className='gallery'>
       {imagesToDisplay.map((e, i) => (
-        <div
-          className={`gallery-item animated fadeInRight delay-${
-            (i % 100) + 10
-          } ${e.main_image ? 'main-image' : ''}`}
-          key={i}
-        >
-          <div className='gallery-content'>
-            <img
-              src={e.url || e}
-              alt={`dog ${i + 1}`}
-              className='gallery-image'
-            />
-            {e.main_image && <Icon icon={'medal'} />}
-          </div>
-        </div>
+        <GalleryItem
+          key={e.url}
+          image={e}
+          index={i}
+          isEdit={isEdit}
+          makeFavorite={makeFavorite}
+          deleteImage={deleteImage}
+        />
       ))}
     </div>
   )

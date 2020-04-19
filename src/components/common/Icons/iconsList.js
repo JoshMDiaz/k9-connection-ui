@@ -12,6 +12,7 @@ import { ReactComponent as Medal } from '../../../images/icons/medal.svg'
 import { ReactComponent as Message } from '../../../images/icons/message.svg'
 import { ReactComponent as MessageNoBorder } from '../../../images/icons/message_no_border.svg'
 import { ReactComponent as Pencil } from '../../../images/icons/pencil.svg'
+import { ReactComponent as Star } from '../../../images/icons/star.svg'
 import { ReactComponent as Trash } from '../../../images/icons/trash.svg'
 import { ReactComponent as User } from '../../../images/icons/user_circle.svg'
 
@@ -28,6 +29,7 @@ const iconsList = {
   message: <Message />,
   messageNoBorder: <MessageNoBorder />,
   pencil: <Pencil />,
+  star: <Star />,
   trash: <Trash />,
   user: <User />,
 }

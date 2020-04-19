@@ -66,7 +66,10 @@ const DogProfile = () => {
       let reader = new FileReader()
       let file = files[0]
       reader.onloadend = () => {
-        setUploadedImages([...uploadedImages, reader.result])
+        setUploadedImages([
+          ...uploadedImages,
+          { url: reader.result, uploadedImage: true },
+        ])
       }
       reader.readAsDataURL(file)
     } else {
@@ -118,10 +121,12 @@ const DogProfile = () => {
       {dog.dog_images && (
         <div
           style={{ maxWidth: '1472px', margin: 'auto', padding: '0 20px 20px' }}
+          className='animated fadeIn delay-10'
         >
           <Gallery
             images={dog.dog_images}
             uploadedImages={isEditMode ? uploadedImages : null}
+            isEdit={isEditMode}
           />
         </div>
       )}
