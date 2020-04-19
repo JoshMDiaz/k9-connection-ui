@@ -137,7 +137,10 @@ const DogProfile = () => {
         <div
           style={{ maxWidth: '1472px', margin: 'auto', padding: '0 20px 20px' }}
         >
-          <Gallery images={dog.dog_images} uploadedImages={uploadedImages} />
+          <Gallery
+            images={dog.dog_images}
+            uploadedImages={isEditMode ? uploadedImages : null}
+          />
         </div>
       )}
     </div>
