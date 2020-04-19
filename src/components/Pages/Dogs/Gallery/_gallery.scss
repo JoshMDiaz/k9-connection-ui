@@ -11,14 +11,21 @@
     background: $white-color;
     padding: 16px;
     width: calc(100% - 32px);
+    position: relative;
   }
   .gallery-image {
     width: 100%;
     @include border-radius(10px);
   }
-  // .icon {
-  //   position: absolute;
-  //   right: -4px;
-  //   bottom: -4px;
-  // }
+  .icon {
+    position: absolute;
+    left: 30px;
+    top: 16px;
+    width: 7%;
+    height: 0;
+    svg {
+      width: 100%;
+      height: auto;
+    }
+  }
 }

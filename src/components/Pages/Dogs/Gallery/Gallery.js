@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react'
+import Icon from '../../../common/Icons/Icon'
 
 const Gallery = ({ images, uploadedImages }) => {
   let imagesToDisplay = uploadedImages ? images.concat(uploadedImages) : images
@@ -44,7 +45,7 @@ const Gallery = ({ images, uploadedImages }) => {
         <div
           className={`gallery-item animated fadeInRight delay-${
             (i % 100) + 10
-          }`}
+          } ${e.main_image ? 'main-image' : ''}`}
           key={i}
         >
           <div className='gallery-content'>
@@ -53,6 +54,7 @@ const Gallery = ({ images, uploadedImages }) => {
               alt={`dog ${i + 1}`}
               className='gallery-image'
             />
+            {e.main_image && <Icon icon={'medal'} />}
           </div>
         </div>
       ))}

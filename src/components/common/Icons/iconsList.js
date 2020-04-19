@@ -8,6 +8,7 @@ import { ReactComponent as LeftArrow } from '../../../images/icons/left_arrow.sv
 import { ReactComponent as MagnifyingGlass } from '../../../images/icons/magnifying_glass.svg'
 import { ReactComponent as MagnifyingGlassBg } from '../../../images/icons/magnifying_glass_bg.svg'
 import { ReactComponent as MagnifyingGlassPlus } from '../../../images/icons/magnifying_glass_plus.svg'
+import { ReactComponent as Medal } from '../../../images/icons/medal.svg'
 import { ReactComponent as Message } from '../../../images/icons/message.svg'
 import { ReactComponent as MessageNoBorder } from '../../../images/icons/message_no_border.svg'
 import { ReactComponent as Pencil } from '../../../images/icons/pencil.svg'
@@ -23,11 +24,12 @@ const iconsList = {
   magnifyingGlass: <MagnifyingGlass />,
   magnifyingGlassBg: <MagnifyingGlassBg />,
   magnifyingGlassPlus: <MagnifyingGlassPlus />,
+  medal: <Medal />,
   message: <Message />,
   messageNoBorder: <MessageNoBorder />,
   pencil: <Pencil />,
   trash: <Trash />,
-  user: <User />
+  user: <User />,
 }
 
 export default iconsList
