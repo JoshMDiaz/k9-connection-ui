@@ -9,6 +9,7 @@ import moment from 'moment'
 import UserContext from '../../../../userContext'
 import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 import { useRouteMatch } from 'react-router-dom'
+import Gallery from '../Gallery/Gallery'
 
 const DogProfile = () => {
   const [dog, setDog] = useState({})
@@ -100,7 +101,7 @@ const DogProfile = () => {
                     <img
                       src={e}
                       alt='uploaded dog'
-                      key={i}
+                      key={e.id}
                       className='dog-image'
                     />
                   ))}
@@ -121,15 +122,24 @@ const DogProfile = () => {
               getDog={getDog}
             />
           ) : (
-            <DogEdit
-              dog={dog}
-              user={user}
-              setIsEditMode={setIsEditMode}
-              update={updateDog}
-            />
+            <>
+              <DogEdit
+                dog={dog}
+                user={user}
+                setIsEditMode={setIsEditMode}
+                update={updateDog}
+              />
+            </>
           )}
         </div>
       </ContentContainer>
+      {dog.dog_images && (
+        <div
+          style={{ maxWidth: '1472px', margin: 'auto', padding: '0 20px 20px' }}
+        >
+          <Gallery images={dog.dog_images} />
+        </div>
+      )}
     </div>
   )
 }

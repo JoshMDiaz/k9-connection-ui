@@ -7,7 +7,7 @@ class FilterHelperService {
       registered: filter.registered || null,
       breed: filter.breed || null,
       eyes: filter.eyes || null,
-      favorite: filter.favorite ? true : false,
+      favorite: filter.favorite ? true : null,
       start_date:
         filter.useAge && filter.birthdate ? filter.birthdate.startDate : null,
       end_date:

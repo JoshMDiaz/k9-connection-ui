@@ -32,7 +32,7 @@
 .dog-grid {
   display: grid;
   grid-template-rows: 200px;
-  grid-gap: 16px;
+  grid-gap: 20px;
   @media only screen and (min-width: 500px) {
     grid-template-columns: repeat(2, 1fr);
   }
