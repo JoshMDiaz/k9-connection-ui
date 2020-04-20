@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from 'react'
 import FormService from '../../services/FormService'
-import moment from 'moment'
+import { format, sub } from 'date-fns'
 import {
   TextField,
   Checkbox,
@@ -54,12 +54,18 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
 
   const getBirthdateRange = (ageRange) => {
     let obj = {}
-    obj.startDate = moment()
-      .subtract(parseInt(ageRange.max), 'years')
-      .format('YYYY-MM-DD')
-    obj.endDate = moment()
-      .subtract(parseInt(ageRange.min), 'years')
-      .format('YYYY-MM-DD')
+    obj.startDate = format(
+      sub(new Date(), {
+        years: ageRange.max,
+      }),
+      'yyyy-MM-dd'
+    )
+    obj.endDate = format(
+      sub(new Date(), {
+        years: ageRange.min,
+      }),
+      'yyyy-MM-dd'
+    )
     return obj
   }
 

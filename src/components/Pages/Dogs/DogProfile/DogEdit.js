@@ -10,10 +10,13 @@ import {
   FormLabel,
   FormControlLabel,
 } from '@material-ui/core'
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
-import MomentUtils from '@date-io/moment'
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers'
+import 'date-fns'
+import DateFnsUtils from '@date-io/date-fns'
 import FormService from '../../../../services/FormService'
-import moment from 'moment'
 import Multiselect from '../../../common/Multiselect'
 
 const findDogBreeds = (breeds) => {
@@ -62,7 +65,7 @@ const DogEdit = ({ dog, cancel, update }) => {
   const handleDateChange = (date) => {
     setForm({
       ...form,
-      birthdate: moment(date).format('YYYY-MM-DD'),
+      birthdate: date,
     })
   }
 
@@ -79,7 +82,7 @@ const DogEdit = ({ dog, cancel, update }) => {
   }, [])
 
   return (
-    <MuiPickersUtilsProvider utils={MomentUtils}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
       {/* Name */}
       <TextField
         label={`Name`}
@@ -90,16 +93,20 @@ const DogEdit = ({ dog, cancel, update }) => {
         value={form.name}
       />
       {/* Birthdate */}
-      <DatePicker
-        id='birthdate-datepicker'
+      <KeyboardDatePicker
+        disableToolbar
         className={'birthdate-datepicker'}
+        variant='inline'
+        format='MM/dd/yyyy'
+        margin='normal'
+        id='birthdate-picker-inline'
         label='Birthdate'
         value={form.birthdate}
-        onChange={(date) => handleDateChange(date)}
-        format='MMMM DD, YYYY'
-        disableFuture
+        onChange={handleDateChange}
         fullWidth
-        autoOk
+        KeyboardButtonProps={{
+          'aria-label': 'change date',
+        }}
       />
 
       {/* Gender */}

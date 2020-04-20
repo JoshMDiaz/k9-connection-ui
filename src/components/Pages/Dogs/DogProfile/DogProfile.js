@@ -5,7 +5,7 @@ import MainImage from '../../../Dogs/MainImage/MainImage'
 import ContentContainer from '../../../common/ContentContainer'
 import DogRead from './DogRead'
 import DogEdit from './DogEdit'
-import moment from 'moment'
+import { format } from 'date-fns'
 import UserContext from '../../../../userContext'
 import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 import { useRouteMatch } from 'react-router-dom'
@@ -42,7 +42,7 @@ const DogProfile = () => {
   const updateDog = (dogForm, breeds) => {
     let dog = { ...dogForm },
       images = dog.dog_images
-    dog.birthdate = moment(dog.birthdate).format('YYYY-MM-DD')
+    dog.birthdate = format(dog.birthdate, 'yyyy-MM-dd')
     delete dog.breeds
     let body = {
       dog: { ...dog },
@@ -104,7 +104,7 @@ const DogProfile = () => {
             <MainImage images={dog.dog_images} />
           )}
         </div>
-        <div className='right-section'>
+        <div className={`right-section ${isEditMode ? 'is-edit' : ''}`}>
           {!isEditMode ? (
             <DogRead
               dog={dog}
