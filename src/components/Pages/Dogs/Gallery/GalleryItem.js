@@ -39,7 +39,7 @@ const GalleryItem = ({ image, index, isEdit, setMain, deleteImage }) => {
           alt={`dog ${index + 1}`}
           className='gallery-image'
         />
-        {image.main_image && <Icon icon={'medal'} />}
+        {isEdit && image.main_image && <Icon icon={'medal'} />}
       </div>
       {hovered && (
         <div className='overlay animated fadeIn'>

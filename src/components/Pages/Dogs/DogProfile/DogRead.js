@@ -9,31 +9,31 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
   const dogInfoConfig = [
     {
       label: 'Gender',
-      value: 'gender'
+      value: 'gender',
     },
     {
       label: 'Age',
-      value: 'birthdate'
+      value: 'birthdate',
     },
     {
       label: 'Papered',
-      value: 'papered'
+      value: 'papered',
     },
     {
       label: 'AKC Registered',
-      value: 'registered'
+      value: 'registered',
     },
     {
       label: 'Breed',
-      value: 'breeds'
+      value: 'breeds',
     },
     {
       label: 'Eye Color',
-      value: 'eyes'
-    }
+      value: 'eyes',
+    },
   ]
 
-  const transformData = value => {
+  const transformData = (value) => {
     let newVal = value
     switch (value) {
       case 'papered':
@@ -60,7 +60,7 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
 
   const getDogBreeds = () => {
     if (dog && dog.breeds) {
-      let breeds = dog.breeds.map(b => {
+      let breeds = dog.breeds.map((b) => {
         return b.name
       })
       return breeds.join(', ')
@@ -75,40 +75,42 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
     <>
       <div className='info-header'>
         <h2>{dog.name}</h2>
-        <div
-          className={`button-container ${
-            dog.user_id === user.id ? 'is-user' : ''
-          }`}
-        >
-          {dog.user_id !== user.id && (
-            <>
-              <span
-                className='img-border with-text not-mobile'
-                onClick={messageOwner}
-              >
-                Message Owner&nbsp;
-                <Icon icon='messageNoBorder' customClass='button-icon' />
-              </span>
-              <div className='icon-container mobile-only'>
+        {dog.user_id && user.id && (
+          <div
+            className={`button-container ${
+              dog.user_id === user.id ? 'is-user' : ''
+            }`}
+          >
+            {dog.user_id !== user.id && (
+              <>
+                <span
+                  className='img-border with-text not-mobile'
+                  onClick={messageOwner}
+                >
+                  Message Owner&nbsp;
+                  <Icon icon='messageNoBorder' customClass='button-icon' />
+                </span>
+                <div className='icon-container mobile-only'>
+                  <Icon
+                    icon={'message'}
+                    customClass='message-icon'
+                    callout={messageOwner}
+                  />
+                </div>
+                <FavoriteIcon dog={dog} />
+              </>
+            )}
+            {dog.user_id === user.id && (
+              <div className='icon-container'>
                 <Icon
-                  icon={'message'}
-                  customClass='message-icon'
-                  callout={messageOwner}
+                  icon={'pencil'}
+                  customClass='pencil-icon'
+                  callout={() => setIsEditMode(true)}
                 />
               </div>
-              <FavoriteIcon dog={dog} />
-            </>
-          )}
-          {dog.user_id === user.id && (
-            <div className='icon-container'>
-              <Icon
-                icon={'pencil'}
-                customClass='pencil-icon'
-                callout={() => setIsEditMode(true)}
-              />
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
       <div className='info-container'>
         {dogInfoConfig.map((e, i) => (

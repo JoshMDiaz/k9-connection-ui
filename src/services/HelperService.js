@@ -1,13 +1,12 @@
 import React from 'react'
-import moment from 'moment'
+import { differenceInYears } from 'date-fns'
 import Plural from '../components/common/Plural'
 
 class HelperService {
   getYearsOld = (date) => {
-    let start = moment(date),
-      end = moment(),
-      duration = moment.duration(end.diff(start)),
-      years = Math.round(duration.asYears())
+    let start = new Date(date),
+      end = new Date(),
+      years = differenceInYears(end, start)
     return (
       <span>
         {years} <Plural text='year' number={years} /> old

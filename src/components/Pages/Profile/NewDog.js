@@ -12,9 +12,12 @@ import {
   FormLabel,
   FormControlLabel,
 } from '@material-ui/core'
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
-import MomentUtils from '@date-io/moment'
-import moment from 'moment'
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns'
+import { format, sub } from 'date-fns'
 import ContentContainer from '../../common/ContentContainer'
 import PageHeader from '../../common/PageHeader/PageHeader'
 import UploadPhotos from '../../Dogs/UploadPhotos/UploadPhotos'
@@ -30,7 +33,12 @@ const NewDog = ({ history }) => {
     registered: 'false',
     breeds: [],
     eyes: [],
-    birthdate: moment(new Date()).subtract(1, 'years'),
+    birthdate: format(
+      sub(new Date(), {
+        years: 1,
+      }),
+      'yyyy-MM-dd'
+    ),
     description: '',
   }
   const [form, setForm] = useState(initialFormState)
@@ -72,7 +80,7 @@ const NewDog = ({ history }) => {
   const handleDateChange = (date) => {
     setForm({
       ...form,
-      birthdate: moment(date).format('YYYY-MM-DD'),
+      birthdate: format(date, 'yyyy-MM-dd'),
     })
   }
 
@@ -84,7 +92,7 @@ const NewDog = ({ history }) => {
 
   const save = (addAnother) => {
     let dog = { ...form }
-    dog.birthdate = moment(dog.birthdate).format('YYYY-MM-DD')
+    dog.birthdate = format(dog.birthdate, 'yyyy-MM-dd')
     delete dog.breeds
     let body = {
       dog: { ...dog },
@@ -145,7 +153,7 @@ const NewDog = ({ history }) => {
       <div className='main-content-header'>
         <PageHeader text={<>Add New Dog</>} />
       </div>
-      <MuiPickersUtilsProvider utils={MomentUtils}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <ContentContainer customClass='new-dog-container'>
           <div className='left-section'>
             {/* Name */}
@@ -168,16 +176,20 @@ const NewDog = ({ history }) => {
             </FormControl>
 
             {/* Birthdate */}
-            <DatePicker
-              id='birthdate-datepicker'
+            <KeyboardDatePicker
+              disableToolbar
               className={'birthdate-datepicker'}
+              variant='inline'
+              format='MM/dd/yyyy'
+              margin='normal'
+              id='birthdate-picker-inline'
               label='Birthdate'
               value={form.birthdate}
-              onChange={(date) => handleDateChange(date)}
-              format='MMMM DD, YYYY'
-              disableFuture
+              onChange={handleDateChange}
               fullWidth
-              autoOk
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
             />
 
             {/* Gender */}
