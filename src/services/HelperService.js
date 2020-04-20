@@ -1,6 +1,7 @@
 import React from 'react'
 import { differenceInYears } from 'date-fns'
 import Plural from '../components/common/Plural'
+import Mdash from '../components/common/Mdash/Mdash'
 
 class HelperService {
   getYearsOld = (date) => {
@@ -8,9 +9,15 @@ class HelperService {
       end = new Date(),
       years = differenceInYears(end, start)
     return (
-      <span>
-        {years} <Plural text='year' number={years} /> old
-      </span>
+      <>
+        {!isNaN(years) ? (
+          <span>
+            {years} <Plural text='year' number={years} /> old
+          </span>
+        ) : (
+          <Mdash />
+        )}
+      </>
     )
   }
 

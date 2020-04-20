@@ -33,7 +33,7 @@ const DogEdit = ({ dog, cancel, update }) => {
     registered: dog.registered?.toString(),
     breeds: findDogBreeds(dog.breeds),
     eyes: dog.eyes,
-    birthdate: new Date(dog.birthdate),
+    birthdate: dog.birthdate,
     description: dog.description,
   })
   const [breeds, setBreeds] = useState([])
