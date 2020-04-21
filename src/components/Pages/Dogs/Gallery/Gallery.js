@@ -76,7 +76,7 @@ const Gallery = ({
   return (
     <div className='gallery'>
       {isEdit && (
-        <div className='form-button-container'>
+        <div className='form-button-container gallery-image-buttons'>
           <button className={'plain'} onClick={cancelEditImages}>
             Cancel
           </button>
