@@ -3,6 +3,7 @@
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   grid-auto-rows: 10px;
   grid-gap: 20px;
+  position: relative;
   .page-padding {
     padding-top: 0;
   }
@@ -33,33 +34,8 @@
     @include border-radius(10px);
   }
   .overlay {
-    background: rgba($primary-color, 0.75);
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    animation-duration: 0.25s;
     .overlay-content {
-      display: grid;
       grid-template-columns: repeat(2, 1fr);
-      align-items: center;
-      grid-gap: 64px;
-      height: 100%;
-      .icon {
-        width: 50px;
-        height: 50px;
-        opacity: 0.75;
-        @include transition;
-        cursor: pointer;
-        &:hover {
-          opacity: 1;
-        }
-        svg {
-          width: 50px;
-          height: 50px;
-        }
-      }
       .star {
         justify-self: end;
       }

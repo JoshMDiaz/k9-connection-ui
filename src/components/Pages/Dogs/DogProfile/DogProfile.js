@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react'
+import React, { useReducer, useEffect, useContext, useCallback } from 'react'
 import DogService from '../../../../services/DogService'
 import BackButton from '../../../common/BackButton/BackButton'
 import MainImage from '../../../Dogs/MainImage/MainImage'
@@ -10,12 +10,19 @@ import UserContext from '../../../../userContext'
 import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 import { useRouteMatch } from 'react-router-dom'
 import Gallery from '../Gallery/Gallery'
+import HelperService from '../../../../services/HelperService'
 
 const DogProfile = () => {
-  const [dog, setDog] = useState({})
-  const [user, setUser] = useState({})
-  const [isEditMode, setIsEditMode] = useState(false)
-  const [uploadedImages, setUploadedImages] = useState([])
+  const initialState = {
+    dog: {},
+    user: {},
+    isEditMode: false,
+    isEditImageMode: false,
+    uploadedImages: [],
+  }
+
+  const [state, dispatch] = useReducer(HelperService.reducer, initialState)
+  const { dog, user, isEditMode, uploadedImages, isEditImageMode } = state
 
   const match = useRouteMatch()
   let uc = useContext(UserContext)
@@ -23,8 +30,12 @@ const DogProfile = () => {
   const getDog = useCallback(() => {
     DogService.get(match.params.id).then((response) => {
       if (response) {
-        setDog(response.data)
-        // setUploadedImages(response.data.dog_images)
+        dispatch({
+          type: 'UPDATE',
+          payload: {
+            dog: response.data,
+          },
+        })
       }
     })
   }, [match])
@@ -37,6 +48,22 @@ const DogProfile = () => {
       .map((b) => {
         return b.id
       })
+  }
+
+  const getBreedIds = () => {
+    return dog.breeds.map((b) => {
+      return b.id
+    })
+  }
+
+  const updateEditMode = (mode, type) => {
+    let attr = type === 'image' ? 'isEditImageMode' : 'isEditMode'
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        [attr]: mode,
+      },
+    })
   }
 
   const updateDog = (dogForm, breeds) => {
@@ -56,7 +83,30 @@ const DogProfile = () => {
           isOpen: true,
           className: 'success',
         })
-        setIsEditMode(false)
+        updateEditMode(false)
+      }
+    })
+  }
+
+  const updateDogImages = (images) => {
+    let dogBody = { ...dog }
+    delete dogBody.breeds
+    delete dogBody.dog_images
+    let body = {
+      dog: { ...dogBody },
+      breeds: getBreedIds(),
+      dog_images: images,
+    }
+    console.log(body)
+
+    DogService.updateDog(match.params.id, body).then((response) => {
+      if (response) {
+        uc.openSnack({
+          message: 'Dog has been updated!',
+          isOpen: true,
+          className: 'success',
+        })
+        updateEditMode(false)
       }
     })
   }
@@ -66,10 +116,15 @@ const DogProfile = () => {
       let reader = new FileReader()
       let file = files[0]
       reader.onloadend = () => {
-        setUploadedImages([
-          ...uploadedImages,
-          { url: reader.result, uploadedImage: true },
-        ])
+        dispatch({
+          type: 'UPDATE',
+          payload: {
+            uploadedImages: [
+              ...uploadedImages,
+              { url: reader.result, main_image: false },
+            ],
+          },
+        })
       }
       reader.readAsDataURL(file)
     } else {
@@ -79,9 +134,24 @@ const DogProfile = () => {
       })
     }
   }
+
   const cancelEdit = () => {
-    setUploadedImages([])
-    setIsEditMode(false)
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        isEditMode: false,
+      },
+    })
+  }
+
+  const cancelEditImages = () => {
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        uploadedImages: [],
+        isEditImageMode: false,
+      },
+    })
   }
 
   useEffect(() => {
@@ -89,7 +159,12 @@ const DogProfile = () => {
   }, [getDog])
 
   useEffect(() => {
-    setUser(uc.user)
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        user: uc.user,
+      },
+    })
   }, [uc])
 
   return (
@@ -99,9 +174,13 @@ const DogProfile = () => {
       </div>
       <ContentContainer customClass='profile-container'>
         <div className='left-section'>
-          {isEditMode && <UploadPhotos callout={uploadImage} type='dog' />}
-          {!isEditMode && dog.dog_images && (
-            <MainImage images={dog.dog_images} />
+          {isEditImageMode && <UploadPhotos callout={uploadImage} type='dog' />}
+          {!isEditImageMode && dog.dog_images && dog.user_id && user.id && (
+            <MainImage
+              images={dog.dog_images}
+              editable={dog.user_id === user.id}
+              updateEditMode={updateEditMode}
+            />
           )}
         </div>
         <div className={`right-section ${isEditMode ? 'is-edit' : ''}`}>
@@ -109,7 +188,7 @@ const DogProfile = () => {
             <DogRead
               dog={dog}
               user={user}
-              setIsEditMode={setIsEditMode}
+              setIsEditMode={updateEditMode}
               getDog={getDog}
             />
           ) : (
@@ -129,8 +208,10 @@ const DogProfile = () => {
         >
           <Gallery
             images={dog.dog_images}
-            uploadedImages={isEditMode ? uploadedImages : null}
-            isEdit={isEditMode}
+            uploadedImages={isEditImageMode ? uploadedImages : null}
+            isEdit={isEditImageMode}
+            cancelEditImages={cancelEditImages}
+            updateDogImages={updateDogImages}
           />
         </div>
       )}

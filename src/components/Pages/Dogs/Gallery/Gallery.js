@@ -1,7 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import GalleryItem from './GalleryItem'
 
-const Gallery = ({ images, uploadedImages, isEdit }) => {
+const Gallery = ({
+  images,
+  uploadedImages,
+  isEdit,
+  cancelEditImages,
+  updateDogImages,
+}) => {
   let initialImages = uploadedImages ? images.concat(uploadedImages) : images
   const [imagesCopy, setImagesCopy] = useState(initialImages)
 
@@ -69,6 +75,19 @@ const Gallery = ({ images, uploadedImages, isEdit }) => {
 
   return (
     <div className='gallery'>
+      {isEdit && (
+        <div className='form-button-container'>
+          <button className={'plain'} onClick={cancelEditImages}>
+            Cancel
+          </button>
+          <button
+            className={'primary'}
+            onClick={() => updateDogImages(imagesToDisplay)}
+          >
+            Save
+          </button>
+        </div>
+      )}
       {imagesToDisplay.map((e, i) => (
         <GalleryItem
           key={e.url}

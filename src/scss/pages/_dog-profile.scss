@@ -19,45 +19,12 @@
   .birthdate-datepicker {
     margin-top: 20px;
   }
-}
-
-// Lightbox
-.ril__outer {
-  background-color: rgba(228, 237, 245, 0.75) !important;
-  button {
-    background-color: $secondary-color;
-    color: $primary-text-color;
-    &:hover {
-      box-shadow: none;
-    }
+  .upload-photos {
+    margin-bottom: 60px;
   }
-}
-.ril__errorContainer {
-  color: $primary-text-color !important;
-  font-weight: 600;
-  font-size: 18px;
-  @media only screen and (min-width: 768px) {
-    font-size: 32px;
-  }
-}
-.ril__toolbar {
-  background: none !important;
-  button {
-    margin-left: 8px;
-  }
-}
-.ril__navButtons {
-  opacity: 1 !important;
-}
-img.ril__image:not(.ril__imagePrev) {
-  border: 32px solid $white-color;
-  @include border-radius;
-}
-@media only screen and (min-width: 768px) {
-  .ril__navButtonNext {
-    right: 20px !important;
-  }
-  .ril__navButtonPrev {
-    left: 20px !important;
+  .form-button-container {
+    position: absolute;
+    left: 171px;
+    top: -96px;
   }
 }
