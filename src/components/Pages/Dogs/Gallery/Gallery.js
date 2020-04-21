@@ -56,7 +56,7 @@ const Gallery = ({
 
   useEffect(() => {
     resizeAllGridItems()
-  }, [resizeAllGridItems, uploadedImages, images])
+  }, [resizeAllGridItems, imagesCopy])
 
   useEffect(() => {
     window.addEventListener('resize', resizeAllGridItems)
