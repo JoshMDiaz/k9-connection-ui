@@ -1,12 +1,16 @@
 .new-dog {
   .new-dog-container {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     @media only screen and (min-width: 1024px) {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-gap: 64px;
+      grid-template-columns: 40% 1fr;
+      grid-gap: 20px;
     }
+  }
+  .right-section {
+    overflow: hidden;
+    padding-bottom: 16px;
   }
   .button-container {
     display: flex;
@@ -18,38 +22,20 @@
         margin-left: 8px;
       }
     }
+    .no-bg {
+      padding: 0;
+    }
   }
-  textarea {
-    height: 80px !important;
+  .gallery-image-buttons {
+    display: none;
   }
   .form-input {
     margin-top: 0;
   }
   .birthdate-datepicker {
-    margin-top: 32px;
+    margin-top: 20px;
   }
-}
-.dog-grid {
-  display: grid;
-  grid-template-rows: 200px;
-  grid-gap: 20px;
-  @media only screen and (min-width: 500px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media only screen and (min-width: 997px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media only screen and (min-width: 1026px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media only screen and (min-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .dog-image {
-    overflow: hidden;
-    height: 200px;
-    object-fit: cover;
-    @include border-radius;
-    width: 100%;
+  fieldset.papered-radios {
+    margin-right: 16px;
   }
 }

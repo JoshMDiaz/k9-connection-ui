@@ -75,7 +75,7 @@ const Gallery = ({
 
   return (
     <div className='gallery'>
-      {isEdit && (
+      {isEdit && imagesToDisplay.length > 0 && (
         <div className='form-button-container gallery-image-buttons'>
           <button className={'plain'} onClick={cancelEditImages}>
             Cancel

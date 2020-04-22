@@ -125,10 +125,7 @@ legend {
 fieldset.registered-radios,
 fieldset.papered-radios,
 fieldset.gender-radios {
-  margin: 32px 0;
-  @media only screen and (min-width: 1024px) {
-    margin-bottom: 0;
-  }
+  margin: 32px 0 0;
 }
 
 .card-list {

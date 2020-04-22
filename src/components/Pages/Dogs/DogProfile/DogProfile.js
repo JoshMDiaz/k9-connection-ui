@@ -197,7 +197,21 @@ const DogProfile = () => {
               user={user}
               cancel={cancelEdit}
               update={updateDog}
-            />
+            >
+              {({ form, breeds }) => (
+                <div className='form-button-container'>
+                  <button className={'plain'} onClick={cancelEdit}>
+                    Cancel
+                  </button>
+                  <button
+                    className={'primary'}
+                    onClick={() => updateDog(form, breeds)}
+                  >
+                    Save
+                  </button>
+                </div>
+              )}
+            </DogEdit>
           )}
         </div>
       </ContentContainer>

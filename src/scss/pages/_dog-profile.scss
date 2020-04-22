@@ -1,6 +1,5 @@
 .dog-profile {
   .profile-container {
-    margin-bottom: 64px;
     @media only screen and (min-width: 768px) {
       margin-bottom: 0;
     }
@@ -11,20 +10,13 @@
       display: block;
     }
   }
-  .registered-radios,
-  .papered-radios,
-  .gender-radios {
-    margin-bottom: 0;
-  }
   .birthdate-datepicker {
     margin-top: 20px;
   }
-  .upload-photos {
-    margin-bottom: 60px;
+  fieldset.papered-radios {
+    margin-right: 16px;
   }
   .form-button-container.gallery-image-buttons {
-    position: absolute;
-    left: 171px;
-    top: -96px;
+    margin-bottom: 64px;
   }
 }

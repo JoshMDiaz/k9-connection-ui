@@ -25,13 +25,13 @@ const findDogBreeds = (breeds) => {
   })
 }
 
-const DogEdit = ({ dog, cancel, update }) => {
+const DogEdit = ({ dog, children }) => {
   const [form, setForm] = useState({
     name: dog.name,
     gender: dog.gender,
     papered: dog.papered?.toString(),
     registered: dog.registered?.toString(),
-    breeds: findDogBreeds(dog.breeds),
+    breeds: dog.breeds ? findDogBreeds(dog.breeds) : [],
     eyes: dog.eyes,
     birthdate: dog.birthdate,
     description: dog.description,
@@ -156,7 +156,7 @@ const DogEdit = ({ dog, cancel, update }) => {
       </FormControl>
 
       {/* Papered */}
-      <FormControl component='fieldset' className={'registered-radios'}>
+      <FormControl component='fieldset' className={'papered-radios'}>
         <FormLabel component='legend'>Papered</FormLabel>
         <RadioGroup
           aria-label='Papered'
@@ -179,7 +179,7 @@ const DogEdit = ({ dog, cancel, update }) => {
       </FormControl>
 
       {/* Registered */}
-      <FormControl component='fieldset' className={'papered-radios'}>
+      <FormControl component='fieldset' className={'registered-radios'}>
         <FormLabel component='legend'>Registered</FormLabel>
         <RadioGroup
           aria-label='Registered'
@@ -220,24 +220,6 @@ const DogEdit = ({ dog, cancel, update }) => {
         />
       </FormControl>
 
-      {/* Eye Color */}
-      <FormControl style={{ width: '100%', marginTop: '20px' }}>
-        <InputLabel htmlFor='eyes-select'>Eyes</InputLabel>
-        <Select
-          value={form.eyes}
-          onChange={(e) => handleChange(e, 'eyes', 'value')}
-          inputProps={{
-            name: 'eyes',
-            id: 'eyes-select',
-          }}
-        >
-          {eyeColors.map((e, i) => (
-            <MenuItem key={i} value={e.name}>
-              {e.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
       {/* Description */}
       <TextField
         id='description'
@@ -249,14 +231,7 @@ const DogEdit = ({ dog, cancel, update }) => {
         margin='normal'
         style={{ width: '100%' }}
       />
-      <div className='form-button-container'>
-        <button className={'plain'} onClick={cancel}>
-          Cancel
-        </button>
-        <button className={'primary'} onClick={() => update(form, breeds)}>
-          Save
-        </button>
-      </div>
+      {children && children({ form: form, breeds: breeds })}
     </MuiPickersUtilsProvider>
   )
 }

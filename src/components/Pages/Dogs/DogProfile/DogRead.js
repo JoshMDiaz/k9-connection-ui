@@ -116,8 +116,10 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
         {dogInfoConfig.map((e, i) => (
           <div className='info' key={i}>
             <span className='info-label'>
-              {e.label === 'breeds' ? (
-                <Plural text={e.label} number={dog.breeds.length} />
+              {e.label === 'Breed' ? (
+                <span>
+                  <Plural text={e.label} number={dog?.breeds?.length} />:{' '}
+                </span>
               ) : (
                 <span>{e.label}: </span>
               )}
