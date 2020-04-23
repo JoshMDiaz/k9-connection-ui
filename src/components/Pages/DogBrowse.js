@@ -52,6 +52,18 @@ const DogBrowse = ({ filters, filterCount, dogsDispatch }) => {
           }
         />
         <div className='button-container animated fadeInRight'>
+          {filterCount > 0 && (
+            <button
+              className='no-bg'
+              onClick={() =>
+                dogsDispatch({
+                  type: 'RESET',
+                })
+              }
+            >
+              Clear
+            </button>
+          )}
           <button className='plain' onClick={(e) => toggleFilter(true, e)}>
             {filterCount > 0 && <span className='tag'>{filterCount}</span>}
             <span>Filter</span>

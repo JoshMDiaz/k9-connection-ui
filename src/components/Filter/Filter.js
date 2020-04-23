@@ -134,8 +134,6 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
     formDispatch({
       type: 'RESET',
     })
-    localStorage.removeItem('filter')
-    localStorage.removeItem('filterCount')
   }
 
   const closeFilter = () => {
