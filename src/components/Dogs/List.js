@@ -1,24 +1,33 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Card from './DogCard/DogCard'
 import noDogImg from '../../images/no-image.jpg'
 import userContext from '../../userContext'
+import Masonry from '../common/Masonry/Masonry'
 
-const List = ({ dogs, startingCount }) => {
-  let count = startingCount || 0
+const List = ({ dogs }) => {
   const uc = useContext(userContext)
+  const [trigger, setTrigger] = useState(false)
+  useEffect(() => {
+    if (dogs.length) {
+      setTimeout(() => {
+        setTrigger(true)
+      }, 50)
+    }
+  }, [dogs])
 
   return (
     <>
       {dogs.length > 0 ? (
-        <div className='card-list'>
-          {dogs.map((e, i) => {
-            count++
-            return <Card dog={e} key={i} count={count} user={uc.user} />
-          })}
+        <div className='masonry'>
+          <Masonry items={dogs} trigger={trigger}>
+            {dogs.map((e, i) => {
+              return <Card dog={e} key={e.name} index={i} user={uc.user} />
+            })}
+          </Masonry>
         </div>
       ) : (
-        <div className='no-results animated fadeInRight'>
+        <div className='no-results animated fadeIn'>
           <div className='card'>
             <span>
               <h3>Sorry about that!</h3>

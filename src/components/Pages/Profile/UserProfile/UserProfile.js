@@ -118,7 +118,7 @@ const UserProfile = (props) => {
       </ContentContainer>
       {uc.user.dogs && uc.user.dogs.length > 0 && (
         <ContentContainer customClass='user-dog-list'>
-          <List dogs={uc.user.dogs} startingCount={8} />
+          <List dogs={uc.user.dogs} />
         </ContentContainer>
       )}
     </div>

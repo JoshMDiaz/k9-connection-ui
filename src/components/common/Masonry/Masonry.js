@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react'
 
-const Masonry = ({ items, children }) => {
+const Masonry = ({ items, children, trigger }) => {
   const resizeGridItem = (item) => {
     let grid = document.querySelector('.masonry'),
       rowHeight = parseInt(
@@ -26,7 +26,7 @@ const Masonry = ({ items, children }) => {
 
   useEffect(() => {
     resizeAllGridItems()
-  }, [resizeAllGridItems, items])
+  }, [resizeAllGridItems, items, trigger])
 
   useEffect(() => {
     window.addEventListener('resize', resizeAllGridItems)

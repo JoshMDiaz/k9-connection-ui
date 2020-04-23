@@ -6,8 +6,9 @@ import noImage from '../../../images/no-image.jpg'
 import FavoriteIcon from '../../FavoriteIcon/FavoriteIcon'
 import { withStyles } from '@material-ui/core/styles'
 import { Tooltip, Zoom } from '@material-ui/core'
+import MasonryItem from '../../common/Masonry/MasonryItem'
 
-const DogCard = ({ dog, count, user }) => {
+const DogCard = ({ dog, index, user }) => {
   const [image, setImage] = useState({})
 
   const findMainImage = (images) => {
@@ -44,7 +45,7 @@ const DogCard = ({ dog, count, user }) => {
   }, [dog])
 
   return (
-    <div className={`animated fadeInRight delay-${count}`}>
+    <MasonryItem customClass={`delay-${(index % 100) + 1}`}>
       <div className='card dog-card'>
         <div className='top-content'>
           <Link to={`/dogs/${dog.id}`}>
@@ -112,7 +113,7 @@ const DogCard = ({ dog, count, user }) => {
           )}
         </div>
       </div>
-    </div>
+    </MasonryItem>
   )
 }
 

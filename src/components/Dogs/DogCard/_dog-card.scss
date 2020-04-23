@@ -1,5 +1,4 @@
 .dog-card {
-  height: calc(100% - 32px);
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -8,9 +7,6 @@
     @include border-radius(10px);
     box-shadow: 0 8px 15px $border-color;
     margin-bottom: 16px;
-    overflow: hidden;
-    max-height: 300px;
-    object-fit: cover;
   }
   h2 {
     color: $primary-color;
