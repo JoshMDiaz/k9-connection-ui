@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, useCallback } from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import Filter from '../Filter/Filter'
 import { Link } from 'react-router-dom'
 import Plural from '../common/Plural'
@@ -9,14 +9,12 @@ import UserContext from '../../userContext'
 import HelperService from '../../services/HelperService'
 import Dogs from './Dogs'
 
-const DogSearch = ({ filters, filterCount, dogsDispatch }) => {
-  const pageState = {
+const DogBrowse = ({ filters, filterCount, dogsDispatch }) => {
+  const [state, setState] = useState({
     filterOpen: false,
     popoverAnchorEl: null,
     dogsNum: 0,
-  }
-
-  const [state, dispatch] = useReducer(HelperService.reducer, pageState)
+  })
   const { dogsNum, filterOpen, popoverAnchorEl } = state
 
   const uc = useContext(UserContext)
@@ -28,19 +26,17 @@ const DogSearch = ({ filters, filterCount, dogsDispatch }) => {
     if (isOpen) {
       dispatchObj.popoverAnchorEl = e.currentTarget
     }
-    dispatch({
-      type: 'UPDATE',
-      payload: dispatchObj,
-    })
+    setState((prevState) => ({
+      ...prevState,
+      ...dispatchObj,
+    }))
   }
 
   const updateDogsNum = useCallback((num) => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        dogsNum: num,
-      },
-    })
+    setState((prevState) => ({
+      ...prevState,
+      dogsNum: num,
+    }))
   }, [])
 
   return (
@@ -95,4 +91,4 @@ const DogSearch = ({ filters, filterCount, dogsDispatch }) => {
   )
 }
 
-export default DogSearch
+export default DogBrowse

@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useContext, useCallback } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import DogService from '../../../../services/DogService'
 import BackButton from '../../../common/BackButton/BackButton'
 import MainImage from '../../../Dogs/MainImage/MainImage'
@@ -10,18 +10,15 @@ import UserContext from '../../../../userContext'
 import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 import { useRouteMatch } from 'react-router-dom'
 import Gallery from '../Gallery/Gallery'
-import HelperService from '../../../../services/HelperService'
 
 const DogProfile = () => {
-  const initialState = {
+  const [state, setState] = useState({
     dog: {},
     user: {},
     isEditMode: false,
     isEditImageMode: false,
     uploadedImages: [],
-  }
-
-  const [state, dispatch] = useReducer(HelperService.reducer, initialState)
+  })
   const { dog, user, isEditMode, uploadedImages, isEditImageMode } = state
 
   const match = useRouteMatch()
@@ -30,12 +27,10 @@ const DogProfile = () => {
   const getDog = useCallback(() => {
     DogService.get(match.params.id).then((response) => {
       if (response) {
-        dispatch({
-          type: 'UPDATE',
-          payload: {
-            dog: response.data,
-          },
-        })
+        setState((prevState) => ({
+          ...prevState,
+          dog: response.data,
+        }))
       }
     })
   }, [match])
@@ -58,12 +53,10 @@ const DogProfile = () => {
 
   const updateEditMode = (mode, type) => {
     let attr = type === 'image' ? 'isEditImageMode' : 'isEditMode'
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        [attr]: mode,
-      },
-    })
+    setState((prevState) => ({
+      ...prevState,
+      [attr]: mode,
+    }))
   }
 
   const updateDog = (dogForm, breeds) => {
@@ -116,15 +109,13 @@ const DogProfile = () => {
       let reader = new FileReader()
       let file = files[0]
       reader.onloadend = () => {
-        dispatch({
-          type: 'UPDATE',
-          payload: {
-            uploadedImages: [
-              ...uploadedImages,
-              { url: reader.result, main_image: false },
-            ],
-          },
-        })
+        setState((prevState) => ({
+          ...prevState,
+          uploadedImages: [
+            ...uploadedImages,
+            { url: reader.result, main_image: false },
+          ],
+        }))
       }
       reader.readAsDataURL(file)
     } else {
@@ -136,22 +127,18 @@ const DogProfile = () => {
   }
 
   const cancelEdit = () => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        isEditMode: false,
-      },
-    })
+    setState((prevState) => ({
+      ...prevState,
+      isEditMode: false,
+    }))
   }
 
   const cancelEditImages = () => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        uploadedImages: [],
-        isEditImageMode: false,
-      },
-    })
+    setState((prevState) => ({
+      ...prevState,
+      uploadedImages: [],
+      isEditImageMode: false,
+    }))
   }
 
   useEffect(() => {
@@ -159,12 +146,10 @@ const DogProfile = () => {
   }, [getDog])
 
   useEffect(() => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        user: uc.user,
-      },
-    })
+    setState((prevState) => ({
+      ...prevState,
+      user: uc.user,
+    }))
   }, [uc])
 
   return (

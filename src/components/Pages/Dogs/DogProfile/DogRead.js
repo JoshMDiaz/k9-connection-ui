@@ -118,7 +118,7 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
             <span className='info-label'>
               {e.label === 'Breed' ? (
                 <span>
-                  <Plural text={e.label} number={dog?.breeds?.length} />:{' '}
+                  <Plural text={e.label} number={dog?.breeds?.length || 0} />:{' '}
                 </span>
               ) : (
                 <span>{e.label}: </span>

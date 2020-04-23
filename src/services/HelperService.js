@@ -32,18 +32,6 @@ class HelperService {
   numberFormat = (num) => {
     return num.toLocaleString('en-US', { minimumFractionDigits: 0 })
   }
-
-  reducer = (state, action) => {
-    switch (action.type) {
-      case 'UPDATE':
-        return {
-          ...state,
-          ...action.payload,
-        }
-      default:
-        return state
-    }
-  }
 }
 
 export default new HelperService()

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import DogProfile from './DogProfile/DogProfile'
-import DogSearch from '../DogSearch'
+import DogBrowse from '../DogBrowse'
 import { DogsContext, DogsContextProvider } from '../DogsContext'
 
 const DogsRoute = ({ auth }) => {
@@ -19,7 +19,7 @@ const DogsRoute = ({ auth }) => {
               exact
               path='/dogs'
               render={(props) => (
-                <DogSearch
+                <DogBrowse
                   {...props}
                   auth={auth}
                   filters={filters}

@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import FormService from '../../services/FormService'
 import { format, sub } from 'date-fns'
 import {
@@ -14,27 +14,22 @@ import {
   FormControlLabel,
 } from '@material-ui/core'
 import Multiselect from '../common/Multiselect'
-import HelperService from '../../services/HelperService'
 
 const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
-  const initialState = {
+  const [state, setState] = useState({
     filterCopy: filters,
     breeds: [],
     eyeColors: [],
-  }
-
-  const [state, dispatch] = useReducer(HelperService.reducer, initialState)
+  })
   const { filterCopy, breeds, eyeColors } = state
 
   const getBreeds = () => {
     FormService.getBreeds().then((response) => {
       if (response) {
-        dispatch({
-          type: 'UPDATE',
-          payload: {
-            breeds: [...response.data],
-          },
-        })
+        setState((prevState) => ({
+          ...prevState,
+          breeds: [...response.data],
+        }))
       }
     })
   }
@@ -42,12 +37,10 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
   const getEyeColors = () => {
     FormService.getEyeColors().then((response) => {
       if (response) {
-        dispatch({
-          type: 'UPDATE',
-          payload: {
-            eyeColors: [...response.data],
-          },
-        })
+        setState((prevState) => ({
+          ...prevState,
+          eyeColors: [...response.data],
+        }))
       }
     })
   }
@@ -161,27 +154,23 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
         [field]: event.target[elementValue],
       }
     }
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        filterCopy: {
-          ...filterCopy,
-          ...payloadObj,
-        },
+    setState((prevState) => ({
+      ...prevState,
+      filterCopy: {
+        ...filterCopy,
+        ...payloadObj,
       },
-    })
+    }))
   }
 
   const handleMultiselect = (selected) => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        filterCopy: {
-          ...filterCopy,
-          breed: selected,
-        },
+    setState((prevState) => ({
+      ...prevState,
+      filterCopy: {
+        ...filterCopy,
+        breed: selected,
       },
-    })
+    }))
   }
 
   useEffect(() => {
@@ -190,12 +179,10 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
   }, [])
 
   useEffect(() => {
-    dispatch({
-      type: 'UPDATE',
-      payload: {
-        filterCopy: filters,
-      },
-    })
+    setState((prevState) => ({
+      ...prevState,
+      filterCopy: filters,
+    }))
   }, [filters])
 
   return (
