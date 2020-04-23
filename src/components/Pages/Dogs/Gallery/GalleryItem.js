@@ -1,30 +1,22 @@
 import React from 'react'
 import Icon from '../../../common/Icons/Icon'
-import Overlay from '../../../common/Overlay/Overlay'
+import MasonryItem from '../../../common/Masonry/MasonryItem'
 
 const GalleryItem = ({ image, index, isEdit, setMain, deleteImage }) => {
   return (
-    <Overlay
+    <MasonryItem
+      customClass={!image.uploadedImage ? `delay-${(index % 100) + 1}` : ''}
       overlayContent={
         <>
           <Icon icon={'star'} callout={() => setMain(image)} />
           <Icon icon={'trash'} callout={() => deleteImage(index)} />
         </>
       }
-      enabled={isEdit}
-      customClass={`gallery-item animated fadeInRight ${
-        !image.uploadedImage ? `delay-${(index % 100) + 1}` : ''
-      }`}
+      overlayEnabled={isEdit}
     >
-      <div className='gallery-content'>
-        <img
-          src={image.url}
-          alt={`dog ${index + 1}`}
-          className='gallery-image'
-        />
-        {isEdit && image.main_image && <Icon icon={'medal'} />}
-      </div>
-    </Overlay>
+      <img src={image.url} alt={`dog ${index + 1}`} className='gallery-image' />
+      {isEdit && image.main_image && <Icon icon={'medal'} />}
+    </MasonryItem>
   )
 }
 export default GalleryItem

@@ -1,12 +1,7 @@
 .gallery {
-  display: flex;
-  flex-direction: column-reverse;
-  @media only screen and (min-width: 768px) {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    grid-auto-rows: 10px;
-    grid-gap: 20px;
-    position: relative;
+  @media only screen and (max-width: 767px) {
+    display: flex;
+    flex-direction: column-reverse;
   }
   .page-padding {
     padding-top: 0;

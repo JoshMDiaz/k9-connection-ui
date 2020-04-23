@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import GalleryItem from './GalleryItem'
+import Masonry from '../../../common/Masonry/Masonry'
 
 const Gallery = ({
   images,
@@ -10,30 +11,6 @@ const Gallery = ({
 }) => {
   let initialImages = uploadedImages ? images.concat(uploadedImages) : images
   const [imagesCopy, setImagesCopy] = useState(initialImages)
-
-  const resizeGridItem = (item) => {
-    let grid = document.getElementsByClassName('gallery')[0],
-      rowHeight = parseInt(
-        window.getComputedStyle(grid).getPropertyValue('grid-auto-rows')
-      ),
-      rowGap = parseInt(
-        window.getComputedStyle(grid).getPropertyValue('grid-row-gap')
-      ),
-      rowSpan = Math.ceil(
-        (item.querySelector('.gallery-content').getBoundingClientRect().height +
-          rowGap) /
-          (rowHeight + rowGap)
-      )
-
-    item.style.gridRowEnd = `span ${rowSpan}`
-  }
-
-  const resizeAllGridItems = useCallback(() => {
-    let allItems = document.getElementsByClassName('gallery-item')
-    for (let x = 0; x < allItems.length; x++) {
-      resizeGridItem(allItems[x])
-    }
-  }, [])
 
   const setMain = (image) => {
     let newImages = JSON.parse(JSON.stringify(imagesCopy))
@@ -55,17 +32,6 @@ const Gallery = ({
   }
 
   useEffect(() => {
-    resizeAllGridItems()
-  }, [resizeAllGridItems, imagesCopy])
-
-  useEffect(() => {
-    window.addEventListener('resize', resizeAllGridItems)
-    return () => {
-      window.removeEventListener('resize', resizeAllGridItems)
-    }
-  }, [resizeAllGridItems])
-
-  useEffect(() => {
     if (uploadedImages) {
       setImagesCopy(images.concat(uploadedImages))
     }
@@ -74,7 +40,7 @@ const Gallery = ({
   let imagesToDisplay = isEdit ? imagesCopy : images
 
   return (
-    <div className='gallery'>
+    <div className='gallery masonry'>
       {isEdit && imagesToDisplay.length > 0 && (
         <div className='form-button-container gallery-image-buttons'>
           <button className={'plain'} onClick={cancelEditImages}>
@@ -88,16 +54,18 @@ const Gallery = ({
           </button>
         </div>
       )}
-      {imagesToDisplay.map((e, i) => (
-        <GalleryItem
-          key={e.url}
-          image={e}
-          index={i}
-          isEdit={isEdit}
-          setMain={setMain}
-          deleteImage={deleteImage}
-        />
-      ))}
+      <Masonry items={imagesToDisplay}>
+        {imagesToDisplay.map((e, i) => (
+          <GalleryItem
+            key={e.url}
+            image={e}
+            index={i}
+            isEdit={isEdit}
+            setMain={setMain}
+            deleteImage={deleteImage}
+          />
+        ))}
+      </Masonry>
     </div>
   )
 }
