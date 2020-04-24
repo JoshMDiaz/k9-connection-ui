@@ -9,7 +9,7 @@ const GalleryItem = ({ image, index, isEdit, setMain, deleteImage }) => {
       overlayContent={
         <>
           <Icon icon={'star'} callout={() => setMain(image)} />
-          <Icon icon={'trash'} callout={() => deleteImage(index)} />
+          <Icon icon={'trash'} callout={() => deleteImage(image, index)} />
         </>
       }
       overlayEnabled={isEdit}

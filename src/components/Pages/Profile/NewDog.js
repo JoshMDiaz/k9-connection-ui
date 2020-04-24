@@ -78,7 +78,12 @@ const NewDog = ({ history }) => {
       reader.onloadend = () => {
         setUploadedImages([
           ...uploadedImages,
-          { url: reader.result, main_image: false },
+          {
+            url: reader.result,
+            main_image: false,
+            uploadedImage: true,
+            id: uploadedImages.length + 1,
+          },
         ])
       }
       reader.readAsDataURL(file)
@@ -88,6 +93,15 @@ const NewDog = ({ history }) => {
         isOpen: true,
       })
     }
+  }
+
+  const removeUploadedImage = (image) => {
+    let uploadedArr = uploadedImages.filter((u) => {
+      if (u.id !== image.id) {
+        return u
+      }
+    })
+    setUploadedImages(uploadedArr)
   }
 
   return (
@@ -127,7 +141,12 @@ const NewDog = ({ history }) => {
             padding: '0 20px 20px',
           }}
         >
-          <Gallery images={[]} uploadedImages={uploadedImages} isEdit={true} />
+          <Gallery
+            images={[]}
+            uploadedImages={uploadedImages}
+            isEdit={true}
+            removeUploadedImage={removeUploadedImage}
+          />
         </div>
       )}
     </div>

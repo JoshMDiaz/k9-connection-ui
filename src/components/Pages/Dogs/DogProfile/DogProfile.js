@@ -113,7 +113,12 @@ const DogProfile = () => {
           ...prevState,
           uploadedImages: [
             ...uploadedImages,
-            { url: reader.result, main_image: false },
+            {
+              url: reader.result,
+              main_image: false,
+              uploadedImage: true,
+              id: uploadedImages.length + 1,
+            },
           ],
         }))
       }
@@ -138,6 +143,18 @@ const DogProfile = () => {
       ...prevState,
       uploadedImages: [],
       isEditImageMode: false,
+    }))
+  }
+
+  const removeUploadedImage = (image, index) => {
+    let uploadedArr = uploadedImages.filter((u) => {
+      if (u.id !== image.id) {
+        return u
+      }
+    })
+    setState((prevState) => ({
+      ...prevState,
+      uploadedImages: uploadedArr,
     }))
   }
 
@@ -211,6 +228,7 @@ const DogProfile = () => {
             isEdit={isEditImageMode}
             cancelEditImages={cancelEditImages}
             updateDogImages={updateDogImages}
+            removeUploadedImage={removeUploadedImage}
           />
         </div>
       )}

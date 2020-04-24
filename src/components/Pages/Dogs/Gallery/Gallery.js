@@ -8,6 +8,7 @@ const Gallery = ({
   isEdit,
   cancelEditImages,
   updateDogImages,
+  removeUploadedImage,
 }) => {
   let initialImages = uploadedImages ? images.concat(uploadedImages) : images
   const [imagesCopy, setImagesCopy] = useState(initialImages)
@@ -25,9 +26,12 @@ const Gallery = ({
     setImagesCopy(newImages)
   }
 
-  const deleteImage = (index) => {
+  const deleteImage = (image, index) => {
     let newImages = [...imagesCopy]
     newImages.splice(index, 1)
+    if (image.uploadedImage) {
+      removeUploadedImage(image)
+    }
     setImagesCopy(newImages)
   }
 
