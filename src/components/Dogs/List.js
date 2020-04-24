@@ -8,8 +8,9 @@ import Masonry from '../common/Masonry/Masonry'
 const List = ({ dogs }) => {
   const uc = useContext(userContext)
   const [trigger, setTrigger] = useState(false)
+
   useEffect(() => {
-    if (dogs.length) {
+    if (dogs.length > 0) {
       setTimeout(() => {
         setTrigger(true)
       }, 50)
@@ -20,7 +21,7 @@ const List = ({ dogs }) => {
     <>
       {dogs.length > 0 ? (
         <div className='masonry'>
-          <Masonry items={dogs} trigger={trigger}>
+          <Masonry items={dogs} resizeTrigger={trigger}>
             {dogs.map((e, i) => {
               return <Card dog={e} key={e.name} index={i} user={uc.user} />
             })}

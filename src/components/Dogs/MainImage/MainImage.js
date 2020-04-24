@@ -21,22 +21,20 @@ const MainImage = ({ images, editable, updateEditMode }) => {
 
   return (
     <Overlay
-      customClass='main-image'
+      customClass='animated fadeIn'
       enabled={editable}
       overlayContent={
         <Icon icon={'pencil'} callout={() => updateEditMode(true, 'image')} />
       }
     >
-      {images.length > 0 && (
-        <div className={`big`}>
-          <img src={mainImage.url} alt='main' />
-        </div>
-      )}
-      {images.length === 0 && (
-        <div className='no-img'>
-          <img src={noImage} alt={'No images available'} />
-        </div>
-      )}
+      <div
+        className='main-image'
+        style={{
+          background: `center / cover no-repeat url(${
+            images.length > 0 ? mainImage.url : noImage
+          })`,
+        }}
+      ></div>
     </Overlay>
   )
 }
