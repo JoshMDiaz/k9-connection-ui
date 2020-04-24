@@ -3,5 +3,8 @@
   position: relative;
   height: 350px;
   width: 100%;
-  background-size: cover;
+  @include transition;
+  &.hovered {
+    opacity: 0.5;
+  }
 }

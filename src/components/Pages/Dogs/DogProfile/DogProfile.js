@@ -203,7 +203,7 @@ const DogProfile = () => {
       {dog.dog_images && (
         <div
           style={{ maxWidth: '1472px', margin: 'auto', padding: '0 20px 20px' }}
-          className='animated fadeIn delay-10'
+          className='animated fadeIn delay-10 relative'
         >
           <Gallery
             images={dog.dog_images}

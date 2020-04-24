@@ -30,7 +30,7 @@ const Overlay = ({ children, overlayContent, enabled, customClass = '' }) => {
       onMouseEnter={() => (enabled ? setHovered(true) : null)}
       onMouseLeave={hideOverlay}
     >
-      {children && children}
+      {children && children({ isHovered: hovered })}
       {hovered && (
         <div className='overlay animated fadeIn'>
           <div className='overlay-content'>

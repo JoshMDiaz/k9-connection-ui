@@ -46,73 +46,75 @@ const DogCard = ({ dog, index, user }) => {
 
   return (
     <MasonryItem customClass={`delay-${(index % 100) + 1}`}>
-      <div className='card dog-card'>
-        <div className='top-content'>
-          <Link to={`/dogs/${dog.id}`}>
-            <img
-              src={image ? image.url : noImage}
-              alt={dog.name}
-              className={`dog-picture`}
-            />
-          </Link>
-          <div className='card-content'>
-            <h2>{dog.name}</h2>
-            <span className='gender-age'>
-              <span className='gender'>{dog.gender}</span>
-              &nbsp;&nbsp;/&nbsp;&nbsp;
-              <span className='age'>
-                {HelperService.getYearsOld(dog.birthdate)}
+      {() => (
+        <div className='card dog-card'>
+          <div className='top-content'>
+            <Link to={`/dogs/${dog.id}`}>
+              <img
+                src={image ? image.url : noImage}
+                alt={dog.name}
+                className={`dog-picture`}
+              />
+            </Link>
+            <div className='card-content'>
+              <h2>{dog.name}</h2>
+              <span className='gender-age'>
+                <span className='gender'>{dog.gender}</span>
+                &nbsp;&nbsp;/&nbsp;&nbsp;
+                <span className='age'>
+                  {HelperService.getYearsOld(dog.birthdate)}
+                </span>
               </span>
-            </span>
-            <span className='dog-breed'>
-              {dog.breeds.length > 1 ? (
-                <LightTooltip
-                  title={
-                    <>
-                      {dog.breeds.map((e, i) => (
-                        <p className='breed-names' key={i}>
-                          {e.name}
-                        </p>
-                      ))}
-                    </>
-                  }
-                  placement='right'
-                  TransitionComponent={Zoom}
-                >
-                  <span>{dog.breeds.length} Breeds</span>
-                </LightTooltip>
-              ) : (
-                <span>{dog.breeds[0].name}</span>
+              <span className='dog-breed'>
+                {dog.breeds.length > 1 ? (
+                  <LightTooltip
+                    title={
+                      <>
+                        {dog.breeds.map((e, i) => (
+                          <p className='breed-names' key={i}>
+                            {e.name}
+                          </p>
+                        ))}
+                      </>
+                    }
+                    placement='right'
+                    TransitionComponent={Zoom}
+                  >
+                    <span>{dog.breeds.length} Breeds</span>
+                  </LightTooltip>
+                ) : (
+                  <span>{dog.breeds[0].name}</span>
+                )}
+              </span>
+              {user && user.city && user.state && (
+                <span className='location'>
+                  {user.city || 'Lehi'}, {user.state || 'UT'}
+                </span>
               )}
-            </span>
-            {user && user.city && user.state && (
-              <span className='location'>
-                {user.city || 'Lehi'}, {user.state || 'UT'}
+              <p>
+                {dog.description ? (
+                  <>{trimText(dog.description, 150)}</>
+                ) : (
+                  <>No description available</>
+                )}
+              </p>
+            </div>
+          </div>
+          <div className='card-footer'>
+            <Link to={`/dogs/${dog.id}`}>
+              <button className='view-profile primary'>View Profile</button>
+            </Link>
+            {user.id !== dog.user_id && (
+              <span className='footer-icons'>
+                <div className='icon-container'>
+                  <Icon icon='message' callout={messageOwner} />
+                </div>
+                <FavoriteIcon dog={dog} />
               </span>
             )}
-            <p>
-              {dog.description ? (
-                <>{trimText(dog.description, 150)}</>
-              ) : (
-                <>No description available</>
-              )}
-            </p>
           </div>
         </div>
-        <div className='card-footer'>
-          <Link to={`/dogs/${dog.id}`}>
-            <button className='view-profile primary'>View Profile</button>
-          </Link>
-          {user.id !== dog.user_id && (
-            <span className='footer-icons'>
-              <div className='icon-container'>
-                <Icon icon='message' callout={messageOwner} />
-              </div>
-              <FavoriteIcon dog={dog} />
-            </span>
-          )}
-        </div>
-      </div>
+      )}
     </MasonryItem>
   )
 }

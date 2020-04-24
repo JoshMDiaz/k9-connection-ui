@@ -41,6 +41,18 @@ const Gallery = ({
 
   return (
     <div className='gallery masonry'>
+      <Masonry items={imagesToDisplay}>
+        {imagesToDisplay.map((e, i) => (
+          <GalleryItem
+            key={e.url}
+            image={e}
+            index={i}
+            isEdit={isEdit}
+            setMain={setMain}
+            deleteImage={deleteImage}
+          />
+        ))}
+      </Masonry>
       {isEdit && imagesToDisplay.length > 0 && (
         <div className='form-button-container gallery-image-buttons'>
           <button className={'plain'} onClick={cancelEditImages}>
@@ -54,18 +66,6 @@ const Gallery = ({
           </button>
         </div>
       )}
-      <Masonry items={imagesToDisplay}>
-        {imagesToDisplay.map((e, i) => (
-          <GalleryItem
-            key={e.url}
-            image={e}
-            index={i}
-            isEdit={isEdit}
-            setMain={setMain}
-            deleteImage={deleteImage}
-          />
-        ))}
-      </Masonry>
     </div>
   )
 }

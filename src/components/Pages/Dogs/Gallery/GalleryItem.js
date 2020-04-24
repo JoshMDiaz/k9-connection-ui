@@ -14,8 +14,18 @@ const GalleryItem = ({ image, index, isEdit, setMain, deleteImage }) => {
       }
       overlayEnabled={isEdit}
     >
-      <img src={image.url} alt={`dog ${index + 1}`} className='gallery-image' />
-      {isEdit && image.main_image && <Icon icon={'medal'} />}
+      {({ isHovered }) => (
+        <>
+          <img
+            src={image.url}
+            alt={`dog ${index + 1}`}
+            className={`gallery-image ${isHovered ? 'hovered' : ''}`}
+          />
+          {isEdit && image.main_image && (
+            <Icon icon={'star'} customClass='star-badge' />
+          )}
+        </>
+      )}
     </MasonryItem>
   )
 }

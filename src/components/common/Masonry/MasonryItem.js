@@ -13,7 +13,9 @@ const MasonryItem = ({
       enabled={overlayEnabled}
       customClass={`masonry-item animated fadeIn ${customClass}`}
     >
-      <div className='masonry-content'>{children}</div>
+      {({ isHovered }) => (
+        <div className='masonry-content'>{children({ isHovered })}</div>
+      )}
     </Overlay>
   )
 }

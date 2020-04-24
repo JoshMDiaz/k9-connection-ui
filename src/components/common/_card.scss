@@ -4,7 +4,6 @@
   padding: 16px;
   @include transition;
   &:hover {
-    box-shadow: 0 0px 30px $shadow-color;
     transform: scale(1.01);
   }
 }

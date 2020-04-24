@@ -27,14 +27,16 @@ const MainImage = ({ images, editable, updateEditMode }) => {
         <Icon icon={'pencil'} callout={() => updateEditMode(true, 'image')} />
       }
     >
-      <div
-        className='main-image'
-        style={{
-          background: `center / cover no-repeat url(${
-            images.length > 0 ? mainImage.url : noImage
-          })`,
-        }}
-      ></div>
+      {({ isHovered }) => (
+        <div
+          className={`main-image ${isHovered ? 'hovered' : ''}`}
+          style={{
+            background: `center / cover no-repeat url(${
+              images.length > 0 ? mainImage.url : noImage
+            })`,
+          }}
+        ></div>
+      )}
     </Overlay>
   )
 }

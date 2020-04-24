@@ -1,39 +1,28 @@
 .gallery {
   @media only screen and (max-width: 767px) {
-    display: flex;
-    flex-direction: column-reverse;
+    display: grid;
+    grid-gap: 16px;
   }
   .page-padding {
     padding-top: 0;
   }
-  .gallery-item {
-    position: relative;
-    overflow: hidden;
-    @include border-radius;
-  }
-  .gallery-content {
-    width: calc(100vw - 72px);
-    background: $white-color;
-    padding: 16px;
-    position: relative;
-    @media only screen and (min-width: 768px) {
-      width: calc(100% - 32px);
-    }
-    .medal {
-      position: absolute;
-      left: 30px;
-      top: 16px;
-      width: 7%;
-      height: 0;
-      svg {
-        width: 100%;
-        height: auto;
-      }
-    }
-  }
   .gallery-image {
     width: 100%;
     @include border-radius(10px);
+    @include transition;
+    &.hovered {
+      opacity: 0.5;
+    }
+  }
+  .star-badge {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    width: 7%;
+    svg {
+      width: 100%;
+      height: auto;
+    }
   }
   .overlay {
     .overlay-content {
