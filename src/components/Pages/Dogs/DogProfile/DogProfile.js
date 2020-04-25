@@ -10,6 +10,7 @@ import UserContext from '../../../../UserContext'
 import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 import { useRouteMatch } from 'react-router-dom'
 import Gallery from '../Gallery/Gallery'
+import Spinner from '../../../common/Spinner/Spinner'
 
 const DogProfile = () => {
   const [state, setState] = useState({
@@ -180,12 +181,18 @@ const DogProfile = () => {
       <ContentContainer customClass='profile-container'>
         <div className='left-section'>
           {isEditImageMode && <UploadPhotos callout={uploadImage} type='dog' />}
-          {!isEditImageMode && dog.dog_images && dog.user_id && user.id && (
-            <MainImage
-              images={dog.dog_images}
-              editable={dog.user_id === user.id}
-              updateEditMode={updateEditMode}
-            />
+          {!isEditImageMode && (
+            <>
+              {dog?.dog_images && user?.id ? (
+                <MainImage
+                  images={dog.dog_images}
+                  editable={dog.user_id === user.id}
+                  updateEditMode={updateEditMode}
+                />
+              ) : (
+                <Spinner type='circle' />
+              )}
+            </>
           )}
         </div>
         <div className={`right-section ${isEditMode ? 'is-edit' : ''}`}>
