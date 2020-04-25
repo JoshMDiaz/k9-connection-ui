@@ -1,12 +1,12 @@
 import React from 'react'
 
-const userContext = React.createContext({
+const UserContext = React.createContext({
   user: {},
   dogs: [],
   prevPage: '',
   setUser: () => {},
   setDogs: () => {},
-  setPrevPage: () => {}
+  setPrevPage: () => {},
 })
 
-export default userContext
+export default UserContext

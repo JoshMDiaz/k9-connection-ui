@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Card from './DogCard/DogCard'
 import noDogImg from '../../images/no-image.jpg'
-import userContext from '../../userContext'
+import UserContext from '../../UserContext'
 import Masonry from '../common/Masonry/Masonry'
 
 const List = ({ dogs }) => {
-  const uc = useContext(userContext)
+  const uc = useContext(UserContext)
   const [trigger, setTrigger] = useState(false)
 
   useEffect(() => {

@@ -9,7 +9,7 @@ import Callback from './Callback/Callback'
 
 const auth = new Auth()
 
-const Website = props => {
+const Website = (props) => {
   const handleAuthentication = (nextState, replace) => {
     if (/access_token|id_token|error/.test(nextState.location.hash)) {
       auth.handleAuthentication()
@@ -19,14 +19,14 @@ const Website = props => {
   return (
     <MuiThemeProvider theme={theme}>
       <Switch>
-        <Route exact path='/' render={props => <Home {...props} />} />
         <Route
           path='/callback'
-          render={props => {
+          render={(props) => {
             handleAuthentication(props)
             return <Callback {...props} />
           }}
         />
+        <Route exact path='/' render={(props) => <Home {...props} />} />
         <Redirect to='/' />
       </Switch>
     </MuiThemeProvider>

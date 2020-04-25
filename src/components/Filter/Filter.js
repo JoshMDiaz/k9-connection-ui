@@ -370,7 +370,13 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
           </FormControl>
 
           {/* Miles Away */}
-          {user.zip && (
+          <div className='miles-away-container'>
+            {!Boolean(user.zip) && (
+              <small>
+                You need to fill out your profile information to search Miles
+                From Me.
+              </small>
+            )}
             <TextField
               id='miles-away'
               label='Miles From Me'
@@ -379,8 +385,9 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
               margin='normal'
               fullWidth
               value={filterCopy.distance}
+              disabled={!Boolean(user.zip)}
             />
-          )}
+          </div>
 
           {/* Favorite */}
           <div className='favorite-checkbox'>

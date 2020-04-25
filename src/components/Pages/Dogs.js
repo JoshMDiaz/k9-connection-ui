@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, useCallback } from 'react'
 import List from '../Dogs/List'
 import DogService from '../../services/DogService'
 import LoadingCard from '../common/LoadingCard/LoadingCard'
-import UserContext from '../../userContext'
+import UserContext from '../../UserContext'
 import FilterHelperService from '../../services/FilterHelperService'
 
 const Dogs = ({ filter, callout }) => {

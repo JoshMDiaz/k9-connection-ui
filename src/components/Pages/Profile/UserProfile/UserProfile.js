@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import ContentContainer from '../../../common/ContentContainer'
 import List from '../../../Dogs/List'
-import userContext from '../../../../userContext'
+import UserContext from '../../../../UserContext'
 import UserRead from './UserRead'
 import UserEdit from './UserEdit'
 import UserService from '../../../../services/UserService'
@@ -13,7 +13,7 @@ import noProfileImg from '../../../../images/icons/user.svg'
 const UserProfile = (props) => {
   const [isEditMode, setIsEditMode] = useState(false)
   const [uploadedImage, setUploadedImage] = useState(null)
-  const uc = useContext(userContext)
+  const uc = useContext(UserContext)
 
   const getUser = useCallback(() => {
     UserService.get().then((response) => {

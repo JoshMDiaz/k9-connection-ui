@@ -4,7 +4,7 @@ import { format, sub } from 'date-fns'
 import ContentContainer from '../../common/ContentContainer'
 import PageHeader from '../../common/PageHeader/PageHeader'
 import UploadPhotos from '../../Dogs/UploadPhotos/UploadPhotos'
-import userContext from '../../../userContext'
+import UserContext from '../../../UserContext'
 import Gallery from '../Dogs/Gallery/Gallery'
 import DogEdit from '../Dogs/DogProfile/DogEdit'
 
@@ -26,7 +26,7 @@ const NewDog = ({ history }) => {
   }
   const [form, setForm] = useState(initialFormState)
   const [uploadedImages, setUploadedImages] = useState([])
-  const uc = useContext(userContext)
+  const uc = useContext(UserContext)
 
   const transformBreedIds = (breeds) => {
     return breeds.map((b) => {

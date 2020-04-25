@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import UserContext from '../../userContext'
+import UserContext from '../../UserContext'
 import noProfileImg from '../../images/icons/user.svg'
 
 const MobileMenu = ({ auth, closeMenu }) => {
@@ -14,28 +14,28 @@ const MobileMenu = ({ auth, closeMenu }) => {
     {
       id: 1,
       page: 'Browse Dogs',
-      path: '/dogs'
+      path: '/dogs',
     },
     {
       id: 2,
       page: 'Profile',
-      path: '/profile'
+      path: '/profile',
     },
     {
       id: 3,
       page: 'Messages',
-      path: '/messages'
+      path: '/messages',
     },
     {
       id: 4,
       page: 'New Dog',
-      path: '/profile/new-dog'
+      path: '/profile/new-dog',
     },
     {
       id: 5,
       page: 'Settings',
-      path: '/settings'
-    }
+      path: '/settings',
+    },
   ]
 
   let count = 0

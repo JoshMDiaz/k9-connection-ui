@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Icon from '../Icons/Icon'
-import UserContext from '../../../userContext'
+import UserContext from '../../../UserContext'
 import { useHistory } from 'react-router-dom'
 
 const BackButton = ({ isSearch }) => {

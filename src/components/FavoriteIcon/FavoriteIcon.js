@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Icon from '../common/Icons/Icon'
 import UserFavoriteService from '../../services/UserFavoriteService'
-import userContext from '../../userContext'
+import UserContext from '../../UserContext'
 
 const FavoriteIcon = ({ dog }) => {
   const [favorite, setFavorite] = useState(dog.is_favorite)
-  const uc = useContext(userContext)
+  const uc = useContext(UserContext)
 
   const removeFavoriteDog = () => {
     let params = {

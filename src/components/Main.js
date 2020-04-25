@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import { Fab, Drawer, Snackbar } from '@material-ui/core'
 import Auth from '../services/Auth/Auth'
-import UserContext from '../userContext'
+import UserContext from '../UserContext'
 
 import theme from '../theme'
 import Sidebar from './Sidebar/Sidebar'

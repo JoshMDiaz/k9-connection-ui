@@ -5,7 +5,7 @@ import Plural from '../common/Plural'
 import { Popover } from '@material-ui/core'
 import Icon from '../common/Icons/Icon'
 import PageHeader from '../common/PageHeader/PageHeader'
-import UserContext from '../../userContext'
+import UserContext from '../../UserContext'
 import HelperService from '../../services/HelperService'
 import Dogs from './Dogs'
 
