@@ -96,11 +96,14 @@ const NewDog = ({ history }) => {
   }
 
   const removeUploadedImage = (image) => {
-    let uploadedArr = uploadedImages.filter((u) => {
-      if (u.id !== image.id) {
-        return u
-      }
-    })
+    let uploadedArr = uploadedImages
+      .filter((u) => {
+        if (u.id !== image.id) {
+          return u
+        }
+        return null
+      })
+      .filter(Boolean)
     setUploadedImages(uploadedArr)
   }
 

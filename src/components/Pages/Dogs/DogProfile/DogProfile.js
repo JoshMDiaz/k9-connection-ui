@@ -146,12 +146,15 @@ const DogProfile = () => {
     }))
   }
 
-  const removeUploadedImage = (image, index) => {
-    let uploadedArr = uploadedImages.filter((u) => {
-      if (u.id !== image.id) {
-        return u
-      }
-    })
+  const removeUploadedImage = (image) => {
+    let uploadedArr = uploadedImages
+      .map((u) => {
+        if (u.id !== image.id) {
+          return u
+        }
+        return null
+      })
+      .filter(Boolean)
     setState((prevState) => ({
       ...prevState,
       uploadedImages: uploadedArr,
