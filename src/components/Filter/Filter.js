@@ -72,7 +72,7 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
           min: 1,
           max: 15,
         },
-        distance: null,
+        distance: '',
         breed: [],
         eyes: '',
         favorite: false,

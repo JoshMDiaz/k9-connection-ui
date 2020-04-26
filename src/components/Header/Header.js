@@ -14,6 +14,7 @@ const Header = ({ auth }) => {
   const [searchField, setSearchField] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState(null)
   const uc = useContext(UserContext)
 
   const goToUserProfile = useCallback(
@@ -115,8 +116,11 @@ const Header = ({ auth }) => {
     }
   }
 
-  const toggle = (isOpen) => {
+  const toggle = (isOpen, e) => {
     setIsOpen(isOpen)
+    if (isOpen) {
+      setPopoverAnchorEl(e.currentTarget)
+    }
   }
 
   const goToUserSettings = () => {
@@ -169,7 +173,7 @@ const Header = ({ auth }) => {
       {uc.user && (
         <button
           className='plain user-dropdown animated fadeInRight'
-          onClick={() => toggle(!isOpen)}
+          onClick={(e) => toggle(true, e)}
         >
           <div className='image-container'>
             <img
@@ -184,7 +188,7 @@ const Header = ({ auth }) => {
       <Popover
         id='user-dropdown-popover'
         open={isOpen}
-        anchorEl={null}
+        anchorEl={popoverAnchorEl}
         onClose={() => toggle(false)}
         anchorOrigin={{
           vertical: 'top',
@@ -193,7 +197,6 @@ const Header = ({ auth }) => {
         classes={{
           paper: 'user-dropdown-container',
         }}
-        anchorReference='anchorEl'
       >
         <span className='user-dropdown-item' onClick={goToUserSettings}>
           Settings
