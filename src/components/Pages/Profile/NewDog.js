@@ -71,28 +71,22 @@ const NewDog = ({ history }) => {
     history.push('/dogs')
   }
 
-  const uploadImage = (files) => {
-    if (files.length > 0) {
+  const uploadImages = (files) => {
+    files.forEach((file) => {
       let reader = new FileReader()
-      let file = files[0]
       reader.onloadend = () => {
-        setUploadedImages([
-          ...uploadedImages,
+        setUploadedImages((prevState) => [
+          ...prevState,
           {
             url: reader.result,
             main_image: false,
             uploadedImage: true,
-            id: uploadedImages.length + 1,
+            id: prevState.length + 1,
           },
         ])
       }
       reader.readAsDataURL(file)
-    } else {
-      uc.openSnack({
-        message: 'File type not accepted. Only .jpg and .png are accepted.',
-        isOpen: true,
-      })
-    }
+    })
   }
 
   const removeUploadedImage = (image) => {
@@ -114,7 +108,7 @@ const NewDog = ({ history }) => {
       </div>
       <ContentContainer customClass='new-dog-container'>
         <div className='left-section'>
-          <UploadPhotos callout={uploadImage} type='dog' />
+          <UploadPhotos callout={uploadImages} type='dog' />
         </div>
         <div className='right-section'>
           <DogEdit dog={form}>

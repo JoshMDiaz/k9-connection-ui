@@ -9,6 +9,10 @@
   @include border-radius;
   padding: 20px;
   margin-bottom: 16px;
+  @include transition;
+  &.hovered {
+    box-shadow: 0 8px 15px $border-color;
+  }
   .upload-text-header {
     margin: 16px 0;
   }

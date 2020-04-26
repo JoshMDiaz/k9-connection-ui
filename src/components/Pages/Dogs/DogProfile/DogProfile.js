@@ -105,31 +105,25 @@ const DogProfile = () => {
     })
   }
 
-  const uploadImage = (files) => {
-    if (files.length > 0) {
+  const uploadImages = (files) => {
+    files.forEach((file) => {
       let reader = new FileReader()
-      let file = files[0]
       reader.onloadend = () => {
         setState((prevState) => ({
           ...prevState,
           uploadedImages: [
-            ...uploadedImages,
+            ...prevState.uploadedImages,
             {
               url: reader.result,
               main_image: false,
               uploadedImage: true,
-              id: uploadedImages.length + 1,
+              id: prevState.uploadedImages.length + 1,
             },
           ],
         }))
       }
       reader.readAsDataURL(file)
-    } else {
-      uc.openSnack({
-        message: 'File type not accepted. Only .jpg and .png are accepted.',
-        isOpen: true,
-      })
-    }
+    })
   }
 
   const cancelEdit = () => {
@@ -180,7 +174,9 @@ const DogProfile = () => {
       </div>
       <ContentContainer customClass='profile-container'>
         <div className='left-section'>
-          {isEditImageMode && <UploadPhotos callout={uploadImage} type='dog' />}
+          {isEditImageMode && (
+            <UploadPhotos callout={uploadImages} type='dog' />
+          )}
           {!isEditImageMode && (
             <>
               {dog?.dog_images && user?.id ? (
