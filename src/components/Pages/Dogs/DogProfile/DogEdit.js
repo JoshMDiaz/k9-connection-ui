@@ -25,7 +25,12 @@ const findDogBreeds = (breeds) => {
   })
 }
 
-const DogEdit = ({ dog, children }) => {
+const DogEdit = ({ dog, children, isEdit }) => {
+  let bd = dog.birthdate
+  if (isEdit) {
+    let bdArr = bd.split('/')
+    bd = `${bdArr[2]}-${bdArr[1]}-${bdArr[0]}`
+  }
   const [form, setForm] = useState({
     name: dog.name,
     gender: dog.gender,
@@ -33,7 +38,7 @@ const DogEdit = ({ dog, children }) => {
     registered: dog.registered?.toString(),
     breeds: dog.breeds ? findDogBreeds(dog.breeds) : [],
     eyes: dog.eyes,
-    birthdate: dog.birthdate,
+    birthdate: bd,
     description: dog.description,
   })
   const [breeds, setBreeds] = useState([])

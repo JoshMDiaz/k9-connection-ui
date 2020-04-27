@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import DogService from '../../../services/DogService'
-import { format, sub } from 'date-fns'
+import { format } from 'date-fns'
 import ContentContainer from '../../common/ContentContainer'
 import PageHeader from '../../common/PageHeader/PageHeader'
 import UploadPhotos from '../../Dogs/UploadPhotos/UploadPhotos'
@@ -9,6 +9,10 @@ import Gallery from '../Dogs/Gallery/Gallery'
 import DogEdit from '../Dogs/DogProfile/DogEdit'
 
 const NewDog = ({ history }) => {
+  const date = new Date()
+  const yearAgo = `${date.getMonth() + 1}-${date.getDate()}-${
+    date.getFullYear() - 1
+  }`
   let initialFormState = {
     name: '',
     gender: 'Female',
@@ -16,12 +20,7 @@ const NewDog = ({ history }) => {
     registered: 'false',
     breeds: [],
     eyes: [],
-    birthdate: format(
-      sub(new Date(), {
-        years: 1,
-      }),
-      'yyyy-MM-dd'
-    ),
+    birthdate: yearAgo,
     description: '',
   }
   const [form, setForm] = useState(initialFormState)

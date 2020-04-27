@@ -205,6 +205,7 @@ const DogProfile = () => {
               user={user}
               cancel={cancelEdit}
               update={updateDog}
+              isEdit
             >
               {({ form, breeds }) => (
                 <div className='form-button-container'>
