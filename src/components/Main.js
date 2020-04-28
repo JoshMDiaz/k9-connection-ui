@@ -113,7 +113,7 @@ const Main = (props) => {
             ContentProps={{
               'aria-describedby': 'message-id',
             }}
-            autoHideDuration={3000}
+            autoHideDuration={snack.duration || 3000}
             className={`snackbar ${snack.className || 'error'}`}
             message={<span id='message-id'>{snack.message}</span>}
           />

@@ -45,19 +45,12 @@ const UserProfile = (props) => {
   }
 
   const uploadImage = (files) => {
-    if (files.length > 0) {
-      let reader = new FileReader()
-      let file = files[0]
-      reader.onloadend = () => {
-        setUploadedImage(reader.result)
-      }
-      reader.readAsDataURL(file)
-    } else {
-      uc.openSnack({
-        message: 'File type not accepted. Only .jpg and .png are accepted.',
-        isOpen: true,
-      })
+    let reader = new FileReader()
+    let file = files[0]
+    reader.onloadend = () => {
+      setUploadedImage(reader.result)
     }
+    reader.readAsDataURL(file)
   }
 
   useEffect(() => {
