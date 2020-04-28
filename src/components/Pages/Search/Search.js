@@ -7,8 +7,8 @@ import LoadingCard from '../../common/LoadingCard/LoadingCard'
 import { useHistory } from 'react-router-dom'
 import HelperService from '../../../services/HelperService'
 
-const Search = ({ dogs }) => {
-  const [dogsToDisplay, setDogsToDisplay] = useState(dogs)
+const Search = () => {
+  const [dogsToDisplay, setDogsToDisplay] = useState([])
   const [loading, setLoading] = useState(false)
 
   const history = useHistory(),
@@ -18,7 +18,7 @@ const Search = ({ dogs }) => {
     SearchService.cancelGetAll()
     setLoading(true)
     let params = {
-      value: searchParams !== '' ? searchParams : null,
+      ...(searchParams ? { value: searchParams } : {}),
     }
     SearchService.getAll(params).then((response) => {
       if (response) {
@@ -29,12 +29,8 @@ const Search = ({ dogs }) => {
   }, [searchParams])
 
   useEffect(() => {
-    if (dogs.length === 0 && searchParams === '') {
-      getDogs()
-    } else {
-      setDogsToDisplay(dogs)
-    }
-  }, [dogs, searchParams, getDogs])
+    getDogs()
+  }, [getDogs])
 
   let count = 0
 

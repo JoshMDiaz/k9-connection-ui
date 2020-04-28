@@ -3,19 +3,17 @@ import { TextField, Popover } from '@material-ui/core'
 import Icon from '../../components/common/Icons/Icon'
 import noProfileImg from '../../images/icons/user.svg'
 import UserContext from '../../UserContext'
-import SearchService from '../../services/SearchService'
-import history from '../../services/Auth/History'
-import Spinner from '../common/Spinner/Spinner'
 import UserService from '../../services/UserService'
+import { useHistory } from 'react-router-dom'
 
 let searchTimeout
 
 const Header = ({ auth }) => {
   const [searchField, setSearchField] = useState('')
   const [isOpen, setIsOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [popoverAnchorEl, setPopoverAnchorEl] = useState(null)
   const uc = useContext(UserContext)
+  const history = useHistory()
 
   const goToUserProfile = useCallback(
     (isEdit) => {
@@ -25,7 +23,7 @@ const Header = ({ auth }) => {
       isEdit && localStorage.setItem('isEditMode', true)
       isOpen && toggle(false)
     },
-    [isOpen]
+    [isOpen, history]
   )
 
   const snackAction = useCallback(
@@ -71,36 +69,29 @@ const Header = ({ auth }) => {
     auth.logout()
   }
 
+  const getSearch = useCallback(
+    (value) => {
+      if (history.location.pathname !== '/search') {
+        uc.setPrevPage(history.location.pathname)
+      }
+      history.push({
+        pathname: '/search',
+        search: `?${value}`,
+      })
+    },
+    [history, uc]
+  )
+
   const checkForSearchParams = useCallback(() => {
     let searchParams = history.location.search.substring(1)
     if (searchParams) {
       setSearchField(searchParams)
+      getSearch(searchParams)
     }
-  }, [])
-
-  const getSearch = (value) => {
-    SearchService.cancelGetAll()
-    setLoading(true)
-    let params = {
-      value,
-    }
-    SearchService.getAll(params).then((response) => {
-      if (response) {
-        uc.setDogs(response.data)
-        setLoading(false)
-        if (history.location.pathname !== '/search') {
-          uc.setPrevPage(history.location.pathname)
-        }
-        history.push({
-          pathname: '/search',
-          search: `?${value}`,
-        })
-      }
-    })
-  }
+  }, [history.location.search, getSearch])
 
   const focusSearch = () => {
-    console.log('focus search')
+    document.getElementById('global-search-input').focus()
   }
 
   const handleChange = (e) => {
@@ -108,11 +99,9 @@ const Header = ({ auth }) => {
     if (e.target.value !== '' && e.target.value !== undefined) {
       getSearch(e.target.value)
     } else {
-      uc.setDogs([])
       history.push({
         search: '',
       })
-      setLoading(false)
     }
   }
 
@@ -154,13 +143,14 @@ const Header = ({ auth }) => {
         setSearchField('')
       }
     })
-  }, [])
+  }, [history])
 
   return (
     <div className='header'>
       <div className='search-bar animated fadeInLeft'>
         <Icon icon='magnifyingGlass' callout={focusSearch} />
         <TextField
+          id='global-search-input'
           className={'search-dogs-input'}
           margin='normal'
           onChange={handleChange}
@@ -168,7 +158,6 @@ const Header = ({ auth }) => {
           value={searchField}
           placeholder='Search by name, gender, or breed'
         />
-        {loading && <Spinner type='bars' />}
       </div>
       {uc.user && (
         <button
