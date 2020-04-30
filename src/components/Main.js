@@ -16,7 +16,7 @@ import Search from './Pages/Search/Search'
 
 const auth = new Auth()
 
-const Main = (props) => {
+const Main = (_) => {
   const [currentUser, setCurrentUser] = useState({})
   const [previousPage, setPreviousPage] = useState('')
   const [isOpen, setIsOpen] = useState(false)
@@ -113,7 +113,7 @@ const Main = (props) => {
             ContentProps={{
               'aria-describedby': 'message-id',
             }}
-            autoHideDuration={snack.duration || 3000}
+            autoHideDuration={!snack.stayOpen ? snack.duration || 3000 : null}
             className={`snackbar ${snack.className || 'error'}`}
             message={<span id='message-id'>{snack.message}</span>}
           />

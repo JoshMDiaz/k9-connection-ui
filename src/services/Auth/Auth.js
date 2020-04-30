@@ -13,7 +13,7 @@ export default class Auth {
     clientID: 'RJlTOOYnoxc7SdCRbV7rpuYJNMTawcj9',
     redirectUri: 'http://localhost:9000/callback',
     responseType: 'token id_token',
-    scope: 'openid profile'
+    scope: 'openid profile',
   })
 
   constructor() {
@@ -41,9 +41,11 @@ export default class Auth {
   }
 
   getUser(profile, authResult) {
-    UserService.get({}, profile.sub).then(response => {
-      if (!response || !response.data) {
+    UserService.get({}, profile.sub).then((response) => {
+      if (!response?.data) {
         UserService.createUser({ sub: profile.sub, email: profile.name })
+      } else {
+        localStorage.setItem('user', JSON.stringify(response.data))
       }
       this.setSession(authResult)
     })
@@ -121,7 +123,7 @@ export default class Auth {
     localStorage.removeItem('user')
 
     this.auth0.logout({
-      returnTo: window.location.origin
+      returnTo: window.location.origin,
     })
 
     // navigate to the home route

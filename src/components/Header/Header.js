@@ -3,17 +3,15 @@ import { TextField, Popover } from '@material-ui/core'
 import Icon from '../../components/common/Icons/Icon'
 import noProfileImg from '../../images/icons/user.svg'
 import UserContext from '../../UserContext'
-import UserService from '../../services/UserService'
 import { useHistory } from 'react-router-dom'
-
-let searchTimeout
 
 const Header = ({ auth }) => {
   const [searchField, setSearchField] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [popoverAnchorEl, setPopoverAnchorEl] = useState(null)
-  const uc = useContext(UserContext)
-  const history = useHistory()
+  const uc = useContext(UserContext),
+    history = useHistory(),
+    user = JSON.parse(localStorage.getItem('user'))
 
   const goToUserProfile = useCallback(
     (isEdit) => {
@@ -34,11 +32,9 @@ const Header = ({ auth }) => {
         uc.closeSnack()
       } else {
         uc.openSnack({
-          message:
-            'You can visit the Profile page to finsh setting up your account.',
+          message: 'You can visit the Profile page to finsh the setup.',
           isOpen: true,
-          duration: 3000,
-          onClose: uc.closeSnack,
+          className: 'info',
         })
       }
     },
@@ -49,12 +45,9 @@ const Header = ({ auth }) => {
     uc.openSnack({
       message: (
         <span className='account-finish-message'>
-          <span className='message'>
-            Want to finish setting up your account?
+          <span className='message' onClick={snackAction}>
+            Want to finish setting up your profile?
           </span>
-          <button onClick={() => snackAction(true)} className='plain'>
-            Set Up
-          </button>
           <button onClick={() => snackAction()} className='close-button'>
             X
           </button>
@@ -62,6 +55,7 @@ const Header = ({ auth }) => {
       ),
       isOpen: true,
       className: 'info',
+      stayOpen: true,
     })
   }, [snackAction, uc])
 
@@ -117,21 +111,13 @@ const Header = ({ auth }) => {
   }
 
   useEffect(() => {
-    if (auth.isAuthenticated()) {
-      UserService.get().then((response) => {
-        if (response) {
-          let user = response.data
-          if (!user.name) {
-            !localStorage.getItem('profilePrompt') && snackPrompt()
-          }
-          uc.setUser(user)
-        }
-      })
+    if (Object.keys(uc.user).length === 0) {
+      uc.setUser(user)
+      if (!user.name && !localStorage.getItem('profilePrompt')) {
+        snackPrompt()
+      }
     }
-    return () => {
-      clearTimeout(searchTimeout)
-    }
-  }, [uc, auth, snackPrompt])
+  }, [user, uc, snackPrompt])
 
   useEffect(() => {
     checkForSearchParams()

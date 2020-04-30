@@ -128,6 +128,10 @@ fieldset.gender-radios {
   margin: 32px 0 0;
 }
 
+[disabled] {
+  cursor: not-allowed;
+}
+
 .card-list {
   display: grid;
   margin-bottom: 64px;
@@ -192,22 +196,37 @@ fieldset.gender-radios {
     color: $white-color;
     position: absolute;
     top: 6px;
-    right: 8px;
     background: none;
     padding: 0;
+    height: auto;
     &:hover {
       box-shadow: none;
     }
   }
   .account-finish-message {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-gap: 24px;
-    align-items: center;
-    padding-right: 20px;
-    button {
-      @include border-radius;
-      box-shadow: none;
+    padding-right: 34px;
+    .message {
+      color: $white-color;
+      padding: 0 6px;
+      position: relative;
+      cursor: pointer;
+      &::before {
+        content: '';
+        position: absolute;
+        height: 1px;
+        bottom: 0;
+        width: 0;
+        left: 0;
+        right: 0;
+        background-color: $medium-gray-color;
+        @include transition;
+      }
+      &:hover {
+        color: $medium-gray-color;
+        &::before {
+          width: 100%;
+        }
+      }
     }
   }
 }
