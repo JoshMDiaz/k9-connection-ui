@@ -5,7 +5,7 @@ import Auth from '../services/Auth/Auth'
 
 import theme from '../theme'
 import Home from './Pages/Home/Home'
-import Callback from './Callback/Callback'
+import AppLoader from './AppLoader'
 
 const auth = new Auth()
 
@@ -23,7 +23,7 @@ const Website = (props) => {
           path='/callback'
           render={(props) => {
             handleAuthentication(props)
-            return <Callback {...props} />
+            return <AppLoader {...props} />
           }}
         />
         <Route exact path='/' render={(props) => <Home {...props} />} />
