@@ -11,7 +11,7 @@ const UnauthenticatedApp = () => {
     getUser,
   } = useAuth()
 
-  const [message, setMessage] = useState('Verifying Login Information.')
+  const [message, setMessage] = useState('Come back soon!')
   const pathname = window.location.pathname,
     hash = window.location.hash
 

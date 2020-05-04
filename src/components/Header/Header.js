@@ -4,14 +4,30 @@ import Icon from '../../components/common/Icons/Icon'
 import noProfileImg from '../../images/icons/user.svg'
 import UserContext from '../../UserContext'
 import { useHistory } from 'react-router-dom'
+import UserService from '../../services/UserService'
+import { useAuth } from '../../AuthContext'
 
 const Header = ({ auth }) => {
-  const [searchField, setSearchField] = useState('')
-  const [isOpen, setIsOpen] = useState(false)
-  const [popoverAnchorEl, setPopoverAnchorEl] = useState(null)
+  const [state, setState] = useState({
+    isOpen: false,
+    popoverAnchorEl: null,
+    searchField: '',
+    user: null,
+  })
+  const { isOpen, popoverAnchorEl, searchField, user } = state
+
   const uc = useContext(UserContext),
     history = useHistory(),
-    user = JSON.parse(localStorage.getItem('user'))
+    logout = useAuth().logout
+
+  const getUser = useCallback((authUser) => {
+    UserService.get({}, authUser.sub).then((response) => {
+      setState((prevState) => ({
+        ...prevState,
+        user: response.data,
+      }))
+    })
+  }, [])
 
   const goToUserProfile = useCallback(
     (isEdit) => {
@@ -59,10 +75,6 @@ const Header = ({ auth }) => {
     })
   }, [snackAction, uc])
 
-  const logout = () => {
-    auth.logout()
-  }
-
   const getSearch = useCallback(
     (value) => {
       if (history.location.pathname !== '/search') {
@@ -79,7 +91,10 @@ const Header = ({ auth }) => {
   const checkForSearchParams = useCallback(() => {
     let searchParams = history.location.search.substring(1)
     if (searchParams) {
-      setSearchField(searchParams)
+      setState((prevState) => ({
+        ...prevState,
+        searchField: searchParams,
+      }))
       getSearch(searchParams)
     }
   }, [history.location.search, getSearch])
@@ -89,7 +104,10 @@ const Header = ({ auth }) => {
   }
 
   const handleChange = (e) => {
-    setSearchField(e.target.value)
+    setState((prevState) => ({
+      ...prevState,
+      searchField: e.target.value,
+    }))
     if (e.target.value !== '' && e.target.value !== undefined) {
       getSearch(e.target.value)
     } else {
@@ -100,9 +118,15 @@ const Header = ({ auth }) => {
   }
 
   const toggle = (isOpen, e) => {
-    setIsOpen(isOpen)
+    setState((prevState) => ({
+      ...prevState,
+      isOpen: isOpen,
+    }))
     if (isOpen) {
-      setPopoverAnchorEl(e.currentTarget)
+      setState((prevState) => ({
+        ...prevState,
+        popoverAnchorEl: e.currentTarget,
+      }))
     }
   }
 
@@ -111,7 +135,11 @@ const Header = ({ auth }) => {
   }
 
   useEffect(() => {
-    if (Object.keys(uc.user).length === 0) {
+    getUser(JSON.parse(localStorage.getItem('auth0User')))
+  }, [getUser])
+
+  useEffect(() => {
+    if (user) {
       uc.setUser(user)
       if (!user.name && !localStorage.getItem('profilePrompt')) {
         snackPrompt()
@@ -126,7 +154,10 @@ const Header = ({ auth }) => {
   useEffect(() => {
     history.listen((location) => {
       if (location.pathname !== '/search') {
-        setSearchField('')
+        setState((prevState) => ({
+          ...prevState,
+          searchField: '',
+        }))
       }
     })
   }, [history])

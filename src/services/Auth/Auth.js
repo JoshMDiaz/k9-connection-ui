@@ -44,8 +44,6 @@ export default class Auth {
     UserService.get({}, profile.sub).then((response) => {
       if (!response?.data) {
         UserService.createUser({ sub: profile.sub, email: profile.name })
-      } else {
-        localStorage.setItem('user', JSON.stringify(response.data))
       }
       this.setSession(authResult)
     })
@@ -125,9 +123,6 @@ export default class Auth {
     this.auth0.logout({
       returnTo: window.location.origin,
     })
-
-    // navigate to the home route
-    history.replace('/')
   }
 
   isAuthenticated() {
