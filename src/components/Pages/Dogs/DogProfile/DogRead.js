@@ -4,6 +4,7 @@ import Icon from '../../../common/Icons/Icon'
 import Plural from '../../../common/Plural'
 import Mdash from '../../../common/Mdash/Mdash'
 import FavoriteIcon from '../../../FavoriteIcon/FavoriteIcon'
+import Contact from '../../../common/Contact'
 
 const DogRead = ({ dog, user, setIsEditMode }) => {
   const dogInfoConfig = [
@@ -67,10 +68,6 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
     }
   }
 
-  const messageOwner = () => {
-    console.log('message owner')
-  }
-
   return (
     <>
       <div className='info-header'>
@@ -83,20 +80,7 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
           >
             {dog.user_id !== user.id && (
               <>
-                <span
-                  className='img-border with-text not-mobile'
-                  onClick={messageOwner}
-                >
-                  Message Owner&nbsp;
-                  <Icon icon='messageNoBorder' customClass='button-icon' />
-                </span>
-                <div className='icon-container mobile-only'>
-                  <Icon
-                    icon={'message'}
-                    customClass='message-icon'
-                    callout={messageOwner}
-                  />
-                </div>
+                <Contact dog={dog} />
                 <FavoriteIcon dog={dog} />
               </>
             )}

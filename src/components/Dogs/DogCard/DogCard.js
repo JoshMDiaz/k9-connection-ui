@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import HelperService from '../../../services/HelperService'
-import Icon from '../../common/Icons/Icon'
 import noImage from '../../../images/no-image.jpg'
 import FavoriteIcon from '../../FavoriteIcon/FavoriteIcon'
 import { withStyles } from '@material-ui/core/styles'
 import { Tooltip, Zoom } from '@material-ui/core'
 import MasonryItem from '../../common/Masonry/MasonryItem'
+import Contact from '../../common/Contact'
 
 const DogCard = ({ dog, index, user }) => {
   const [image, setImage] = useState({})
@@ -25,10 +25,6 @@ const DogCard = ({ dog, index, user }) => {
     return text.length > characterLength
       ? `${text.substring(0, characterLength).trim()}...`
       : text
-  }
-
-  const messageOwner = () => {
-    console.log('message owner')
   }
 
   const LightTooltip = withStyles((theme) => ({
@@ -107,7 +103,7 @@ const DogCard = ({ dog, index, user }) => {
             {user.id !== dog.user_id && (
               <span className='footer-icons'>
                 <div className='icon-container'>
-                  <Icon icon='message' callout={messageOwner} />
+                  <Contact dog={dog} />
                 </div>
                 <FavoriteIcon dog={dog} />
               </span>

@@ -7,18 +7,18 @@ const Sidebar = () => {
     {
       id: 1,
       page: 'Browse Dogs',
-      path: '/dogs'
+      path: '/dogs',
     },
     {
       id: 2,
       page: 'Profile',
-      path: '/profile'
+      path: '/profile',
     },
-    {
-      id: 3,
-      page: 'Messages',
-      path: '/messages'
-    }
+    // {
+    //   id: 3,
+    //   page: 'Messages',
+    //   path: '/messages'
+    // }
   ]
 
   let count = 0
