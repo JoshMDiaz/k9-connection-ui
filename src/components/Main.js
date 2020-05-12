@@ -65,7 +65,7 @@ const Main = (_) => {
         <div className='App'>
           <Sidebar />
           <div>
-            <Header auth={auth} />
+            <Header />
             <div className='app-content'>
               <Switch>
                 <Route

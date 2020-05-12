@@ -7,27 +7,17 @@ import { useHistory } from 'react-router-dom'
 import UserService from '../../services/UserService'
 import { useAuth } from '../../AuthContext'
 
-const Header = ({ auth }) => {
+const Header = () => {
   const [state, setState] = useState({
     isOpen: false,
     popoverAnchorEl: null,
     searchField: '',
-    user: null,
   })
-  const { isOpen, popoverAnchorEl, searchField, user } = state
+  const { isOpen, popoverAnchorEl, searchField } = state
 
   const uc = useContext(UserContext),
     history = useHistory(),
     logout = useAuth().logout
-
-  const getUser = useCallback((authUser) => {
-    UserService.get({}, authUser.sub).then((response) => {
-      setState((prevState) => ({
-        ...prevState,
-        user: response.data,
-      }))
-    })
-  }, [])
 
   const goToUserProfile = useCallback(
     (isEdit) => {
@@ -74,6 +64,20 @@ const Header = ({ auth }) => {
       stayOpen: true,
     })
   }, [snackAction, uc])
+
+  const getUser = useCallback(
+    (authUser) => {
+      UserService.get({}, authUser.sub).then((response) => {
+        let user = response.data
+        uc.setUser(user)
+        localStorage.setItem('user', JSON.stringify(user))
+        if (!user.name && !localStorage.getItem('profilePrompt')) {
+          snackPrompt()
+        }
+      })
+    },
+    [snackPrompt, uc]
+  )
 
   const getSearch = useCallback(
     (value) => {
@@ -135,17 +139,11 @@ const Header = ({ auth }) => {
   }
 
   useEffect(() => {
-    getUser(JSON.parse(localStorage.getItem('auth0User')))
-  }, [getUser])
-
-  useEffect(() => {
-    if (user) {
-      uc.setUser(user)
-      if (!user.name && !localStorage.getItem('profilePrompt')) {
-        snackPrompt()
-      }
+    let user = JSON.parse(localStorage.getItem('user'))
+    if (!user) {
+      getUser(JSON.parse(localStorage.getItem('auth0User')))
     }
-  }, [user, uc, snackPrompt])
+  }, [getUser])
 
   useEffect(() => {
     checkForSearchParams()
