@@ -18,6 +18,7 @@ const Header = () => {
   const uc = useContext(UserContext),
     history = useHistory(),
     logout = useAuth().logout
+  let user = JSON.parse(localStorage.getItem('user')) || uc.user
 
   const goToUserProfile = useCallback(
     (isEdit) => {
@@ -139,11 +140,10 @@ const Header = () => {
   }
 
   useEffect(() => {
-    let user = JSON.parse(localStorage.getItem('user'))
-    if (!user) {
+    if (Object.keys(user).length === 0) {
       getUser(JSON.parse(localStorage.getItem('auth0User')))
     }
-  }, [getUser])
+  }, [getUser, user])
 
   useEffect(() => {
     checkForSearchParams()
@@ -174,18 +174,18 @@ const Header = () => {
           placeholder='Search by name, gender, or breed'
         />
       </div>
-      {uc.user && (
+      {user && (
         <button
           className='plain user-dropdown animated fadeInRight'
           onClick={(e) => toggle(true, e)}
         >
           <div className='image-container'>
             <img
-              src={uc.user.picture ? uc.user.picture : noProfileImg}
-              alt={uc.user.name}
+              src={user.picture ? user.picture : noProfileImg}
+              alt={user.name}
             />
           </div>
-          <span>{uc.user.name || uc.user.email}</span>
+          <span>{user.name || user.email}</span>
           <Icon icon='chevronDown' />
         </button>
       )}
