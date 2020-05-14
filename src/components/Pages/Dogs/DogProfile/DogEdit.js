@@ -18,6 +18,7 @@ import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import FormService from '../../../../services/FormService'
 import Multiselect from '../../../common/Multiselect'
+import { format } from 'date-fns'
 
 const findDogBreeds = (breeds) => {
   return breeds.map((b) => {
@@ -25,12 +26,8 @@ const findDogBreeds = (breeds) => {
   })
 }
 
-const DogEdit = ({ dog, children, isEdit }) => {
-  let bd = dog.birthdate
-  if (isEdit) {
-    let bdArr = bd.split('/')
-    bd = `${bdArr[2]}-${bdArr[1]}-${bdArr[0]}`
-  }
+const DogEdit = ({ dog, children }) => {
+  //TODO: fix date display on datepicker
   const [form, setForm] = useState({
     name: dog.name,
     gender: dog.gender,
@@ -38,7 +35,7 @@ const DogEdit = ({ dog, children, isEdit }) => {
     registered: dog.registered?.toString(),
     breeds: dog.breeds ? findDogBreeds(dog.breeds) : [],
     eyes: dog.eyes,
-    birthdate: bd,
+    birthdate: dog.birthdate,
     description: dog.description,
   })
   const [breeds, setBreeds] = useState([])
@@ -70,7 +67,7 @@ const DogEdit = ({ dog, children, isEdit }) => {
   const handleDateChange = (date) => {
     setForm({
       ...form,
-      birthdate: date,
+      birthdate: format(date, 'yyyy-MM-dd'),
     })
   }
 

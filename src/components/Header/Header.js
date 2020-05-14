@@ -71,6 +71,11 @@ const Header = () => {
       UserService.get({}, authUser.sub).then((response) => {
         let user = response.data
         uc.setUser(user)
+        let modifiedUserDogs = user.dogs.map((d) => {
+          delete d.dog_images
+          return d
+        })
+        user.dogs = modifiedUserDogs
         localStorage.setItem('user', JSON.stringify(user))
         if (!user.name && !localStorage.getItem('profilePrompt')) {
           snackPrompt()

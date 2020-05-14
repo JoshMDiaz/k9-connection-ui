@@ -5,7 +5,6 @@ import MainImage from '../../../Dogs/MainImage/MainImage'
 import ContentContainer from '../../../common/ContentContainer'
 import DogRead from './DogRead'
 import DogEdit from './DogEdit'
-import { format } from 'date-fns'
 import UserContext from '../../../../UserContext'
 import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 import { useRouteMatch } from 'react-router-dom'
@@ -15,7 +14,7 @@ import Spinner from '../../../common/Spinner/Spinner'
 const DogProfile = () => {
   const [state, setState] = useState({
     dog: {},
-    user: {},
+    user: JSON.parse(localStorage.getItem('user')),
     isEditMode: false,
     isEditImageMode: false,
     uploadedImages: [],
@@ -63,7 +62,6 @@ const DogProfile = () => {
   const updateDog = (dogForm, breeds) => {
     let dog = { ...dogForm },
       images = dog.dog_images
-    dog.birthdate = format(dog.birthdate, 'yyyy-MM-dd')
     delete dog.breeds
     let body = {
       dog: { ...dog },
@@ -159,13 +157,6 @@ const DogProfile = () => {
   useEffect(() => {
     getDog()
   }, [getDog])
-
-  useEffect(() => {
-    setState((prevState) => ({
-      ...prevState,
-      user: uc.user,
-    }))
-  }, [uc])
 
   return (
     <div className='dog-profile profile'>
