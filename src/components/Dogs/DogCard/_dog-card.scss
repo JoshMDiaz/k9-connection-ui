@@ -19,6 +19,14 @@
     margin-bottom: 16px;
     font-weight: 300;
   }
+  .contact {
+    .contact-text {
+      display: none;
+    }
+    .icon.button-icon {
+      margin: 0;
+    }
+  }
   span {
     &.gender-age,
     &.dog-breed,

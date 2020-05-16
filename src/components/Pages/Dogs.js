@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import List from '../Dogs/List'
 import DogService from '../../services/DogService'
 import LoadingCard from '../common/LoadingCard/LoadingCard'
-import UserContext from '../../UserContext'
 import FilterHelperService from '../../services/FilterHelperService'
 
 const Dogs = ({ filter, callout }) => {
@@ -11,8 +10,6 @@ const Dogs = ({ filter, callout }) => {
     loading: true,
   })
   const { dogs, loading } = state
-
-  const uc = useContext(UserContext)
 
   const getDogs = useCallback(() => {
     setState((prevState) => ({
@@ -40,7 +37,7 @@ const Dogs = ({ filter, callout }) => {
   return (
     <div className='page-padding'>
       {!loading ? (
-        <List dogs={dogs} user={uc.user} />
+        <List dogs={dogs} />
       ) : (
         <div className='card-list'>
           {[...Array(12).keys()].map((row, i) => {

@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Card from './DogCard/DogCard'
 import noDogImg from '../../images/no-image.jpg'
-import UserContext from '../../UserContext'
 import Masonry from '../common/Masonry/Masonry'
 
 const List = ({ dogs }) => {
-  const uc = useContext(UserContext)
   const [trigger, setTrigger] = useState(false)
 
   useEffect(() => {
@@ -23,7 +21,7 @@ const List = ({ dogs }) => {
         <div className='masonry'>
           <Masonry items={dogs} resizeTrigger={trigger}>
             {dogs.map((e, i) => {
-              return <Card dog={e} key={e.name} index={i} user={uc.user} />
+              return <Card dog={e} key={e.name} index={i} />
             })}
           </Masonry>
         </div>

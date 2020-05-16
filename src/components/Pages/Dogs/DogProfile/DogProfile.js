@@ -59,14 +59,28 @@ const DogProfile = () => {
     }))
   }
 
+  const cleanupImages = (images) => {
+    return images
+      .sort((a, b) => {
+        let comparison = 0
+        if (a.main_image > b.main_image) {
+          comparison = -1
+        } else if (a.main_image < b.main_image) {
+          comparison = 1
+        }
+        return comparison
+      })
+      .map((i) => {
+        return i.url
+      })
+  }
+
   const updateDog = (dogForm, breeds) => {
-    let dog = { ...dogForm },
-      images = dog.dog_images
+    let dog = { ...dogForm }
     delete dog.breeds
     let body = {
       dog: { ...dog },
       breeds: transformBreeds(breeds, dogForm.breeds),
-      dog_images: images,
     }
     DogService.updateDog(match.params.id, body).then((response) => {
       if (response) {
@@ -87,10 +101,8 @@ const DogProfile = () => {
     let body = {
       dog: { ...dogBody },
       breeds: getBreedIds(),
-      dog_images: images,
+      dog_images: cleanupImages(images),
     }
-    console.log(body)
-
     DogService.updateDog(match.params.id, body).then((response) => {
       if (response) {
         uc.openSnack({

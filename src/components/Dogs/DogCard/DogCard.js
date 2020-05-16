@@ -8,8 +8,9 @@ import { Tooltip, Zoom } from '@material-ui/core'
 import MasonryItem from '../../common/Masonry/MasonryItem'
 import Contact from '../../common/Contact'
 
-const DogCard = ({ dog, index, user }) => {
+const DogCard = ({ dog, index }) => {
   const [image, setImage] = useState({})
+  const user = JSON.parse(localStorage.getItem('user'))
 
   const findMainImage = (images) => {
     let mainImage = images.filter((i) => {

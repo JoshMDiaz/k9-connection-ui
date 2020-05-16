@@ -15,9 +15,9 @@ const Contact = ({ dog }) => {
           }
           arrow
         >
-          <div>
+          <div className='contact'>
             <span className='img-border with-text not-mobile'>
-              Contact&nbsp;
+              <span className='contact-text'>Contact&nbsp;</span>
               <Icon icon='messageNoBorder' customClass='button-icon' />
             </span>
             <div className='icon-container mobile-only'>

@@ -1,11 +1,10 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import Filter from '../Filter/Filter'
 import { Link } from 'react-router-dom'
 import Plural from '../common/Plural'
 import { Popover } from '@material-ui/core'
 import Icon from '../common/Icons/Icon'
 import PageHeader from '../common/PageHeader/PageHeader'
-import UserContext from '../../UserContext'
 import HelperService from '../../services/HelperService'
 import Dogs from './Dogs'
 
@@ -17,7 +16,7 @@ const DogBrowse = ({ filters, filterCount, dogsDispatch }) => {
   })
   const { dogsNum, filterOpen, popoverAnchorEl } = state
 
-  const uc = useContext(UserContext)
+  const user = JSON.parse(localStorage.getItem('user'))
 
   const toggleFilter = (isOpen, e) => {
     let dispatchObj = {
@@ -90,7 +89,7 @@ const DogBrowse = ({ filters, filterCount, dogsDispatch }) => {
               filters={filters}
               formDispatch={dogsDispatch}
               toggleFilter={toggleFilter}
-              user={uc.user}
+              user={user}
             />
           </Popover>
           <Link to='/profile/new-dog' className='new-dog-link'>
