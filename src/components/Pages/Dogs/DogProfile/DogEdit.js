@@ -18,7 +18,6 @@ import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import FormService from '../../../../services/FormService'
 import Multiselect from '../../../common/Multiselect'
-import { format } from 'date-fns'
 
 const findDogBreeds = (breeds) => {
   return breeds.map((b) => {
@@ -27,7 +26,6 @@ const findDogBreeds = (breeds) => {
 }
 
 const DogEdit = ({ dog, children }) => {
-  //TODO: fix date display on datepicker
   const [form, setForm] = useState({
     name: dog.name,
     gender: dog.gender,
@@ -64,13 +62,6 @@ const DogEdit = ({ dog, children }) => {
     })
   }
 
-  const handleDateChange = (date) => {
-    setForm({
-      ...form,
-      birthdate: format(date, 'yyyy-MM-dd'),
-    })
-  }
-
   const handleMultiselect = (selected) => {
     setForm({
       ...form,
@@ -95,19 +86,16 @@ const DogEdit = ({ dog, children }) => {
         value={form.name}
       />
       {/* Birthdate */}
-      <KeyboardDatePicker
-        disableToolbar
-        className={'birthdate-datepicker'}
-        variant='inline'
-        format='MM/dd/yyyy'
-        margin='normal'
-        id='birthdate-picker-inline'
+      <TextField
+        id='birthdate'
         label='Birthdate'
-        value={form.birthdate}
-        onChange={handleDateChange}
+        type='date'
+        defaultValue={form.birthdate}
+        className='birthdate-datepicker'
+        onChange={(e) => handleChange(e, 'birthdate', 'value')}
         fullWidth
-        KeyboardButtonProps={{
-          'aria-label': 'change date',
+        InputLabelProps={{
+          shrink: true,
         }}
       />
 

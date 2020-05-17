@@ -25,6 +25,7 @@ const DogProfile = () => {
   let uc = useContext(UserContext)
 
   const getDog = useCallback(() => {
+    DogService.clearCache()
     DogService.get(match.params.id).then((response) => {
       if (response) {
         setState((prevState) => ({

@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react'
 import DogService from '../../../services/DogService'
-import { format } from 'date-fns'
 import ContentContainer from '../../common/ContentContainer'
 import PageHeader from '../../common/PageHeader/PageHeader'
 import UploadPhotos from '../../Dogs/UploadPhotos/UploadPhotos'
