@@ -280,3 +280,13 @@ fieldset.gender-radios {
     transform: scale(1.1);
   }
 }
+
+// Pagination
+.MuiPagination-ul {
+  margin: 24px;
+  justify-content: center;
+  .MuiPaginationItem-page.Mui-selected {
+    background-color: $primary-color;
+    color: $white-color;
+  }
+}
