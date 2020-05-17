@@ -16,9 +16,11 @@ const UserProfile = (props) => {
   const uc = useContext(UserContext)
 
   const getUser = useCallback(() => {
+    UserService.clearCache()
     UserService.get().then((response) => {
       if (response?.data) {
         let user = response.data
+        localStorage.setItem('user', JSON.stringify(user))
         uc.setUser(user)
         setUploadedImage(user.picture)
       }

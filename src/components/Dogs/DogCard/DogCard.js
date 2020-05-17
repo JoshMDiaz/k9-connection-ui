@@ -62,27 +62,29 @@ const DogCard = ({ dog, index }) => {
                   {HelperService.getYearsOld(dog.birthdate)}
                 </span>
               </span>
-              <span className='dog-breed'>
-                {dog.breeds.length > 1 ? (
-                  <LightTooltip
-                    title={
-                      <>
-                        {dog.breeds.map((e, i) => (
-                          <p className='breed-names' key={i}>
-                            {e.name}
-                          </p>
-                        ))}
-                      </>
-                    }
-                    placement='right'
-                    TransitionComponent={Zoom}
-                  >
-                    <span>{dog.breeds.length} Breeds</span>
-                  </LightTooltip>
-                ) : (
-                  <span>{dog.breeds[0].name}</span>
-                )}
-              </span>
+              {dog.breeds && (
+                <span className='dog-breed'>
+                  {dog.breeds?.length > 1 ? (
+                    <LightTooltip
+                      title={
+                        <>
+                          {dog.breeds?.map((e, i) => (
+                            <p className='breed-names' key={i}>
+                              {e.name}
+                            </p>
+                          ))}
+                        </>
+                      }
+                      placement='right'
+                      TransitionComponent={Zoom}
+                    >
+                      <span>{dog.breeds?.length} Breeds</span>
+                    </LightTooltip>
+                  ) : (
+                    <span>{dog.breeds[0]?.name}</span>
+                  )}
+                </span>
+              )}
               {user && user.city && user.state && (
                 <span className='location'>
                   {user.city || 'Lehi'}, {user.state || 'UT'}

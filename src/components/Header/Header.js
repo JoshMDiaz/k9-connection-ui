@@ -18,7 +18,7 @@ const Header = () => {
   const uc = useContext(UserContext),
     history = useHistory(),
     logout = useAuth().logout
-  let user = JSON.parse(localStorage.getItem('user')) || uc.user
+  let user = uc.user || JSON.parse(localStorage.getItem('user'))
 
   const goToUserProfile = useCallback(
     (isEdit) => {
@@ -69,16 +69,18 @@ const Header = () => {
   const getUser = useCallback(
     (authUser) => {
       UserService.get({}, authUser.sub).then((response) => {
-        let user = response.data
-        uc.setUser(user)
-        let modifiedUserDogs = user.dogs.map((d) => {
-          delete d.dog_images
-          return d
-        })
-        user.dogs = modifiedUserDogs
-        localStorage.setItem('user', JSON.stringify(user))
-        if (!user.name && !localStorage.getItem('profilePrompt')) {
-          snackPrompt()
+        if (response.data) {
+          let user = response.data
+          uc.setUser(user)
+          let modifiedUserDogs = user?.dogs.map((d) => {
+            delete d.dog_images
+            return d
+          })
+          user.dogs = modifiedUserDogs
+          localStorage.setItem('user', JSON.stringify(user))
+          if (!user.name && !localStorage.getItem('profilePrompt')) {
+            snackPrompt()
+          }
         }
       })
     },

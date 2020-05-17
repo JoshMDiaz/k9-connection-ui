@@ -35,7 +35,6 @@ const NewDog = ({ history }) => {
 
   const save = (form, addAnother) => {
     let dog = { ...form }
-    dog.birthdate = format(dog.birthdate, 'yyyy-MM-dd')
     delete dog.breeds
     let body = {
       dog: { ...dog },
