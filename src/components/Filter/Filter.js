@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import FormService from '../../services/FormService'
 import { format, sub } from 'date-fns'
 import {
   TextField,
@@ -14,6 +13,7 @@ import {
   FormControlLabel,
 } from '@material-ui/core'
 import Multiselect from '../common/Multiselect'
+import { getEyeColors, getBreeds } from '../../services/FormService'
 
 const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
   const [state, setState] = useState({
@@ -23,8 +23,8 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
   })
   const { filterCopy, breeds, eyeColors } = state
 
-  const getBreeds = () => {
-    FormService.getBreeds().then((response) => {
+  const getBreedsList = () => {
+    getBreeds().then((response) => {
       if (response) {
         setState((prevState) => ({
           ...prevState,
@@ -34,8 +34,8 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
     })
   }
 
-  const getEyeColors = () => {
-    FormService.getEyeColors().then((response) => {
+  const getEyeColorsList = () => {
+    getEyeColors().then((response) => {
       if (response) {
         setState((prevState) => ({
           ...prevState,
@@ -172,8 +172,8 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
   }
 
   useEffect(() => {
-    getBreeds()
-    getEyeColors()
+    getBreedsList()
+    getEyeColorsList()
   }, [])
 
   useEffect(() => {

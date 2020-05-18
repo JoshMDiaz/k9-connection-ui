@@ -6,7 +6,7 @@ import {
   Select,
   MenuItem,
 } from '@material-ui/core'
-import FormService from '../../../../services/FormService'
+import { getStates } from '../../../../services/FormService'
 
 const UserEdit = ({ user, setIsEditMode, update, history }) => {
   const [form, setForm] = useState({
@@ -37,8 +37,8 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
     })
   }, [user])
 
-  const getStates = useCallback(() => {
-    FormService.getStates().then((response) => {
+  const getStatesList = useCallback(() => {
+    getStates().then((response) => {
       if (response) {
         setStates(response.data)
       }
@@ -60,8 +60,8 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
   }
 
   useEffect(() => {
-    getStates()
-  }, [getStates])
+    getStatesList()
+  }, [getStatesList])
 
   useEffect(() => {
     getUser()

@@ -9,76 +9,72 @@ const base = '/k9-connect/api/v1',
 
 let breedsCancel, statesCancel, eyeColorsCancel
 
-class DogService {
-  getBreeds(params = {}) {
-    let url = `${base}/breeds`
-    return SecureAxios.get(url, {
-      params: params,
-      headers: UserService.auth0User(),
-      cancelToken: new CancelToken(function executor(c) {
-        breedsCancel = c
-      }),
-      cache: FormCache,
+export function getBreeds(params = {}) {
+  let url = `${base}/breeds`
+  return SecureAxios.get(url, {
+    params: params,
+    headers: UserService.auth0User(),
+    cancelToken: new CancelToken(function executor(c) {
+      breedsCancel = c
+    }),
+    cache: FormCache,
+  })
+    .then((response) => {
+      return response.data
     })
-      .then((response) => {
-        return response.data
-      })
-      .catch((error) => {})
-  }
+    .catch((error) => {})
+}
 
-  cancelGetBreeds() {
-    if (breedsCancel) {
-      breedsCancel('Canceled breeds request')
-    }
-  }
-
-  getStates(params = {}) {
-    let url = `${base}/states`
-    return SecureAxios.get(url, {
-      params: params,
-      headers: UserService.auth0User(),
-      cancelToken: new CancelToken(function executor(c) {
-        statesCancel = c
-      }),
-      cache: FormCache,
-    })
-      .then((response) => {
-        return response.data
-      })
-      .catch((error) => {})
-  }
-
-  cancelGetStates() {
-    if (statesCancel) {
-      statesCancel('Canceled states request')
-    }
-  }
-
-  getEyeColors(params = {}) {
-    let url = `${base}/eye_colors`
-    return SecureAxios.get(url, {
-      params: params,
-      headers: UserService.auth0User(),
-      cancelToken: new CancelToken(function executor(c) {
-        eyeColorsCancel = c
-      }),
-      cache: FormCache,
-    })
-      .then((response) => {
-        return response.data
-      })
-      .catch((error) => {})
-  }
-
-  cancelGetEyeColors() {
-    if (eyeColorsCancel) {
-      eyeColorsCancel('Canceled eye colors request')
-    }
-  }
-
-  clearCache() {
-    FormCache.reset()
+export function cancelGetBreeds() {
+  if (breedsCancel) {
+    breedsCancel('Canceled breeds request')
   }
 }
 
-export default new DogService()
+export function getStates(params = {}) {
+  let url = `${base}/states`
+  return SecureAxios.get(url, {
+    params: params,
+    headers: UserService.auth0User(),
+    cancelToken: new CancelToken(function executor(c) {
+      statesCancel = c
+    }),
+    cache: FormCache,
+  })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {})
+}
+
+export function cancelGetStates() {
+  if (statesCancel) {
+    statesCancel('Canceled states request')
+  }
+}
+
+export function getEyeColors(params = {}) {
+  let url = `${base}/eye_colors`
+  return SecureAxios.get(url, {
+    params: params,
+    headers: UserService.auth0User(),
+    cancelToken: new CancelToken(function executor(c) {
+      eyeColorsCancel = c
+    }),
+    cache: FormCache,
+  })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {})
+}
+
+export function cancelGetEyeColors() {
+  if (eyeColorsCancel) {
+    eyeColorsCancel('Canceled eye colors request')
+  }
+}
+
+export function clearCache() {
+  FormCache.reset()
+}
