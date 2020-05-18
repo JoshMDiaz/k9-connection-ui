@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import HelperService from '../../../services/HelperService'
+import { getYearsOld } from '../../../services/HelperService'
 import noImage from '../../../images/no-image.jpg'
 import FavoriteIcon from '../../FavoriteIcon/FavoriteIcon'
 import { withStyles } from '@material-ui/core/styles'
@@ -58,9 +58,7 @@ const DogCard = ({ dog, index }) => {
               <span className='gender-age'>
                 <span className='gender'>{dog.gender}</span>
                 &nbsp;&nbsp;/&nbsp;&nbsp;
-                <span className='age'>
-                  {HelperService.getYearsOld(dog.birthdate)}
-                </span>
+                <span className='age'>{getYearsOld(dog.birthdate)}</span>
               </span>
               {dog.breeds && (
                 <span className='dog-breed'>

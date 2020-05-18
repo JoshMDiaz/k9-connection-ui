@@ -5,7 +5,7 @@ import BackButton from '../../common/BackButton/BackButton'
 import SearchService from '../../../services/SearchService'
 import LoadingCard from '../../common/LoadingCard/LoadingCard'
 import { useHistory } from 'react-router-dom'
-import HelperService from '../../../services/HelperService'
+import { numberFormat } from '../../../services/HelperService'
 
 const Search = () => {
   const [dogsToDisplay, setDogsToDisplay] = useState([])
@@ -39,7 +39,7 @@ const Search = () => {
       <div className='main-content-header'>
         <BackButton isSearch />
         <h3 className='page-header animated fadeInRight'>
-          {HelperService.numberFormat(dogsToDisplay.length)}
+          {numberFormat(dogsToDisplay.length)}
           &nbsp;
           <Plural text='Dog' number={dogsToDisplay.length} />
           &nbsp;Found

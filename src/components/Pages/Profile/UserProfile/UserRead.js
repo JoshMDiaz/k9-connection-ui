@@ -1,7 +1,7 @@
 import React from 'react'
 import Mdash from '../../../common/Mdash/Mdash'
 import Icon from '../../../common/Icons/Icon'
-import HelperService from '../../../../services/HelperService'
+import { formatPhoneNumber } from '../../../../services/HelperService'
 
 const UserRead = ({ user, setIsEditMode }) => {
   const userInfoConfig = [
@@ -48,7 +48,7 @@ const UserRead = ({ user, setIsEditMode }) => {
             {` `}
             <span className='info-data'>
               {e.value === 'phone'
-                ? HelperService.formatPhoneNumber(user[e.value])
+                ? formatPhoneNumber(user[e.value])
                 : user[e.value] || <Mdash />}
             </span>
           </div>

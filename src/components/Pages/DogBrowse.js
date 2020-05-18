@@ -5,7 +5,7 @@ import Plural from '../common/Plural'
 import { Popover } from '@material-ui/core'
 import Icon from '../common/Icons/Icon'
 import PageHeader from '../common/PageHeader/PageHeader'
-import HelperService from '../../services/HelperService'
+import { numberFormat } from '../../services/HelperService'
 import Dogs from './Dogs'
 
 const DogBrowse = ({ filters, filterCount, dogsDispatch }) => {
@@ -44,7 +44,7 @@ const DogBrowse = ({ filters, filterCount, dogsDispatch }) => {
         <PageHeader
           text={
             <>
-              {HelperService.numberFormat(dogsNum)}
+              {numberFormat(dogsNum)}
               &nbsp;
               <Plural text='Dog' number={dogsNum} />
             </>

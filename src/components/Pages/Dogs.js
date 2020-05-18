@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import List from '../Dogs/List'
 import DogService from '../../services/DogService'
 import LoadingCard from '../common/LoadingCard/LoadingCard'
-import FilterHelperService from '../../services/FilterHelperService'
+import { generateParams } from '../../services/FilterHelperService'
 import { Pagination } from '@material-ui/lab'
 
 const Dogs = ({ filter, callout }) => {
@@ -21,7 +21,7 @@ const Dogs = ({ filter, callout }) => {
         loading: true,
       }))
       localStorage.setItem('dogPageNumber', pageNumber)
-      let params = FilterHelperService.generateParams(filter)
+      let params = generateParams(filter)
       params.page = pageNumber
       DogService.getAll(params).then((response) => {
         if (response) {
