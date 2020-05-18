@@ -79,7 +79,6 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
         value={form.name || ''}
       />
 
-      {/* Phone - see Formatted Inputs - https://material-ui.com/components/text-fields/#formatted-inputs */}
       <TextField
         label={`Phone`}
         className={'form-input'}

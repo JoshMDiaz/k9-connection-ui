@@ -20,6 +20,11 @@ const UserProfile = (props) => {
     UserService.get().then((response) => {
       if (response?.data) {
         let user = response.data
+        let modifiedUserDogs = user?.dogs.map((d) => {
+          delete d.dog_images
+          return d
+        })
+        user.dogs = modifiedUserDogs
         localStorage.setItem('user', JSON.stringify(user))
         uc.setUser(user)
         setUploadedImage(user.picture)

@@ -1,29 +1,30 @@
 import React from 'react'
 import Mdash from '../../../common/Mdash/Mdash'
 import Icon from '../../../common/Icons/Icon'
+import HelperService from '../../../../services/HelperService'
 
 const UserRead = ({ user, setIsEditMode }) => {
   const userInfoConfig = [
     {
       label: 'Phone',
-      value: 'phone'
+      value: 'phone',
     },
     {
       label: 'Email',
-      value: 'email'
+      value: 'email',
     },
     {
       label: 'Address',
-      value: 'address'
+      value: 'address',
     },
     {
       label: 'City',
-      value: 'city'
+      value: 'city',
     },
     {
       label: 'Zip',
-      value: 'zip'
-    }
+      value: 'zip',
+    },
   ]
 
   return (
@@ -45,7 +46,11 @@ const UserRead = ({ user, setIsEditMode }) => {
           <div className='info' key={i}>
             <span className='info-label'>{e.label}:</span>
             {` `}
-            <span className='info-data'>{user[e.value] || <Mdash />}</span>
+            <span className='info-data'>
+              {e.value === 'phone'
+                ? HelperService.formatPhoneNumber(user[e.value])
+                : user[e.value] || <Mdash />}
+            </span>
           </div>
         ))}
       </div>

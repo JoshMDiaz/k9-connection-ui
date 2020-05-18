@@ -1,6 +1,7 @@
 import React from 'react'
 import { Tooltip } from '@material-ui/core'
 import Icon from './Icons/Icon'
+import HelperService from '../../services/HelperService'
 
 const Contact = ({ dog }) => {
   return (
@@ -9,7 +10,7 @@ const Contact = ({ dog }) => {
         <Tooltip
           title={
             <div>
-              {dog.phone && <p>{dog.phone}</p>}
+              {dog.phone && <p>{HelperService.formatPhoneNumber(dog.phone)}</p>}
               {dog.email && <p>{dog.email}</p>}
             </div>
           }
