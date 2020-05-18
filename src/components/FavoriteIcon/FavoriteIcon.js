@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Icon from '../common/Icons/Icon'
-import UserFavoriteService from '../../services/UserFavoriteService'
+import { removeFavorite, makeFavorite } from '../../services/UserFavoriteService'
 import UserContext from '../../UserContext'
 
 const FavoriteIcon = ({ dog }) => {
@@ -11,7 +11,7 @@ const FavoriteIcon = ({ dog }) => {
     let params = {
       dog_id: dog.id,
     }
-    UserFavoriteService.removeFavorite(params).then((response) => {
+    removeFavorite(params).then((response) => {
       if (response) {
         setFavorite(false)
         uc.openSnack({
@@ -27,7 +27,7 @@ const FavoriteIcon = ({ dog }) => {
     let params = {
       dog_id: dog.id,
     }
-    UserFavoriteService.makeFavorite({}, params).then((response) => {
+    makeFavorite({}, params).then((response) => {
       if (response) {
         setFavorite(true)
         uc.openSnack({
