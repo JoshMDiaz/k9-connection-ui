@@ -6,9 +6,8 @@ const Gallery = ({
   images,
   uploadedImages,
   isEdit,
-  cancelEditImages,
-  updateDogImages,
   removeUploadedImage,
+  updateImageCopy,
 }) => {
   let initialImages = uploadedImages ? images.concat(uploadedImages) : images
   const [imagesCopy, setImagesCopy] = useState(initialImages)
@@ -38,8 +37,9 @@ const Gallery = ({
   useEffect(() => {
     if (uploadedImages) {
       setImagesCopy(images.concat(uploadedImages))
+      updateImageCopy(images.concat(uploadedImages))
     }
-  }, [images, uploadedImages])
+  }, [images, uploadedImages, updateImageCopy])
 
   let imagesToDisplay = isEdit ? imagesCopy : images
 
@@ -57,19 +57,6 @@ const Gallery = ({
           />
         ))}
       </Masonry>
-      {isEdit && imagesToDisplay.length > 0 && (
-        <div className='form-button-container gallery-image-buttons'>
-          <button className={'plain'} onClick={cancelEditImages}>
-            Cancel
-          </button>
-          <button
-            className={'primary'}
-            onClick={() => updateDogImages(imagesToDisplay)}
-          >
-            Save
-          </button>
-        </div>
-      )}
     </div>
   )
 }

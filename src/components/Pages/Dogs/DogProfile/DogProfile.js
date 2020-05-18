@@ -16,10 +16,10 @@ const DogProfile = () => {
     dog: {},
     user: JSON.parse(localStorage.getItem('user')),
     isEditMode: false,
-    isEditImageMode: false,
     uploadedImages: [],
+    imagesCopy: [],
   })
-  const { dog, user, isEditMode, uploadedImages, isEditImageMode } = state
+  const { dog, user, isEditMode, uploadedImages, imagesCopy } = state
 
   const match = useRouteMatch()
   let uc = useContext(UserContext)
@@ -46,17 +46,10 @@ const DogProfile = () => {
       })
   }
 
-  const getBreedIds = () => {
-    return dog.breeds.map((b) => {
-      return b.id
-    })
-  }
-
-  const updateEditMode = (mode, type) => {
-    let attr = type === 'image' ? 'isEditImageMode' : 'isEditMode'
+  const updateEditMode = (mode) => {
     setState((prevState) => ({
       ...prevState,
-      [attr]: mode,
+      isEditMode: mode,
     }))
   }
 
@@ -82,6 +75,7 @@ const DogProfile = () => {
     let body = {
       dog: { ...dog },
       breeds: transformBreeds(breeds, dogForm.breeds),
+      dog_images: cleanupImages(imagesCopy),
     }
     DogService.updateDog(match.params.id, body).then((response) => {
       if (response) {
@@ -95,26 +89,12 @@ const DogProfile = () => {
     })
   }
 
-  const updateDogImages = (images) => {
-    let dogBody = { ...dog }
-    delete dogBody.breeds
-    delete dogBody.dog_images
-    let body = {
-      dog: { ...dogBody },
-      breeds: getBreedIds(),
-      dog_images: cleanupImages(images),
-    }
-    DogService.updateDog(match.params.id, body).then((response) => {
-      if (response) {
-        uc.openSnack({
-          message: 'Dog has been updated!',
-          isOpen: true,
-          className: 'success',
-        })
-        updateEditMode(false)
-      }
-    })
-  }
+  const updateImageCopy = useCallback((images) => {
+    setState((prevState) => ({
+      ...prevState,
+      imagesCopy: images,
+    }))
+  }, [])
 
   const uploadImages = (files) => {
     files.forEach((file) => {
@@ -144,14 +124,6 @@ const DogProfile = () => {
     }))
   }
 
-  const cancelEditImages = () => {
-    setState((prevState) => ({
-      ...prevState,
-      uploadedImages: [],
-      isEditImageMode: false,
-    }))
-  }
-
   const removeUploadedImage = (image) => {
     let uploadedArr = uploadedImages
       .map((u) => {
@@ -178,17 +150,11 @@ const DogProfile = () => {
       </div>
       <ContentContainer customClass='profile-container'>
         <div className='left-section'>
-          {isEditImageMode && (
-            <UploadPhotos callout={uploadImages} type='dog' />
-          )}
-          {!isEditImageMode && (
+          {isEditMode && <UploadPhotos callout={uploadImages} type='dog' />}
+          {!isEditMode && (
             <>
               {dog?.dog_images && user?.id ? (
-                <MainImage
-                  images={dog.dog_images}
-                  editable={dog.user_id === user.id}
-                  updateEditMode={updateEditMode}
-                />
+                <MainImage images={dog.dog_images} />
               ) : (
                 <Spinner type='circle' />
               )}
@@ -235,11 +201,10 @@ const DogProfile = () => {
         >
           <Gallery
             images={dog.dog_images}
-            uploadedImages={isEditImageMode ? uploadedImages : null}
-            isEdit={isEditImageMode}
-            cancelEditImages={cancelEditImages}
-            updateDogImages={updateDogImages}
+            uploadedImages={isEditMode ? uploadedImages : null}
+            isEdit={isEditMode}
             removeUploadedImage={removeUploadedImage}
+            updateImageCopy={updateImageCopy}
           />
         </div>
       )}

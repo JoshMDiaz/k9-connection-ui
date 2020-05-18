@@ -16,14 +16,4 @@
   fieldset.papered-radios {
     margin-right: 16px;
   }
-  .form-button-container.gallery-image-buttons {
-    margin-bottom: 64px;
-    @media only screen and (min-width: 768px) {
-      position: absolute;
-      bottom: -78px;
-      right: 20px;
-      margin-top: 0;
-      height: 0;
-    }
-  }
 }

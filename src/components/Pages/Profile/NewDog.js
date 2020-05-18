@@ -140,6 +140,9 @@ const NewDog = ({ history }) => {
             uploadedImages={uploadedImages}
             isEdit={true}
             removeUploadedImage={removeUploadedImage}
+            updateImageCopy={() => {
+              return
+            }}
           />
         </div>
       )}

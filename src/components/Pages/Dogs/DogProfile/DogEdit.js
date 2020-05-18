@@ -10,10 +10,7 @@ import {
   FormLabel,
   FormControlLabel,
 } from '@material-ui/core'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import FormService from '../../../../services/FormService'
