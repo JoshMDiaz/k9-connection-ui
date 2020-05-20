@@ -38,7 +38,7 @@ const DogCard = ({ dog, index }) => {
   }))(Tooltip)
 
   useEffect(() => {
-    dog?.images?.length > 0 && findMainImage(dog.dog_images)
+    dog?.dog_images?.length > 0 && findMainImage(dog.dog_images)
   }, [dog])
 
   return (

@@ -26,13 +26,13 @@ const Dogs = ({ filter, callout }) => {
       getAllDogs(params).then((response) => {
         if (response) {
           let dogsArr = [...response.data]
-          callout(dogsArr[0].count)
+          callout(dogsArr[0]?.count || 0)
           setState((prevState) => ({
             ...prevState,
             dogs: dogsArr,
             loading: false,
             page: Number(pageNumber),
-            total: dogsArr[0].count,
+            total: dogsArr[0]?.count || 0,
           }))
         }
       })
@@ -51,15 +51,17 @@ const Dogs = ({ filter, callout }) => {
       {!loading ? (
         <>
           <List dogs={dogs} />
-          <Pagination
-            count={totalCount}
-            page={page}
-            showFirstButton={page > 1 && totalCount > 20}
-            showLastButton={page !== totalCount && totalCount > 20}
-            hidePrevButton={page === 1}
-            hideNextButton={page === totalCount}
-            onChange={(_, pageNum) => getDogs(pageNum)}
-          />
+          {dogs.length > 0 && (
+            <Pagination
+              count={totalCount}
+              page={page}
+              showFirstButton={page > 1 && totalCount > 20}
+              showLastButton={page !== totalCount && totalCount > 20}
+              hidePrevButton={page === 1}
+              hideNextButton={page === totalCount}
+              onChange={(_, pageNum) => getDogs(pageNum)}
+            />
+          )}
         </>
       ) : (
         <div className='card-list'>

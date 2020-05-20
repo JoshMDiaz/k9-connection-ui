@@ -110,6 +110,7 @@ const Filter = ({ filters, formDispatch, toggleFilter, user }) => {
   }
 
   const updateFilter = () => {
+    localStorage.removeItem('dogPageNumber')
     let filterCount = determineActiveFilters(),
       newFilters = {
         ...filterCopy,
