@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import DogService from '../../../services/DogService'
+import { createDog } from '../../../services/DogService'
 import ContentContainer from '../../common/ContentContainer'
 import PageHeader from '../../common/PageHeader/PageHeader'
 import UploadPhotos from '../../Dogs/UploadPhotos/UploadPhotos'
@@ -40,7 +40,7 @@ const NewDog = ({ history }) => {
       breeds: transformBreedIds(form.breeds),
       dog_images: [...uploadedImages],
     }
-    DogService.createDog(body)
+    createDog(body)
       .then((response) => {
         if (response) {
           uc.openSnack({

@@ -1,6 +1,6 @@
 import history from './History'
 import auth0 from 'auth0-js'
-import UserService from '../UserService'
+import { getUser, createUser } from '../UserService'
 
 export default class Auth {
   accessToken
@@ -40,10 +40,10 @@ export default class Auth {
     })
   }
 
-  getUser(profile, authResult) {
-    UserService.get({}, profile.sub).then((response) => {
+  getCurrentUser(profile, authResult) {
+    getUser({}, profile.sub).then((response) => {
       if (!response?.data) {
-        UserService.createUser({ sub: profile.sub, email: profile.name })
+        createUser({ sub: profile.sub, email: profile.name })
       }
       this.setSession(authResult)
     })
@@ -56,7 +56,7 @@ export default class Auth {
           if (profile) {
             this.userProfile = profile
             localStorage.setItem('auth0User', JSON.stringify(profile))
-            this.getUser(profile, authResult)
+            this.getCurrentUser(profile, authResult)
           }
         })
       } else if (err) {

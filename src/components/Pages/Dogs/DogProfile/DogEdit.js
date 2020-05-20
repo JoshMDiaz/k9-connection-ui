@@ -13,8 +13,8 @@ import {
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
-import FormService from '../../../../services/FormService'
 import Multiselect from '../../../common/Multiselect'
+import { getBreeds, getEyeColors } from '../../../../services/FormService'
 
 const findDogBreeds = (breeds) => {
   return breeds.map((b) => {
@@ -36,16 +36,16 @@ const DogEdit = ({ dog, children }) => {
   const [breeds, setBreeds] = useState([])
   const [eyeColors, setEyeColors] = useState([])
 
-  const getBreeds = () => {
-    FormService.getBreeds().then((response) => {
+  const getBreedsList = () => {
+    getBreeds().then((response) => {
       if (response) {
         setBreeds(response.data)
       }
     })
   }
 
-  const getEyeColors = () => {
-    FormService.getEyeColors().then((response) => {
+  const getEyeColorsList = () => {
+    getEyeColors().then((response) => {
       if (response) {
         setEyeColors(response.data)
       }
@@ -67,8 +67,8 @@ const DogEdit = ({ dog, children }) => {
   }
 
   useEffect(() => {
-    getBreeds()
-    getEyeColors()
+    getBreedsList()
+    getEyeColorsList()
   }, [])
 
   return (

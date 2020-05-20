@@ -4,7 +4,7 @@ import Icon from '../../components/common/Icons/Icon'
 import noProfileImg from '../../images/icons/user.svg'
 import UserContext from '../../UserContext'
 import { useHistory } from 'react-router-dom'
-import UserService from '../../services/UserService'
+import { getUser } from '../../services/UserService'
 import { useAuth } from '../../AuthContext'
 
 const Header = () => {
@@ -66,9 +66,9 @@ const Header = () => {
     })
   }, [snackAction, uc])
 
-  const getUser = useCallback(
+  const getCurrentUser = useCallback(
     (authUser) => {
-      UserService.get({}, authUser.sub).then((response) => {
+      getUser({}, authUser.sub).then((response) => {
         if (response.data) {
           let user = response.data
           uc.setUser(user)
@@ -148,9 +148,9 @@ const Header = () => {
 
   useEffect(() => {
     if (Object.keys(user).length === 0) {
-      getUser(JSON.parse(localStorage.getItem('auth0User')))
+      getCurrentUser(JSON.parse(localStorage.getItem('auth0User')))
     }
-  }, [getUser, user])
+  }, [getCurrentUser, user])
 
   useEffect(() => {
     checkForSearchParams()

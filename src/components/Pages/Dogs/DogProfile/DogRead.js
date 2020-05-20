@@ -1,5 +1,5 @@
 import React from 'react'
-import HelperService from '../../../../services/HelperService'
+import { capitalize, getYearsOld } from '../../../../services/HelperService'
 import Icon from '../../../common/Icons/Icon'
 import Plural from '../../../common/Plural'
 import Mdash from '../../../common/Mdash/Mdash'
@@ -44,10 +44,10 @@ const DogRead = ({ dog, user, setIsEditMode }) => {
         newVal = dog['registered'] === true ? 'Yes' : 'No'
         break
       case 'eyes':
-        newVal = HelperService.capitalize(dog['eyes'])
+        newVal = capitalize(dog['eyes'])
         break
       case 'birthdate':
-        newVal = HelperService.getYearsOld(dog['birthdate'])
+        newVal = getYearsOld(dog['birthdate'])
         break
       case 'breeds':
         newVal = getDogBreeds(dog[value])

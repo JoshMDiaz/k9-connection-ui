@@ -11,100 +11,104 @@ const base = '/k9-connect/api/v1/users',
 
 let getUserCancel, getUsersCancel, createUserCancel, updateUserCancel
 
-class UserService {
-  auth0User() {
-    return auth0UserObj
-  }
+export function auth0User() {
+  return auth0UserObj
+}
 
-  get(params = {}, sub) {
-    let url = `${base}/${auth0UserObj.sub || sub}`
-    return SecureAxios.get(url, {
-      params: params,
-      headers: auth0UserObj,
-      cancelToken: new CancelToken(function executor(c) {
-        getUserCancel = c
-      }),
-      cache: UserCache,
+export function getUser(params = {}, sub) {
+  let url = `${base}/${auth0UserObj.sub || sub}`
+  return SecureAxios.get(url, {
+    params: params,
+    headers: auth0UserObj,
+    cancelToken: new CancelToken(function executor(c) {
+      getUserCancel = c
+    }),
+    cache: UserCache,
+  })
+    .then((response) => {
+      return response.data
     })
-      .then((response) => {
-        return response.data
-      })
-      .catch((error) => {})
-  }
-
-  cancelGet() {
-    if (getUserCancel) {
-      getUserCancel('Canceled get user request')
-    }
-  }
-
-  getAll(params = {}) {
-    let url = `${base}`
-    return SecureAxios.get(url, {
-      params: params,
-      headers: auth0UserObj,
-      cancelToken: new CancelToken(function executor(c) {
-        getUsersCancel = c
-      }),
-      cache: UserCache,
+    .catch((error) => {
+      console.error(error)
     })
-      .then((response) => {
-        return response.data
-      })
-      .catch((error) => {})
-  }
+}
 
-  cancelGetAll() {
-    if (getUsersCancel) {
-      getUsersCancel('Canceled get users request')
-    }
-  }
-
-  createUser(body, params = {}) {
-    let url = `${base}`
-    return SecureAxios.post(url, body, {
-      params: params,
-      headers: auth0UserObj,
-      cancelToken: new CancelToken(function executor(c) {
-        createUserCancel = c
-      }),
-    })
-      .then((response) => {
-        return response.data
-      })
-      .catch((error) => {})
-  }
-
-  cancelCreateUser() {
-    if (createUserCancel) {
-      createUserCancel('Canceled create user request')
-    }
-  }
-
-  updateUser(userId, body, params = {}) {
-    let url = `${base}/${userId}`
-    return SecureAxios.put(url, body, {
-      params: params,
-      headers: auth0UserObj,
-      cancelToken: new CancelToken(function executor(c) {
-        updateUserCancel = c
-      }),
-    })
-      .then((response) => {
-        return response.data
-      })
-      .catch((error) => {})
-  }
-
-  cancelUpdateUser() {
-    if (updateUserCancel) {
-      updateUserCancel('Canceled update user request')
-    }
-  }
-
-  clearCache() {
-    UserCache.reset()
+export function cancelGetUser() {
+  if (getUserCancel) {
+    getUserCancel('Canceled get user request')
   }
 }
 
-export default new UserService()
+export function getAllUsers(params = {}) {
+  let url = `${base}`
+  return SecureAxios.get(url, {
+    params: params,
+    headers: auth0UserObj,
+    cancelToken: new CancelToken(function executor(c) {
+      getUsersCancel = c
+    }),
+    cache: UserCache,
+  })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+export function cancelGetAllUsers() {
+  if (getUsersCancel) {
+    getUsersCancel('Canceled get users request')
+  }
+}
+
+export function createUser(body, params = {}) {
+  let url = `${base}`
+  return SecureAxios.post(url, body, {
+    params: params,
+    headers: auth0UserObj,
+    cancelToken: new CancelToken(function executor(c) {
+      createUserCancel = c
+    }),
+  })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+export function cancelCreateUser() {
+  if (createUserCancel) {
+    createUserCancel('Canceled create user request')
+  }
+}
+
+export function updateUser(userId, body, params = {}) {
+  let url = `${base}/${userId}`
+  return SecureAxios.put(url, body, {
+    params: params,
+    headers: auth0UserObj,
+    cancelToken: new CancelToken(function executor(c) {
+      updateUserCancel = c
+    }),
+  })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+export function cancelUpdateUser() {
+  if (updateUserCancel) {
+    updateUserCancel('Canceled update user request')
+  }
+}
+
+export function clearUserCache() {
+  UserCache.reset()
+}
