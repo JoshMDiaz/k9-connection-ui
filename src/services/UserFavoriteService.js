@@ -1,5 +1,5 @@
 import axios from 'axios'
-import UserService from './UserService'
+import { auth0User } from './UserService'
 const CancelToken = axios.CancelToken
 
 const base = '/k9-connect/api/v1/user_favorites'
@@ -11,7 +11,7 @@ export function makeFavorite(body, params = {}) {
   return axios
     .post(url, body, {
       params: params,
-      headers: UserService.auth0User(),
+      headers: auth0User(),
       cancelToken: new CancelToken(function executor(c) {
         makeFavoriteCancel = c
       }),
@@ -19,7 +19,9 @@ export function makeFavorite(body, params = {}) {
     .then((response) => {
       return response.data
     })
-    .catch((error) => {})
+    .catch((error) => {
+      console.error(error)
+    })
 }
 
 export function cancelMakeFavorite() {
@@ -33,7 +35,7 @@ export function removeFavorite(params = {}) {
   return axios
     .delete(url, {
       params: params,
-      headers: UserService.auth0User(),
+      headers: auth0User(),
       cancelToken: new CancelToken(function executor(c) {
         removeFavoriteCancel = c
       }),
@@ -41,7 +43,9 @@ export function removeFavorite(params = {}) {
     .then((response) => {
       return response.data
     })
-    .catch((error) => {})
+    .catch((error) => {
+      console.error(error)
+    })
 }
 
 export function cancelRemoveFavorite() {

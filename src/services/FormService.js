@@ -1,6 +1,6 @@
 import SecureAxios from './SecureAxios'
 import axios from 'axios'
-import UserService from './UserService'
+import { auth0User } from './UserService'
 import { Cache } from 'axios-extensions'
 
 const base = '/k9-connect/api/v1',
@@ -13,7 +13,7 @@ export function getBreeds(params = {}) {
   let url = `${base}/breeds`
   return SecureAxios.get(url, {
     params: params,
-    headers: UserService.auth0User(),
+    headers: auth0User(),
     cancelToken: new CancelToken(function executor(c) {
       breedsCancel = c
     }),
@@ -35,7 +35,7 @@ export function getStates(params = {}) {
   let url = `${base}/states`
   return SecureAxios.get(url, {
     params: params,
-    headers: UserService.auth0User(),
+    headers: auth0User(),
     cancelToken: new CancelToken(function executor(c) {
       statesCancel = c
     }),
@@ -44,7 +44,9 @@ export function getStates(params = {}) {
     .then((response) => {
       return response.data
     })
-    .catch((error) => {})
+    .catch((error) => {
+      console.error(error)
+    })
 }
 
 export function cancelGetStates() {
@@ -57,7 +59,7 @@ export function getEyeColors(params = {}) {
   let url = `${base}/eye_colors`
   return SecureAxios.get(url, {
     params: params,
-    headers: UserService.auth0User(),
+    headers: auth0User(),
     cancelToken: new CancelToken(function executor(c) {
       eyeColorsCancel = c
     }),
@@ -66,7 +68,9 @@ export function getEyeColors(params = {}) {
     .then((response) => {
       return response.data
     })
-    .catch((error) => {})
+    .catch((error) => {
+      console.error(error)
+    })
 }
 
 export function cancelGetEyeColors() {

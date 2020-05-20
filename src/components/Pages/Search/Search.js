@@ -2,7 +2,10 @@ import React, { useEffect, useState, useCallback } from 'react'
 import List from '../../Dogs/List'
 import Plural from '../../common/Plural'
 import BackButton from '../../common/BackButton/BackButton'
-import SearchService from '../../../services/SearchService'
+import {
+  cancelGetSearchAll,
+  getSearchAll,
+} from '../../../services/SearchService'
 import LoadingCard from '../../common/LoadingCard/LoadingCard'
 import { useHistory } from 'react-router-dom'
 import { numberFormat } from '../../../services/HelperService'
@@ -15,12 +18,12 @@ const Search = () => {
     searchParams = history.location.search.substring(1)
 
   const getDogs = useCallback(() => {
-    SearchService.cancelGetAll()
+    cancelGetSearchAll()
     setLoading(true)
     let params = {
       ...(searchParams ? { value: searchParams } : {}),
     }
-    SearchService.getAll(params).then((response) => {
+    getSearchAll(params).then((response) => {
       if (response) {
         setDogsToDisplay(response.data)
         setLoading(false)

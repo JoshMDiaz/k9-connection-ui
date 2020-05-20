@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react'
-import DogService from '../../../../services/DogService'
+import {
+  clearDogCache,
+  getDog,
+  updateDog,
+} from '../../../../services/DogService'
 import BackButton from '../../../common/BackButton/BackButton'
 import MainImage from '../../../Dogs/MainImage/MainImage'
 import ContentContainer from '../../../common/ContentContainer'
@@ -24,9 +28,9 @@ const DogProfile = () => {
   const match = useRouteMatch()
   let uc = useContext(UserContext)
 
-  const getDog = useCallback(() => {
-    DogService.clearCache()
-    DogService.get(match.params.id).then((response) => {
+  const getCurrentDog = useCallback(() => {
+    clearDogCache()
+    getDog(match.params.id).then((response) => {
       if (response) {
         setState((prevState) => ({
           ...prevState,
@@ -69,7 +73,7 @@ const DogProfile = () => {
       })
   }
 
-  const updateDog = (dogForm, breeds) => {
+  const update = (dogForm, breeds) => {
     let dog = { ...dogForm }
     delete dog.breeds
     let body = {
@@ -77,7 +81,7 @@ const DogProfile = () => {
       breeds: transformBreeds(breeds, dogForm.breeds),
       dog_images: cleanupImages(imagesCopy),
     }
-    DogService.updateDog(match.params.id, body).then((response) => {
+    updateDog(match.params.id, body).then((response) => {
       if (response) {
         uc.openSnack({
           message: 'Dog has been updated!',
@@ -140,8 +144,8 @@ const DogProfile = () => {
   }
 
   useEffect(() => {
-    getDog()
-  }, [getDog])
+    getCurrentDog()
+  }, [getCurrentDog])
 
   return (
     <div className='dog-profile profile'>
@@ -167,14 +171,14 @@ const DogProfile = () => {
               dog={dog}
               user={user}
               setIsEditMode={updateEditMode}
-              getDog={getDog}
+              getCurrentDog={getCurrentDog}
             />
           ) : (
             <DogEdit
               dog={dog}
               user={user}
               cancel={cancelEdit}
-              update={updateDog}
+              update={update}
               isEdit
             >
               {({ form, breeds }) => (
@@ -184,7 +188,7 @@ const DogProfile = () => {
                   </button>
                   <button
                     className={'primary'}
-                    onClick={() => updateDog(form, breeds)}
+                    onClick={() => update(form, breeds)}
                   >
                     Save
                   </button>

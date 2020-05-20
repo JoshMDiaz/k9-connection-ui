@@ -5,7 +5,11 @@ import List from '../../../Dogs/List'
 import UserContext from '../../../../UserContext'
 import UserRead from './UserRead'
 import UserEdit from './UserEdit'
-import UserService from '../../../../services/UserService'
+import {
+  clearUserCache,
+  getUser,
+  updateUser,
+} from '../../../../services/UserService'
 import UploadPhotos from '../../../Dogs/UploadPhotos/UploadPhotos'
 import Plural from '../../../common/Plural'
 import noProfileImg from '../../../../images/icons/user.svg'
@@ -15,9 +19,9 @@ const UserProfile = (props) => {
   const [uploadedImage, setUploadedImage] = useState(null)
   const uc = useContext(UserContext)
 
-  const getUser = useCallback(() => {
-    UserService.clearCache()
-    UserService.get().then((response) => {
+  const getCurrentUser = useCallback(() => {
+    clearUserCache()
+    getUser().then((response) => {
       if (response?.data) {
         let user = response.data
         let modifiedUserDogs = user?.dogs.map((d) => {
@@ -37,14 +41,14 @@ const UserProfile = (props) => {
       ...form,
       picture: uploadedImage || form.picture,
     }
-    UserService.updateUser(uc.user.sub, body).then((response) => {
+    updateUser(uc.user.sub, body).then((response) => {
       if (response) {
         uc.openSnack({
           message: 'Your account has been updated!',
           isOpen: true,
           className: 'success',
         })
-        getUser()
+        getCurrentUser()
         setIsEditMode(false)
         localStorage.removeItem('isEditMode')
       }
@@ -61,11 +65,11 @@ const UserProfile = (props) => {
   }
 
   useEffect(() => {
-    getUser()
+    getCurrentUser()
     if (localStorage.getItem('isEditMode')) {
       setIsEditMode(true)
     }
-  }, [getUser])
+  }, [getCurrentUser])
 
   useEffect(() => {
     setUploadedImage(uc.user.picture)
