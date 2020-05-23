@@ -45,10 +45,10 @@ const Gallery = ({
 
   return (
     <div className='gallery masonry'>
-      <Masonry items={imagesToDisplay}>
+      <Masonry>
         {imagesToDisplay.map((e, i) => (
           <GalleryItem
-            key={e.url}
+            key={e.id}
             image={e}
             index={i}
             isEdit={isEdit}

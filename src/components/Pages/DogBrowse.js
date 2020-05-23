@@ -19,15 +19,15 @@ const DogBrowse = ({ filters, filterCount, dogsDispatch }) => {
   const user = JSON.parse(localStorage.getItem('user'))
 
   const toggleFilter = (isOpen, e) => {
-    let dispatchObj = {
+    let stateObj = {
       filterOpen: isOpen,
     }
     if (isOpen) {
-      dispatchObj.popoverAnchorEl = e.currentTarget
+      stateObj.popoverAnchorEl = e.currentTarget
     }
     setState((prevState) => ({
       ...prevState,
-      ...dispatchObj,
+      ...stateObj,
     }))
   }
 

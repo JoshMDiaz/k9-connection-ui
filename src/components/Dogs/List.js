@@ -19,9 +19,9 @@ const List = ({ dogs }) => {
     <>
       {dogs.length > 0 ? (
         <div className='masonry'>
-          <Masonry items={dogs} resizeTrigger={trigger}>
+          <Masonry resizeTrigger={trigger}>
             {dogs.map((e, i) => {
-              return <Card dog={e} key={e.name} index={i} />
+              return <Card dog={e} key={e.id} index={i} />
             })}
           </Masonry>
         </div>

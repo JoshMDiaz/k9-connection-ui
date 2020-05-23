@@ -9,7 +9,7 @@ import MasonryItem from '../../common/Masonry/MasonryItem'
 import Contact from '../../common/Contact'
 
 const DogCard = ({ dog, index }) => {
-  const [image, setImage] = useState({})
+  const [image, setImage] = useState(null)
   const user = JSON.parse(localStorage.getItem('user'))
 
   const findMainImage = (images) => {

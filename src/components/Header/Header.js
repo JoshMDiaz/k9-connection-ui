@@ -135,6 +135,7 @@ const Header = () => {
       isOpen: isOpen,
     }))
     if (isOpen) {
+      e.persist()
       setState((prevState) => ({
         ...prevState,
         popoverAnchorEl: e.currentTarget,
