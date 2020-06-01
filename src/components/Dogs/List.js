@@ -11,7 +11,7 @@ const List = ({ dogs }) => {
     if (dogs.length > 0) {
       setTimeout(() => {
         setTrigger(true)
-      }, 50)
+      }, 250)
     }
   }, [dogs])
 

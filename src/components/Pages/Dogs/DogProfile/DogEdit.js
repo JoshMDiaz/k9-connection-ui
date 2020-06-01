@@ -16,11 +16,11 @@ import DateFnsUtils from '@date-io/date-fns'
 import Multiselect from '../../../common/Multiselect'
 import { getBreeds, getEyeColors } from '../../../../services/FormService'
 
-const findDogBreeds = (breeds) => {
-  return breeds.map((b) => {
-    return b.name
-  })
-}
+// const findDogBreeds = (breeds) => {
+//   return breeds.map((b) => {
+//     return b.name
+//   })
+// }
 
 const DogEdit = ({ dog, children }) => {
   const [form, setForm] = useState({
@@ -28,7 +28,7 @@ const DogEdit = ({ dog, children }) => {
     gender: dog.gender,
     papered: dog.papered?.toString(),
     registered: dog.registered?.toString(),
-    breeds: dog.breeds ? findDogBreeds(dog.breeds) : [],
+    breeds: dog.breeds,
     eyes: dog.eyes,
     birthdate: dog.birthdate,
     description: dog.description,
@@ -202,7 +202,7 @@ const DogEdit = ({ dog, children }) => {
       <FormControl style={{ width: '100%', marginTop: '20px' }}>
         <Multiselect
           breeds={breeds}
-          dogBreeds={form.breeds}
+          formBreeds={form.breeds}
           updateBreeds={handleMultiselect}
         />
       </FormControl>

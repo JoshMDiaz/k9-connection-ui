@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { createDog } from '../../../services/DogService'
+import { createDog, clearDogCache } from '../../../services/DogService'
 import ContentContainer from '../../common/ContentContainer'
 import PageHeader from '../../common/PageHeader/PageHeader'
 import UploadPhotos from '../../Dogs/UploadPhotos/UploadPhotos'
@@ -26,10 +26,23 @@ const NewDog = ({ history }) => {
   const [uploadedImages, setUploadedImages] = useState([])
   const uc = useContext(UserContext)
 
-  const transformBreedIds = (breeds) => {
+  const transformBreeds = (breeds) => {
     return breeds.map((b) => {
       return b.id
     })
+  }
+
+  const cleanupImages = (images) => {
+    let newImages = [...images]
+      .map((ni) => {
+        if (!ni.deleted) {
+          return ni.url
+        } else {
+          return null
+        }
+      })
+      .filter(Boolean)
+    return newImages
   }
 
   const save = (form, addAnother) => {
@@ -37,8 +50,8 @@ const NewDog = ({ history }) => {
     delete dog.breeds
     let body = {
       dog: { ...dog },
-      breeds: transformBreedIds(form.breeds),
-      dog_images: [...uploadedImages],
+      breeds: transformBreeds(form.breeds),
+      dog_images: cleanupImages(uploadedImages),
     }
     createDog(body)
       .then((response) => {
@@ -52,6 +65,7 @@ const NewDog = ({ history }) => {
             setForm(initialFormState)
             setUploadedImages([])
           } else {
+            clearDogCache()
             history.push('/dogs')
           }
         }
@@ -76,26 +90,13 @@ const NewDog = ({ history }) => {
           ...prevState,
           {
             url: reader.result,
-            main_image: false,
-            uploadedImage: true,
-            id: prevState.length + 1,
+            main_image: prevState.length === 0 ? true : false,
+            uploaded_id: `uploaded-${prevState.length + 1}`,
           },
         ])
       }
       reader.readAsDataURL(file)
     })
-  }
-
-  const removeUploadedImage = (image) => {
-    let uploadedArr = uploadedImages
-      .filter((u) => {
-        if (u.id !== image.id) {
-          return u
-        }
-        return null
-      })
-      .filter(Boolean)
-    setUploadedImages(uploadedArr)
   }
 
   return (
@@ -109,7 +110,7 @@ const NewDog = ({ history }) => {
         </div>
         <div className='right-section'>
           <DogEdit dog={form}>
-            {({ form }) => (
+            {({ form, breeds }) => (
               <div className='button-container'>
                 <button className={'no-bg'} onClick={() => save(form, true)}>
                   Add Another
@@ -136,13 +137,9 @@ const NewDog = ({ history }) => {
           }}
         >
           <Gallery
-            images={[]}
-            uploadedImages={uploadedImages}
+            images={uploadedImages}
             isEdit={true}
-            removeUploadedImage={removeUploadedImage}
-            updateImageCopy={() => {
-              return
-            }}
+            updateImageCopy={setUploadedImages}
           />
         </div>
       )}

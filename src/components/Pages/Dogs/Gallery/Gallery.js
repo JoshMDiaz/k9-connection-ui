@@ -1,19 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import GalleryItem from './GalleryItem'
 import Masonry from '../../../common/Masonry/Masonry'
 
-const Gallery = ({
-  images,
-  uploadedImages,
-  isEdit,
-  removeUploadedImage,
-  updateImageCopy,
-}) => {
-  let initialImages = uploadedImages ? images.concat(uploadedImages) : images
-  const [imagesCopy, setImagesCopy] = useState(initialImages)
-
+const Gallery = ({ images, isEdit, updateImageCopy }) => {
   const setMain = (image) => {
-    let newImages = JSON.parse(JSON.stringify(imagesCopy))
+    let newImages = [...images]
     newImages.map((ni) => {
       if (ni.main_image && ni.id !== image.id) {
         ni.main_image = false
@@ -22,33 +13,30 @@ const Gallery = ({
       }
       return ni
     })
-    setImagesCopy(newImages)
+    updateImageCopy(newImages)
   }
 
-  const deleteImage = (image, index) => {
-    let newImages = [...imagesCopy]
-    newImages.splice(index, 1)
-    if (image.uploadedImage) {
-      removeUploadedImage(image)
-    }
-    setImagesCopy(newImages)
+  const deleteImage = (image) => {
+    let newImages = [...images]
+    newImages.forEach((ni) => {
+      let tempId = image.uploaded_image ? 'uploaded_id' : 'id'
+      if (image[tempId] === ni[tempId]) {
+        ni.deleted = true
+      }
+    })
+    updateImageCopy(newImages)
   }
 
-  useEffect(() => {
-    if (uploadedImages) {
-      setImagesCopy(images.concat(uploadedImages))
-      updateImageCopy(images.concat(uploadedImages))
-    }
-  }, [images, uploadedImages, updateImageCopy])
-
-  let imagesToDisplay = isEdit ? imagesCopy : images
+  let imagesToDisplay = images.filter((i) => {
+    return !i.deleted
+  })
 
   return (
     <div className='gallery masonry'>
       <Masonry>
         {imagesToDisplay.map((e, i) => (
           <GalleryItem
-            key={e.id}
+            key={e.id || e.uploaded_id}
             image={e}
             index={i}
             isEdit={isEdit}

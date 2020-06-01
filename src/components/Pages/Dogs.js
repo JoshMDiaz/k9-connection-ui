@@ -58,7 +58,7 @@ const Dogs = ({ filter, callout }) => {
               showFirstButton={page > 1 && totalCount > 20}
               showLastButton={page !== totalCount && totalCount > 20}
               hidePrevButton={page === 1}
-              hideNextButton={page === totalCount}
+              hideNextButton={page === totalCount || totalCount < 1}
               onChange={(_, pageNum) => getDogs(pageNum)}
             />
           )}

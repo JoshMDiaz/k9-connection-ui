@@ -1,38 +1,34 @@
 import React, { useState } from 'react'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import ListItemText from '@material-ui/core/ListItemText'
-import Select from '@material-ui/core/Select'
-import Checkbox from '@material-ui/core/Checkbox'
+import { FormControl, Checkbox, TextField } from '@material-ui/core'
+import { Autocomplete } from '@material-ui/lab'
 
-function MultipleSelect({ breeds, dogBreeds, updateBreeds }) {
-  const [breed, setBreed] = useState(dogBreeds)
+function MultipleSelect({ breeds, formBreeds, updateBreeds }) {
+  const [selectedBreeds, setSelectedBreeds] = useState(formBreeds)
 
-  function handleChange(event) {
-    setBreed(event.target.value)
-    updateBreeds(event.target.value)
+  function handleChange(breeds) {
+    setSelectedBreeds(breeds)
+    updateBreeds(breeds)
   }
 
   return (
     <div className='multi-select'>
       <FormControl>
-        <InputLabel htmlFor='select-multiple-checkbox'>Breeds</InputLabel>
-        <Select
+        <Autocomplete
           multiple
-          value={breed}
-          onChange={handleChange}
-          input={<Input id='select-multiple-checkbox' />}
-          renderValue={(selected) => selected.join(', ')}
-        >
-          {breeds.map((b) => (
-            <MenuItem key={b.name} value={b.name}>
-              <Checkbox checked={breed.indexOf(b.name) > -1} />
-              <ListItemText primary={b.name} />
-            </MenuItem>
-          ))}
-        </Select>
+          id='multiselect-autocomplete'
+          limitTags={2}
+          options={breeds}
+          getOptionLabel={(breed) => breed.name}
+          defaultValue={selectedBreeds}
+          onChange={(_, breeds) => handleChange(breeds)}
+          renderOption={(breed, { selected }) => (
+            <>
+              <Checkbox style={{ marginRight: 8 }} checked={selected} />
+              {breed.name}
+            </>
+          )}
+          renderInput={(params) => <TextField {...params} label='Breeds' />}
+        />
       </FormControl>
     </div>
   )

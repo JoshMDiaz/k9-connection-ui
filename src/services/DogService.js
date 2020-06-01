@@ -7,7 +7,13 @@ const CancelToken = axios.CancelToken,
   DogCache = new Cache(),
   base = '/k9-connect/api/v1/dogs'
 
-let dogCancel, dogsCancel, createDogCancel, updateDogCancel
+let dogCancel,
+  dogsCancel,
+  createDogCancel,
+  updateDogCancel,
+  updateDogCancelImages,
+  createDogImagesCancel,
+  deleteDogCancelImage
 
 export function getDog(dogId, params = {}) {
   let url = `${base}/${dogId}`
@@ -80,6 +86,29 @@ export function cancelCreateDog() {
   }
 }
 
+export function createDogImages(id, body, params = {}) {
+  let url = `${base}/${id}/dog_images`
+  return SecureAxios.post(url, body, {
+    params: params,
+    headers: auth0User(),
+    cancelToken: new CancelToken(function executor(c) {
+      createDogImagesCancel = c
+    }),
+  })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+export function cancelCreateDogImages() {
+  if (createDogImagesCancel) {
+    createDogImagesCancel('Canceled create dog images request')
+  }
+}
+
 export function updateDog(dogId, body, params = {}) {
   let url = `${base}/${dogId}`
   return SecureAxios.put(url, body, {
@@ -100,6 +129,51 @@ export function updateDog(dogId, body, params = {}) {
 export function cancelUpdateDog() {
   if (updateDogCancel) {
     updateDogCancel('Canceled update dog request')
+  }
+}
+
+export function updateDogImage(dogId, body, params = {}) {
+  let url = `/k9-connect/api/v1/dog_images/${dogId}`
+  return SecureAxios.put(url, body, {
+    params: params,
+    headers: auth0User(),
+    cancelToken: new CancelToken(function executor(c) {
+      updateDogCancelImages = c
+    }),
+  })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+export function cancelUpdateDogImage() {
+  if (updateDogCancelImages) {
+    updateDogCancelImages('Canceled update dog images request')
+  }
+}
+
+export function deleteDogImage(dogId) {
+  let url = `/k9-connect/api/v1/dog_images/${dogId}`
+  return SecureAxios.delete(url, {
+    headers: auth0User(),
+    cancelToken: new CancelToken(function executor(c) {
+      deleteDogCancelImage = c
+    }),
+  })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+export function cancelDeleteDogImage() {
+  if (deleteDogCancelImage) {
+    deleteDogCancelImage('Canceled delete dog image request')
   }
 }
 

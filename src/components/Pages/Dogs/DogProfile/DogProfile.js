@@ -3,6 +3,9 @@ import {
   clearDogCache,
   getDog,
   updateDog,
+  updateDogImage,
+  createDogImages,
+  deleteDogImage,
 } from '../../../../services/DogService'
 import BackButton from '../../../common/BackButton/BackButton'
 import MainImage from '../../../Dogs/MainImage/MainImage'
@@ -35,19 +38,16 @@ const DogProfile = () => {
         setState((prevState) => ({
           ...prevState,
           dog: response.data,
+          imagesCopy: response.data.dog_images,
         }))
       }
     })
   }, [match])
 
-  const transformBreeds = (breeds, formBreeds) => {
-    return breeds
-      .filter((b) => {
-        return formBreeds.includes(b.name) && b
-      })
-      .map((b) => {
-        return b.id
-      })
+  const transformBreeds = (breeds) => {
+    return breeds.map((b) => {
+      return b.id
+    })
   }
 
   const updateEditMode = (mode) => {
@@ -57,29 +57,12 @@ const DogProfile = () => {
     }))
   }
 
-  const cleanupImages = (images) => {
-    return images
-      .sort((a, b) => {
-        let comparison = 0
-        if (a.main_image > b.main_image) {
-          comparison = -1
-        } else if (a.main_image < b.main_image) {
-          comparison = 1
-        }
-        return comparison
-      })
-      .map((i) => {
-        return i.url
-      })
-  }
-
-  const update = (dogForm, breeds) => {
+  const updateInfo = (dogForm, breeds) => {
     let dog = { ...dogForm }
     delete dog.breeds
     let body = {
       dog: { ...dog },
-      breeds: transformBreeds(breeds, dogForm.breeds),
-      dog_images: cleanupImages(imagesCopy),
+      breeds: transformBreeds(dogForm.breeds),
     }
     updateDog(match.params.id, body).then((response) => {
       if (response) {
@@ -91,6 +74,120 @@ const DogProfile = () => {
         updateEditMode(false)
       }
     })
+  }
+
+  // const isMainImage = (image) => {
+  //   return image.main_image && !image.deleted
+  // }
+
+  // const cleanupImages = (images) => {
+  //   let newImages = [...images]
+  //     .map((ni) => {
+  //       if (!ni.deleted) {
+  //         return {
+  //           main_image: ni.main_image,
+  //           url: ni.url,
+  //         }
+  //       } else {
+  //         return null
+  //       }
+  //     })
+  //     .filter(Boolean)
+  //   if (!newImages.some(isMainImage)) {
+  //     newImages[0].main_image = true
+  //   }
+  //   return newImages
+  // }
+
+  const findDeleted = () => {
+    let newImages = [...imagesCopy]
+      .map((ni) => {
+        if (ni.deleted && ni.id) {
+          return ni.id
+        } else {
+          return null
+        }
+      })
+      .filter(Boolean)
+    return newImages
+  }
+
+  const findUploaded = () => {
+    let newImages = [...imagesCopy]
+      .map((ni) => {
+        if (ni.uploaded_image && !ni.deleted) {
+          return {
+            main_image: ni.main_image,
+            url: ni.url,
+          }
+        } else {
+          return null
+        }
+      })
+      .filter(Boolean)
+    return newImages
+  }
+
+  const findExisting = () => {
+    let newImages = [...imagesCopy]
+      .map((ni) => {
+        if (!ni.uploaded_image && !ni.deleted) {
+          return {
+            main_image: ni.main_image,
+            url: ni.url,
+            id: ni.id,
+          }
+        } else {
+          return null
+        }
+      })
+      .filter(Boolean)
+    return newImages
+  }
+
+  const updateImages = () => {
+    let deletedImages = findDeleted()
+    let uploadedImages = findUploaded()
+    let existingImages = findExisting()
+    console.log('uploadedImages', uploadedImages)
+    console.log('existingImages', existingImages)
+    if (
+      Array.isArray(deletedImages) &&
+      Array.isArray(uploadedImages) &&
+      Array.isArray(existingImages)
+    ) {
+      // Put this in a promise.all
+      if (deletedImages.length > 0) {
+        // delete images
+        deletedImages.forEach((di) => {
+          deleteDogImage(di)
+        })
+      }
+      if (uploadedImages.length > 0) {
+        // upload images
+        uploadedImages.forEach((ui) => {
+          createDogImages(dog.id, ui)
+        })
+      }
+      if (existingImages.length > 0) {
+        // update existingImages images
+        existingImages.forEach((ei) => {
+          updateDogImage(ei.id, ei)
+        })
+      }
+      /////////////////////////////
+    }
+    // This will go in the callback of the promise.all
+    // setState((prevState) => ({
+    //   ...prevState,
+    //   uploadedImages: [],
+    // }))
+    // Set some toast alert saying changes were successful
+  }
+
+  const update = (dogForm, breeds) => {
+    updateInfo(dogForm, breeds)
+    updateImages()
   }
 
   const updateImageCopy = useCallback((images) => {
@@ -107,12 +204,12 @@ const DogProfile = () => {
         setState((prevState) => ({
           ...prevState,
           uploadedImages: [
-            ...prevState.uploadedImages,
+            ...prevState.imagesCopy,
             {
               url: reader.result,
-              main_image: false,
-              uploadedImage: true,
-              id: prevState.uploadedImages.length + 1,
+              main_image: prevState.imagesCopy.length === 0 ? true : false,
+              uploaded_image: true,
+              uploaded_id: `uploaded-${prevState.imagesCopy.length + 1}`,
             },
           ],
         }))
@@ -128,24 +225,13 @@ const DogProfile = () => {
     }))
   }
 
-  const removeUploadedImage = (image) => {
-    let uploadedArr = uploadedImages
-      .map((u) => {
-        if (u.id !== image.id) {
-          return u
-        }
-        return null
-      })
-      .filter(Boolean)
-    setState((prevState) => ({
-      ...prevState,
-      uploadedImages: uploadedArr,
-    }))
-  }
-
   useEffect(() => {
     getCurrentDog()
   }, [getCurrentDog])
+
+  useEffect(() => {
+    updateImageCopy(uploadedImages)
+  }, [uploadedImages, updateImageCopy])
 
   return (
     <div className='dog-profile profile'>
@@ -174,13 +260,7 @@ const DogProfile = () => {
               getCurrentDog={getCurrentDog}
             />
           ) : (
-            <DogEdit
-              dog={dog}
-              user={user}
-              cancel={cancelEdit}
-              update={update}
-              isEdit
-            >
+            <DogEdit dog={dog}>
               {({ form, breeds }) => (
                 <div className='form-button-container'>
                   <button className={'plain'} onClick={cancelEdit}>
@@ -198,16 +278,15 @@ const DogProfile = () => {
           )}
         </div>
       </ContentContainer>
-      {dog.dog_images && (
+      {imagesCopy && (
         <div
           style={{ maxWidth: '1472px', margin: 'auto', padding: '0 20px 20px' }}
           className='animated fadeIn delay-10 relative'
         >
           <Gallery
-            images={dog.dog_images}
+            images={imagesCopy}
             uploadedImages={isEditMode ? uploadedImages : null}
             isEdit={isEditMode}
-            removeUploadedImage={removeUploadedImage}
             updateImageCopy={updateImageCopy}
           />
         </div>
