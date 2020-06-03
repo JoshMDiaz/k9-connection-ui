@@ -149,14 +149,11 @@ const DogProfile = () => {
     let deletedImages = findDeleted()
     let uploadedImages = findUploaded()
     let existingImages = findExisting()
-    console.log('uploadedImages', uploadedImages)
-    console.log('existingImages', existingImages)
     if (
       Array.isArray(deletedImages) &&
       Array.isArray(uploadedImages) &&
       Array.isArray(existingImages)
     ) {
-      // Put this in a promise.all
       if (deletedImages.length > 0) {
         // delete images
         deletedImages.forEach((di) => {
@@ -165,9 +162,11 @@ const DogProfile = () => {
       }
       if (uploadedImages.length > 0) {
         // upload images
-        uploadedImages.forEach((ui) => {
-          createDogImages(dog.id, ui)
-        })
+        let body = {
+          dog_id: dog.id,
+          dog_images: uploadedImages,
+        }
+        createDogImages(dog.id, body)
       }
       if (existingImages.length > 0) {
         // update existingImages images
@@ -175,14 +174,7 @@ const DogProfile = () => {
           updateDogImage(ei.id, ei)
         })
       }
-      /////////////////////////////
     }
-    // This will go in the callback of the promise.all
-    // setState((prevState) => ({
-    //   ...prevState,
-    //   uploadedImages: [],
-    // }))
-    // Set some toast alert saying changes were successful
   }
 
   const update = (dogForm, breeds) => {
