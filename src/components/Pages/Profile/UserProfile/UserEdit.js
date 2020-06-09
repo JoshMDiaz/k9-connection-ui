@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   TextField,
   FormControl,
@@ -22,29 +22,6 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
   })
   const [states, setStates] = useState([])
 
-  const getUser = useCallback(() => {
-    setForm({
-      name: user.name || '',
-      picture: user.picture || '',
-      phone: user.phone || '',
-      email: user.email || '',
-      address: user.address || '',
-      city: user.city || '',
-      state: user.state || '',
-      zip: user.zip || '',
-      dogs: user.dogs || '',
-      sub: user.sub,
-    })
-  }, [user])
-
-  const getStatesList = useCallback(() => {
-    getStates().then((response) => {
-      if (response) {
-        setStates(response.data)
-      }
-    })
-  }, [])
-
   const handleChange = (event, field, elementValue) => {
     setForm({
       ...form,
@@ -60,12 +37,27 @@ const UserEdit = ({ user, setIsEditMode, update, history }) => {
   }
 
   useEffect(() => {
-    getStatesList()
-  }, [getStatesList])
+    getStates().then((response) => {
+      if (response) {
+        setStates(response.data)
+      }
+    })
+  }, [])
 
   useEffect(() => {
-    getUser()
-  }, [user, getUser])
+    setForm({
+      name: user.name || '',
+      picture: user.picture || '',
+      phone: user.phone || '',
+      email: user.email || '',
+      address: user.address || '',
+      city: user.city || '',
+      state: user.state || '',
+      zip: user.zip || '',
+      dogs: user.dogs || '',
+      sub: user.sub,
+    })
+  }, [user])
 
   return (
     <>

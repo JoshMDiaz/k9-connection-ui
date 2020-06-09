@@ -31,62 +31,6 @@ const Header = () => {
     [isOpen, history]
   )
 
-  const snackAction = useCallback(
-    (goToProfile) => {
-      localStorage.setItem('profilePrompt', true)
-      if (goToProfile) {
-        goToUserProfile(true)
-        uc.closeSnack()
-      } else {
-        uc.openSnack({
-          message: 'You can visit the Profile page to finsh the setup.',
-          isOpen: true,
-          className: 'info',
-        })
-      }
-    },
-    [goToUserProfile, uc]
-  )
-
-  const snackPrompt = useCallback(() => {
-    uc.openSnack({
-      message: (
-        <span className='account-finish-message'>
-          <span className='message' onClick={snackAction}>
-            Want to finish setting up your profile?
-          </span>
-          <button onClick={() => snackAction()} className='close-button'>
-            X
-          </button>
-        </span>
-      ),
-      isOpen: true,
-      className: 'info',
-      stayOpen: true,
-    })
-  }, [snackAction, uc])
-
-  const getCurrentUser = useCallback(
-    (authUser) => {
-      getUser({}, authUser.sub).then((response) => {
-        if (response.data) {
-          let user = response.data
-          uc.setUser(user)
-          let modifiedUserDogs = user?.dogs.map((d) => {
-            delete d.dog_images
-            return d
-          })
-          user.dogs = modifiedUserDogs
-          localStorage.setItem('user', JSON.stringify(user))
-          if (!user.name && !localStorage.getItem('profilePrompt')) {
-            snackPrompt()
-          }
-        }
-      })
-    },
-    [snackPrompt, uc]
-  )
-
   const getSearch = useCallback(
     (value) => {
       if (history.location.pathname !== '/search') {
@@ -99,17 +43,6 @@ const Header = () => {
     },
     [history, uc]
   )
-
-  const checkForSearchParams = useCallback(() => {
-    let searchParams = history.location.search.substring(1)
-    if (searchParams) {
-      setState((prevState) => ({
-        ...prevState,
-        searchField: searchParams,
-      }))
-      getSearch(searchParams)
-    }
-  }, [history.location.search, getSearch])
 
   const focusSearch = () => {
     document.getElementById('global-search-input').focus()
@@ -149,13 +82,66 @@ const Header = () => {
 
   useEffect(() => {
     if (Object.keys(user).length === 0) {
-      getCurrentUser(JSON.parse(localStorage.getItem('auth0User')))
+      let authUser = JSON.parse(localStorage.getItem('auth0User'))
+      const snackAction = (goToProfile) => {
+        localStorage.setItem('profilePrompt', true)
+        if (goToProfile) {
+          goToUserProfile(true)
+          uc.closeSnack()
+        } else {
+          uc.openSnack({
+            message: 'You can visit the Profile page to finsh the setup.',
+            isOpen: true,
+            className: 'info',
+          })
+        }
+      }
+
+      getUser({}, authUser.sub).then((response) => {
+        if (response.data) {
+          let user = response.data
+          uc.setUser(user)
+          let modifiedUserDogs = user?.dogs.map((d) => {
+            delete d.dog_images
+            return d
+          })
+          user.dogs = modifiedUserDogs
+          localStorage.setItem('user', JSON.stringify(user))
+          if (!user.name && !localStorage.getItem('profilePrompt')) {
+            uc.openSnack({
+              message: (
+                <span className='account-finish-message'>
+                  <span className='message' onClick={snackAction}>
+                    Want to finish setting up your profile?
+                  </span>
+                  <button
+                    onClick={() => snackAction()}
+                    className='close-button'
+                  >
+                    X
+                  </button>
+                </span>
+              ),
+              isOpen: true,
+              className: 'info',
+              stayOpen: true,
+            })
+          }
+        }
+      })
     }
-  }, [getCurrentUser, user])
+  }, [user, uc, goToUserProfile])
 
   useEffect(() => {
-    checkForSearchParams()
-  }, [checkForSearchParams])
+    let searchParams = history.location.search.substring(1)
+    if (searchParams) {
+      setState((prevState) => ({
+        ...prevState,
+        searchField: searchParams,
+      }))
+      getSearch(searchParams)
+    }
+  }, [history.location.search, getSearch])
 
   useEffect(() => {
     history.listen((location) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import List from '../../Dogs/List'
 import Plural from '../../common/Plural'
 import BackButton from '../../common/BackButton/BackButton'
@@ -17,7 +17,7 @@ const Search = () => {
   const history = useHistory(),
     searchParams = history.location.search.substring(1)
 
-  const getDogs = useCallback(() => {
+  useEffect(() => {
     cancelGetSearchAll()
     setLoading(true)
     let params = {
@@ -30,10 +30,6 @@ const Search = () => {
       }
     })
   }, [searchParams])
-
-  useEffect(() => {
-    getDogs()
-  }, [getDogs])
 
   let count = 0
 

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import noImage from '../../../images/no-image.jpg'
 
 const MainImage = ({ images }) => {
   const [mainImage, setMainImage] = useState({})
 
-  const findMainImage = useCallback(() => {
+  useEffect(() => {
     images.forEach((i) => {
       if (i.main_image) {
         setMainImage(i)
@@ -12,10 +12,6 @@ const MainImage = ({ images }) => {
       }
     })
   }, [images])
-
-  useEffect(() => {
-    findMainImage()
-  }, [findMainImage])
 
   return (
     <div
